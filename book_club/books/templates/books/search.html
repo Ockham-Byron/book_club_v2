@@ -1,0 +1,20 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<h1>Recherche</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Rechercher">
+</form>
+
+{% if results %}
+    <h2>Résultats</h2>
+    <ul>
+        {% for result in results %}
+        <li>{{ result.title }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'users/base.html' %}
+{% load static i18n %}
+{% block content %}
+<div id="login-container" class="auth-container container-fluid d-flex align-items-center justify-content-center text-center">
+    <div class="auth-wrapper mx-auto">
+        <!-- Intro Start -->
+        <div>
+            <div class="text-center">
+                <img  src="{% static 'assets/img/illustrations/support.svg' %}" style="height:100px;"/>
+            </div>
+            <h1 class="brand-color text-center mt-2">{% trans 'Welcome back' %}</h1>
+            <p>{% trans 'Please sign in to access your account' %}</p>
+        </div>
+        <!-- Intro End -->
+    
+        <!-- Form Start -->
+        <div class="form-container">
+            {% if login_form.non_field_errors %}
+                <ul class='form-errors'>
+                    {% for error in login_form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+      
+            <form method="post" id="loginForm">
+                {% csrf_token %}
+                <div class="input-group">
+                    {{login_form.username}}
+                    <span class="input-group-text bg-transparent">
+                        <i class="fa-solid fa-at" ></i>
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    {{login_form.password}}
+                    <span class="input-group-text bg-transparent">
+                        <i class="fa-regular fa-eye" id="pwd-icon" onclick="togglePassword()"></i>
+                    </span>
+                </div>
+
+                {{login_form.password.errors}}
+                    
+                
+
+                <div class="row"> 
+                    <div class="col-6 text-left small">{{ login_form.remember_me }} <label class="ml-1">{% trans 'Remember me' %}</label></div>
+                    <div class="col-6 text-right small"><a href="{% url 'password-reset' %}" class="brand-color">{% trans 'Forgot password?' %}</a></div>
+                </div>
+            </form>
+       
+        </div>
+        <!-- Form container End -->
+        
+        <!-- Start buttons -->
+        <div>
+            <button  class="btn btn-wide btn-brand-color" type="submit" form="loginForm" >{% trans 'Log in' %}</button>
+            <div class="signup-link small">
+            {% trans 'New member?' %} <a href="{% url 'register' %}" class="mid-color">{% trans 'Signup now' %}</a>
+            </div>
+        </div>
+    </div>
+  <!-- End auth wrapper -->
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script>
+        function togglePassword() {
+            var input = document.getElementById("id_password");
+            var icon = document.getElementById("pwd-icon");
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+{% endblock %}
+
+

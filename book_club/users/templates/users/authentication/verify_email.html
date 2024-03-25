@@ -1,0 +1,28 @@
+{% extends 'users/base.html' %}
+{% load static i18n %}
+{% block content %}
+
+<div class="container-fluid d-flex align-items-center justify-content-center text-center">
+    <div class="verify-container">
+        <div class="text-center">
+            <img  src="{% static 'assets/img/illustrations/mailbox.svg' %}" style="height:150px;"/>
+        </div>
+        <h4 class=" mt-1">{% trans "Verify your email address" %}</h4>
+        <p>{% trans 'To unlock all the features of the app, we need to verify your email:'%}<span class="mid-color"> {{user.email}}</span></p>
+        <div class="row">
+            <div class="col-4">
+                <form method="post" class="text-center"> 
+                    {% csrf_token %}
+                    <button  class="btn btn-brand-color" type="submit">{% trans 'Verify now' %}</button>
+                </form>
+            </div>
+            <div class="col-4">
+                <a href="{% url 'all-meals' %}" class="btn btn-mid-color">{% trans 'Verify later' %}</a>
+            </div>
+            <div class="col-4">
+                <a href="{% url 'change-email' %}" class="btn btn-mid-color">{% trans 'Update email' %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

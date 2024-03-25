@@ -1,0 +1,16 @@
+{% extends 'users/base.html' %}
+{% load static i18n %}
+{% block content %}
+
+<div class="container-fluid d-flex align-items-center justify-content-center text-center">
+    <div class="verify-container">
+      <div class="text-center">
+          <img  src="{% static 'assets/img/illustrations/happy.svg' %}" style="height:200px;"/>
+      </div>
+      <h4 class="mt-4">{% trans "You have successfully verified your email !" %}</h4>
+      
+      <a href="{% url 'dashboard' %}" class="btn btn-brand-color btn-wide mt-5">{% trans 'Access my dashboard' %}</a>
+      
+    </div>
+</div>
+{% endblock %}

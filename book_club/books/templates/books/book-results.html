@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+{% if books %}
+    <ul class="grid">
+      {% for book in books %}
+
+      <li class="card">
+        <h2 class="card__title">
+          {{ book.title }}
+        </h2>
+        <img
+          class="card__image"
+          width="128"
+          height="190"
+          src="{{ book.image }}"
+          alt="{{ book.title }}"
+        />
+        <div class="card__author">by {{ book.authors }}</div>
+        <div class="card__publisher">{{ book.publisher }}</div>
+      </li>
+
+      {% endfor %}
+    </ul>
+    {% else %}
+    <div class="error">
+      <h2>
+        {{message }}
+      </h2>
+      <a href="{% url 'book-search' %}">Search again</a>
+    </div>
+
+    {% endif %}
+
+{% endblock %}

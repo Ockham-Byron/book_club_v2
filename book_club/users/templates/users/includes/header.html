@@ -1,0 +1,52 @@
+{% load static i18n avatar %}
+
+<header class="site-header list-unstyled" style="margin-bottom: 5px">
+
+    <nav class="navbar navbar-expand-md navbar-color">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}"><img id="header-logo" src={% static 'assets/img/logo.png' %}/></a>
+
+            <!-- IN CASE YOU WANT AN COLLAPSED MENU, UN COMMENT THIS SECTION 
+            
+              <input type="checkbox" id="hamburger-icon" data-bs-target="#navbarToggle" data-bs-toggle="collapse">
+                <label for="hamburger-icon" class="hamburger-toggle">
+                    <div class="bars" id="bar1"></div>
+                    <div class="bars" id="bar2"></div>
+                    <div class="bars" id="bar3"></div>
+                </label> 
+                
+            <div class="collapse navbar-collapse" id="navbarToggle">
+
+            -->
+                <!-- Navbar Right Side -->
+                <div class="navbar-nav ms-auto text-center pe-3">
+                    {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{% url 'all-groups' %}">
+                            {% if request.user.profile_pic %}
+                                <span class="user-img"><img class="rounded-circle" src="{{ request.user.profile_pic.url }} "width="40" height="40" alt="profile_pic"></span>
+                            {% else %}
+                                <span class="user-img">{{ request.user|avatar }}</span> 
+                            {% endif %} 
+                            <p class="m-0"><small>{{user.pseudo}}</small></p>
+                        </a>
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">
+                            <i class="fa-solid fa-person-walking-luggage header-icon"></i><p class="m-0"><small>{% trans 'Sign out' %}</small></p>
+                        </a>
+                    {% else %}
+                        <a class="nav-item nav-link " href="{% url 'login' %}">
+                            <i class="fa-regular fa-user fa-xl"></i><p class="m-0"><small>{% trans 'Log In' %}</small></p></a>
+                        </a>
+                        
+                    {% endif %}
+                    
+                </div>
+            <!-- IN CASE YOU WANT AN COLLAPSED MENU, UN COMMENT THIS END TAG
+            </div> 
+            -->
+            {% include 'users/includes/langswitch.html' %}
+        </div>
+    </nav>
+    
+   
+</header>
+

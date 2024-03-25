@@ -1,0 +1,114 @@
+{% extends "dashboard/base.html" %}
+{% load i18n static %}
+{% block title %}{% trans 'Update' %} {{object.name}}{% endblock title %}
+{% block content %}
+
+  <div class="d-flex justify-content-center align-items-center">
+    <form method="post" enctype="multipart/form-data" class="kform">
+    {% csrf_token %}
+      <p class="title">{% trans 'Update' %} {{object.name}}</p>
+                        
+      <label>{% trans 'Name of the Group' %}</label>
+      {{ form.name }}
+
+                        
+      <label class="text-center">{% trans 'Upload New Picture of the Group' %}</label>
+      
+      <input
+        type="file"
+        id="fileElem"
+        multiple
+        accept="image/*"
+        name="group_pic"
+        style="display:none" 
+        />
+        <div class="group-pic-wrapper text-center mx-auto">
+        <a href="#" id="fileSelect">
+        {% if object.group_pic%}
+            
+              <img id="change-image" class="" src="{{object.group_pic.url}}" />
+              
+            
+        {% else %}
+            <img id="change-image" class="" src="{% static 'assets/img/illustrations/group_default.jpeg' %}" />
+        {% endif %}
+        </a>
+        </div>    
+        <div id="fileList" class="mt-3 color-light">
+          <p></p>
+        </div>
+                        
+                   
+               
+                
+                <div class=" text-center kselect">
+                <label>{% trans 'Admin of the Group' %}</label>
+                </br>
+                    {{form.leader}}
+                </div>
+               
+              
+                <div class="row justify-content-center">
+                <button type="submit" class="submit">{% trans 'Save' %}</button>
+                </div>
+                <div class="row justify-content-center">
+
+                <a href="{% url 'group-detail' object.slug %}" class="mid-color mt-2 text-center">{% trans 'Cancel' %}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div>
+
+
+{% endblock content %}
+
+{% block extrajs %}
+<script>
+const fileSelect = document.getElementById("fileSelect"),
+  fileElem = document.getElementById("fileElem"),
+  fileList = document.getElementById("fileList");
+
+fileSelect.addEventListener(
+  "click",
+  (e) => {
+    if (fileElem) {
+      fileElem.click();
+    }
+    e.preventDefault(); // prevent navigation to "#"
+  },
+  false
+);
+
+fileElem.addEventListener("change", handleFiles, false);
+
+function handleFiles() {
+  if (!this.files.length) {
+    fileList.innerHTML = "<p>No files selected!'</p>";
+  } else {
+    fileList.innerHTML = "";
+    const list = document.createElement("ul");
+    fileList.appendChild(list);
+    for (let i = 0; i < this.files.length; i++) {
+      const li = document.createElement("li");
+      list.appendChild(li);
+
+      //if updating a previous group pic
+      const img = document.getElementById("change-image");
+      if (img) {
+      img.src = URL.createObjectURL(this.files[i]);
+      img.height = auto;
+      img.width = 300;
+      img.className = "mx-auto";
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+      };
+      }
+    }
+  }
+}
+</script>
+{% endblock extrajs%}

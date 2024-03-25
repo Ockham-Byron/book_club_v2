@@ -1,0 +1,92 @@
+{% extends "dashboard/base.html" %}
+{% load avatar static i18n %}
+{% block content %}
+<div class="profile-wrapper">
+  <div class="d-flex justify-content-align align-items-center">
+    <!-- Principal Profile Card -->
+    
+        <div class="profile-card mx-auto d-flex flex-column">
+        <header>
+          <div class="profile-card-avatar">
+            {% if user.profile_pic %}
+                    <span class="user-img"><img class="rounded-circle" src="{{user.profile_pic.url }} "width="45" alt="profile_pic"></span>
+                  {% else %}
+                      <span class="user-img">{{ user|avatar }}</span> 
+                  {% endif %} 
+          </div>
+        </header>
+        
+        <h3>{{user.pseudo}}</h3>
+        <div class="infos flex-grow-1">
+        {% if user.is_guest == False %}
+        <h6 class="darkest-color text-start">{% trans 'Informations' %}</h6>
+        {% endif %}
+        {% if request.user == user %}
+          <p class="profile-card-subtitle text-start darkest-color small mb-0">{% trans 'Your name' %}</p>
+          {% if user.first_name or user.last_name  %}
+            <p class="profile-card-info text-start small">{{user.first_name}} {{user.last_name}}</p>
+          {% else %}
+            <p class="profile-card-info text-start">-</p>
+          {% endif %}
+        {% else %}
+          {% if user.first_name or user.last_name and user.is_name_visible %}
+          <p class="profile-card-subtitle text-start darkest-color mb-0">{% trans 'Name' %}</p>
+          <p class="profile-card-info text-start small">{{user.first_name}} {{user.last_name}}</p>
+          {% endif%}
+        {% endif %}
+        {% if request.user == user %}
+          <p class="profile-card-subtitle text-start darkest-color small mb-0 mt-2">{% trans 'Your Email' %}</p>
+          
+            <p class="profile-card-info text-start small">{{user.email}}</p>
+            
+        
+          
+
+        {% else %}
+          {% if user.is_mail_visible %}
+          <p class="profile-card-subtitle text-start darkest-color small mb-0 mt-2">{% trans 'Email' %}</p>
+          <p class="profile-card-info text-start small">{{user.email}}</p>
+          {% endif %}
+        {% endif %}
+
+        {% if user.bio %}
+
+        <h6 class="darkest-color text-start mt-3">{% trans 'Bio' %}</h6>
+        
+          <p class="profile-card-info small text-justify">{{user.bio}}</p>
+        
+        
+
+
+        {% endif %}
+        
+
+        
+          
+          
+        
+        
+
+      
+          {% if request.user == user %}
+            <div class="text-start small">
+            <a href="{% url 'profile-update' request.user.slug %}" class="text-center btn-edit btn-joy-color"><i class="fa-solid fa-pencil btn-edit-icon pe-2"></i><span class="label">{% trans 'Edit Profile' %}</span></a>
+            </div>
+          {% endif %}
+          {% if user.is_guest == True %}
+
+          <div class="text-start small">
+            <a href="{% url 'create-account-from-guest' user.slug %}" class="text-center btn-edit btn-joy-color"><i class="fa-solid fa-pencil btn-edit-icon pe-2"></i><span class="label">{% trans 'Create an Account' %}</span></a>
+            </div>
+
+            {% endif %}
+        </div>
+      </div>
+
+    
+
+   
+
+  </div>
+</div>
+{% endblock content %}

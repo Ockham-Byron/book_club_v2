@@ -1,0 +1,67 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n %}
+{% block title %}{% trans 'Update Avatar' %}{% endblock title %}
+{% block content %}
+
+
+<!-- New Form -->
+<div class="d-flex align-items-center justify-content-center">
+  <form class="kform" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p class="title">{% trans 'Update Avatar Color' %}</p>
+      <div class="text-center mx-auto" id="change-avatar-wrapper">
+          {{ request.user|avatar }}  
+      </div>
+  
+
+<div class="text-center">
+  <p>{% trans 'Pick your favorite color' %}</p>
+  <input type="color" value="#ff0000" id="color-picker" name="avatar-color" />
+</div>
+
+
+
+      
+      <button class="submit" type="submit ">{% trans 'Submit' %}</button>
+      <div class="text-center">
+        <a href="{% url 'profile' user.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+      </div>
+  </form>
+</div>
+{% endblock content %}
+
+{% block extrajs %}
+<script>
+let colorPicker;
+const defaultColor = "#0000ff";
+const avatar = document.getElementById("avatar");
+
+window.addEventListener("load", startup, false);
+
+function startup() {
+  colorPicker = document.querySelector("#color-picker");
+  colorPicker.value = defaultColor;
+  colorPicker.addEventListener("input", updateFirst, false);
+  
+  colorPicker.select();
+}
+
+function updateFirst(event) {
+  
+  const avatars = document.querySelectorAll(".avatar");
+  avatars.forEach(avatar => {
+    avatar.style.fill = event.target.value;
+  });
+  
+  
+  
+ 
+}
+
+
+  
+  
+
+</script>
+{% endblock %}
+

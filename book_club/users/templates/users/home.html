@@ -1,0 +1,57 @@
+{% extends 'users/base.html' %}
+{% load i18n static %}
+{% block content %}
+<div class="container mt-5 pt-2">
+  <div id="showcase" class="d-flex flex-wrap justify-content-between">
+    <div class="showcase-left d-flex flex-column justify-content-center">
+      <h1 class="mb-5 dark-color">{% trans 'Tasty Moments' %}</h1>
+      <h4>{% trans 'The  webapp that turns your meals into unforgettable moments.' %}</h4>
+      <p>{% trans "Picture yourself relishing a delightful dish with your loved ones, surrounded by laughter and lively conversation. TastyMoments captures these precious moments in the blink of an eye. More than just an app, it's your perfect companion for immortalizing every bite, every burst of laughter, and every melody that accompanies your meals." %}</p>
+      
+      <div class="d-flex">
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'all-groups' %}" class="btn btn-brand-color">{% trans 'Enter' %}</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-brand-color">{% trans 'Enter' %}</a>
+        <a href="{% url 'register' %}" class="btn btn-outlined outline-brand-color ms-3">{% trans 'Join for first time' %}</a>
+      {% endif %}
+      </div>
+      
+    </div>
+
+    <div class="showcase-right bg-brand">
+      <img src="{% static 'assets/img/illustrations/meal_default.jpeg' %}" alt="Image of a meal shared with friends">
+    </div>
+  </div>
+
+  <div id="features" class="d-flex flex-wrap justify-content-evenly bg-darkest-color">
+    <div class="features-item d-flex flex-column shadow">
+      <div class="icon-box bg-brand-color d-flex justify-content-center align-items-center"><i class="fa-solid fa-bowl-food"></i></div>
+      <div class="features-bar"></div>
+      <h5 class="mt-1">{% trans "Preserve your culinary memories" %}</h5>
+      <div class="features-bar bg-brand-color"></div>
+      <p class="mt-3">{% trans "Keep track of all the delicious dishes you've shared with your friends and family. Whether it's a Sunday brunch or a festive dinner, every moment deserves to be preserved." %}</p>
+    </div>
+
+    <div class="features-item d-flex flex-column shadow">
+      <div class="icon-box bg-mid-color d-flex justify-content-center align-items-center"><i class="fa-solid fa-blender"></i></div>
+      <h5 class="mt-1">{% trans "Blend flavors and memories" %}</h5>
+      <div class="features-bar bg-mid-color"></div>
+      
+      <p class="mt-3">{% trans "Associate the dishes you love with music, anecdotes, and emotions that accompany them. Create unique and personal moments that you'll cherish forever." %}</p>
+    </div>
+
+    <div class="features-item d-flex flex-column shadow">
+      <div class="icon-box bg-dark-color d-flex justify-content-center align-items-center"><i class="fa-brands fa-gratipay"></i></div>
+      
+      <h5 class="mt-1">{% trans "Rate dishes" %}</h5>
+     
+      <div class="features-bar bg-dark-color"></div>
+      <p class="mt-3">{% trans "Don't let any outstanding dish go unnoticed. With our rating feature, you can evaluate and share your opinions on the dishes you've tasted, while discovering recommendations from your friends." %}</p>
+    </div>
+
+    
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "dashboard/base.html" %}
+{% load static i18n %}
+{% block title %}{% trans 'My Groups' %} {% endblock %}
+{% block content %}
+{% include 'users/includes/messages.html' %}
+
+{% if groups %}
+  <h1 class="text-center mb-5">{% trans 'Groups' %}</h1>
+    <div class="d-flex justify-content-center flex-wrap">
+        {% for i in groups %}
+          <a href="{% url 'group-detail' i.slug %}" class="btn btn-rounded btn-kdark">
+          {% if i.group_pic%}
+            <div class="card group-card d-flex flex-column justify-content-end" style="background:url('{{i.group_pic.url}}') rgba(39, 73, 109, 0.5) ; background-blend-mode: multiply; background-size:cover; background-position:center">
+          {% else %}
+            <div class="card group-card d-flex flex-column justify-content-end" style="background:url('{% static 'assets/img/illustrations/group_default.jpeg' %}') rgba(39, 73, 109, 0.5) ; background-blend-mode: multiply; background-size:cover; background-position:center;">
+          {% endif %}
+                <h5 class="card-title text-center">{{i.name}}</h5>
+                <p class="card-text text-center pb-2">{{i.description}}</p>
+            </div>
+          </a> 
+        {% endfor %}
+    </div>
+
+{% else %}
+    <h3 class="text-center px-5">{% trans "Everything begins with a group to share good books and good moments !" %}
+{% endif %}
+<div class="row mt-5 pb-5">
+  <div class="col-md-6 mx-auto">
+    <div class="row">
+      <div class="col-md-6 text-center">
+        <a class="btn" href="{% url 'add-group' %}">
+          <div class="card-cta border-0">
+            <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="150px" >
+            <div class="card-body text-uppercase">
+              {% trans 'Create a Group '%}
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 text-center">
+        <a class="btn" href="{% url 'join-group' %}">
+          <div class="card-cta border-0" >
+            <img class="card-icon mx-auto" src="{% static 'assets/img/icons/circled-right-100.png' %}" alt="Card image cap" width="150px">
+            <div class="card-body text-uppercase">
+            {% trans 'Join a Group' %}
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

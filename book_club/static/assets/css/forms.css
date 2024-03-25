@@ -1,0 +1,483 @@
+/* || General */
+
+input.form-control, span.input-group-text {
+ border:none !important;
+ height:50px !important;
+ font-size:20px;
+
+}
+
+input.form-control {
+  height: 50px !important;
+}
+
+.input-group {
+  margin-bottom:10px !important;
+  background-color: white;
+  border:solid 1px #999;
+  border-radius:10px;
+}
+
+input::placeholder{
+  color: #999;
+  transition: all 0.3s ease;
+  font-size: 16px !important;
+}
+input:focus::placeholder{
+  color: #b3b3b3;
+}
+
+.form-group label {
+  display: none !important;
+}
+
+.input-group-append > button:hover {
+  color:var(--mid-color) !important;
+}
+
+input[type="color"] {
+  padding:0px!important;
+  width:100px !important;
+  height: 50px !important;
+  border:none !important;
+}
+
+.kform li {
+  list-style: none !important;
+}
+
+input#id_eaten_at {
+  width:88% !important;
+  padding-bottom:10px !important;
+}
+
+.kform select {
+  border-radius: 10px !important;
+  padding:5px;
+  border-color:grey !important;
+  color:grey !important;
+}
+
+/* || Login and Register */
+
+/* Mobile */
+
+
+.auth-wrapper{
+  height:85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+
+
+/* For Desktop*/
+@media only screen and (min-width: 768px) {
+  .auth-container {
+    background-repeat: no-repeat;
+    background-position: 90% 95% ;
+    
+  }
+
+  #login-container {
+    background-image: url('../img/illustrations/login.svg');
+    background-size: 15%;
+  }
+
+  #register-container {
+    background-image: url('../img/illustrations/register.svg');
+    
+  }
+  .auth-wrapper{
+    max-width:400px;
+    height:750px;
+    padding:30px;
+    border:1px solid #ccc;
+    border-radius:40px;
+    justify-content: space-evenly !important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  
+}
+
+
+
+/* || Reset password */
+
+#password-form input{
+  width:85% !important;
+  height: 50px !important;
+  border:none !important;
+  padding-left:10px;
+}
+
+#password-form input:focus{
+  border-color:var(--mid-color) !important;
+}
+
+/* Alerts */
+form.login > div.alert.alert-block.alert-danger {
+  display: none !important;
+}
+ul.form-errors, ul.errorlist {
+  background-color: palevioletred;
+  color:black !important;
+  padding: 2px 5px 10px 5px;
+  
+
+}
+ul.form-errors li, ul.errorlist li {
+  list-style: none !important;
+}
+
+
+.input-invalid{
+  background-color:palevioletred !important;
+  
+}
+
+.input-invalid::placeholder{
+  color:white !important;
+}
+
+.password-help-container{
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius:40px;
+  text-align: start !important;
+}
+
+.password-help {
+  list-style-type: none !important;
+  
+}
+
+.password-help li.warning {
+  color:#D21F3C;
+}
+
+.password-help li.valid {
+  color:#5DBBb3;
+}
+
+.password-help li.warning::before {
+  content: "\f06a";
+  font: var(--fa-font-solid);
+  color:"#D21F3C";
+  padding-right: 5px;
+}
+
+.password-help li.valid::before {
+  content: "\f058";
+  font: var(--fa-font-solid);
+  color:"#5DBBb3";
+  padding-right: 5px;
+}
+
+/* || Dashboard Forms */
+
+@media only screen and (min-width: 768px) {
+  .kform {
+    max-width:400px;
+    background-color: #fff;
+    border-radius: 20px;
+  position: relative;
+  }
+}
+
+.kform {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width:400px;
+  padding: 20px;
+  
+}
+
+.kform .title, .fullscreen-form .title {
+  font-size: 28px;
+  color:var(--mid-color);
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.kform .title::before, .kform .title::after, .fullscreen-form .title::before, .fullscreen-form .title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: var(--mid-color);
+}
+
+.kform .title::before, .fullscreen-form .title::before  {
+  width: 18px;
+  height: 18px;
+  background-color: var(--mid-color);
+}
+
+.kform .title::after, .fullscreen-form .title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.kform input, .kform textarea {
+  width: 100%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.kform .mid-inputs input {
+  width: 48% !important;
+}
+
+.kform input[value], .kform input[placeholder], .kform textarea, .kform textarea[placeholder] {
+ 
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+
+}
+
+
+
+.korm label .input:focus + span,.kform label .input:valid + span {
+  top: 0px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+
+.avatar-wrapper {
+  position: relative;
+  width:100px;
+  height:100px;
+}
+
+.avatar-upload .avatar, img.avatar-upload {
+  height:100px !important;
+  width: 100px !important;
+  border-radius: 50px !important;
+  font-size: 50px !important;
+  
+
+}
+
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height:100px !important;
+  width: 100px !important;
+  border-radius: 50px !important;
+  
+  opacity: 0.5;
+  transition: .3s ease;
+  background-color: black;
+}
+
+.avatar-overlay .icon {
+  color:whitesmoke !important;
+  font-size:40px;
+  padding-top: 30px;
+}
+
+#fileList ul{
+  list-style: none;
+  padding:0 !important; 
+}
+
+#fileList img {
+  display: block !important;
+}
+
+.kform .submit, #copy-btn {
+  border: none;
+  outline: none;
+  background-color: var(--brand-color);
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: .3s ease;
+}
+
+.kform .submit:hover, #copy-btn:hover {
+  background-color:var(--darkest-color);
+  cursor: pointer;
+}
+
+.form-choices li {
+  min-height: 80px;
+  text-align: center;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.fullscreen-form {
+  margin:0 20px;
+}
+
+
+/* Img checkbox */
+
+.choice-container {
+  height: 150px;
+  width: 150px;
+  background-color: #ffffff;
+  margin-bottom: 20px;
+  box-shadow: 0 0 25px rgba(17, 1, 68, 0.08);
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+}
+
+.choice-container p {
+  font-size:0.8rem;
+  padding-top:5x;
+}
+
+.fullscreen-form input[type="checkbox"] {
+  -webkit-appearance: none;
+  position: absolute;
+  top:-2px;
+  right:-8px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.choice-container img {
+  width: 60%;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+
+.user-choice-container {
+  width:100px !important;
+  height:100px !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .choice-container {
+    height: 300px;
+    width: 300px;
+  }
+
+  .choice-container p {
+    font-size: 1rem;
+  }
+
+  .fullscreen-form input[type="checkbox"] {
+    top:8px;
+    right:0px;
+  }
+
+  .choice-container img {
+    width: 70%;
+  }
+
+
+
+}
+
+.user-choice-container input[type="checkbox"]{
+  -webkit-appearance: none !important;
+  border:none !important;
+}
+
+.user-choice-container input[type="checkbox"]:after {
+  position: absolute;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f111" !important;
+  font-size: 18px;
+  color: var(--brand-color);
+  right: 10px;
+  top: 2px;
+cursor:pointer !important;
+}
+
+.user-choice-container input[type="checkbox"]:checked:after {
+  font-weight: 900;
+  content: "\f058" !important;
+  color: var(--brand-color);
+}
+
+.user-choice-container input[type="checkbox"]:checked .user-choice-container {
+  border:2px solid var(--brand-color);
+}
+
+.user-choice-container p {
+  position: absolute !important;
+    bottom: 2px;
+    margin-bottom: 0;
+    font-size: 0.8rem;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+.user-choice-container img, .user-choice-container .avatar {
+  position:absolute !important;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width:50px;
+  height: 50px !important;
+  border-radius: 50%;
+  margin:auto !important;
+  cursor:default !important;
+
+}
+
+.fullscreen-form input[type="checkbox"]:after {
+  position: absolute;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f111" !important;
+  font-size: 18px;
+  color: var(--brand-color);
+  right: 10px;
+  top: -5px;
+}
+.fullscreen-form input[type="checkbox"]:checked:after {
+  font-weight: 900;
+  content: "\f058" !important;
+  color: var(--brand-color);
+}
+
+@media screen and (min-width: 950px) {
+  
+  input[type="checkbox"].img-checkbox:after {
+    font-size: 22px;
+  }
+}

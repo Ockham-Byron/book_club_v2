@@ -1,0 +1,132 @@
+{% extends "dashboard/base.html" %}
+{% load i18n static i18n %}
+{% block title %}{% trans 'Create a group' %}{% endblock title %}
+{% block content %}
+
+<!-- Form -->
+<div class="d-flex align-items-center justify-content-center vh-90">
+  <form class="kform" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if user_form.errors %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+          <div id="form_errors">
+              {% for key, value in form.errors.items %}
+              <strong>{{ value }}</strong>
+              {% endfor %}
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+    {% endif %}
+    <p class="title">{% trans 'Create Group' %}</p>
+    
+      {{form.name}}
+    
+      {{form.description}}
+
+      <div class="d-flex">
+        <div class="choice-container">
+          <p class="text-center pt-sm-2">{% trans 'Everyone read the same book' %}</p>
+          <input id="one_book" class="mt-2" type="checkbox" value="one_book" name="type" />
+          <label>
+              <img src="{% static 'assets/img/illustrations/dish_default.jpeg' %}" alt="Dish picture"  >
+          </label>
+        </div>
+
+        <div class="choice-container">
+          <p class="text-center pt-sm-2">{% trans 'Book exchanges' %}</p>
+          <input id="several_books" class="mt-2" type="checkbox" value="several_books" name="type" />
+          <label>
+              <img src="{% static 'assets/img/illustrations/dish_default.jpeg' %}" alt="Dish picture"  >
+          </label>
+        </div>
+      </div>
+
+        <input
+  type="file"
+  id="fileElem"
+  multiple
+  accept="image/*"
+  name="group_pic"
+  style="display:none" 
+  />
+  <div class="text-center mt-2"> 
+    <a href="#" id="fileSelect" class="mid-color"><i class="fas fa-cloud-upload-alt d-block pb-2" style="font-size:45px;"></i>{% trans 'Upload Picture of the Group' %}</a>
+  </div>
+<div id="fileList" class="mt-3 color-light">
+  
+</div>
+        
+      
+      <button class="submit" type="submit ">{% trans 'Submit' %}</button>
+      <div class="text-center">
+        <a href="{% url 'dashboard'  %}" class="mid-color">{% trans 'Cancel' %}</a>
+      </div>
+  </form>
+</div>
+
+{% endblock content %}
+
+{% block extrajs %}
+<script>
+const fileSelect = document.getElementById("fileSelect"),
+  fileElem = document.getElementById("fileElem"),
+  fileList = document.getElementById("fileList");
+
+fileSelect.addEventListener(
+  "click",
+  (e) => {
+    if (fileElem) {
+      fileElem.click();
+    }
+    e.preventDefault(); // prevent navigation to "#"
+  },
+  false
+);
+
+fileElem.addEventListener("change", handleFiles, false);
+
+function handleFiles() {
+  
+    fileList.innerHTML = "";
+    const list = document.createElement("ul");
+    fileList.appendChild(list);
+    for (let i = 0; i < this.files.length; i++) {
+      const li = document.createElement("li");
+      list.appendChild(li);
+
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(this.files[i]);
+      img.height = 100;
+      img.classList.add("mx-auto");
+      img.style.borderRadius = "10px";
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+      };
+      li.appendChild(img);
+      
+    }
+  }
+
+</script>
+
+<script>
+const oneBook = document.getElementById("one_book");
+console.log(oneBook);
+const severalBooks = document.getElementById("several_books");
+
+oneBook.addEventListener("change", () => {
+  if(oneBook.checked) {
+    severalBooks.checked = false;
+  }
+});
+
+severalBooks.addEventListener("change", () => {
+  if(severalBooks.checked) {
+    oneBook.checked = false;
+  }
+});
+
+</script>
+{% endblock extrajs%}

@@ -1,0 +1,33 @@
+{% load i18n languages_helpers %} 
+
+<!-- Start language switcher-->
+<li>
+  <div id="language-switcher" class="navbar-btn collapsed" style="display:none;">
+    <form action="{% url 'set_language' %}" method="post">
+      {% csrf_token %}
+      <input name="next" type="hidden" value="/" />
+      <select name="language" onchange="this.form.submit()">
+          {% for language in request|get_language_info_list_ex  %}
+              
+          {% endfor %}
+      </select>
+    </form>
+  </div>
+ </li>
+
+<li>
+  <form id="language_select" action="{% url 'set_language' %}" method="post">  
+    {% csrf_token %}  
+    <select name="language" onchange="submit_language()" class="language--select">  
+      {% get_current_language as LANGUAGE_CODE %}  
+      {% get_available_languages as LANGUAGES %}
+      {% get_language_info_list for LANGUAGES as languages %}  
+      {% for language in languages %}
+        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}> 
+          <span class="flag">{{ language.flag }}</span>
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+</li> <!-- End language switcher -->
+
