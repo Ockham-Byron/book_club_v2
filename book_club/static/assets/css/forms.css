@@ -259,6 +259,9 @@ ul.form-errors li, ul.errorlist li {
   font-weight: 600;
 }
 
+input.input-date {
+  max-width:85.7% !important;
+}
 
 .avatar-wrapper {
   position: relative;

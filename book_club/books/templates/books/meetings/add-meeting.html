@@ -1,0 +1,55 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Add Meeting' %}{% endblock title %}
+{% block content %}
+
+
+<!-- New Form -->
+<div class="d-flex align-items-center justify-content-center">
+    <form class="kform" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="text-center">
+            <img src="{% static 'assets/img/icons/calendar-100.png' %}" alt="calendar icon" />
+            <br/>
+            <h5 class="modal-title brand-color" id="exampleModalLabel">{% trans 'Add Meeting with' %} {{group.kname}}</h5>
+        </div>
+        <p class="mb-0 mid-color">{% trans "When will you meet ?" %}</p>
+        {{form.meeting_at}}
+
+        {% if group.group_type == 'one_book' %}
+            <p class="mb-2 mid-color">{% trans "Which book will you read ?" %}</p>
+
+            <div class="d-flex justify-content-between">
+            
+            {% if books %}
+            <button class="btn  btn-darkest-color w-75 ms-1 " type="submit" name="add-existing-dish"><small>{% trans 'Add already saved book' %}</small></button>
+           
+            {% endif %}
+            <button class="btn btn-mid-color w-75 me-1" type="submit" name="search-book"><small>{% trans 'Add New Book' %}</small></button>
+            </div>
+        
+        {% endif %}
+
+        
+        
+            
+            
+            
+        
+        
+        <button class="submit mt-4" type="submit" name="create-meal">{% trans 'Submit' %}</button>
+        <div class="text-center d-flex flex-column">
+            <a href="{% url 'group-detail' group.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+            
+        </div>
+        
+
+    </form>
+        
+        
+        
+       
+
+</div>
+
+{% endblock %}

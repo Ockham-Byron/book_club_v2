@@ -31,6 +31,8 @@ class Book(models.Model):
     pages = models.IntegerField(default = 0, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owner', blank=True, null=True, on_delete=models.CASCADE)
     reservations = models.ManyToManyField(User, related_name="reservations", blank=True)
+    in_library = models.ManyToManyField(User, related_name="in_libraries", blank=True)
+    in_wishlist = models.ManyToManyField(User, related_name="in_wishlist", blank=True)
     readers = models.ManyToManyField(User, related_name="readers", blank=True)
     cover=models.CharField(max_length=500, blank=True, null=True)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -77,9 +79,11 @@ class Comment(models.Model):
 
 class Meeting(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
-    book = models.ForeignKey(Book, related_name="meeting", on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, related_name="meeting", on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE, null=True, blank=True)
     meeting_at = models.DateTimeField(auto_now_add=False, blank=True, null=True)
     attendees = models.ManyToManyField(User, related_name="attendees", blank=True)
+    place = models.CharField(max_length=200, blank=True, null=True)
 
 class Borrow(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)

@@ -18,7 +18,7 @@
     
 <div class="d-flex flex-column align-items-center mt-3">
         {% for book in books %}
-        <a href="{% url 'book-search-details' book.isbn %}" style="width:100%;">
+        <a href="{% url 'save-book' book.isbn %}" style="width:100%;">
             <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
                 <div>
                     <img

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Book
+from .models import Book, Meeting
 
 # Register your models here.
 
@@ -8,7 +8,9 @@ from .models import Book
 class BookAdmin(admin.ModelAdmin):
   list_display = ('title',)
   
-
-  
-
 admin.site.register(Book, BookAdmin)
+
+class MeetingAdmin(admin.ModelAdmin):
+  list_display = ('group', 'meeting_at')
+
+admin.site.register(Meeting, MeetingAdmin)

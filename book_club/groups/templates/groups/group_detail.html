@@ -71,6 +71,46 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
    
 </section>
 
+<!-- Next Meeting container start -->
+<div class="container">
+    <h1 class="text-center mb-5 darkest-color">{% trans "Next Meeting" %}</h1>
+    {% if next_meeting %}
+
+    {% else %}
+
+    <div class="text-center">
+        <a href="{% url 'add-meeting' object.slug %}" class="btn btn-brand-color"><i class="fa-solid fa-plus"></i>{% trans 'Next meeting' %}</a>
+    </div>
+
+    {% endif %}
+
+</div>
+<!-- Books container start -->
+
+<div class="container mt-5">
+
+ <h1 class="text-center mb-5 darkest-color">{% trans "Books" %}</h1>
+
+{% if nb_of_books == 0 %}
+   
+<div class="d-flex p-2 justify-content-center">
+    <a class="btn" href="#">
+        <div class="sketch-box">
+            <div class="card-cta border-0 sketch-box">
+                <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="100px" >
+                <div class="card-body">
+                {% trans 'ADD FIRST BOOK TO THIS GROUP' %}
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+{% else %}
+
+<!-- Books container End -->
+{% endif %}
+
+
 <!-- Members container -->
 
 <div class="container">
@@ -138,54 +178,6 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 </div> <!-- Members container end -->
 
 
-<!-- Books container start -->
-
-<div class="container mt-5">
-
- <h1 class="text-center mb-5 darkest-color">{% trans "Books" %}</h1>
-
-{% if nb_of_books == 0 %}
-   
-<div class="d-flex p-2 justify-content-center">
-    <a class="btn" href="#">
-        <div class="sketch-box">
-            <div class="card-cta border-0 sketch-box">
-                <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="100px" >
-                <div class="card-body">
-                {% trans 'ADD FIRST BOOK TO THIS GROUP' %}
-                </div>
-            </div>
-        </div>
-    </a>
-</div>
-{% else %}
-<div class="group-cards d-flex  justify-content-center flex-wrap px-5">
-<a class="m-2" href="#">
-    <div class="sketch-box text-center">
-        <div class="card-cta border-0 sketch-box">
-            <img class="card-icon mx-auto" src="{% static 'assets/img/icons/meal-100.png' %}" alt="Card image cap" width="100px" >
-            <div class="brand-color">
-            {% trans 'View Meals' %}
-            </div>
-        </div>
-    </div>
-</a>
-<a class="m-2" href="#">
-    <div class="sketch-box text-center">
-        <div class="card-cta border-0 sketch-box">
-            <img class="card-icon mx-auto" src="{% static 'assets/img/icons/dish-100.png' %}" alt="Card image cap" width="100px" >
-            <div class="brand-color">
-            {% trans 'View Dishes' %}
-            </div>
-        </div>
-    </div>
-</a>
-
-
-</div>
-</div>
-<!-- Books container End -->
-{% endif %}
 
 
 
