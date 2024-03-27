@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% load static i18n avatar %}
-{% block title %}{{object.name}}{% endblock %}
+{% block title %}{{object.kname}}{% endblock %}
 
 {% block content %}
 {% if object.group_pic %}
@@ -13,7 +13,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 {% endif %}
     <div class="overlay"></div>
     <div class="container">
-        <h1 class="mb-2">{{object.name}}</h1>
+        <h1 class="mb-2">{{object.kname}}</h1>
         {% if object.description %}
             <p class="mb-4">{{object.description}}</p>
         {% endif %}
@@ -196,7 +196,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 
 
 <!-- Floating button -->
-<a href="#">
+<a href="{% url 'new-book-search' %}">
 <div class="kfloat" data-bs-toggle="tooltip" title="{% trans 'Add Book' %}">
 <div class="my-float">+</div>
 </div>

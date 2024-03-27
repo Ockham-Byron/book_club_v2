@@ -9,7 +9,7 @@ User=get_user_model()
 
 class AddGroupForm(forms.ModelForm):
     
-    name = forms.CharField(max_length=100, 
+    kname = forms.CharField(max_length=100, 
                                 required=True,
                                 widget=forms.TextInput(attrs={'placeholder': _("Group's Name"),                    
                                     }))
@@ -20,10 +20,10 @@ class AddGroupForm(forms.ModelForm):
     
     class Meta:
         model = CustomGroup
-        fields = ['name', 'description']
+        fields = ['kname', 'description']
 
 class UpdateGroupForm(forms.ModelForm):
-    name = forms.CharField(max_length=100, 
+    kname = forms.CharField(max_length=100, 
                                 required=True,
                                 widget=forms.TextInput(attrs={'placeholder': _("Group's Name"),
                                                             
@@ -34,7 +34,7 @@ class UpdateGroupForm(forms.ModelForm):
     
     class Meta:
         model = CustomGroup
-        fields = ['name', 'group_pic', 'leader']
+        fields = ['kname', 'group_pic', 'leader']
 
     def __init__(self, *args, **kwargs):
         group = kwargs.pop('group')

@@ -1,12 +1,13 @@
 {% extends 'users/base.html' %}
 {% load i18n static %}
+{% block title%}Books Party{% endblock%}
 {% block content %}
 <div class="container mt-5 pt-2">
   <div id="showcase" class="d-flex flex-wrap justify-content-between">
     <div class="showcase-left d-flex flex-column justify-content-center">
-      <h1 class="mb-5 dark-color">{% trans 'Tasty Moments' %}</h1>
-      <h4>{% trans 'The  webapp that turns your meals into unforgettable moments.' %}</h4>
-      <p>{% trans "Picture yourself relishing a delightful dish with your loved ones, surrounded by laughter and lively conversation. TastyMoments captures these precious moments in the blink of an eye. More than just an app, it's your perfect companion for immortalizing every bite, every burst of laughter, and every melody that accompanies your meals." %}</p>
+      <h1 class="mb-5 dark-color">{% trans 'Books Party' %}</h1>
+      <h4>{% trans 'The ultimate app for managing book clubs, book exchange groups, your personal library, and wishlist all in one place.' %}</h4>
+      <p>{% trans "Join the literary revolution and make every reading experience a celebration with Books Party. Whether you're an avid reader, a book club enthusiast, or simply looking to expand your literary horizons, our app is your one-stop destination for all things books." %}</p>
       
       <div class="d-flex">
       {% if request.user.is_authenticated %}
@@ -20,34 +21,43 @@
     </div>
 
     <div class="showcase-right bg-brand">
-      <img src="{% static 'assets/img/illustrations/meal_default.jpeg' %}" alt="Image of a meal shared with friends">
+      <img src="{% static 'assets/img/illustrations/group_default.jpeg' %}" alt="Image of a meal shared with friends">
     </div>
   </div>
 
   <div id="features" class="d-flex flex-wrap justify-content-evenly bg-darkest-color">
     <div class="features-item d-flex flex-column shadow">
-      <div class="icon-box bg-brand-color d-flex justify-content-center align-items-center"><i class="fa-solid fa-bowl-food"></i></div>
+      <div class="icon-box bg-darkest-color d-flex justify-content-center align-items-center"><i class="fa-solid fa-comments"></i></div>
       <div class="features-bar"></div>
-      <h5 class="mt-1">{% trans "Preserve your culinary memories" %}</h5>
-      <div class="features-bar bg-brand-color"></div>
-      <p class="mt-3">{% trans "Keep track of all the delicious dishes you've shared with your friends and family. Whether it's a Sunday brunch or a festive dinner, every moment deserves to be preserved." %}</p>
+      <h5 class="mt-1">{% trans "Organize Reading Groups" %}</h5>
+      <div class="features-bar bg-darkest-color"></div>
+      <p class="mt-3">{% trans "Easily manage your book clubs and reading circles. Schedule meetings, discuss books, and engage with fellow members in vibrant literary discussions." %}</p>
     </div>
 
     <div class="features-item d-flex flex-column shadow">
-      <div class="icon-box bg-mid-color d-flex justify-content-center align-items-center"><i class="fa-solid fa-blender"></i></div>
-      <h5 class="mt-1">{% trans "Blend flavors and memories" %}</h5>
+      <div class="icon-box bg-mid-color d-flex justify-content-center align-items-center"><i class="fa-solid fa-retweet"></i></div>
+      <h5 class="mt-1">{% trans "Book Exchange Made Easy" %}</h5>
       <div class="features-bar bg-mid-color"></div>
       
-      <p class="mt-3">{% trans "Associate the dishes you love with music, anecdotes, and emotions that accompany them. Create unique and personal moments that you'll cherish forever." %}</p>
+      <p class="mt-3">{% trans "Connect with other book lovers in your community and exchange books seamlessly. Discover new reads while sharing your favorites with like-minded individuals." %}</p>
     </div>
 
     <div class="features-item d-flex flex-column shadow">
-      <div class="icon-box bg-dark-color d-flex justify-content-center align-items-center"><i class="fa-brands fa-gratipay"></i></div>
+      <div class="icon-box bg-dark-color d-flex justify-content-center align-items-center"><i class="fa-solid fa-lines-leaning"></i></div>
       
-      <h5 class="mt-1">{% trans "Rate dishes" %}</h5>
+      <h5 class="mt-1">{% trans "Personal Library" %}</h5>
      
       <div class="features-bar bg-dark-color"></div>
-      <p class="mt-3">{% trans "Don't let any outstanding dish go unnoticed. With our rating feature, you can evaluate and share your opinions on the dishes you've tasted, while discovering recommendations from your friends." %}</p>
+      <p class="mt-3">{% trans "Keep track of your entire book collection right at your fingertips. From classics to contemporary bestsellers, your virtual library is just a tap away." %}</p>
+    </div>
+
+     <div class="features-item d-flex flex-column shadow">
+      <div class="icon-box bg-joy-color d-flex justify-content-center align-items-center"><i class="fa-solid fa-bookmark"></i></div>
+      
+      <h5 class="mt-1">{% trans "Wishlist Management" %}</h5>
+     
+      <div class="features-bar bg-joy-color"></div>
+      <p class="mt-3">{% trans "Never forget a book you want to read again. Create and manage your wishlist, making it easier to keep track of books you're eager to explore next." %}</p>
     </div>
 
     

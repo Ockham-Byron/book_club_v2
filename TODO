@@ -1,0 +1,24 @@
+Général:
+  ☐ traduction
+  ☐ ajouter pwa
+  ☐ ajouter page qui explique comment télécharger
+
+Home page:
+  ☐ texte
+  ☐ image
+
+
+Groups:
+  ☐ Créer deux groupes par user : bibliothèque et liste de souhaits
+  ☐ verifier les slugs
+
+Book:
+  ☐ Définir les états: lu, en cours de lecture, envie de lire
+  ☐ add owner to book
+  ☐ add a book from group
+ 
+
+Future features:
+  ☐ emprunt à la bibliothèque
+  ☐ tirer au hasard le prochain livre
+  ☐ page de statistiques

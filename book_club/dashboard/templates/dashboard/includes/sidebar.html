@@ -42,29 +42,41 @@
         <!-- Books-->
           <li class="subnav">
             <a href="#" class="nav-link lightest-color" >
-              <i class="fa-solid fa-utensils"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Meals' %}</span>
+              <i class="fa-solid fa-book"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Books' %}</span>
             </a>
             <ul class="subnav-content">
+            <li><a class="dropdown-item lightest-color ps-2" href="{% url 'new-book-search' %}"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add Book' %}</a></li>
             {% if groups.count == 1%}
                     {% for group in groups%}
-                        <li><a class="dropdown-item lightest-color" href="#">{% trans 'Meals' %}</a></li>
+                        <li><a class="dropdown-item lightest-color" href="#">{% trans 'Books' %}</a></li>
                     {% endfor %}
                 {% else %}
-                    <li><a class="dropdown-item lightest-color ps-2" href="#">{% trans 'All Meals' %}</a></li>
+                    <li><a class="dropdown-item lightest-color ps-2" href="#">{% trans 'All Books' %}</a></li>
                     <li class="subnav2">
-                      <a class="second-level lightest-color ps-3 " tabindex="-1" href="#">{% trans 'Meals with' %}<i class="ps-2 fas fa-angle-right"></i></a>
+                      <a class="second-level lightest-color ps-3 " tabindex="-1" href="#">{% trans 'Books of' %}<i class="ps-2 fas fa-angle-right"></i></a>
                       <ul class="subnav-content2">
                         {% for group in groups %}
-                        <li><a tabindex="-1" class="lightest-color" href="#"><small>{{group.name}}</small></a></li>
+                        <li><a tabindex="-1" class="lightest-color" href="#"><small>{{group.kname}}</small></a></li>
                         <hr class="dropdown-divider">
                         {% endfor %}
                       </ul>
                     </li>
               {% endif %}
-                <li><a class="dropdown-item lightest-color ps-2" href="#"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add Meal' %}</a></li>
-                
             </ul>
         </li>
+        <!-- Library -->
+          <li class="subnav">
+            <a href="#" class="nav-link lightest-color" >
+              <i class="fa-solid fa-lines-leaning"></i><span class="ms-1 d-none d-sm-inline">{% trans 'My Library' %}</span>
+            </a>
+          </li>
+
+        <!-- Wishlist-->
+          <li class="subnav">
+            <a href="#" class="nav-link lightest-color" >
+              <i class="fa-solid fa-bookmark"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Wishlist' %}</span>
+            </a>
+          </li>
         
          
 

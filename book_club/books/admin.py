@@ -1,14 +1,14 @@
 from django.contrib import admin
 
-from .models import Result
+from .models import Book
 
 # Register your models here.
 
 
-class ResultAdmin(admin.ModelAdmin):
+class BookAdmin(admin.ModelAdmin):
   list_display = ('title',)
   
 
   
 
-admin.site.register(Result, ResultAdmin)
+admin.site.register(Book, BookAdmin)

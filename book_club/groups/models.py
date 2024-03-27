@@ -27,8 +27,11 @@ class CustomGroup(Group):
     TYPES = (
         ("one_book", "One Book"),
         ("several_books", "Several Books"),
+        ("library", "Library"),
+        ("wishlist", "Wish List"),
     )
     uuid = models.UUIDField(default = uuid4, editable = False, primary_key=True)
+    kname = models.CharField(max_length=50, unique=False, null=False, blank=False)
     leader = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     group_pic = models.ImageField(upload_to=path_and_rename, null=True, blank = True)
     members = models.ManyToManyField(User, related_name="group_members")
@@ -42,11 +45,13 @@ class CustomGroup(Group):
         super().save()
         # create slug
         if not self.slug:
-            self.slug = slugify(self.name + '_' + str(self.uuid))
+            self.slug = slugify(self.kname + '_' + str(self.uuid))
+        if not self.name:
+            self.name = self.kname + '_' + str(self.uuid)
         super(CustomGroup, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('group-detail', args=[self.slug])
+        return reverse('group-detail', args=[self.uuid])
 
     def __str__(self):
         return self.name

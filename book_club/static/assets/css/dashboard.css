@@ -680,7 +680,95 @@ a.card-recipe-btn-small {
 	}
 }
 
+/* Book cards */
 
+.book-small-horizontal-card a.card-link {
+  width:100% !important;
+}
 
+.book-small-horizontal-card {
+  width:95%;
+  background-color: white;
+  border-radius:10px;
+  padding:10px;
+  height:110px;
+  margin-bottom:10px;
+}
 
+.book-small-horizontal-card img {
+  height: 90px;
+  margin-right:10px;
+  border-radius:10px;
+}
 
+.book-small-horizontal-card p {
+  margin-bottom:3px !important;
+}
+
+.book-small-horizontal-card .title {
+  font-weight: bold !important;
+  color:black !important;
+}
+
+.book-small-horizontal-card .author {
+  font-size:0.8rem;
+  color:var(--dark-color);
+}
+
+.book-small-horizontal-card a  {
+  text-decoration: none !important;
+  
+}
+
+.book-detail-card {
+  margin-top:100px;
+  background-color: white;
+  border-radius:30px 30px 0 0;
+}
+
+.book-detail-card img {
+  margin-top:-50px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.book-detail-card .title {
+  font-weight: bold;
+}
+
+.book-detail-card .author {
+  font-size: 0.8rem;
+}
+
+.book-data-box {
+  border-top:1px;
+  border-bottom:1px;
+  border-left:0px;
+  border-right:0px;
+  border-style:solid;
+  border-color: lightgray;
+  padding:10px 0;
+
+}
+
+.book-data {
+  border-right:1px solid lightgray;
+  padding:0 5px;
+}
+
+.book-data:last-child{
+  border-right:0px !important;
+}
+
+.book-data-title {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.book-data-data {
+  color:gray;
+  font-size: 0.8rem;
+}
+
+.book-description {
+  padding:20px;
+}

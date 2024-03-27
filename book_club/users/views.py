@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordContextMixin
 from django.views.generic.edit import FormView
 from .forms import *
+from groups.models import CustomGroup
 
 
 from django.template.loader import render_to_string
@@ -105,7 +106,7 @@ def home_view(request):
 def login_view(request):
     # Logged in user can't register a new account
     if request.user.is_authenticated:
-        return redirect("all-meals")
+        return redirect("all-groups")
     
     login_form = UserLoginForm(request.POST)
     
@@ -157,6 +158,10 @@ def register_view(request):
             user.set_password(password)
             user.username = user.email
             user.save()
+            library = CustomGroup.objects.create(kname=_('My Library'), leader=user, group_type="library")
+            library.save()
+            wishlist = CustomGroup.objects.create(kname=_('Wish List'), leader=user, group_type="wishlist")
+            wishlist.save()
             new_user = authenticate(username=user.email, password=password)
             login(request, new_user)
             return redirect('verify-email')

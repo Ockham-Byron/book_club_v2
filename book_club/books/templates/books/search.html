@@ -1,20 +1,42 @@
 {% extends 'dashboard/base.html' %}
-
+{% load static i18n %}
 {% block content %}
-<h1>Recherche</h1>
 
+<div class="row d-flex flex-column justify-content-start">
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Rechercher">
+    <div class="searchbar-box">
+          {{ form.search }}
+          <button type="submit" class="field__button" aria-label="Search">
+             <i class="fas fa-search"></i>
+          </button>
+        </div>
 </form>
+</div>
 
-{% if results %}
-    <h2>Résultats</h2>
-    <ul>
-        {% for result in results %}
-        <li>{{ result.title }}</li>
+{% if books %}
+    
+<div class="d-flex flex-column align-items-center mt-3">
+        {% for book in books %}
+        <a href="{% url 'book-search-details' book.isbn %}" style="width:100%;">
+            <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
+                <div>
+                    <img
+                    src="{{ book.image }}"
+                    alt="{{ book.title }}"
+                    />
+                </div>
+                <div>
+                    <p class="title">{{ book.title }}</p>
+                    <p class="author">{{ book.authors }}</p>
+                </div>
+            </div>
+        </a>
         {% endfor %}
-    </ul>
+ </div>   
+
+
+{% else %}
+    <img class="form-img" src={% static 'assets/img/illustrations/book-search.svg' %}  />
 {% endif %}
 {% endblock %}

@@ -76,6 +76,8 @@ def join_group_view(request):
 @login_required
 def all_groups(request):
     groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    groups = groups.exclude(group_type="library")
+    groups = groups.exclude(group_type="wishlist")
     context = {
         'groups': groups,
         

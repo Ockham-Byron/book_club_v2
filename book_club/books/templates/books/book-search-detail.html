@@ -1,0 +1,82 @@
+{% extends "dashboard/base.html" %}
+{% load i18n static %}
+{% block content %}
+<div class="d-flex flex-column align-items-center justify-content-center vh-90">
+  <form class="modal-form" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+ 
+  
+  
+  <a type="button" class="btn btn-brand-color" data-bs-toggle="modal" data-bs-target="#submitModal">{% trans 'Save' %}</a>
+
+  <!-- Modals -->
+<!-- Modal add groups and owner -->
+<div class="modal fade" id="submitModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="text-center">
+        <img src="{% static 'assets/img/icons/book-100.png' %}" alt="error icon" />
+        <br/>
+        <h5 class="modal-title brand-color" id="exampleModalLabel">{% trans 'Add Book' %}</h5>
+      </div>
+      <p class="text-center">{% trans 'Where' %}?</p>
+      <div class="modal-choice-box d-flex flex-wrap justify-content-center">
+      {% for group in groups %}
+            <div class="choice-container">
+              <p class="text-center pt-1">{{ group.kname }}</p>
+              <input class="mt-2" type="checkbox" value="{{group.uuid}}" name="group" />
+              <label for="dessert-1">
+                {% if group.picture %}
+                    <img src="{{ group.picture.url }}">
+                {% else %}
+                  <img src="{% static 'assets/img/illustrations/dish_default.jpeg' %}" alt="Dish picture"  >
+                {% endif %}
+              </label>
+            </div>
+        {% endfor %}
+        </div>
+       
+       
+      <div class="d-flex justify-content-evenly pb-2">
+        <button href="#"  type="submit" class="btn btn-mid-color btn-modal" >{% trans "Add" %}</button>
+        <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </form>
+
+  <div class="book-detail-card d-flex flex-column align-items-center">
+    <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+    <p class="title mt-4 mb-0">{{book.title}}</p>
+    <p class="author">{{book.authors}}</p>
+    <div class="d-flex book-data-box">
+    <div class="book-data text-center">
+        <p class="book-data-title mb-0 text-center">{% trans 'Genre' %}</p>
+        <p class="book-data-data mb-0 text-center">{{book.categories }}</p>
+        
+      </div>
+      <div class="book-data text-center">
+        <p class="book-data-title mb-0 text-center">{% trans 'Year' %}</p>
+        <p class="book-data-data mb-0 text-center">{{book.publishDate|slice:':4' }}</p>
+        
+      </div>
+      <div class="book-data  text-center">
+        <p class="book-data-title mb-0 text-center">{% trans 'Pages' %}</p>
+        <p class="book-data-data mb-0 text-center">{{book.pages }}</p>
+      </div>
+      <div class="book-data ">
+        <p class="book-data-title mb-0 text-center">{% trans 'Language' %}</p>
+        <p class="book-data-data mb-0 text-center">{{book.language }}</p>
+      </div>
+
+    </div>
+    <p class="book-description text-justify p-5">{{book.description}}</p>
+
+  </div>
+</div>
+
+
+
+{% endblock %}

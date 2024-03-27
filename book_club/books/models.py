@@ -11,7 +11,7 @@ User = get_user_model()
 
 #function to rename avatar file on upload
 def path_and_rename(instance, filename):
-    upload_to = 'users_pictures'
+    upload_to = 'covers'
     ext = filename.split('.')[-1]
     # get filename
     if instance.pk:
@@ -27,25 +27,26 @@ class Book(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
     title = models.CharField(max_length=150, blank=False, null=False)
     author = models.CharField(max_length=150, blank=False, null=False)
+    description = models.TextField(blank=True, null=True)
+    pages = models.IntegerField(default = 0, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owner', blank=True, null=True, on_delete=models.CASCADE)
-    borrower = models.ForeignKey(User, related_name="borrower", blank=True, null=True, on_delete=models.CASCADE)
     reservations = models.ManyToManyField(User, related_name="reservations", blank=True)
     readers = models.ManyToManyField(User, related_name="readers", blank=True)
-    picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
+    cover=models.CharField(max_length=500, blank=True, null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
-    group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE, related_name="books")
-    slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
+    groups = models.ManyToManyField(CustomGroup, related_name="books", blank=True)
+    # slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
 
     def __str__(self):
-        return self.name
+        return self.title
 
-    def save(self, *args, **kwargs):
-        super().save()
-        # create slug
-        if not self.slug:
-            self.slug = slugify(self.name + '_' + str(self.id))
-        super(Book, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     super().save()
+    #     # create slug
+    #     if not self.slug:
+    #         self.slug = slugify(self.title + '_' + str(self.id))
+    #     super(Book, self).save(*args, **kwargs)
 
     def averagereview(self):
         if Comment.objects.filter(dish=self).exists():
@@ -80,8 +81,8 @@ class Meeting(models.Model):
     meeting_at = models.DateTimeField(auto_now_add=False, blank=True, null=True)
     attendees = models.ManyToManyField(User, related_name="attendees", blank=True)
 
-class Result(models.Model):
-    title = models.CharField(max_length=150, blank=True, null=True)
+class Borrow(models.Model):
+    id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
 
 
     
