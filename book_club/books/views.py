@@ -107,7 +107,7 @@ def add_book(request, id):
     if request.method=='POST':
         print("POST request")
         groups = request.POST.getlist('group')
-        new_book = Book.objects.create(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'))
+        new_book = Book.objects.create(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'))
         for group in groups:
             new_book.groups.add(group)
         new_book.save()
@@ -139,6 +139,7 @@ def add_meeting(request, slug):
         if form.is_valid():
             if "search-book" in request.POST:
                 meeting = form.save()
+                meeting.meeting_at = meeting_at
                 meeting.group = group
                 meeting.save()
                 return redirect('search-book-for-meeting', meeting.id)
@@ -163,7 +164,7 @@ def delete_meeting(request, uuid):
 
 @login_required
 def search_book_for_meeting(request, id):
-    save_to = Meeting.objects.get(id=id)
+    meeting = Meeting.objects.get(id=id)
     if request.method == 'GET':
         form = BookSearch()
         return render(request, 'books/search.html', {'form': form})
@@ -172,7 +173,7 @@ def search_book_for_meeting(request, id):
         if form.is_valid():
             search = request.POST.get('search', False)
             books = book_search(search)
-            return render(request, 'books/search.html', {'form': form, 'books': books, 'save_to':save_to})
+            return render(request, 'books/search.html', {'form': form, 'books': books, 'meeting':meeting})
         
 @login_required
 def add_new_book_to_meeting(request,id, isbn):
@@ -186,7 +187,7 @@ def add_new_book_to_meeting(request,id, isbn):
     }
 
     if request.method=='POST':
-        new_book = Book.objects.create(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'))
+        new_book = Book.objects.create(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'))
         new_book.groups.add(group)
         new_book.save()
         meeting.book = new_book

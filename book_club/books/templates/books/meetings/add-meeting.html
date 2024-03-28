@@ -3,7 +3,7 @@
 {% block title %}{% trans 'Add Meeting' %}{% endblock title %}
 {% block content %}
 
-
+{{form.media}}
 <!-- New Form -->
 <div class="d-flex align-items-center justify-content-center">
     <form class="kform" method="POST" enctype="multipart/form-data">
@@ -14,7 +14,11 @@
             <h5 class="modal-title brand-color" id="exampleModalLabel">{% trans 'Add Meeting with' %} {{group.kname}}</h5>
         </div>
         <p class="mb-0 mid-color">{% trans "When will you meet ?" %}</p>
-        {{form.meeting_at}}
+        <input type="datetime-local" id="date" name="meeting_at">
+        
+
+         <p class="mb-0 mid-color">{% trans "Where will you meet ?" %}</p>
+        {{form.place}}
 
         {% if group.group_type == 'one_book' %}
             <p class="mb-2 mid-color">{% trans "Which book will you read ?" %}</p>
@@ -53,3 +57,12 @@
 </div>
 
 {% endblock %}
+
+{% block extrajs %}
+<script>
+$(document).ready(function() {
+    $('.datepicker').datepicker();
+});
+</script>
+
+{% endblock extrajs%}

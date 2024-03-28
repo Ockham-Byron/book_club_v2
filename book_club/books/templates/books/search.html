@@ -18,7 +18,12 @@
     
 <div class="d-flex flex-column align-items-center mt-3">
         {% for book in books %}
-        <a href="{% url 'save-book' book.isbn %}" style="width:100%;">
+        {% if meeting %}
+            <a href="{% url 'add-new-book-to-meeting' meeting.id book.isbn %}" style="width:100%;">
+        {% else %}
+              <a href="{% url 'save-book' book.isbn %}" style="width:100%;">
+        {% endif %}
+      
             <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
                 <div>
                     <img

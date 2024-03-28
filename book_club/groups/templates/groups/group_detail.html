@@ -75,12 +75,21 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 <div class="container">
     <h1 class="text-center mb-5 darkest-color">{% trans "Next Meeting" %}</h1>
     {% if next_meeting %}
-
+    
+    <div class="book-mini-card mx-auto">
+        <p class="meeting-date"><i class="fa-regular fa-calendar brand-color"></i> {{next_meeting.meeting_at}}</p>
+        <p><i class="fa-solid fa-map-pin brand-color"></i>{{next_meeting.place}}</p>
+        <img class="mx-auto shadow" src="{{next_meeting.book.cover}}" alt="{{book.title}}" />
+        <p class="title mt-4 mb-0">{{next_meeting.book.title}}</p>
+    <p class="author">{{next_meeting.book.author}}</p>
+    </div>
+   
     {% else %}
 
     <div class="text-center">
         <a href="{% url 'add-meeting' object.slug %}" class="btn btn-brand-color"><i class="fa-solid fa-plus"></i>{% trans 'Next meeting' %}</a>
     </div>
+    
 
     {% endif %}
 
@@ -106,6 +115,15 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
     </a>
 </div>
 {% else %}
+<div class="d-flex justify-content-center">
+{% for book in books %}
+<div class="book-mini-card mx-auto">
+<img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+    <p class="title mt-4 mb-0">{{book.title}}</p>
+    <p class="author">{{book.author}}</p>
+</div>
+{% endfor %}
+</div>
 
 <!-- Books container End -->
 {% endif %}
@@ -113,7 +131,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 
 <!-- Members container -->
 
-<div class="container">
+<div class="container mt-5">
     <h1 class="text-center mb-5 darkest-color">{% trans "Members" %}</h1>
     {% if nb_of_users  == 1 %} 
     <div class="d-flex flex-wrap justify-content-center">

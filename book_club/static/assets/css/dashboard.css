@@ -731,12 +731,13 @@ a.card-recipe-btn-small {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.book-detail-card .title {
+.book-detail-card .title, .book-mini-card .title {
   font-weight: bold;
 }
 
-.book-detail-card .author {
+.book-detail-card .author, .book-mini-card .author {
   font-size: 0.8rem;
+  margin-bottom: 0;
 }
 
 .book-data-box {
@@ -771,4 +772,14 @@ a.card-recipe-btn-small {
 
 .book-description {
   padding:20px;
+}
+
+.book-mini-card {
+  background-color: white;
+  width:200px;
+  padding:15px 10px 10px 10px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius:20px;
 }

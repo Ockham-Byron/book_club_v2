@@ -27,6 +27,7 @@ class Book(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
     title = models.CharField(max_length=150, blank=False, null=False)
     author = models.CharField(max_length=150, blank=False, null=False)
+    isbn = models.CharField(max_length=30, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     pages = models.IntegerField(default = 0, blank=True, null=True)
     owner = models.ForeignKey(User, related_name='owner', blank=True, null=True, on_delete=models.CASCADE)

@@ -1,5 +1,6 @@
 import uuid
 from django.shortcuts import render, redirect
+from django.utils.timezone import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import gettext as _
@@ -8,6 +9,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from .forms import *
 from .models import CustomGroup
+
 
 
 @login_required
@@ -100,6 +102,9 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['members'] = group.members.all()
         context['nb_of_users'] = group.members.all().filter(is_guest=False).count()
         context['nb_of_books'] = group.books.all().count() 
+        context['books'] = group.books.all()
+        context['next_meeting'] = group.meeting_set.filter(meeting_at__gte=datetime.now()).first()
+
         return context
     
 

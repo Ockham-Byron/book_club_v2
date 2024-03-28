@@ -11,6 +11,6 @@ class BookAdmin(admin.ModelAdmin):
 admin.site.register(Book, BookAdmin)
 
 class MeetingAdmin(admin.ModelAdmin):
-  list_display = ('group', 'meeting_at')
+  list_display = ('group', 'meeting_at', 'book')
 
 admin.site.register(Meeting, MeetingAdmin)
