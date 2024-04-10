@@ -66,14 +66,26 @@
         </li>
         <!-- Library -->
           <li class="subnav">
-            <a href="#" class="nav-link lightest-color" >
+            {% if libraries %}
+            {% for library in libraries %}
+            <a href="{% url 'library' library.slug %}" class="nav-link lightest-color" >
+            {% endfor %}
+            {% else %}
+            <a href="{% url 'create-library' %}" class="nav-link lightest-color" >
+            {% endif %}
               <i class="fa-solid fa-lines-leaning"></i><span class="ms-1 d-none d-sm-inline">{% trans 'My Library' %}</span>
             </a>
           </li>
 
         <!-- Wishlist-->
           <li class="subnav">
-            <a href="#" class="nav-link lightest-color" >
+            {% if wishlists %}
+            {% for wishlist in wishlists %}
+            <a href="{% url 'wishlist' wishlist.slug %}" class="nav-link lightest-color" >
+            {% endfor %}
+            {% else %}
+            <a href="{% url 'create-wishlist' %}" class="nav-link lightest-color" >
+            {% endif %}
               <i class="fa-solid fa-bookmark"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Wishlist' %}</span>
             </a>
           </li>

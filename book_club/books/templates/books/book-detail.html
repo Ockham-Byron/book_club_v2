@@ -1,0 +1,74 @@
+{% extends 'dashboard/base.html' %}
+{% load static i18n %}
+{% block content %}
+
+<div class="container px-2 book-detail d-flex flex-column align-items-center">
+  <div class="hero-container bg-darkest-color mt-0 d-flex flex-column justify-content-center">
+  <div class="title text-center joy-color">{{book.title}}</div>
+  </div>
+  <div class="book-infos d-flex">
+    <div class="pe-1">
+      <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+    </div>
+
+    <div class="ps-1 text-center">
+      <p class="lightest-color">{% trans 'By' %} {{book.author}}</p>
+      <p>{% trans 'Average rating' %}</p>
+    </div>
+
+  </div>
+
+  <div class="book-user-data">
+
+  </div>
+
+  <div>
+    {% if book.description %}
+    {{book.description}}
+    {% endif %}
+  </div>
+
+  
+
+</div>
+
+<!-- Button -->
+
+<div class="btn-container">
+    <div class="expandable-button">
+      <div class="fill-block"></div>
+      <div class="close-icon">
+        <div class="fas fa-times"></div>
+      </div><a class="expansion-item" href="https://twitter.com/abh1nash">
+        <div class="expansion-content">
+          <div class="icon fab fa-twitter"></div>
+          <div class="text">Twitter</div>
+        </div></a><a class="expansion-item" href="https://codepen.io/abh1nash">
+        <div class="expansion-content">
+          <div class="icon fab fa-codepen"></div>
+          <div class="text">Codepen</div>
+        </div></a><a class="expansion-item" href="https://abhinash.net">
+        <div class="expansion-content">
+          <div class="icon fas fa-globe"></div>
+          <div class="text">Website</div>
+        </div></a>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extrajs %}
+
+<script>
+const select = (s) => document.querySelector(s);
+
+const btn = select(".expandable-button");
+
+btn.addEventListener("click", () => {
+  btn.classList.toggle("expanded");
+});
+
+
+</script>
+
+{% endblock %}

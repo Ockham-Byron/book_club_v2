@@ -1,3 +1,4 @@
+import uuid
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -158,10 +159,6 @@ def register_view(request):
             user.set_password(password)
             user.username = user.email
             user.save()
-            library = CustomGroup.objects.create(kname=_('My Library'), leader=user, group_type="library")
-            library.save()
-            wishlist = CustomGroup.objects.create(kname=_('Wish List'), leader=user, group_type="wishlist")
-            wishlist.save()
             new_user = authenticate(username=user.email, password=password)
             login(request, new_user)
             return redirect('verify-email')

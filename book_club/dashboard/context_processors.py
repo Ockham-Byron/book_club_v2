@@ -6,17 +6,22 @@ User = get_user_model
 def get_groups(request):
     if request.user.is_authenticated:
         groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+        
+        libraries = CustomGroup.objects.filter(leader=request.user, group_type="library")
+        wishlists = CustomGroup.objects.filter(leader=request.user, group_type="wishlist")
+        groups = groups.exclude(group_type="library")
+        groups = groups.exclude(group_type="wishlist")
         nb_of_groups = len(groups)
-        library = CustomGroup.objects.get(leader=request.user, group_type="library")
-        wishlist = CustomGroup.objects.get(leader=request.user, group_type="wishlist")
-        if nb_of_groups <= 2:
+        if nb_of_groups <= 0:
             groups = None
-        elif nb_of_groups >= 3:
+        elif nb_of_groups >= 1:
             groups = groups
             
         context = {'groups': groups,
-                   'library': library,
-                   'wishlist': wishlist}
+                   'libraries': libraries,
+                   'wishlists': wishlists}
+        
+        
         
     
     else:

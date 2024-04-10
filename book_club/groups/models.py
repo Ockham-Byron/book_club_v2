@@ -1,8 +1,8 @@
-from uuid import uuid4
+import uuid
 import os
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import  Group, User
 from PIL import Image
 from django.utils.text import slugify
 from django.shortcuts import reverse
@@ -18,7 +18,7 @@ def path_and_rename(instance, filename):
         filename = '{}-{}.{}'.format(instance.name, instance.pk, ext)
     else:
         # set filename as random string
-        filename = '{}-{}.{}'.format(uuid4().hex, ext)
+        filename = '{}-{}.{}'.format(uuid.uuid4().hex, ext)
     # return the whole path to the file
     return os.path.join(upload_to, filename)
 
@@ -30,7 +30,7 @@ class CustomGroup(Group):
         ("library", "Library"),
         ("wishlist", "Wish List"),
     )
-    uuid = models.UUIDField(default = uuid4, editable = False, primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable = False, primary_key=True, unique=True)
     kname = models.CharField(max_length=50, unique=False, null=False, blank=False)
     leader = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     group_pic = models.ImageField(upload_to=path_and_rename, null=True, blank = True)
@@ -41,14 +41,7 @@ class CustomGroup(Group):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
-        super().save()
-        # create slug
-        if not self.slug:
-            self.slug = slugify(self.kname + '_' + str(self.uuid))
-        if not self.name:
-            self.name = self.kname + '_' + str(self.uuid)
-        super(CustomGroup, self).save(*args, **kwargs)
+    
 
     def get_absolute_url(self):
         return reverse('group-detail', args=[self.uuid])

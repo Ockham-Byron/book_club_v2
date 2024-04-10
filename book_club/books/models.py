@@ -6,6 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 from groups.models import CustomGroup
 from django.db import models
+from datetime import datetime, timedelta, date
 
 User = get_user_model()
 
@@ -24,13 +25,28 @@ def path_and_rename(instance, filename):
 
 # Create your models here.
 class Book(models.Model):
+    READ = 'read'
+    READING = 'reading now'
+    WISH = 'wish_to_read'
+    NO_READ = 'no_read'
+    WONT_READ = 'no_read'
+    GIVE_UP = 'give_up'
+
+    STATUS = [
+        (READ, ('Read')),
+        (READING, ("Reading Now")),
+        (WISH, ('Wish to read')),
+        (NO_READ, ("No read")),
+        (WONT_READ, ("Won't read")),
+        (GIVE_UP, ('Give up')),
+        
+    ]
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
     title = models.CharField(max_length=150, blank=False, null=False)
     author = models.CharField(max_length=150, blank=False, null=False)
     isbn = models.CharField(max_length=30, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     pages = models.IntegerField(default = 0, blank=True, null=True)
-    owner = models.ForeignKey(User, related_name='owner', blank=True, null=True, on_delete=models.CASCADE)
     reservations = models.ManyToManyField(User, related_name="reservations", blank=True)
     in_library = models.ManyToManyField(User, related_name="in_libraries", blank=True)
     in_wishlist = models.ManyToManyField(User, related_name="in_wishlist", blank=True)
@@ -39,6 +55,7 @@ class Book(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     groups = models.ManyToManyField(CustomGroup, related_name="books", blank=True)
+    status = models.CharField(max_length=32, choices = STATUS, default=NO_READ)
     # slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
 
     def __str__(self):
@@ -69,7 +86,13 @@ class Book(models.Model):
 
 
 
+class CustomBook(models.Model):
+    id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
+    book=models.ForeignKey(Book, related_name="book_origin", on_delete=models.PROTECT)
+    owner = models.ForeignKey(User, related_name="owner", on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.book.title
 
 class Comment(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
@@ -87,7 +110,49 @@ class Meeting(models.Model):
     place = models.CharField(max_length=200, blank=True, null=True)
 
 class Borrow(models.Model):
+    PENDING = 'pending'
+    NO_RESPONSE = 'no_response'
+    CONFIRMED = 'confirmed'
+    REJECTED = 'rejected'
+    CANCELLED = 'cancelled'
+    NO_SHOW = 'no_show' #the the delivery of the object did not take place
+    ON_GOING = 'on_going'
+    RETURNED = 'returned'
+    LATE_RETURN = 'late_return' #the return of the object did not take place on time
+    NO_RETURN = 'no_return' #object was not returned
+
+    STATUS = [
+        (PENDING, ('Waiting for confirmation')),
+        (NO_RESPONSE, ("Owner didn't give a response")),
+        (CONFIRMED, ('Confirmed')),
+        (REJECTED, ('Cancelled by owner')),
+        (CANCELLED, ('Cancelled by requester')),
+        (NO_SHOW, ("Delivery  did not take place")),
+        (ON_GOING, ('Product actually borrowed by requester ')),
+        (RETURNED, ('Product returned by the borrower')),
+        (LATE_RETURN, ("Return did not take place on time")),
+        (NO_RETURN, ("Object not returned")),
+    ]
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
+    custom_book = models.ForeignKey(CustomBook, on_delete=models.CASCADE, related_name="borrowing", unique=False, null=True)
+    borrower = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="borrower", unique=False, null=True)
+    demand_date = models.DateField(auto_now_add=True)
+    
+    borrow_start = models.DateField(auto_now_add=False, blank=False, null=False) 
+    borrow_end = models.DateField(auto_now_add=False, blank=True, null=True)
+    status = models.CharField(max_length=32, choices = STATUS, default=PENDING)
+    late_return = models.BooleanField(default=False)
+
+    def is_waiting_long(self):
+        current_date = date.today()
+        waiting_to_long_date = self.demand_date + timedelta(days=4)
+        reservation_date_approching = self.reservation_start - timedelta(days=3)
+        if current_date > waiting_to_long_date or current_date > reservation_date_approching:
+            return True
+
+    def __str__(self):
+        return self.custom_book.book.title
+
 
 
     

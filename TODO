@@ -4,19 +4,23 @@ Général:
   ☐ ajouter page qui explique comment télécharger
 
 Home page:
-  ☐ texte
-  ☐ image
+  ✔ texte @done(24-04-10 11:19)
+  ✔ image @done(24-04-10 11:19)
 
 
 Groups:
-  ☐ Créer deux groupes par user : bibliothèque et liste de souhaits
-  ☐ verifier les slugs
+  ✔ Créer deux groupes par user : bibliothèque et liste de souhaits : à partir du menu @done(24-04-10 11:19)
+  ✔ verifier les slugs @done(24-04-10 11:19)
 
 Book:
+  ☐ logique un seul livre pour tous les proprios
   ☐ Définir les états: lu, en cours de lecture, envie de lire
   ☐ add owner to book
   ☐ add a book from group
   ☐ ajouter une couverture dans les resultats de recherche
+
+Profile:
+  ☐ changer le slug avec changement de pseudo
  
 
 Future features:

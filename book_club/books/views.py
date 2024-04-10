@@ -2,6 +2,7 @@ import json
 import environ
 import ssl
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 from urllib.request import urlopen
@@ -107,7 +108,7 @@ def add_book(request, id):
     if request.method=='POST':
         print("POST request")
         groups = request.POST.getlist('group')
-        new_book = Book.objects.create(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'))
+        new_book = Book.objects.create(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'))
         for group in groups:
             new_book.groups.add(group)
         new_book.save()
@@ -195,3 +196,13 @@ def add_new_book_to_meeting(request,id, isbn):
         return redirect('group-detail', group.slug)
     
     return render(request, 'books/book-search-detail.html', context)
+
+@login_required
+def book_detail(request, id):
+    book = get_object_or_404(Book, id=id)
+
+    context = {'book': book}
+
+    return render(request, 'books/book-detail.html', context)
+
+

@@ -7,6 +7,7 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
+from django.utils.text import slugify
 from .forms import *
 from .models import CustomGroup
 
@@ -34,6 +35,35 @@ def add_group_view(request):
             return redirect('all-groups')
 
     return render(request, 'groups/add_group.html', {'form': form,})
+
+@login_required
+def add_library_view(request):
+    if CustomGroup.objects.filter(leader=request.user, group_type="library").exists():
+        library=CustomGroup.objects.get(leader=request.user, group_type="library")
+        return redirect('library', library.slug)
+    library_uuid=uuid.uuid4()
+    name='My_Library_' + str(library_uuid)
+    slug=slugify(name) 
+    library = CustomGroup.objects.create(uuid=library_uuid, name=name, slug=slug, kname=_('My Library'), leader=request.user, group_type='library')
+    
+    
+
+    return redirect('library', library.slug)
+
+@login_required
+def add_wishlist_view(request):
+    if CustomGroup.objects.filter(leader=request.user, group_type="wishlist").exists():
+        wishlist=CustomGroup.objects.get(leader=request.user, group_type="wishlist")
+        return redirect('wishlist', wishlist.slug)
+    wishlist_uuid=uuid.uuid4()
+    name='My_Wishlist_' + str(wishlist_uuid)
+    slug=slugify(name) 
+    wishlist = CustomGroup.objects.create(uuid=wishlist_uuid, name=name, slug=slug, kname=_('My Wishlist'), leader=request.user, group_type='wishlist')
+    
+    
+
+    return redirect('wishlist', wishlist.slug)
+
 
 @login_required
 def join_group_view(request):
@@ -77,19 +107,53 @@ def join_group_view(request):
 
 @login_required
 def all_groups(request):
-    groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
-    groups = groups.exclude(group_type="library")
-    groups = groups.exclude(group_type="wishlist")
-    context = {
-        'groups': groups,
-        
-        }
-    return render(request, 'groups/member_groups.html', context)
+    return render(request, 'groups/member_groups.html')
 
 
 class GroupDetailView(LoginRequiredMixin, DetailView):
     model = CustomGroup
     template_name = 'groups/group_detail.html'
+    slug_url_kwarg = 'slug'
+    
+
+    
+
+    def get_context_data(self, **kwargs):
+        group = self.object
+        
+        context = super().get_context_data(**kwargs)
+        context['members'] = group.members.all()
+        context['nb_of_users'] = group.members.all().filter(is_guest=False).count()
+        context['nb_of_books'] = group.books.all().count() 
+        context['books'] = group.books.all()
+        context['next_meeting'] = group.meeting_set.filter(meeting_at__gte=datetime.now()).first()
+
+        return context
+    
+class LibraryView(LoginRequiredMixin, DetailView):
+    model = CustomGroup
+    template_name = 'groups/library.html'
+    slug_url_kwarg = 'slug'
+    
+
+    
+
+    def get_context_data(self, **kwargs):
+        group = self.object
+        
+        context = super().get_context_data(**kwargs)
+        context['members'] = group.members.all()
+        context['nb_of_users'] = group.members.all().filter(is_guest=False).count()
+        context['nb_of_books'] = group.books.all().count() 
+        context['books'] = group.books.all()
+        context['next_meeting'] = group.meeting_set.filter(meeting_at__gte=datetime.now()).first()
+
+        return context
+    
+
+class WishlistView(LoginRequiredMixin, DetailView):
+    model = CustomGroup
+    template_name = 'groups/library.html'
     slug_url_kwarg = 'slug'
     
 
