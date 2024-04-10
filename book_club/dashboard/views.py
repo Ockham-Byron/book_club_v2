@@ -19,12 +19,12 @@ def get_groups(user):
 def dashboard_view(request):
   if request.user.is_authenticated:
     group = get_groups(request.user)
+    print(group)
     
     if group is None: 
         return redirect('all-groups')
     else:
-        
-        return redirect(request, 'dashboard')
+        return render(request, 'dashboard/dashboard.html')
    
   else:
     return redirect('login')

@@ -45,6 +45,8 @@ def add_library_view(request):
     name='My_Library_' + str(library_uuid)
     slug=slugify(name) 
     library = CustomGroup.objects.create(uuid=library_uuid, name=name, slug=slug, kname=_('My Library'), leader=request.user, group_type='library')
+    library.members.add(request.user)
+    library.save()
     
     
 
@@ -60,7 +62,8 @@ def add_wishlist_view(request):
     slug=slugify(name) 
     wishlist = CustomGroup.objects.create(uuid=wishlist_uuid, name=name, slug=slug, kname=_('My Wishlist'), leader=request.user, group_type='wishlist')
     
-    
+    wishlist.members.add(request.user)
+    wishlist.save()
 
     return redirect('wishlist', wishlist.slug)
 

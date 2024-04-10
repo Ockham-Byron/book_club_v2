@@ -9,7 +9,7 @@ from urllib.request import urlopen
 from django.shortcuts import render, redirect
 from .forms import BookSearch, AddMeetingForm
 from groups.models import CustomGroup
-from .models import Book, Meeting
+from .models import Book, Meeting, CustomBook
 
 tz= timezone.get_current_timezone()
 
@@ -89,29 +89,53 @@ def book_save(id):
 
 @login_required
 def add_book(request, id):
-    groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    book_in_db = None
+    kgroups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     
-    users = []
-    for group in groups:
-        users.extend(group.members.all())
+    
+    
+    
     
 
     book=book_save(id)
    
     
     context = {
-        'groups':groups,
-        'users':users,
+        'kgroups':kgroups,
         'book':book,
     }
+
+    if Book.objects.filter(isbn=id).exists():
+        book_in_db = Book.objects.get(isbn=id)
+    
+    print(book_in_db)
+
 
     if request.method=='POST':
         print("POST request")
         groups = request.POST.getlist('group')
-        new_book = Book.objects.create(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'))
-        for group in groups:
-            new_book.groups.add(group)
-        new_book.save()
+        if book_in_db:
+            new_kbook = CustomBook(book=book_in_db)
+            for i in groups:
+                group = CustomGroup.objects.get(uuid=i)
+                book_in_db.groups.add(group)
+                if group.group_type == 'library':
+                    new_kbook.owner = request.user
+                    new_kbook.save()
+            book_in_db.save()
+            
+
+        else:
+            new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'))
+            new_kbook = CustomBook(book=book_in_db)
+            for group in groups:
+                new_book_in_db.groups.add(group)
+                if group.group_type == 'library':
+                    new_kbook.owner = request.user
+                    new_kbook.save()
+            new_book_in_db.save()
+            return redirect('dashboard')
+
         return redirect('dashboard')
     
     return render(request, 'books/book-search-detail.html', context)
@@ -188,7 +212,7 @@ def add_new_book_to_meeting(request,id, isbn):
     }
 
     if request.method=='POST':
-        new_book = Book.objects.create(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'))
+        new_book = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'))
         new_book.groups.add(group)
         new_book.save()
         meeting.book = new_book

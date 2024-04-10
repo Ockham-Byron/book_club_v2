@@ -24,7 +24,7 @@
       </div>
       <p class="text-center">{% trans 'Where' %}?</p>
       <div class="modal-choice-box d-flex flex-wrap justify-content-center">
-      {% for group in groups %}
+      {% for group in kgroups %}
             <div class="choice-container">
               <p class="text-center pt-1">{{ group.kname }}</p>
               <input class="mt-2" type="checkbox" value="{{group.uuid}}" name="group" />

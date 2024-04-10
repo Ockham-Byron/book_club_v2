@@ -3,27 +3,35 @@ Général:
   ☐ ajouter pwa
   ☐ ajouter page qui explique comment télécharger
 
-Home page:
-  ✔ texte @done(24-04-10 11:19)
-  ✔ image @done(24-04-10 11:19)
-
 
 Groups:
-  ✔ Créer deux groupes par user : bibliothèque et liste de souhaits : à partir du menu @done(24-04-10 11:19)
-  ✔ verifier les slugs @done(24-04-10 11:19)
+  ☐ creer libarry et wishlist à la creation
 
 Book:
-  ☐ logique un seul livre pour tous les proprios
   ☐ Définir les états: lu, en cours de lecture, envie de lire
-  ☐ add owner to book
   ☐ add a book from group
   ☐ ajouter une couverture dans les resultats de recherche
+  ☐ edit
+  ☐ delete
+
+  Comment:
+    ☐ add
+    ☐ edit
+    ☐ delete
+    ☐ show
 
 Profile:
   ☐ changer le slug avec changement de pseudo
  
-
 Future features:
   ☐ emprunt à la bibliothèque
   ☐ tirer au hasard le prochain livre
   ☐ page de statistiques
+
+Archive:
+  ✔ texte @done(24-04-10 11:19) @project(Home page)
+  ✔ image @done(24-04-10 11:19) @project(Home page)
+  ✔ Créer deux groupes par user : bibliothèque et liste de souhaits : à partir du menu @done(24-04-10 11:19) @project(Groups)
+  ✔ verifier les slugs @done(24-04-10 11:19) @project(Groups)
+  ✔ logique un seul livre pour tous les proprios @done(24-04-10 12:02) @project(Book)
+  ✔ add owner to book @done(24-04-10 12:02) @project(Book)

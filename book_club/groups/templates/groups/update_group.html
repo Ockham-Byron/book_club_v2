@@ -6,13 +6,13 @@
   <div class="d-flex justify-content-center align-items-center">
     <form method="post" enctype="multipart/form-data" class="kform">
     {% csrf_token %}
-      <p class="title">{% trans 'Update' %} {{object.name}}</p>
+      <p class="title">{% trans 'Update' %} {{object.kname}}</p>
                         
-      <label>{% trans 'Name of the Group' %}</label>
+      <label>{% trans 'Name' %}</label>
       {{ form.kname }}
 
                         
-      <label class="text-center">{% trans 'Upload New Picture of the Group' %}</label>
+      <label class="text-center">{% trans 'Upload New Picture' %}</label>
       
       <input
         type="file"
@@ -40,12 +40,13 @@
                         
                    
                
-                
+                {% if object.group_type == "one_book" or object.group_type == "several_books" %}
                 <div class=" text-center kselect">
                 <label>{% trans 'Admin of the Group' %}</label>
                 </br>
                     {{form.leader}}
                 </div>
+                {% endif %}
                
               
                 <div class="row justify-content-center">

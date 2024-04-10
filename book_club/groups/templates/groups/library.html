@@ -23,86 +23,13 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
     </div>
 </section>
 
-<section class="ftco-section ftco-no-pt mt-5 mt-md-0">
-   
-        <div class="d-flex justify-content-center">
-            <div class="col-6 d-flex align-items-stretch justify-content-center ftco-animate fadeInUp ftco-animated">
-                <div class="services-2 text-center">
-                    <div class="icon-wrap">
-                        <div class="icon d-flex align-items-center justify-content-center">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="col-md-12">
-                                    <p class="nb_count">{{nb_of_users}}</p>
-                                    
-                                </div>
-                            </div>
 
-                        </div>
 
-                    </div>
-
-                </div>
-            </div>
-            
-            <div class="col-6 d-flex align-items-stretch justify-content-center ftco-animate fadeInUp ftco-animated">
-                <a href="#">
-                <div class="services-2 text-center">
-                    <div class="icon-wrap">
-                        <div class="icon d-flex align-items-center justify-content-center">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <i class="fa-solid fa-book"></i>
-                                </div>
-                                <div class="col-md-12">
-                                    <p class="nb_count">{{nb_of_books}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </a>
-            </div>
-            
-
-        </div>
-   
-</section>
-
-<!-- Next Meeting container start -->
-<div class="container d-flex flex-column align-items-center">
-    <h1 class="text-center mb-5 darkest-color">{% trans "Next Meeting" %}</h1>
-    {% if next_meeting %}
-    
-    <div class="book-mini-card-h d-flex justify-content-center">
-        <div class="book-infos text-center">
-            <img class="shadow" src="{{next_meeting.book.cover}}" alt="{{book.title}}" />
-            <p class="title mt-1 mb-0">{{next_meeting.book.title}}</p>
-            <p class="author">{{next_meeting.book.author}}</p>
-        </div>
-        <div class="meeting-infos">
-            <p class="meeting-date"><i class="fa-regular fa-calendar brand-color"></i> {{next_meeting.meeting_at}}</p>
-            <p><i class="fa-solid fa-map-pin brand-color"></i>{{next_meeting.place}}</p>
-        </div>
-    </div>
-   
-    {% else %}
-
-    <div class="text-center">
-        <a href="{% url 'add-meeting' object.slug %}" class="btn btn-brand-color"><i class="fa-solid fa-plus"></i>{% trans 'Next meeting' %}</a>
-    </div>
-    
-
-    {% endif %}
-
-</div>
 <!-- Books container start -->
 
 <div class="container mt-5">
 
- <h1 class="text-center mb-5 darkest-color">{% trans "Books" %}</h1>
+ <h1 class="text-center mb-5 darkest-color">{{nb_of_books}} {% trans "Books" %}</h1>
 
 {% if nb_of_books == 0 %}
    
@@ -112,7 +39,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
             <div class="card-cta border-0 sketch-box">
                 <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="100px" >
                 <div class="card-body">
-                {% trans 'ADD FIRST BOOK TO THIS GROUP' %}
+                {% trans 'ADD FIRST BOOK' %}
                 </div>
             </div>
         </div>
@@ -135,72 +62,6 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 {% endif %}
 
 
-<!-- Members container -->
-
-<div class="container mt-5">
-    <h1 class="text-center mb-5 darkest-color">{% trans "Members" %}</h1>
-    {% if nb_of_users  == 1 %} 
-    <div class="d-flex flex-wrap justify-content-center">
-        
-            <div class="sketch-box text-center">
-                <img class="card-icon mx-auto" src="{% static 'assets/img/icons/user-100.png' %}" alt="Card image cap" width="100px" >
-                <p>{% trans 'Invite other people to join your group' %}</p>
-                <p>{% trans "Group's code" %} : </p>
-                <p>{{object.uuid}}</p>
-                <button id="copy-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Copy the invitation" %}</button>
-            </div>
-        
-    </div>
-    {% else %}
-        <div class="d-flex flex-wrap justify-content-center">
-            <div class="member text-center mx-2">
-                <div class="icon-wrap">
-                    <button class="icon d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="member text-center mx-2">
-            <a href="{% url 'profile' object.leader.slug  %}">
-                <div class="icon-wrap">
-                    {% if object.leader.profile_pic%}
-                    <div class="icon d-flex align-items-center justify-content-center" style="background:url('{{object.leader.profile_pic.url}}') rgba(255, 255, 255, 0.8) ; background-blend-mode: multiply;"></div>
-                    {% else %}
-                    <div class="icon">{{ object.leader|avatar }}</div>
-                    {% endif %}
-                </div>
-                <p class="text-center">{{object.leader.username}}
-                
-                <i class="fas fa-key"></i>
-                
-                </p>
-                </a>
-            </div>
-        {% for i in members %}
-            {% if object.leader == i %}
-
-            {% else %}
-            <div class="member text-center mx-2">
-            <a href="{% url 'profile'  i.slug %}">
-                <div class="icon-wrap">
-                    {% if i.profile_pic %}
-                    <div class="icon d-flex align-items-center justify-content-center" style="background:url('{{i.profile_pic.url}}') rgba(255, 255, 255, 0.8) ; background-blend-mode: multiply;background-size:cover;"></div>
-                    {% else %}
-                    <div class="icon">{{ i|avatar }}</div>
-                    {% endif %}
-                </div>
-                <p class="text-center">{{i.pseudo}}
-                
-                </p>
-                </a>
-            </div>
-            {%endif%}
-            
-        {% endfor %}
-        </div>
-    {% endif %}  
-</div> <!-- Members container end -->
-
 
 
 
@@ -218,29 +79,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 </div>
 </a>
 
-<!-- Modals -->
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-       <div class="text-center">
-        <img src="{% static 'assets/img/icons/user-100.png' %}" alt="error icon" />
-        <br/>
-        <h3 class="modal-title mid-color" id="exampleModalLabel">{% trans "Invite other people to join your group" %}</h3>
-        </div>
-        <div class="text-center">
-            <p class="darkest-color mt-4">{% trans "Code of the group :" %}</p>
-            <p class="text-center darkest-color">{{object.uuid}}</p>
-            <button id="copy-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Copy the invitation" %}</button>
-        </div>
-        <div class="text-center">
-          <a type="button" class="btn btn-outlined btn-modal outline-mid-color my-2" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
-        </div>
-          
-       
-      </div>
-    </div>
-  </div>
 
 {% endblock %}
 {% block extrajs %}
