@@ -1,0 +1,33 @@
+{% extends 'dashboard/base.html' %}
+{% load static i18n %}
+{% block title %}{% trans 'Books' %}{% endblock %}
+{% block content %}
+
+
+
+{% if books %}
+    
+<div class="d-flex flex-column align-items-center mt-3">
+        {% for book in books %}
+            <a href="{% url 'book-detail' book.slug %}" class="book-card-link">
+            <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
+                <div>
+                    <img
+                    src="{{ book.cover }}"
+                    alt="{{ book.title }}"
+                    />
+                </div>
+                <div>
+                    <p class="title">{{ book.title }}</p>
+                    <p class="author">{{ book.author }}</p>
+                </div>
+            </div>
+            </a>
+        {% endfor %}
+ </div>   
+
+
+{% else %}
+    <img class="form-img" src={% static 'assets/img/illustrations/book-search.svg' %}  />
+{% endif %}
+{% endblock %}

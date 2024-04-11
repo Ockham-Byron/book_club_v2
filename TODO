@@ -15,6 +15,8 @@ Book:
   ☐ edit
   ☐ delete
   ☐ button float
+  ☐ afficher qui a lu
+  ☐ if error quand google api, proposer custom add
 
   Comment:
     ✔ add @done(24-04-11 12:17)

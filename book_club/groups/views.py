@@ -118,18 +118,22 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
     template_name = 'groups/group_detail.html'
     slug_url_kwarg = 'slug'
     
+    
 
     
 
     def get_context_data(self, **kwargs):
         group = self.object
-        
+        next_meeting = group.meeting_set.filter(meeting_at__gte=datetime.now()).first()
+        next_book = next_meeting.book
+        nb_of_readers = next_book.readers.filter(group_members = group).count()
         context = super().get_context_data(**kwargs)
         context['members'] = group.members.all()
-        context['nb_of_users'] = group.members.all().filter(is_guest=False).count()
+        context['nb_of_users'] = group.members.all().count()
         context['nb_of_books'] = group.books.all().count() 
         context['books'] = group.books.all()
-        context['next_meeting'] = group.meeting_set.filter(meeting_at__gte=datetime.now()).first()
+        context['next_meeting'] = next_meeting
+        context['nb_of_readers'] = nb_of_readers
 
         return context
     

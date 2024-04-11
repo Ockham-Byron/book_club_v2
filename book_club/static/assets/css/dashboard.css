@@ -822,6 +822,10 @@ a.card-recipe-btn-small {
   text-align: justify;
 }
 
+.book-card-link {
+  width:100% !important;
+}
+
 /* Blockquote main style */
 .blockquote {
    background-color: #ffffff;
@@ -923,7 +927,9 @@ img.curly2 {
 }
 
 .expandable-button {
-  position: relative;
+  position: fixed;
+  bottom:10px;
+  z-index:10;
   width: 5em;
   height: 5em;
   border: 1px solid var(--brand-color);

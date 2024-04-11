@@ -282,6 +282,18 @@ def book_detail(request, slug):
 
     return render(request, 'books/book-detail.html', context)
 
+@login_required
+def all_books(request):
+     user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+     
+     books = Book.objects.filter(groups__in=user_groups).distinct()
+     print(books)
+
+     context = {
+         'books': books,
+     }
+     return render(request, 'books/all-books.html', context)
+
 
 #REVIEWS
 
