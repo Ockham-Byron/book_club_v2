@@ -13,5 +13,8 @@ urlpatterns = [
   path('add-new-book-to-meeting/<id>/<str:isbn>', add_new_book_to_meeting, name="add-new-book-to-meeting"),
 
   #book
-  path('book-detail/<id>', book_detail, name="book-detail"),
+  path('book-detail/<slug:slug>', book_detail, name="book-detail"),
+
+  #comments
+  path('add-review/<slug:slug>', add_review, name="add-review"),
 ]

@@ -25,22 +25,7 @@ def path_and_rename(instance, filename):
 
 # Create your models here.
 class Book(models.Model):
-    READ = 'read'
-    READING = 'reading now'
-    WISH = 'wish_to_read'
-    NO_READ = 'no_read'
-    WONT_READ = 'no_read'
-    GIVE_UP = 'give_up'
-
-    STATUS = [
-        (READ, ('Read')),
-        (READING, ("Reading Now")),
-        (WISH, ('Wish to read')),
-        (NO_READ, ("No read")),
-        (WONT_READ, ("Won't read")),
-        (GIVE_UP, ('Give up')),
-        
-    ]
+    
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
     title = models.CharField(max_length=150, blank=False, null=False)
     author = models.CharField(max_length=150, blank=False, null=False)
@@ -51,26 +36,29 @@ class Book(models.Model):
     in_library = models.ManyToManyField(User, related_name="in_libraries", blank=True)
     in_wishlist = models.ManyToManyField(User, related_name="in_wishlist", blank=True)
     readers = models.ManyToManyField(User, related_name="readers", blank=True)
+    readings = models.ManyToManyField(User, related_name="readings", blank=True)
+    no_read = models.ManyToManyField(User, related_name="no_read", blank=True)
+    wont_read = models.ManyToManyField(User, related_name="wont_read", blank=True)
+    give_up = models.ManyToManyField(User, related_name="give_up", blank=True)
     cover=models.CharField(max_length=500, blank=True, null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     groups = models.ManyToManyField(CustomGroup, related_name="books", blank=True)
-    status = models.CharField(max_length=32, choices = STATUS, default=NO_READ)
-    # slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
+    slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
 
     def __str__(self):
         return self.title
 
-    # def save(self, *args, **kwargs):
-    #     super().save()
-    #     # create slug
-    #     if not self.slug:
-    #         self.slug = slugify(self.title + '_' + str(self.id))
-    #     super(Book, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        super().save()
+        # create slug
+        if not self.slug:
+            self.slug = slugify(self.title + '_' + str(self.id))
+        super(Book, self).save(*args, **kwargs)
 
     def averagereview(self):
-        if Comment.objects.filter(dish=self).exists():
-            comments = Comment.objects.filter(dish=self).aggregate(average=Avg('rating'))
+        if Comment.objects.filter(book=self).exists():
+            comments = Comment.objects.filter(book=self).aggregate(average=Avg('rating'))
             avg=0
             if ["average"] is not None:
                 avg=float(comments["average"])

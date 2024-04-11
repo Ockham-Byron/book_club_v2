@@ -136,6 +136,10 @@ a, a:hover{
 .bg-darkest-color{
   background-color: var(--darkest-color);
 }
+
+.bg-light-color{
+  background-color: var(--light-color);
+}
 /* || Header and Main Navigation */
 
 .site-header {

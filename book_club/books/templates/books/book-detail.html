@@ -1,11 +1,13 @@
 {% extends 'dashboard/base.html' %}
 {% load static i18n %}
+{% block title %}{{book.title}}{% endblock %}
 {% block content %}
 
 <div class="container px-2 book-detail d-flex flex-column align-items-center">
   <div class="hero-container bg-darkest-color mt-0 d-flex flex-column justify-content-center">
-  <div class="title text-center joy-color">{{book.title}}</div>
+    <div class="title text-center joy-color p-2">{{book.title}}</div>
   </div>
+  <!-- Cover + basic infos -->
   <div class="book-infos d-flex">
     <div class="pe-1">
       <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
@@ -13,22 +15,57 @@
 
     <div class="ps-1 text-center">
       <p class="lightest-color">{% trans 'By' %} {{book.author}}</p>
-      <p>{% trans 'Average rating' %}</p>
+      {% if book.averagereview %}
+      <p class="mt-4 mb-0">{% trans 'Average rating' %}</p>
+      {{book.averagereview}}
+      {% endif %}
+      <!-- Reading status -->
+      <p class="mt-4 reading-status mx-auto
+        {% if is_read %}
+          bg-joy-color">{% trans "Read" %}</p>
+        {% elif is_reading %}
+          bg-brand-color">{% trans "Reading Now" %}
+        {% elif in_wish %}
+          bg-dark-color">{% trans "Want to read" %}
+        {% elif no_read %}
+          bg-darkest-color">{% trans "Not read" %}
+        {% elif wont_read %}
+          bg-mid-color">{% trans "Dont'want to read" %}
+        {% elif give_up %}
+          bg-light-color">{% trans "Given up" %}
+        {% else %}
+          bg-light-color">{% trans "Add Reading Status" %}
+        {% endif %}
+
+      </p>
     </div>
-
   </div>
+  <!-- Cover + basic infos End-->
 
-  <div class="book-user-data">
-
-  </div>
-
-  <div>
+  <!-- Book description -->
+  <div class="mt-5 book-description">
     {% if book.description %}
     {{book.description}}
     {% endif %}
   </div>
+  <!-- Book description End-->
 
-  
+
+  <!-- Reviews -->
+  <div class="mt-5 d-flex flex-wrap justify-content-center">
+  {% for review in group_reviews%}
+    <div class="blockquote">
+      <p>
+      {{review.message}}
+      </p>
+      <h4><strong>&mdash;{{review.author.pseudo}}</strong><br><span class="dark-color">{{review.rating}}/5</span></h4>
+      <img class="curly1" src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/95802/Curly_Krungthep.svg' alt=''>
+      <img class="curly2" src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/95802/Curly_Krungthep.svg' alt=''>
+    </div>
+
+  {% endfor %}
+  </div> <!-- End Reviews -->
+
 
 </div>
 
@@ -39,21 +76,21 @@
       <div class="fill-block"></div>
       <div class="close-icon">
         <div class="fas fa-times"></div>
-      </div><a class="expansion-item" href="https://twitter.com/abh1nash">
+      </div><a class="expansion-item" href="{% url 'add-review' book.slug %}">
         <div class="expansion-content">
-          <div class="icon fab fa-twitter"></div>
-          <div class="text">Twitter</div>
+          <div class="icon fas fa-star"></div>
+          <div class="text">{% trans 'Review' %}</div>
         </div></a><a class="expansion-item" href="https://codepen.io/abh1nash">
         <div class="expansion-content">
-          <div class="icon fab fa-codepen"></div>
-          <div class="text">Codepen</div>
+          <div class="icon fas fa-pen"></div>
+          <div class="text">Edit</div>
         </div></a><a class="expansion-item" href="https://abhinash.net">
         <div class="expansion-content">
-          <div class="icon fas fa-globe"></div>
-          <div class="text">Website</div>
+          <div class="icon fas fa-trash"></div>
+          <div class="text">Delete</div>
         </div></a>
     </div>
-  </div>
+</div>
 
 {% endblock %}
 

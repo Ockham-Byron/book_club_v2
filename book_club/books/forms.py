@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
-from .models import Meeting, Book
+from .models import Meeting, Comment
 from groups.models import CustomGroup
 
 
@@ -17,4 +17,12 @@ class AddMeetingForm(forms.ModelForm):
         widgets= {
             "place":forms.TextInput(attrs={'placeholder': _('Meeting place')})
         }
-    
+
+class AddCommentForm(forms.ModelForm):
+    CHOICES = [(i,i) for i in range(6)]
+    message=forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'placeholder': _("Comment")}))
+    rating=forms.TypedChoiceField(coerce=int, choices=CHOICES)
+
+    class Meta:
+        model=Comment
+        fields=['message', 'rating']

@@ -811,14 +811,124 @@ a.card-recipe-btn-small {
   border-radius: 20px;
 }
 
+.reading-status {
+  border-radius: 20px;
+  width:fit-content;
+  padding:2px 10px;
+}
+
+.book-description {
+  max-width:800px;
+  text-align: justify;
+}
+
+/* Blockquote main style */
+.blockquote {
+   background-color: #ffffff;
+   position: relative;
+   font-family: 'Work Sans', sans-serif;
+   max-width: 620px;
+   align-self: center;
+   border: 0.3rem solid var(--brand-color);
+   border-radius: 3rem 0;
+   padding: 4rem 1.5rem;
+   margin:20px;
+}
+
+
+
+
+
+.blockquote:after {
+ position: absolute;
+ content: "";
+ background-color: #ffffff;
+ left: -2rem;
+ top: -2rem;
+ width: calc(100% + 4rem);
+ height: calc(100% + 4rem);
+ z-index: -1;  
+ border-radius: 4.5rem 0;
+}
+
+
+/* Blockquote right double quotes */
+img.curly1 {
+   position: absolute;
+   display: block;
+   width:5rem !important;
+   bottom: -2rem;
+   left: -2rem;
+}
+
+img.curly2 {
+   position: absolute;
+   display: block;
+   width:5rem !important;
+   top: -2rem;
+   right: -2rem;
+   z-index: 2;
+ transform: rotatez(180deg);
+}
+
+
+
+.blockquote h4:first-letter {
+ margin-left:-12px;
+}
+
+.pinkish {
+ color: #FA709A;
+}
+
+/* increase header size after 600px */
+@media all and (min-width: 600px) {
+ 
+   .blockquote {
+     padding: 3rem;
+   }
+ 
+   .blockquote h1 {
+     font-size: 2.3rem;
+     width: calc(100% - 7rem);
+  }
+ 
+   .curly1 {
+     width:10rem;
+     bottom: -1rem;
+     left: -1rem;
+   }
+
+   .curly2 {
+       width:10rem;
+       top: -1rem;
+       right: -1rem;
+   }
+ 
+   /* Blockquote subheader */
+ .blockquote h4 {
+     text-align: right;
+ }
+
+}
+
+/* Float btns */
+
+.btn-container {
+  display: flex;
+  justify-content: end;
+  padding-right: 20px;
+  padding-top:50px;
+
+}
 
 .expandable-button {
   position: relative;
-  width: 8em;
-  height: 8em;
-  border: 1px solid #101820;
+  width: 5em;
+  height: 5em;
+  border: 1px solid var(--brand-color);
   border-radius: 50%;
-  background: #101820;
+  background: var(--brand-color);
   transition: 0.15s ease-out;
   cursor: pointer;
   box-shadow: 0 10px 50px 5px #10182022;
@@ -852,8 +962,8 @@ a.card-recipe-btn-small {
   position: absolute;
   top: 50%;
   left: 50%;
-  height: 1em;
-  width: 1em;
+  height: 0.8em;
+  width: 0.8em;
   background: #fff;
   border-radius: 50%;
   pointer-events: none;
@@ -892,9 +1002,8 @@ a.card-recipe-btn-small {
   width: 7em;
   height: 2em;
   border-radius: 5em;
-  top: -50%;
   pointer-events: fill;
-  transform: translateX(-0.7em);
+  transform: translateX(-5em);
 }
 .expandable-button.expanded .expansion-item:hover {
   top: -60%;
@@ -911,21 +1020,21 @@ a.card-recipe-btn-small {
   animation: fadeIn 0.25s linear forwards;
 }
 .expandable-button.expanded .expansion-item:nth-of-type(1) {
-  left: calc(-7.5em - -5%);
+  top: calc(-8.5em - -5%);
   transition-delay: 0.05s;
 }
 .expandable-button.expanded .expansion-item:nth-of-type(1) .expansion-content {
   animation-delay: 0.1s;
 }
 .expandable-button.expanded .expansion-item:nth-of-type(2) {
-  left: calc(0em - 0%);
+  top: calc(-5.8em - -3%);
   transition-delay: 0.1s;
 }
 .expandable-button.expanded .expansion-item:nth-of-type(2) .expansion-content {
   animation-delay: 0.2s;
 }
 .expandable-button.expanded .expansion-item:nth-of-type(3) {
-  left: calc(7.5em - 5%);
+  top: calc(-3em - 0%);
   transition-delay: 0.15s;
 }
 .expandable-button.expanded .expansion-item:nth-of-type(3) .expansion-content {

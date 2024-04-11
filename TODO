@@ -8,17 +8,21 @@ Groups:
   ☐ creer libarry et wishlist à la creation
 
 Book:
-  ☐ Définir les états: lu, en cours de lecture, envie de lire
+  ✔ Définir les états: lu, en cours de lecture, envie de lire @done(24-04-11 12:17)
+  ☐ all books
   ☐ add a book from group
   ☐ ajouter une couverture dans les resultats de recherche
   ☐ edit
   ☐ delete
+  ☐ button float
 
   Comment:
-    ☐ add
+    ✔ add @done(24-04-11 12:17)
     ☐ edit
     ☐ delete
-    ☐ show
+    ☐ if commented, edit
+    ✔ show @done(24-04-11 12:16)
+    ☐ faire une page avec tous les commentaires 
 
 Profile:
   ☐ changer le slug avec changement de pseudo

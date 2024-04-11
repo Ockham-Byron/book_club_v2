@@ -6,10 +6,11 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 from urllib.request import urlopen
+from django.db.models import Q
 from django.shortcuts import render, redirect
-from .forms import BookSearch, AddMeetingForm
+from .forms import BookSearch, AddMeetingForm, AddCommentForm
 from groups.models import CustomGroup
-from .models import Book, Meeting, CustomBook
+from .models import Book, Meeting, CustomBook, Comment
 
 tz= timezone.get_current_timezone()
 
@@ -222,11 +223,84 @@ def add_new_book_to_meeting(request,id, isbn):
     return render(request, 'books/book-search-detail.html', context)
 
 @login_required
-def book_detail(request, id):
-    book = get_object_or_404(Book, id=id)
+def book_detail(request, slug):
+    user = request.user
+    groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    groups = groups.exclude(group_type="library")
+    groups = groups.exclude(group_type="wishlist")
+    book = get_object_or_404(Book, slug=slug)
+    is_read = False
+    is_reading = False
+    in_wish = False
+    no_read = False
+    wont_read = False
+    give_up = False
+    in_library = False
 
-    context = {'book': book}
+    if user in book.readers.all():
+        is_read = True
+    elif user in book.readings.all():
+        is_reading = True
+    elif user in book.in_wishlist.all():
+        in_wish = True
+    elif user in book.no_read.all():
+        no_read = True
+    elif user in book.wont_read.all():
+        wont_read = True
+    elif user in book.give_up.all():
+        give_up = True
+    
+    if user in book.in_library.all():
+        in_library = True
+
+
+
+    all_reviews = Comment.objects.filter(book=book)
+    #filter by groups
+    
+    author_filter = Q()
+    for group in groups:
+        author_filter |= Q(author__group_members = group)
+
+    group_reviews = all_reviews.filter(author_filter)
+    print(group_reviews)
+    
+
+    context = {
+        'book': book,
+        'is_read': is_read,
+        'is_reading': is_reading,
+        'in_wish': in_wish,
+        'no_read':no_read,
+        'wont_read':wont_read,
+        'give_up':give_up,
+        'in_library':in_library,
+        'all_reviews':all_reviews,
+        'group_reviews':group_reviews,
+        
+        }
 
     return render(request, 'books/book-detail.html', context)
+
+
+#REVIEWS
+
+@login_required
+def add_review(request, slug):
+    book=get_object_or_404(Book, slug=slug)
+    form=AddCommentForm()
+
+    if request.method=='POST':
+        form=AddCommentForm(request.POST)
+        if form.is_valid():
+            comment=form.save(commit=False)
+            comment.book=book
+            comment.author=request.user
+            comment.save()
+            book.readers.add(request.user)
+            book.save()
+            return redirect('book-detail', book.slug)
+
+    return render(request, "books/add-comment.html", {'form':form, 'book':book})
 
 
