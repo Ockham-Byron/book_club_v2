@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from urllib.request import urlopen
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from .forms import BookSearch, AddMeetingForm, AddCommentForm
+from .forms import BookSearch, AddMeetingForm, AddCommentForm, AddBookForm
 from groups.models import CustomGroup
 from .models import Book, Meeting, CustomBook, Comment
 
@@ -152,41 +152,8 @@ def new_book_search(request):
             search = request.POST.get('search', False)
             books = book_search(search)
             return render(request, 'books/search.html', {'form': form, 'books': books})
-        
-@login_required
-def add_meeting(request, slug):
-    group = CustomGroup.objects.get(slug=slug)
-    books = Book.objects.filter(groups__id__contains = group.id)
-    form = AddMeetingForm()
-
-    if request.method == 'POST':
-        form = AddMeetingForm(request.POST)
-        meeting_at = request.POST.get('meeting_at')
-        if form.is_valid():
-            if "search-book" in request.POST:
-                meeting = form.save()
-                meeting.meeting_at = meeting_at
-                meeting.group = group
-                meeting.save()
-                return redirect('search-book-for-meeting', meeting.id)
-        else:
-            print(form.errors)
-
-    context = {'form': form,
-               'group': group,
-                'books':books, }
-    
-    return render(request, "books/meetings/add-meeting.html", context=context)
 
 
-
-
-
-def edit_meeting(request, uuid):
-    pass
-
-def delete_meeting(request, uuid):
-    pass
 
 @login_required
 def search_book_for_meeting(request, id):
@@ -283,6 +250,39 @@ def book_detail(request, slug):
     return render(request, 'books/book-detail.html', context)
 
 @login_required
+def edit_book(request, slug):
+    book = get_object_or_404(Book, slug=slug)
+    form = AddBookForm(request.user, instance = book)
+    
+
+    if request.method == 'POST':
+        form = AddBookForm(request.user, request.POST, request.FILES, instance=book)
+        if form.is_valid():
+                cover = request.FILES.get('cover')
+                groups= request.POST.getlist('groups')
+                book.cover = cover
+                
+                book.save()
+                if groups:
+                    for i in groups:
+                        group = CustomGroup.objects.get(uuid=i)
+                        if group not in book.groups.all():
+                            book.groups.add(group)
+                    book.save()
+                    
+
+               
+                
+                return redirect('book-detail', book.slug)
+            
+        else:
+            print(form.errors)
+     
+
+    return render(request, 'books/add-book.html', {'form': form, 'book': book})
+
+
+@login_required
 def all_books(request):
      user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
      
@@ -314,5 +314,43 @@ def add_review(request, slug):
             return redirect('book-detail', book.slug)
 
     return render(request, "books/add-comment.html", {'form':form, 'book':book})
+
+
+#MEETINGS   
+     
+@login_required
+def add_meeting(request, slug):
+    group = CustomGroup.objects.get(slug=slug)
+    books = Book.objects.filter(groups__id__contains = group.id)
+    form = AddMeetingForm()
+
+    if request.method == 'POST':
+        form = AddMeetingForm(request.POST)
+        meeting_at = request.POST.get('meeting_at')
+        if form.is_valid():
+            if "search-book" in request.POST:
+                meeting = form.save()
+                meeting.meeting_at = meeting_at
+                meeting.group = group
+                meeting.save()
+                return redirect('search-book-for-meeting', meeting.id)
+        else:
+            print(form.errors)
+
+    context = {'form': form,
+               'group': group,
+                'books':books, }
+    
+    return render(request, "books/meetings/add-meeting.html", context=context)
+
+
+
+
+
+def edit_meeting(request, uuid):
+    pass
+
+def delete_meeting(request, uuid):
+    pass
 
 

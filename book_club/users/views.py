@@ -159,6 +159,12 @@ def register_view(request):
             user.set_password(password)
             user.username = user.email
             user.save()
+            library = CustomGroup(kname=_('My Library'), leader=user, group_type='library')
+            library.save()
+            library.members.add(user)
+            library.save()
+            wishlist = CustomGroup(kname=_('My Wishlist'), leader=user, group_type='wishlist')
+            wishlist.save()
             new_user = authenticate(username=user.email, password=password)
             login(request, new_user)
             return redirect('verify-email')

@@ -44,7 +44,7 @@ def add_library_view(request):
     library_uuid=uuid.uuid4()
     name='My_Library_' + str(library_uuid)
     slug=slugify(name) 
-    library = CustomGroup.objects.create(uuid=library_uuid, name=name, slug=slug, kname=_('My Library'), leader=request.user, group_type='library')
+    library = CustomGroup(uuid=library_uuid, name=name, slug=slug, kname=_('My Library'), leader=request.user, group_type='library')
     library.members.add(request.user)
     library.save()
     

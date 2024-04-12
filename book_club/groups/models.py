@@ -46,6 +46,15 @@ class CustomGroup(Group):
 
     def get_absolute_url(self):
         return reverse('group-detail', args=[self.uuid])
+    
+    def save(self, *args, **kwargs):
+        super().save()
+        # create slug
+        if not self.name:
+            self.name = self.kname + '_' + str(self.id) 
+        if not self.slug:
+            self.slug = slugify(self.kname + '_' + str(self.uuid))
+        super(CustomGroup, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name

@@ -32,7 +32,6 @@ class Book(models.Model):
     isbn = models.CharField(max_length=30, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     pages = models.IntegerField(default = 0, blank=True, null=True)
-    reservations = models.ManyToManyField(User, related_name="reservations", blank=True)
     in_library = models.ManyToManyField(User, related_name="in_libraries", blank=True)
     in_wishlist = models.ManyToManyField(User, related_name="in_wishlist", blank=True)
     readers = models.ManyToManyField(User, related_name="readers", blank=True)
@@ -41,6 +40,7 @@ class Book(models.Model):
     wont_read = models.ManyToManyField(User, related_name="wont_read", blank=True)
     give_up = models.ManyToManyField(User, related_name="give_up", blank=True)
     cover=models.CharField(max_length=500, blank=True, null=True)
+    picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     groups = models.ManyToManyField(CustomGroup, related_name="books", blank=True)
@@ -77,10 +77,44 @@ class Book(models.Model):
 class CustomBook(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
     book=models.ForeignKey(Book, related_name="book_origin", on_delete=models.PROTECT)
+    admin = models.ForeignKey(User, related_name="admin", on_delete=models.CASCADE)
     owner = models.ForeignKey(User, related_name="owner", on_delete=models.CASCADE)
+    title = models.CharField(max_length=150, blank=True, null=True)
+    author = models.CharField(max_length=150, blank=True, null=True)
+    isbn = models.CharField(max_length=30, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    pages = models.IntegerField(blank=True, null=True)
+    reservations = models.ManyToManyField(User, related_name="reservations", blank=True)
+    cover=models.CharField(max_length=500, blank=True, null=True)
+    picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
 
     def __str__(self):
         return self.book.title
+    
+    def save(self, *args, **kwargs):
+        super().save()
+        if not self.title:
+            self.title = self.book.title
+        if not self.author:
+            self.author = self.book.author
+        if not self.isbn:
+            self.isbn = self.book.isbn
+        if not self.description:
+            self.description = self.book.description
+        if not self.pages:
+            self.pages = self.book.pages
+        if not self.cover:
+            self.cover = self.book.cover
+        if not self.picture:
+            self.picture = self.book.picture
+
+        # create slug
+        if not self.slug:
+            self.slug = slugify(self.title + '_' + self.admin + '_' + str(self.id))
+        super(Book, self).save(*args, **kwargs)
 
 class Comment(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)

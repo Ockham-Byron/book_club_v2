@@ -34,7 +34,7 @@ class AddBookForm(forms.ModelForm):
 
     class Meta:
         model=Book
-        fields=['title', 'cover','groups']
+        fields=['title', 'author', 'description', 'cover','groups']
     
     def __init__(self, user, *args, **kwargs):
         super(AddBookForm, self).__init__(*args, **kwargs)
