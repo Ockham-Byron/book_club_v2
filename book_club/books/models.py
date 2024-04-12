@@ -16,7 +16,7 @@ def path_and_rename(instance, filename):
     ext = filename.split('.')[-1]
     # get filename
     if instance.pk:
-        filename = '{}-{}.{}'.format(instance.username, instance.pk, ext)
+        filename = '{}-{}.{}'.format(instance.title, instance.pk, ext)
     else:
         # set filename as random string
         filename = '{}-{}.{}'.format(uuid4().hex, ext)
@@ -76,9 +76,10 @@ class Book(models.Model):
 
 class CustomBook(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
-    book=models.ForeignKey(Book, related_name="book_origin", on_delete=models.PROTECT)
-    admin = models.ForeignKey(User, related_name="admin", on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, related_name="owner", on_delete=models.CASCADE)
+    book=models.ForeignKey(Book, related_name="kbook", on_delete=models.PROTECT)
+    group = models.ForeignKey(CustomGroup, related_name="kbook_group", on_delete=models.CASCADE, blank=True, null=True)
+    admin = models.ForeignKey(User, related_name="admin", on_delete=models.CASCADE, blank=True, null=True)
+    owner = models.ForeignKey(User, related_name="owner", on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=150, blank=True, null=True)
     author = models.CharField(max_length=150, blank=True, null=True)
     isbn = models.CharField(max_length=30, blank=True, null=True)
@@ -92,7 +93,7 @@ class CustomBook(models.Model):
     slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
 
     def __str__(self):
-        return self.book.title
+        return self.title
     
     def save(self, *args, **kwargs):
         super().save()
@@ -113,8 +114,8 @@ class CustomBook(models.Model):
 
         # create slug
         if not self.slug:
-            self.slug = slugify(self.title + '_' + self.admin + '_' + str(self.id))
-        super(Book, self).save(*args, **kwargs)
+            self.slug = slugify('K_' + self.title + '_' + str(self.id))
+        super(CustomBook, self).save(*args, **kwargs)
 
 class Comment(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
@@ -125,7 +126,7 @@ class Comment(models.Model):
 
 class Meeting(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
-    book = models.ForeignKey(Book, related_name="meeting", on_delete=models.CASCADE, null=True, blank=True)
+    book = models.ForeignKey(CustomBook, related_name="meeting", on_delete=models.CASCADE, null=True, blank=True)
     group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE, null=True, blank=True)
     meeting_at = models.DateTimeField(auto_now_add=False, blank=True, null=True)
     attendees = models.ManyToManyField(User, related_name="attendees", blank=True)

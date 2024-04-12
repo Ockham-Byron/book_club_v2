@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from urllib.request import urlopen
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from .forms import BookSearch, AddMeetingForm, AddCommentForm, AddBookForm
+from .forms import BookSearch, AddMeetingForm, AddCommentForm, AddCustomBookForm
 from groups.models import CustomGroup
 from .models import Book, Meeting, CustomBook, Comment
 
@@ -93,11 +93,6 @@ def add_book(request, id):
     book_in_db = None
     kgroups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     
-    
-    
-    
-    
-
     book=book_save(id)
    
     
@@ -113,7 +108,6 @@ def add_book(request, id):
 
 
     if request.method=='POST':
-        print("POST request")
         groups = request.POST.getlist('group')
         if book_in_db:
             new_kbook = CustomBook(book=book_in_db)
@@ -127,12 +121,18 @@ def add_book(request, id):
             
 
         else:
-            new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'))
-            new_kbook = CustomBook(book=book_in_db)
+            new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
+            new_book_in_db.save()
+            new_kbook = CustomBook(book=new_book_in_db)
             for group in groups:
                 new_book_in_db.groups.add(group)
+                group = CustomGroup(uuid=group)
                 if group.group_type == 'library':
                     new_kbook.owner = request.user
+                    new_kbook.admin = request.user
+                    new_kbook.save()
+                else:
+                    new_kbook.admin = request.user
                     new_kbook.save()
             new_book_in_db.save()
             return redirect('dashboard')
@@ -172,6 +172,7 @@ def search_book_for_meeting(request, id):
 def add_new_book_to_meeting(request,id, isbn):
     meeting = Meeting.objects.get(id=id)
     group = meeting.group
+    book_in_db = None
     book=book_save(isbn)
     
     context = {
@@ -179,11 +180,26 @@ def add_new_book_to_meeting(request,id, isbn):
         'book':book,
     }
 
+    if Book.objects.filter(isbn=isbn).exists():
+        book_in_db = Book.objects.get(isbn=isbn)
+
     if request.method=='POST':
-        new_book = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'))
-        new_book.groups.add(group)
-        new_book.save()
-        meeting.book = new_book
+        if book_in_db:
+            book_in_db.groups.add(group)
+            book_in_db.save()
+            new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)
+            new_kbook.save()
+            meeting.book=new_kbook
+           
+
+        else:
+            
+            new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
+            new_book_in_db.groups.add(group)
+            new_book_in_db.save()
+            new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)
+            new_kbook.save()
+            meeting.book = new_kbook
         meeting.save()
         return redirect('group-detail', group.slug)
     
@@ -195,7 +211,8 @@ def book_detail(request, slug):
     groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     groups = groups.exclude(group_type="library")
     groups = groups.exclude(group_type="wishlist")
-    book = get_object_or_404(Book, slug=slug)
+    kbook = get_object_or_404(CustomBook, slug=slug)
+    book = kbook.book
     is_read = False
     is_reading = False
     in_wish = False
@@ -229,12 +246,12 @@ def book_detail(request, slug):
     for group in groups:
         author_filter |= Q(author__group_members = group)
 
-    group_reviews = all_reviews.filter(author_filter)
+    group_reviews = all_reviews.filter(author_filter).distinct()
     print(group_reviews)
     
 
     context = {
-        'book': book,
+        'book': kbook,
         'is_read': is_read,
         'is_reading': is_reading,
         'in_wish': in_wish,
@@ -251,24 +268,17 @@ def book_detail(request, slug):
 
 @login_required
 def edit_book(request, slug):
-    book = get_object_or_404(Book, slug=slug)
-    form = AddBookForm(request.user, instance = book)
+    book = get_object_or_404(CustomBook, slug=slug)
+    form = AddCustomBookForm(request.user, instance = book)
     
 
     if request.method == 'POST':
-        form = AddBookForm(request.user, request.POST, request.FILES, instance=book)
+        form = AddCustomBookForm(request.user, request.POST, request.FILES, instance=book)
         if form.is_valid():
-                cover = request.FILES.get('cover')
-                groups= request.POST.getlist('groups')
-                book.cover = cover
-                
+                picture = request.FILES.get('picture')
+                book.picture = picture
                 book.save()
-                if groups:
-                    for i in groups:
-                        group = CustomGroup.objects.get(uuid=i)
-                        if group not in book.groups.all():
-                            book.groups.add(group)
-                    book.save()
+                
                     
 
                
@@ -279,7 +289,7 @@ def edit_book(request, slug):
             print(form.errors)
      
 
-    return render(request, 'books/add-book.html', {'form': form, 'book': book})
+    return render(request, 'books/add-edit-book.html', {'form': form, 'book': book})
 
 
 @login_required
@@ -287,10 +297,17 @@ def all_books(request):
      user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
      
      books = Book.objects.filter(groups__in=user_groups).distinct()
+     kbooks = CustomBook.objects.filter(book__in = books)
+
+
+
+     
      print(books)
+     print(kbooks)
 
      context = {
          'books': books,
+         'kbooks': kbooks,
      }
      return render(request, 'books/all-books.html', context)
 
@@ -299,7 +316,8 @@ def all_books(request):
 
 @login_required
 def add_review(request, slug):
-    book=get_object_or_404(Book, slug=slug)
+    kbook=get_object_or_404(CustomBook, slug=slug)
+    book = kbook.book
     form=AddCommentForm()
 
     if request.method=='POST':
@@ -311,7 +329,7 @@ def add_review(request, slug):
             comment.save()
             book.readers.add(request.user)
             book.save()
-            return redirect('book-detail', book.slug)
+            return redirect('book-detail', kbook.slug)
 
     return render(request, "books/add-comment.html", {'form':form, 'book':book})
 
@@ -328,12 +346,26 @@ def add_meeting(request, slug):
         form = AddMeetingForm(request.POST)
         meeting_at = request.POST.get('meeting_at')
         if form.is_valid():
+            print("form validation successful")
             if "search-book" in request.POST:
                 meeting = form.save()
-                meeting.meeting_at = meeting_at
+                if meeting_at:
+                    meeting.meeting_at = meeting_at
+                else:
+                    meeting.meeting_at = meeting.meeting_at
                 meeting.group = group
                 meeting.save()
                 return redirect('search-book-for-meeting', meeting.id)
+            elif "add-meeting" in request.POST:
+                print("add meeting")
+                meeting = form.save()
+                if meeting_at:
+                    meeting.meeting_at = meeting_at
+                else:
+                    meeting.meeting_at = None
+                meeting.group = group
+                meeting.save()
+                return redirect('group-detail', group.slug)
         else:
             print(form.errors)
 
@@ -347,10 +379,47 @@ def add_meeting(request, slug):
 
 
 
-def edit_meeting(request, uuid):
-    pass
+def edit_meeting(request, id):
+    meeting = get_object_or_404(Meeting, id=id)
+    book = meeting.book
+    group = meeting.group
+    form = AddMeetingForm(instance=meeting)
+    
 
-def delete_meeting(request, uuid):
+    if request.method == 'POST':
+        form = AddMeetingForm(request.POST, instance=meeting)
+        meeting_at = request.POST.get('meeting_at')
+        if form.is_valid():
+            if "search-book" in request.POST:
+                meeting = form.save()
+                if meeting_at:
+                    meeting.meeting_at = meeting_at
+                else:
+                    meeting.meeting_at = meeting.meeting_at
+                meeting.save()
+                return redirect('search-book-for-meeting', meeting.id)
+            elif "add-meeting" in request.POST:
+                print("add meeting")
+                meeting = form.save()
+                if meeting_at:
+                    meeting.meeting_at = meeting_at
+                else:
+                    meeting.meeting_at = meeting.meeting_at
+                meeting.group = group
+                meeting.save()
+                return redirect('group-detail', group.slug)
+            
+        else:
+            print(form.errors)
+
+    context = {'form': form,
+               'meeting': meeting,
+                'book':book, 
+                'group':group}
+    
+    return render(request, "books/meetings/add-meeting.html", context=context)
+
+def delete_meeting(request, id):
     pass
 
 

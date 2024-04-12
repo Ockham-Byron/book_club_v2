@@ -5,10 +5,10 @@
 
 
 
-{% if books %}
+{% if kbooks %}
     
 <div class="d-flex flex-column align-items-center mt-3">
-        {% for book in books %}
+        {% for book in kbooks %}
             <a href="{% url 'book-detail' book.slug %}" class="book-card-link">
             <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
                 <div>
@@ -20,6 +20,7 @@
                 <div>
                     <p class="title">{{ book.title }}</p>
                     <p class="author">{{ book.author }}</p>
+                    
                 </div>
             </div>
             </a>

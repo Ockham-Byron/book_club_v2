@@ -3,27 +3,28 @@ Général:
   ☐ ajouter pwa
   ☐ ajouter page qui explique comment télécharger
 
-
 Groups:
-  ☐ creer libarry et wishlist à la creation
+  ✔ add kbook to meeting @done(24-04-12 12:05)
+  ✔ creer libarry et wishlist à la creation @done(24-04-12 10:53)
 
 Book:
-  ✔ Définir les états: lu, en cours de lecture, envie de lire @done(24-04-11 12:17)
-  ☐ all books
   ☐ add a book from group
+  ✔ edit:change cover @done(24-04-12 12:06)
+
   ☐ ajouter une couverture dans les resultats de recherche
-  ☐ edit
   ☐ delete
-  ☐ button float
   ☐ afficher qui a lu
   ☐ if error quand google api, proposer custom add
 
+Meeting:
+  ☐ edit
+  ☐ delete
+  ☐ meeting sans livre
+
   Comment:
-    ✔ add @done(24-04-11 12:17)
     ☐ edit
     ☐ delete
     ☐ if commented, edit
-    ✔ show @done(24-04-11 12:16)
     ☐ faire une page avec tous les commentaires 
 
 Profile:
@@ -35,6 +36,13 @@ Future features:
   ☐ page de statistiques
 
 Archive:
+  ✔ Définir les états: lu, en cours de lecture, envie de lire @done(24-04-11 12:17) @project(Book)
+  ✔ all books @done(24-04-12 10:09) @project(Book)
+  ✔ montrer kbook_detail @done(24-04-12 10:09) @project(Book)
+  ✔ edit @done(24-04-12 10:09) @project(Book)
+  ✔ button float @done(24-04-12 10:09) @project(Book)
+  ✔ add @done(24-04-11 12:17) @project(Book.Comment)
+  ✔ show @done(24-04-11 12:16) @project(Book.Comment)
   ✔ texte @done(24-04-10 11:19) @project(Home page)
   ✔ image @done(24-04-10 11:19) @project(Home page)
   ✔ Créer deux groupes par user : bibliothèque et liste de souhaits : à partir du menu @done(24-04-10 11:19) @project(Groups)

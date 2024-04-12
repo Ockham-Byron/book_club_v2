@@ -30,8 +30,7 @@ def add_group_view(request):
             group.group_type = group_type
             group.members.add(user)
             group.save()
-            group_name = group.name
-            messages.add_message(request, messages.SUCCESS ,message= _(f'New group {group_name} created successfully'), extra_tags=_('Great !'))
+            messages.add_message(request, messages.SUCCESS ,message= _(f'New group {group.kname} created successfully'), extra_tags=_('Great !'))
             return redirect('all-groups')
 
     return render(request, 'groups/add_group.html', {'form': form,})
@@ -125,13 +124,16 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         group = self.object
         next_meeting = group.meeting_set.filter(meeting_at__gte=datetime.now()).first()
-        next_book = next_meeting.book
-        nb_of_readers = next_book.readers.filter(group_members = group).count()
+        nb_of_readers = 0
+        if next_meeting:
+            next_book = next_meeting.book
+            if next_book:
+                nb_of_readers = next_book.book.readers.filter(group_members = group).count()
         context = super().get_context_data(**kwargs)
         context['members'] = group.members.all()
         context['nb_of_users'] = group.members.all().count()
-        context['nb_of_books'] = group.books.all().count() 
-        context['books'] = group.books.all()
+        context['nb_of_books'] = group.kbook_group.all().count() 
+        context['books'] = group.kbook_group.all()
         context['next_meeting'] = next_meeting
         context['nb_of_readers'] = nb_of_readers
 

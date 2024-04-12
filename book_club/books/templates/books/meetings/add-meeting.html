@@ -24,12 +24,14 @@
             <p class="mb-2 mid-color">{% trans "Which book will you read ?" %}</p>
 
             <div class="d-flex justify-content-between">
+            {% if book %}
+            <p>{{book.title}}</p>
+            <button class="btn btn-mid-color w-75 me-1" type="submit" name="search-book"><small>{% trans 'Change  Book' %}</small></button>
+            {% else %}
             
-            {% if books %}
-            <button class="btn  btn-darkest-color w-75 ms-1 " type="submit" name="add-existing-dish"><small>{% trans 'Add already saved book' %}</small></button>
            
-            {% endif %}
             <button class="btn btn-mid-color w-75 me-1" type="submit" name="search-book"><small>{% trans 'Add New Book' %}</small></button>
+            {% endif %}
             </div>
         
         {% endif %}
@@ -41,7 +43,7 @@
             
         
         
-        <button class="submit mt-4" type="submit" name="create-meal">{% trans 'Submit' %}</button>
+        <button class="submit mt-4" type="submit" name="add-meeting">{% trans 'Submit' %}</button>
         <div class="text-center d-flex flex-column">
             <a href="{% url 'group-detail' group.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
             

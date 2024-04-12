@@ -349,19 +349,20 @@ input.input-date {
 /* Img checkbox */
 
 .choice-container {
-  height: 150px;
+  height: 180px;
   width: 150px;
   background-color: #ffffff;
   margin-bottom: 20px;
   box-shadow: 0 0 25px rgba(17, 1, 68, 0.08);
   border-radius: 8px;
   position: relative;
-  cursor: pointer;
+  
 }
 
 .choice-container p {
   font-size:0.8rem;
-  padding-top:5x;
+  margin-bottom:0px;
+  min-height:50px;
 }
 
 .fullscreen-form input[type="checkbox"]  {
@@ -390,8 +391,8 @@ input.input-date {
   margin: auto;
   left: 0;
   right: 0;
-  top: 0;
-  bottom: 0;
+  
+  bottom: 10px;
   cursor: pointer;
 }
 
@@ -408,6 +409,8 @@ input.input-date {
 
   .choice-container p {
     font-size: 1rem;
+    min-height: 60px;
+    margin-bottom: 0;
   }
 
   .fullscreen-form input[type="checkbox"], .modal-form input[type="checkbox"] {
@@ -426,6 +429,11 @@ input.input-date {
 .user-choice-container input[type="checkbox"]{
   -webkit-appearance: none !important;
   border:none !important;
+  cursor:pointer !important;
+}
+
+input[type="checkbox"]+label {
+  cursor: pointer;
 }
 
 .user-choice-container input[type="checkbox"]:after, .modal-form input[type="checkbox"]:after {
@@ -437,7 +445,7 @@ input.input-date {
   color: var(--brand-color);
   right: 10px;
   top: 2px;
-cursor:pointer !important;
+  cursor:pointer !important;
 }
 
 .user-choice-container input[type="checkbox"]:checked:after, .modal-form input[type="checkbox"]:checked:after {

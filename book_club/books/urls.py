@@ -13,6 +13,7 @@ urlpatterns = [
   path('add-meeting/<slug>', add_meeting, name="add-meeting"),
   path('search-book-for-meeting/<id>', search_book_for_meeting, name="search-book-for-meeting"),
   path('add-new-book-to-meeting/<id>/<str:isbn>', add_new_book_to_meeting, name="add-new-book-to-meeting"),
+  path('edit-meeting/<id>', edit_meeting, name="edit-meeting"),
 
   #book
   path('book-detail/<slug:slug>', book_detail, name="book-detail"),

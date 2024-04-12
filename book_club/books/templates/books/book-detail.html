@@ -10,14 +10,22 @@
   <!-- Cover + basic infos -->
   <div class="book-infos d-flex">
     <div class="pe-1">
+      {% if book.picture %}
+      <img class="mx-auto" src="{{book.picture.url}}" alt="{{book.title}}" />
+      {% elif book.cover %}
       <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+      {% else %}
+
+      {% endif %}
     </div>
 
     <div class="ps-1 text-center">
       <p class="lightest-color">{% trans 'By' %} {{book.author}}</p>
-      {% if book.averagereview %}
-      <p class="mt-4 mb-0">{% trans 'Average rating' %}</p>
-      {{book.averagereview}}
+      <p class=" mt-4 book-data-dat mb-0 text-center">{{book.pages }} {% trans 'pages' %}</p>
+      {% if book.book.averagereview %}
+      
+      <p class="mt-2 mb-0">{% trans 'Average rating' %}</p>
+      {{book.book.averagereview}}
       {% endif %}
       <!-- Reading status -->
       <p class="mt-4 reading-status mx-auto
@@ -42,6 +50,8 @@
   </div>
   <!-- Cover + basic infos End-->
 
+  
+    
   <!-- Book description -->
   <div class="mt-5 book-description">
     {% if book.description %}

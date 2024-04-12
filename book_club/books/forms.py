@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
-from .models import Meeting, Comment, Book
+from .models import Meeting, Comment, CustomBook
 from groups.models import CustomGroup
 
 
@@ -27,16 +27,16 @@ class AddCommentForm(forms.ModelForm):
         model=Comment
         fields=['message', 'rating']
 
-class AddBookForm(forms.ModelForm):
-    cover=forms.ImageField(widget=forms.FileInput, required=False)
+class AddCustomBookForm(forms.ModelForm):
+    picture=forms.ImageField(widget=forms.FileInput, required=False)
     
     
 
     class Meta:
-        model=Book
-        fields=['title', 'author', 'description', 'cover','groups']
+        model=CustomBook
+        fields=['title', 'author','pages', 'description', 'picture']
     
     def __init__(self, user, *args, **kwargs):
-        super(AddBookForm, self).__init__(*args, **kwargs)
+        super(AddCustomBookForm, self).__init__(*args, **kwargs)
         
        

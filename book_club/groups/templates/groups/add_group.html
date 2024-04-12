@@ -24,13 +24,13 @@
       {{form.kname}}
     
       {{form.description}}
-
-      <div class="d-flex">
+      <p class="mid-color">{% trans 'Type of Group' %}</p>
+      <div class="d-flex justify-content-around">
         <div class="choice-container">
           <p class="text-center pt-sm-2">{% trans 'Everyone read the same book' %}</p>
           <input id="one_book" class="mt-2" type="checkbox" value="one_book" name="type" />
           <label>
-              <img src="{% static 'assets/img/illustrations/dish_default.jpeg' %}" alt="Dish picture"  >
+              <img src="{% static 'assets/img/illustrations/one-book.jpeg' %}" alt="One_book_illustration"  >
           </label>
         </div>
 
@@ -38,7 +38,7 @@
           <p class="text-center pt-sm-2">{% trans 'Book exchanges' %}</p>
           <input id="several_books" class="mt-2" type="checkbox" value="several_books" name="type" />
           <label>
-              <img src="{% static 'assets/img/illustrations/dish_default.jpeg' %}" alt="Dish picture"  >
+              <img src="{% static 'assets/img/illustrations/several-books.jpeg' %}" alt="Dish picture"  >
           </label>
         </div>
       </div>

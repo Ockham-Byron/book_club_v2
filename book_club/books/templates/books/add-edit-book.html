@@ -26,12 +26,12 @@
       name="picture"
       style="display:none" 
       />
-      <div class="avatar-wrapper text-center mx-auto">
+      <div class="text-center mx-auto">
       
         <a href="#" id="fileSelect" class="avatar-upload">
           
-          <img id="add-image" class="avatar-upload d-none" src="{% static 'assets/img/illustrations/in_thought.svg' %}" style="cursor: pointer;"/>
-          <div class="avatar-overlay"><i class="fa fa-camera-retro icon"></i></div>
+          <img id="add-image" class="" src="{{book.cover}}" style="cursor: pointer;"/>
+          
         </a>
       
       
@@ -43,24 +43,18 @@
         {{form.title}}
         <p class="mb-0 mid-color">{% trans "Author" %}</p>
         {{form.author}}
+        <p class="mb-0 mid-color">{% trans "Pages" %}</p>
+        {{form.pages}}
        <p class="mb-0 mid-color">{% trans "Description" %}</p>
        {{form.description}}
 
         
 
     
-        <p class="mb-0 mid-color">{% trans "When did you share this beautiful meal ?" %}</p>
-        {{form.eaten_at}}
+      
 
        
 
-        <p class="mb-2 mid-color">{% trans "Which dishes did you eat ?" %}</p>
-         <div class="d-flex justify-content-between">
-         <button class="btn  btn-mid-color w-75 me-1" type="submit" name="add-dish"><small>{% trans 'Add New Dish' %}</small></button>
-         {% if is_dish %}
-         <button class="btn   btn-darkest-color w-75 ms-1 " type="submit" name="add-existing-dish"><small>{% trans 'Add Existing Dish' %}</small></button>
-         {% endif %}
-        </div>
 
       
        
@@ -143,9 +137,9 @@ function handleFiles() {
       const img = document.getElementById("change-image");
       if (img) {
       img.src = URL.createObjectURL(this.files[i]);
-      img.height = 100;
+      img.height = 150;
       img.width = 100;
-      img.className = "mx-auto avatar-upload rounded-circle";
+      img.className = "mx-auto";
       img.onload = () => {
         URL.revokeObjectURL(img.src);
       };
@@ -156,9 +150,9 @@ function handleFiles() {
       const avatar = document.getElementsByClassName("avatar")[1];
       if (newImg) {
       newImg.src = URL.createObjectURL(this.files[i]);
-      newImg.height = 100;
+      newImg.height = 150;
       newImg.width = 100;
-      newImg.className = "mx-auto avatar-upload rounded-circle";
+      newImg.className = "mx-auto";
       newImg.classList.remove("d-none");
       avatar.classList.add("d-none");
       
