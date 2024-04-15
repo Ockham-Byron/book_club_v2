@@ -28,24 +28,26 @@
       {{book.book.averagereview}}
       {% endif %}
       <!-- Reading status -->
-      <p class="mt-4 reading-status mx-auto
+      <div class="mt-3">
+      <a href="{% url "edit-reading-status" book.book.slug book.id %}" class="mt-4 reading-status mx-auto
         {% if is_read %}
-          bg-joy-color">{% trans "Read" %}</p>
+          darkest-color bg-joy-color">{% trans "Read" %}
         {% elif is_reading %}
-          bg-brand-color">{% trans "Reading Now" %}
+          light-color bg-brand-color">{% trans "Reading Now" %}
         {% elif in_wish %}
-          bg-dark-color">{% trans "Want to read" %}
+          darkest-color bg-dark-color">{% trans "Want to read" %}
         {% elif no_read %}
-          bg-darkest-color">{% trans "Not read" %}
+          light-color bg-darkest-color">{% trans "Not read" %}
         {% elif wont_read %}
-          bg-mid-color">{% trans "Dont'want to read" %}
+          darkest-color bg-mid-color">{% trans "Dont'want to read" %}
         {% elif give_up %}
-          bg-light-color">{% trans "Given up" %}
+          darkest-color bg-light-color">{% trans "Given up" %}
         {% else %}
-          bg-light-color">{% trans "Add Reading Status" %}
+          darkest-color bg-light-color">{% trans "Add Reading Status" %}
         {% endif %}
 
-      </p>
+      </a>
+      </div>
     </div>
   </div>
   <!-- Cover + basic infos End-->
@@ -94,10 +96,10 @@
         <div class="expansion-content">
           <div class="icon fas fa-pen"></div>
           <div class="text">Edit</div>
-        </div></a><a class="expansion-item" href="https://abhinash.net">
+        </div></a><a class="expansion-item" href="{% url 'delete-book' book.slug%}">
         <div class="expansion-content">
           <div class="icon fas fa-trash"></div>
-          <div class="text">Delete</div>
+          <div class="text">{% trans 'Delete' %}</div>
         </div></a>
     </div>
 </div>

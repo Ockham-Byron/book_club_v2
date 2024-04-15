@@ -8,6 +8,8 @@ urlpatterns = [
   path('search', new_book_search, name="new-book-search"),
   path('all-books', all_books, name="all-books"),
   path('edit-book/<slug:slug>', edit_book, name="edit-book"),
+  path('delete-book/<slug:slug>', delete_book, name="delete-book"),
+  path('edit-reading-status/<slug:slug>/<id>', edit_reading_status, name="edit-reading-status"),
 
   #meetings
   path('add-meeting/<slug>', add_meeting, name="add-meeting"),

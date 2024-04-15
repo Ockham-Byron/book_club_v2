@@ -15,6 +15,9 @@ Book:
   ☐ delete
   ☐ afficher qui a lu
   ☐ if error quand google api, proposer custom add
+  ☐ empêcher les doublons de livre dans le même groupe
+  ☐ all books : eviter les doublons
+
 
 Meeting:
   ☐ edit

@@ -1,12 +1,13 @@
 import json
 import environ
 import ssl
+import os
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 from urllib.request import urlopen
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import render, redirect
 from .forms import BookSearch, AddMeetingForm, AddCommentForm, AddCustomBookForm
 from groups.models import CustomGroup
@@ -267,6 +268,135 @@ def book_detail(request, slug):
     return render(request, 'books/book-detail.html', context)
 
 @login_required
+def edit_reading_status(request, slug, id):
+    book = get_object_or_404(Book, slug=slug)
+    user = request.user
+    kbook = get_object_or_404(CustomBook, id=id)
+
+    is_read = False
+    is_reading = False
+    in_wish = False
+    no_read = False
+    wont_read = False
+    give_up = False
+    
+
+    if user in book.readers.all():
+        is_read = True
+    elif user in book.readings.all():
+        is_reading = True
+    elif user in book.in_wishlist.all():
+        in_wish = True
+    elif user in book.no_read.all():
+        no_read = True
+    elif user in book.wont_read.all():
+        wont_read = True
+    elif user in book.give_up.all():
+        give_up = True
+
+    context = {
+        'book': book,
+        'kbook': kbook,
+        'is_read': is_read,
+        'is_reading': is_reading,
+        'in_wish': in_wish,
+        'no_read':no_read,
+        'wont_read':wont_read,
+        'give_up':give_up,
+    }
+
+    if request.method=="POST":
+        reading_status = request.POST.get('reading-status')
+        print(reading_status)
+        if reading_status == "is_read":
+            if is_read == False:
+                book.readers.add(user)
+                if is_reading:
+                    book.readings.remove(user)
+                elif in_wish:
+                    book.in_wishlist.remove(user)
+                elif no_read:
+                    book.no_read.remove(user)
+                elif wont_read:
+                    book.wont_read.remove(user)
+                elif give_up:
+                    book.give_up.remove(user)
+
+        if reading_status == "in_wish":
+            if in_wish == False:
+                book.in_wishlist.add(user)
+                if is_reading:
+                    book.readings.remove(user)
+                elif is_read:
+                    book.readers.remove(user)
+                elif no_read:
+                    book.no_read.remove(user)
+                elif wont_read:
+                    book.wont_read.remove(user)
+                elif give_up:
+                    book.give_up.remove(user)
+
+        if reading_status == "is_reading":
+            if is_reading == False:
+                book.readings.add(user)
+                if in_wish:
+                    book.in_wishlist.remove(user)
+                elif is_read:
+                    book.readers.remove(user)
+                elif no_read:
+                    book.no_read.remove(user)
+                elif wont_read:
+                    book.wont_read.remove(user)
+                elif give_up:
+                    book.give_up.remove(user)
+
+        if reading_status == "no_read":
+            if no_read == False:
+                book.no_read.add(user)
+                if in_wish:
+                    book.in_wishlist.remove(user)
+                elif is_read:
+                    book.readers.remove(user)
+                elif is_reading:
+                    book.readings.remove(user)
+                elif wont_read:
+                    book.wont_read.remove(user)
+                elif give_up:
+                    book.give_up.remove(user)
+
+        if reading_status == "wont_read":
+            if wont_read == False:
+                book.wont_read.add(user)
+                if in_wish:
+                    book.in_wishlist.remove(user)
+                elif is_read:
+                    book.readers.remove(user)
+                elif is_reading:
+                    book.readings.remove(user)
+                elif no_read:
+                    book.no_read.remove(user)
+                elif give_up:
+                    book.give_up.remove(user)
+
+        if reading_status == "give_up":
+            if give_up == False:
+                book.give_up.add(user)
+                if in_wish:
+                    book.in_wishlist.remove(user)
+                elif is_read:
+                    book.readers.remove(user)
+                elif is_reading:
+                    book.readings.remove(user)
+                elif no_read:
+                    book.no_read.remove(user)
+                elif wont_read:
+                    book.wont_read.remove(user)
+
+        return redirect('book-detail', kbook.slug)
+
+    return render(request, 'books/edit-reading-status.html', context)
+
+@login_required
 def edit_book(request, slug):
     book = get_object_or_404(CustomBook, slug=slug)
     form = AddCustomBookForm(request.user, instance = book)
@@ -297,13 +427,34 @@ def all_books(request):
      user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
      
      books = Book.objects.filter(groups__in=user_groups).distinct()
-     kbooks = CustomBook.objects.filter(book__in = books)
+     kbooks= CustomBook.objects.filter(book__in=books)
 
+     unique_kbooks = set(kbook.isbn for kbook in kbooks) 
+     print(unique_kbooks)
 
+     #gérer les doublons
+     list_isbn=[kbook.isbn for kbook in kbooks]
+     isbn_counts = {}
+     for isbn in list_isbn:
+        if isbn in isbn_counts:
+            isbn_counts[isbn] += 1
+        else:
+            isbn_counts[isbn] = 1
+    
+     duplicate_isbns = [isbn for isbn, count in isbn_counts.items() if count > 1]
 
-     
-     print(books)
-     print(kbooks)
+     duplicate_kbooks = kbooks.filter(isbn__in=duplicate_isbns)
+
+     if duplicate_kbooks.filter(owner = request.user).exists():
+        for kbook in duplicate_kbooks:
+            if kbook.owner != request.user:
+                kbooks = kbooks.exclude(id=kbook.id)
+        
+     elif duplicate_kbooks.filter(admin = request.user).exists():
+         for kbook in duplicate_kbooks:
+            if kbook.admin != request.user:
+                kbooks = kbooks.exclude(id=kbook.id)
+    
 
      context = {
          'books': books,
@@ -311,7 +462,14 @@ def all_books(request):
      }
      return render(request, 'books/all-books.html', context)
 
-
+@login_required
+def delete_book(request, slug):
+    kbook = CustomBook.objects.get(slug=slug)
+    if kbook.picture:
+        os.remove(kbook.picture.path)
+        kbook.picture.delete()
+    kbook.delete()
+    return redirect('all-books')
 #REVIEWS
 
 @login_required
