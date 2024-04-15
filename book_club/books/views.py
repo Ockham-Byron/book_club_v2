@@ -3,6 +3,7 @@ import environ
 import ssl
 import os
 from django.utils import timezone
+from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
@@ -111,12 +112,18 @@ def add_book(request, id):
     if request.method=='POST':
         groups = request.POST.getlist('group')
         if book_in_db:
-            new_kbook = CustomBook(book=book_in_db)
             for i in groups:
                 group = CustomGroup.objects.get(uuid=i)
                 book_in_db.groups.add(group)
+                new_kbook = CustomBook(book=book_in_db, group=group)
                 if group.group_type == 'library':
                     new_kbook.owner = request.user
+                    new_kbook.save()
+                elif group.group_type == 'several_books':
+                    new_kbook.owner = request.user
+                    new_kbook.save()
+                else:
+                    new_kbook.admin = request.user
                     new_kbook.save()
             book_in_db.save()
             
@@ -124,11 +131,12 @@ def add_book(request, id):
         else:
             new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
             new_book_in_db.save()
-            new_kbook = CustomBook(book=new_book_in_db)
+            
             for group in groups:
                 new_book_in_db.groups.add(group)
                 group = CustomGroup(uuid=group)
-                if group.group_type == 'library':
+                new_kbook = CustomBook(book=new_book_in_db, group=group)
+                if group.group_type == 'library' or group.group_type == 'several_books':
                     new_kbook.owner = request.user
                     new_kbook.admin = request.user
                     new_kbook.save()
@@ -170,6 +178,46 @@ def search_book_for_meeting(request, id):
             return render(request, 'books/search.html', {'form': form, 'books': books, 'meeting':meeting})
         
 @login_required
+def add_new_book_to_group(request,slug, isbn):
+    group = CustomGroup.objects.get(slug=slug)
+    book_in_db = None
+    book_in_group = False
+    book=book_save(isbn)
+    
+    context = {
+        'group': group,
+        'book':book,
+    }
+
+    if Book.objects.filter(isbn=isbn).exists():
+        book_in_db = Book.objects.get(isbn=isbn)
+        if book_in_db in group.books:
+            book_in_group = True
+
+    if request.method=='POST':
+        if book_in_db:
+            if book_in_group:
+                messages.warning(request, _(f'Book already in group'))
+            else:
+                book_in_db.groups.add(group)
+                book_in_db.save()
+                new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)
+                new_kbook.save()
+           
+        else:
+            new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
+            new_book_in_db.save()
+            new_book_in_db.groups.add(group)
+            new_book_in_db.save()
+            new_kbook = CustomBook(book=new_book_in_db, group=group, admin=request.user)
+            new_kbook.save()
+            
+        
+        return redirect('group-detail', group.slug)
+    
+    return render(request, 'books/book-search-detail.html', context)
+
+@login_required
 def add_new_book_to_meeting(request,id, isbn):
     meeting = Meeting.objects.get(id=id)
     group = meeting.group
@@ -196,16 +244,16 @@ def add_new_book_to_meeting(request,id, isbn):
         else:
             
             new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
+            new_book_in_db.save()
             new_book_in_db.groups.add(group)
             new_book_in_db.save()
-            new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)
+            new_kbook = CustomBook(book=new_book_in_db, group=group, admin=request.user)
             new_kbook.save()
             meeting.book = new_kbook
         meeting.save()
         return redirect('group-detail', group.slug)
     
     return render(request, 'books/book-search-detail.html', context)
-
 @login_required
 def book_detail(request, slug):
     user = request.user

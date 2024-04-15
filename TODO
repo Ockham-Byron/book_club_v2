@@ -6,17 +6,20 @@ Général:
 Groups:
   ✔ add kbook to meeting @done(24-04-12 12:05)
   ✔ creer libarry et wishlist à la creation @done(24-04-12 10:53)
+  ☐ librarie et wishlist : verifier selection livres
+  ☐ librairie et wishlist : lien vers book-detail
 
 Book:
   ☐ add a book from group
   ✔ edit:change cover @done(24-04-12 12:06)
-
+  ☐ alerte recherche sans accent
   ☐ ajouter une couverture dans les resultats de recherche
   ☐ delete
   ☐ afficher qui a lu
   ☐ if error quand google api, proposer custom add
   ☐ empêcher les doublons de livre dans le même groupe
   ☐ all books : eviter les doublons
+  ☐ if book in library, not in wishlist
 
 
 Meeting:

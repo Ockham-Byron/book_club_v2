@@ -151,11 +151,8 @@ class LibraryView(LoginRequiredMixin, DetailView):
         group = self.object
         
         context = super().get_context_data(**kwargs)
-        context['members'] = group.members.all()
-        context['nb_of_users'] = group.members.all().filter(is_guest=False).count()
-        context['nb_of_books'] = group.books.all().count() 
-        context['books'] = group.books.all()
-        context['next_meeting'] = group.meeting_set.filter(meeting_at__gte=datetime.now()).first()
+        context['nb_of_books'] = group.kbook_group.all().count() 
+        context['books'] = group.kbook_group.all()
 
         return context
     
@@ -172,11 +169,10 @@ class WishlistView(LoginRequiredMixin, DetailView):
         group = self.object
         
         context = super().get_context_data(**kwargs)
-        context['members'] = group.members.all()
-        context['nb_of_users'] = group.members.all().filter(is_guest=False).count()
-        context['nb_of_books'] = group.books.all().count() 
-        context['books'] = group.books.all()
-        context['next_meeting'] = group.meeting_set.filter(meeting_at__gte=datetime.now()).first()
+        
+        context['nb_of_books'] = group.kbook_group.all().count() 
+        context['books'] = group.kbook_group.all()
+        
 
         return context
     

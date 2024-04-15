@@ -19,6 +19,7 @@ urlpatterns = [
 
   #book
   path('book-detail/<slug:slug>', book_detail, name="book-detail"),
+  path('add-new-book-to-group/<slug:slug>', add_new_book_to_group, name="add-new-book-to-group"),
 
   #comments
   path('add-review/<slug:slug>', add_review, name="add-review"),

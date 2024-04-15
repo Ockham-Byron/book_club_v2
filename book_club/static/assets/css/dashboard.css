@@ -742,6 +742,9 @@ a.card-recipe-btn-small {
   margin-bottom: 0;
   color:black !important;
 }
+.book-mini-card img {
+  height: 215px;
+}
 
 .book-data-box {
   border-top:1px;
