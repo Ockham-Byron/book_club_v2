@@ -29,12 +29,15 @@ class AddCommentForm(forms.ModelForm):
 
 class AddCustomBookForm(forms.ModelForm):
     picture=forms.ImageField(widget=forms.FileInput, required=False)
+    title=forms.CharField(widget=forms.TextInput, required=True)
+    author=forms.CharField(widget=forms.TextInput, required=True)
+    
     
     
 
     class Meta:
         model=CustomBook
-        fields=['title', 'author','pages', 'description', 'picture']
+        fields=['title', 'author','pages', 'description', 'picture', 'isbn']
     
     def __init__(self, user, *args, **kwargs):
         super(AddCustomBookForm, self).__init__(*args, **kwargs)

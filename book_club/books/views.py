@@ -57,7 +57,7 @@ def book_search(search):
 
     return books
 
-def book_save(id):
+def book_save(request, id):
     api = "https://www.googleapis.com/books/v1/volumes?q=isbn:"
   
     isbn = id
@@ -69,8 +69,9 @@ def book_save(id):
   #     return render(request, 'books/book-results.html', {'message': 'Sorry, there seems to be an issue with Google Books right now.'})
 
   # data = r.json()
-
+    
     volume_info = book_data["items"][0]["volumeInfo"]
+    
 
   
     book={}
@@ -98,7 +99,11 @@ def add_book(request, id):
     book_in_db = None
     kgroups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     
-    book=book_save(id)
+    try:
+        book=book_save(request, id)
+    except:
+        messages.error(request, _('There was an error in the interpretation of result : please add the book yourself.'))
+        return redirect('add-book-custom')
    
     
     context = {
@@ -159,6 +164,46 @@ def add_book(request, id):
     return render(request, 'books/book-search-detail.html', context)
 
 @login_required
+def add_custom_book(request):
+    form = AddCustomBookForm(request.user)
+    kgroups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+
+    
+    
+
+    if request.method == 'POST':
+        form = AddCustomBookForm(request.user, request.POST, request.FILES)
+        if form.is_valid():
+                groups = request.POST.getlist('group')
+                if len(groups) == 0:
+                    messages.error(request, _('You have to choose where to register this book.'))
+                else:
+                    picture = request.FILES.get('picture')
+                    book=form.save(commit=False)
+                    new_book_in_db = Book(title=book.title, author=book.author, isbn=book.isbn, description=book.description, pages=book.pages)
+                    new_book_in_db.save()
+                    
+                    for group in groups:
+                        new_book_in_db.groups.add(group)
+                        group = CustomGroup(uuid=group)
+                        new_kbook = CustomBook(book=new_book_in_db, group=group, picture=picture)
+                        if group.group_type == 'library' or group.group_type == 'several_books':
+                            new_kbook.owner = request.user
+                            new_kbook.admin = request.user
+                            new_kbook.save()
+                        else:
+                            new_kbook.admin = request.user
+                            new_kbook.save()
+                    new_book_in_db.save()
+                    return redirect('all-books')
+                
+            
+        else:
+            print(form.errors)
+     
+
+    return render(request, 'books/add-edit-book.html', {'form': form, 'kgroups': kgroups})
+@login_required
 def new_book_search(request):
     if request.method == 'GET':
         form = BookSearch()
@@ -198,7 +243,7 @@ def add_new_book_to_group(request,slug, isbn):
     group = CustomGroup.objects.get(slug=slug)
     book_in_db = None
     book_in_group = False
-    book=book_save(isbn)
+    book=book_save(request, isbn)
     
     context = {
         'group': group,
@@ -238,7 +283,7 @@ def add_new_book_to_meeting(request,id, isbn):
     meeting = Meeting.objects.get(id=id)
     group = meeting.group
     book_in_db = None
-    book=book_save(isbn)
+    book=book_save(request,isbn)
     
     context = {
         'meeting': meeting,

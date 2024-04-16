@@ -12,13 +12,13 @@ Book:
   ☐ ajouter une couverture dans les resultats de recherche
   ☐ delete
   ☐ afficher qui a lu
-  ☐ if error quand google api, proposer custom add
+  ✔ if error quand google api, proposer custom add @done(24-04-16 15:23)
   ☐ empêcher les doublons de livre dans le même groupe
   ☐ if book in library, not in wishlist
   ☐ share owned_book with several_books
   ☐ prévoir prêt
   ☐ filtrer les livres dans all-books
-  ☐ FORMULAIRE ADD BOOK CUSTOM
+  ✔ FORMULAIRE ADD BOOK CUSTOM @done(24-04-16 15:23)
 
 Meeting:
   ☐ delete
