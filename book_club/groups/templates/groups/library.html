@@ -50,7 +50,13 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 {% for book in books %}
 <a href="{% url 'book-detail' book.slug %}">
 <div class="book-mini-card mx-auto">
-<img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+{% if book.picture %}
+      <img class="mx-auto" src="{{book.picture.url}}" alt="{{book.title}}" />
+      {% elif book.cover %}
+      <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+      {% else %}
+      <img class="mx-auto" src="{% static 'assets/img/illustrations/book-default.png'%}" alt="{{book.title}}" />
+      {% endif %}
     <p class="title mt-1 mb-0">{{book.title}}</p>
     <p class="author">{{book.author}}</p>
 </div>

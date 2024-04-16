@@ -15,7 +15,7 @@
       {% elif book.cover %}
       <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
       {% else %}
-
+      <img class="mx-auto" src="{% static 'assets/img/illustrations/book-default.png'%}" alt="{{book.title}}" />
       {% endif %}
     </div>
 

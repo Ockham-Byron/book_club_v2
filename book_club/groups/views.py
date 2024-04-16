@@ -133,7 +133,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['members'] = group.members.all()
         context['nb_of_users'] = group.members.all().count()
         context['nb_of_books'] = group.kbook_group.all().count() 
-        context['books'] = group.kbook_group.all()
+        context['books'] = group.kbook_group.all().order_by('-created_at')[:10]
         context['next_meeting'] = next_meeting
         context['nb_of_readers'] = nb_of_readers
 

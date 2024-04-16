@@ -27,7 +27,7 @@
       {% for group in kgroups %}
             <div class="choice-container">
               <p class="text-center pt-1">{{ group.kname }}</p>
-              <input class="mt-2" type="checkbox" value="{{group.uuid}}" name="group" />
+              <input class="mt-2" type="checkbox" value="{{group.uuid}}" name="group" requested />
               <label for="dessert-1">
                 {% if group.picture %}
                     <img src="{{ group.picture.url }}">

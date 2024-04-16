@@ -2,6 +2,7 @@ import json
 import environ
 import ssl
 import os
+from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -36,8 +37,10 @@ def book_search(search):
 
     search = search.replace(' ', '+')
     r = urlopen(api + search, context=ctx)
+    
     data = json.load(r)
-   
+    
+    
     fetched_books = data['items']
     books = []
     for book in fetched_books:
@@ -111,42 +114,47 @@ def add_book(request, id):
 
     if request.method=='POST':
         groups = request.POST.getlist('group')
-        if book_in_db:
-            for i in groups:
-                group = CustomGroup.objects.get(uuid=i)
-                book_in_db.groups.add(group)
-                new_kbook = CustomBook(book=book_in_db, group=group)
-                if group.group_type == 'library':
-                    new_kbook.owner = request.user
-                    new_kbook.save()
-                elif group.group_type == 'several_books':
-                    new_kbook.owner = request.user
-                    new_kbook.save()
-                else:
-                    new_kbook.admin = request.user
-                    new_kbook.save()
-            book_in_db.save()
-            
-
+        print(groups)
+        if len(groups) == 0:
+            print('No groups')
+            messages.error(request, _('You have to choose where to register this book.'))
         else:
-            new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
-            new_book_in_db.save()
-            
-            for group in groups:
-                new_book_in_db.groups.add(group)
-                group = CustomGroup(uuid=group)
-                new_kbook = CustomBook(book=new_book_in_db, group=group)
-                if group.group_type == 'library' or group.group_type == 'several_books':
-                    new_kbook.owner = request.user
-                    new_kbook.admin = request.user
-                    new_kbook.save()
-                else:
-                    new_kbook.admin = request.user
-                    new_kbook.save()
-            new_book_in_db.save()
-            return redirect('dashboard')
+            if book_in_db:
+                for i in groups:
+                    group = CustomGroup.objects.get(uuid=i)
+                    book_in_db.groups.add(group)
+                    new_kbook = CustomBook(book=book_in_db, group=group)
+                    if group.group_type == 'library':
+                        new_kbook.owner = request.user
+                        new_kbook.save()
+                    elif group.group_type == 'several_books':
+                        new_kbook.owner = request.user
+                        new_kbook.save()
+                    else:
+                        new_kbook.admin = request.user
+                        new_kbook.save()
+                book_in_db.save()
+                
 
-        return redirect('dashboard')
+            else:
+                new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
+                new_book_in_db.save()
+                
+                for group in groups:
+                    new_book_in_db.groups.add(group)
+                    group = CustomGroup(uuid=group)
+                    new_kbook = CustomBook(book=new_book_in_db, group=group)
+                    if group.group_type == 'library' or group.group_type == 'several_books':
+                        new_kbook.owner = request.user
+                        new_kbook.admin = request.user
+                        new_kbook.save()
+                    else:
+                        new_kbook.admin = request.user
+                        new_kbook.save()
+                new_book_in_db.save()
+                return redirect('all-books')
+
+            return redirect('all-books')
     
     return render(request, 'books/book-search-detail.html', context)
 
@@ -159,8 +167,16 @@ def new_book_search(request):
         form = BookSearch(request.POST)
         if form.is_valid():
             search = request.POST.get('search', False)
-            books = book_search(search)
-            return render(request, 'books/search.html', {'form': form, 'books': books})
+            try:
+                books = book_search(search)
+                return render(request, 'books/search.html', {'form': form, 'books': books})
+            except:
+                messages.error(request, _('Invalid search. Try without any accent.'))
+                return render(request, 'books/search.html', {'form': form})
+            
+       
+
+        
 
 
 
@@ -502,6 +518,13 @@ def all_books(request):
          for kbook in duplicate_kbooks:
             if kbook.admin != request.user:
                 kbooks = kbooks.exclude(id=kbook.id)
+
+     if duplicate_kbooks.filter(owner = request.user, group__group_type__contains = "several").exists():
+         print("ça existe")
+         for kbook in duplicate_kbooks:
+             if kbook.group != None:
+                if kbook.owner == request.user and kbook.group.group_type == "several_books":
+                    kbooks = kbooks.exclude(id=kbook.id)
     
 
      context = {
@@ -509,6 +532,16 @@ def all_books(request):
          'kbooks': kbooks,
      }
      return render(request, 'books/all-books.html', context)
+
+@login_required
+def group_books(request, slug):
+    group = get_object_or_404(CustomGroup, slug=slug)
+    kbooks = CustomBook.objects.filter(group=group)
+
+    context = {'kbooks': kbooks,
+               'group': group}
+    
+    return render(request, 'books/all-books.html', context)
 
 @login_required
 def delete_book(request, slug):

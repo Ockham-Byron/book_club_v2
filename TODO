@@ -2,30 +2,26 @@ Général:
   ☐ traduction
   ☐ ajouter pwa
   ☐ ajouter page qui explique comment télécharger
+  ☐ sidebar responsive
 
 Groups:
-  ✔ add kbook to meeting @done(24-04-12 12:05)
-  ✔ creer libarry et wishlist à la creation @done(24-04-12 10:53)
-  ☐ librarie et wishlist : verifier selection livres
-  ☐ librairie et wishlist : lien vers book-detail
+  ✔ gérer nombreux livres @done(24-04-16 11:39)
+  ✔ boutons tous les livres @done(24-04-16 11:54)
 
 Book:
-  ☐ add a book from group
-  ✔ edit:change cover @done(24-04-12 12:06)
-  ☐ alerte recherche sans accent
   ☐ ajouter une couverture dans les resultats de recherche
   ☐ delete
   ☐ afficher qui a lu
   ☐ if error quand google api, proposer custom add
   ☐ empêcher les doublons de livre dans le même groupe
-  ☐ all books : eviter les doublons
   ☐ if book in library, not in wishlist
-
+  ☐ share owned_book with several_books
+  ☐ prévoir prêt
+  ☐ filtrer les livres dans all-books
+  ☐ FORMULAIRE ADD BOOK CUSTOM
 
 Meeting:
-  ☐ edit
   ☐ delete
-  ☐ meeting sans livre
 
   Comment:
     ☐ edit
@@ -42,6 +38,16 @@ Future features:
   ☐ page de statistiques
 
 Archive:
+  ✔ add kbook to meeting @done(24-04-12 12:05) @project(Groups)
+  ✔ creer libarry et wishlist à la creation @done(24-04-12 10:53) @project(Groups)
+  ✔ librarie et wishlist : verifier selection livres @done(24-04-16 09:18) @project(Groups)
+  ✔ librairie et wishlist : lien vers book-detail @done(24-04-16 09:33) @project(Groups)
+  ✔ add a book from group @done(24-04-16 09:33) @project(Book)
+  ✔ edit:change cover @done(24-04-12 12:06) @project(Book)
+  ✔ alerte recherche sans accent @done(24-04-16 10:20) @project(Book)
+  ✔ all books : eviter les doublons @done(24-04-16 10:22) @project(Book)
+  ✔ edit @done(24-04-16 10:23) @project(Meeting)
+  ✔ meeting sans livre @done(24-04-16 10:25) @project(Meeting)
   ✔ Définir les états: lu, en cours de lecture, envie de lire @done(24-04-11 12:17) @project(Book)
   ✔ all books @done(24-04-12 10:09) @project(Book)
   ✔ montrer kbook_detail @done(24-04-12 10:09) @project(Book)

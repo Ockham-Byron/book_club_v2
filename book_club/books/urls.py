@@ -7,6 +7,7 @@ urlpatterns = [
   path('book-save/<id>', add_book, name="save-book"),
   path('search', new_book_search, name="new-book-search"),
   path('all-books', all_books, name="all-books"),
+  path('group-books/<slug:slug>', group_books, name="group-books"),
   path('edit-book/<slug:slug>', edit_book, name="edit-book"),
   path('delete-book/<slug:slug>', delete_book, name="delete-book"),
   path('edit-reading-status/<slug:slug>/<id>', edit_reading_status, name="edit-reading-status"),

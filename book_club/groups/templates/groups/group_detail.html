@@ -77,6 +77,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
     {% if next_meeting %}
     
     <div class="book-mini-card-h d-flex justify-content-center">
+        {% if next_meeting.book %}
         <div class="book-infos text-center">
             <a href="{% url 'book-detail' next_meeting.book.slug %}">
             <img class="shadow" src="{{next_meeting.book.cover}}" alt="{{book.title}}" />
@@ -84,10 +85,13 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
             <p class="title mt-1 mb-0">{{next_meeting.book.title}}</p>
             <p class="author">{{next_meeting.book.author}}</p>
         </div>
+        {% endif %}
         <div class="ps-4 meeting-infos">
             <p class="meeting-date"><i class="fa-regular fa-calendar brand-color"></i> {{next_meeting.meeting_at}}</p>
             <p><i class="fa-solid fa-map-pin brand-color"></i>{{next_meeting.place}}</p>
+            {% if next_meeting.book %}
             <p>{% trans "Read by" %} {{nb_of_readers}} / {{nb_of_users}}</p>
+            {% endif %}
             <a href="{% url 'edit-meeting' next_meeting.id %}"><i class="fa fa-cog dark-color"></i></a>
         </div>
         
@@ -107,37 +111,53 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 
 <div class="container mt-5">
 
- <h1 class="text-center mb-5 darkest-color">{% trans "Books" %}</h1>
+    <h1 class="text-center mb-5 darkest-color">{% trans "Books" %}</h1>
 
-{% if nb_of_books == 0 %}
+    {% if nb_of_books == 0 %}
    
-<div class="d-flex p-2 justify-content-center">
-    <a class="btn" href="#">
-        <div class="sketch-box">
-            <div class="card-cta border-0 sketch-box">
-                <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="100px" >
-                <div class="card-body">
-                {% trans 'ADD FIRST BOOK TO THIS GROUP' %}
+        <div class="d-flex p-2 justify-content-center">
+            <a class="btn" href="#">
+                <div class="sketch-box">
+                    <div class="card-cta border-0 sketch-box">
+                        <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="100px" >
+                        <div class="card-body">
+                        {% trans 'ADD FIRST BOOK TO THIS GROUP' %}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
-    </a>
-</div>
-{% else %}
-<div class="d-flex justify-content-center">
-{% for book in books %}
-<a href="{% url 'book-detail' book.slug %}">
-<div class="book-mini-card mx-auto">
-<img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
-    <p class="title mt-1 mb-0">{{book.title}}</p>
-    <p class="author">{{book.author}}</p>
-</div>
-</a>
-{% endfor %}
-</div>
+    {% else %}
+        <div class="hs__wrapper">
+            <div class="hs__header">
+            <div class="hs__arrows"><a class="arrow disabled arrow-prev"></a><a class="arrow arrow-next"></a></div>
+            </div>
+            <ul class="hs">
+            {% for book in books%}
+            <li class="hs__item"> 
+                <a href="{% url 'book-detail' book.slug %}">
+                    <div class="book-mini-card mx-auto">
+                        {% if book.picture %}
+                            <img class="mx-auto" src="{{book.picture.url}}" alt="{{book.title}}" />
+                        {% elif book.cover %}
+                            <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+                        {% else %}
+                            <img class="mx-auto" src="{% static 'assets/img/illustrations/book-default.png'%}" alt="{{book.title}}" />
+                        {% endif %}
+                        <p class="title mt-1 mb-0">{{book.title}}</p>
+                        <p class="author">{{book.author}}</p>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="text-center">
+            <a class="btn btn-brand-color" href="{% url 'group-books' object.slug%}">{% trans 'See all books' %}</a>
+        </div>
 
-<!-- Books container End -->
-{% endif %}
+    {% endif %}
+</div> <!-- Books container End -->
 
 
 <!-- Members container -->
@@ -305,6 +325,70 @@ $(function() {
             }
         });
     });
+</script>
+
+<script>
+var instance = $(".hs__wrapper");
+$.each( instance, function(key, value) {
+    
+  var arrows = $(instance[key]).find(".arrow"),
+      prevArrow = arrows.filter('.arrow-prev'),
+      nextArrow = arrows.filter('.arrow-next'),
+      box = $(instance[key]).find(".hs"), 
+      x = 0,
+      mx = 0,
+      maxScrollWidth = box[0].scrollWidth - (box[0].clientWidth / 2) - (box.width() / 2);
+
+  $(arrows).on('click', function() {
+      
+    if ($(this).hasClass("arrow-next")) {
+      x = ((box.width() / 2)) + box.scrollLeft() - 10;
+      box.animate({
+        scrollLeft: x,
+      })
+    } else {
+      x = ((box.width() / 2)) - box.scrollLeft() -10;
+      box.animate({
+        scrollLeft: -x,
+      })
+    }
+      
+  });
+    
+  $(box).on({
+    mousemove: function(e) {
+      var mx2 = e.pageX - this.offsetLeft;
+      if(mx) this.scrollLeft = this.sx + mx - mx2;
+    },
+    mousedown: function(e) {
+      this.sx = this.scrollLeft;
+      mx = e.pageX - this.offsetLeft;
+    },
+    scroll: function() {
+      toggleArrows();
+    }
+  });
+
+  $(document).on("mouseup", function(){
+    mx = 0;
+  });
+  
+  function toggleArrows() {
+    if(box.scrollLeft() > maxScrollWidth - 10) {
+        // disable next button when right end has reached 
+        prevArrow.addClass('disabled');
+      } else if(box.scrollLeft() < 10) {
+        // disable prev button when left end has reached 
+        nextArrow.addClass('disabled')
+      } else{
+        // both are enabled
+        nextArrow.removeClass('disabled');
+        prevArrow.removeClass('disabled');
+      }
+  }
+  
+});
+
 </script>
 
 
