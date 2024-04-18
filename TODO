@@ -7,7 +7,7 @@ Général:
 
 Book:
   ☐ afficher qui a lu
-  ☐ share owned_book with several_books
+  ✔ share owned_book with several_books @done(24-04-18 14:44)
   ☐ prévoir prêt
   ☐ filtrer les livres dans all-books
   ☐ passer un livre de wishlist à library

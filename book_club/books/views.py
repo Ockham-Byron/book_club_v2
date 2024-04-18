@@ -82,7 +82,7 @@ def book_save(request, id):
  
     book = {
         'title': volume_info['title'],
-        'cover': volume_info['imageLinks']['thumbnail'] if 'imageLinks' in volume_info else "static/assets/img/illustrations/book-placeholder.jpeg",
+        'cover': volume_info['imageLinks']['thumbnail'] if 'imageLinks' in volume_info else "/static/assets/img/illustrations/book-placeholder.jpeg",
         'authors': ", ".join(volume_info['authors']) if 'authors' in volume_info else _("Unknown Authors"),
         'pages': volume_info['pageCount'] if 'pageCount' in volume_info else 0,
         'main_category': volume_info['mainCategory'] if 'mainCategory' in volume_info else None,
@@ -388,9 +388,9 @@ def book_detail(request, slug):
 
     sharing_groups = CustomGroup.objects.filter(members__id__contains=user.id, group_type="several_books")
     available_sharing_groups = []
-    if CustomBook.objects.filter(title=book.title, owner=user).exists():
+    if CustomBook.objects.filter(book=book, owner=user).exists():
         for group in sharing_groups:
-            if CustomBook.objects.filter(title=book.title, group=group, owner=user).exists():
+            if CustomBook.objects.filter(book=book, group=group, owner=user).exists():
                 print("existe")
             else:
                 available_sharing_groups.append(group)        

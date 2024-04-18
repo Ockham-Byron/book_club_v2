@@ -32,7 +32,7 @@
                 {% if group.picture %}
                     <img src="{{ group.picture.url }}">
                 {% else %}
-                  <img src="{% static 'assets/img/illustrations/group_default.jpeg' %}" alt="Dish picture"  >
+                  <img src="{% static 'assets/img/illustrations/group_default.jpeg' %}" alt="Group picture"  >
                 {% endif %}
               </label>
             </div>
@@ -51,7 +51,9 @@
   </form>
 
   <div class="book-detail-card d-flex flex-column align-items-center">
-    <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+    
+    <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" style="max-height:250px;" />
+
     <p class="title mt-4 mb-0">{{book.title}}</p>
     <p class="author">{{book.authors}}</p>
     <div class="d-flex book-data-box">
