@@ -22,10 +22,10 @@
     {% endif %}
     
     <p class="title">
-    {% if comment %}
-      {% trans 'Edit your comment of' %}
+    {% if review %}
+      {% trans 'Edit your review of' %}
     {% else %}
-      {% trans 'Add Comment to' %} 
+      {% trans 'Add Review to' %} 
     {% endif %}
     {{book}}</p>
     
@@ -36,8 +36,8 @@
       <button class="submit" type="submit ">{% trans 'Submit' %}</button>
       <div class="text-center d-flex flex-column">
         <a href="{% url 'book-detail' book.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
-        {% if comment %}
-          <a href="#" type="button" class="joy-color" data-bs-toggle="modal" data-bs-target="#deleteCommentModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Comment' %}</a>
+        {% if review %}
+          <a href="#" type="button" class="joy-color" data-bs-toggle="modal" data-bs-target="#deleteCommentModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Review' %}</a>
           <!-- Modal delete comment -->
           <div class="modal fade" id="deleteCommentModal" tabindex="-1" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -45,13 +45,13 @@
                 <div class="text-center">
                   <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
                   <br/>
-                  <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Comment ?' %}</h5>
+                  <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Review ?' %}</h5>
                 </div>
                 <div class="text-center">
                   <p class="darkest-color p-4">{% trans "Your opinion was interesant, you know..." %}</p>
                 </div>
                 <div class="d-flex justify-content-evenly pb-2">
-                  <a href="{% url 'delete-comment' comment.id %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
+                  <a href="{% url 'delete-review' review.id %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
                   <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
                 </div>
               </div>

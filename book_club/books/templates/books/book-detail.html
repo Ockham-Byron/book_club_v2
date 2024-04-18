@@ -71,6 +71,11 @@
       {{review.message}}
       </p>
       <h4><strong>&mdash;{{review.author.pseudo}}</strong><br><span class="dark-color">{{review.rating}}/5</span></h4>
+      {% if review.author == request.user %}
+      <div class="d-flex justify-content-end">
+      <a class="darkest-color" href={% url 'edit-review' review.id %}><i class="fa fa-pen"></i></a>
+      </div>
+      {% endif %}
       <img class="curly1" src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/95802/Curly_Krungthep.svg' alt=''>
       <img class="curly2" src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/95802/Curly_Krungthep.svg' alt=''>
     </div>
@@ -96,13 +101,15 @@
         <div class="expansion-content">
           <div class="icon fas fa-pen"></div>
           <div class="text">Edit</div>
-        </div></a><a class="expansion-item" href="{% url 'delete-book' book.slug%}">
+        </div></a><a class="expansion-item" href="{% url 'delete-book-from-group' book.book.slug%}">
         <div class="expansion-content">
           <div class="icon fas fa-trash"></div>
           <div class="text">{% trans 'Delete' %}</div>
         </div></a>
     </div>
 </div>
+
+
 
 {% endblock %}
 

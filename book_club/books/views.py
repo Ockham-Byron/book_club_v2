@@ -26,6 +26,10 @@ env.read_env()  # reading .env file
 
 key = env.str('API_KEY')
 
+MESSAGE_BOOK_REGISTERED = _(
+    "The book is already registered here."
+)
+
 # Create your views here.
 def book_search(search):
     api = "https://www.googleapis.com/books/v1/volumes?q=search:"
@@ -46,7 +50,7 @@ def book_search(search):
     for book in fetched_books:
         book_dict = {
             'title': book['volumeInfo']['title'],
-            'image': book['volumeInfo']['imageLinks']['thumbnail'] if 'imageLinks' in book['volumeInfo'] else "static/assets/img/illustrations/book-placeholder.jpeg",
+            'image': book['volumeInfo']['imageLinks']['thumbnail'] if 'imageLinks' in book['volumeInfo'] else "/static/assets/img/illustrations/book-placeholder.jpeg",
             'authors': ", ".join(book['volumeInfo']['authors']) if 'authors' in book['volumeInfo'] else "",
             'publisher': book['volumeInfo']['publisher'] if 'publisher' in book['volumeInfo'] else "",
             'info': book['volumeInfo']['infoLink'],
@@ -127,17 +131,32 @@ def add_book(request, id):
             if book_in_db:
                 for i in groups:
                     group = CustomGroup.objects.get(uuid=i)
-                    book_in_db.groups.add(group)
-                    new_kbook = CustomBook(book=book_in_db, group=group)
-                    if group.group_type == 'library':
-                        new_kbook.owner = request.user
-                        new_kbook.save()
-                    elif group.group_type == 'several_books':
-                        new_kbook.owner = request.user
-                        new_kbook.save()
+                    if group in book_in_db.groups.all() and group.group_type == 'one_book':
+                        messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
+                    elif group in book_in_db.groups.all() and group.group_type == 'library':
+                        messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
+                    elif group in book_in_db.groups.all() and group.group_type == 'wishlist':
+                        messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
+                    elif group in book_in_db.groups.all() and group.group_type == 'several_books' and CustomBook.objects.filter(book = book_in_db, owner = request.user).exists():
+                        messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
                     else:
-                        new_kbook.admin = request.user
-                        new_kbook.save()
+                        book_in_db.groups.add(group)
+                        new_kbook = CustomBook(book=book_in_db, group=group)
+                        if group.group_type == 'library':
+                            new_kbook.owner = request.user
+                            new_kbook.save()
+                            if CustomBook.objects.filter(book = book_in_db, admin = request.user, group__group_type = 'wishlist').exists():
+                                print("livre in wishlist")
+                                old_whislist = CustomBook.objects.get(book = book_in_db, admin = request.user, group__group_type = 'wishlist')
+                                book_in_db.group.remove(old_whislist.group)
+                                old_whislist.delete()
+                                
+                        elif group.group_type == 'several_books':
+                            new_kbook.owner = request.user
+                            new_kbook.save()
+                        else:
+                            new_kbook.admin = request.user
+                            new_kbook.save()
                 book_in_db.save()
                 
 
@@ -203,6 +222,7 @@ def add_custom_book(request):
      
 
     return render(request, 'books/add-edit-book.html', {'form': form, 'kgroups': kgroups})
+
 @login_required
 def new_book_search(request):
     if request.method == 'GET':
@@ -222,7 +242,6 @@ def new_book_search(request):
        
 
         
-
 
 
 @login_required
@@ -295,11 +314,15 @@ def add_new_book_to_meeting(request,id, isbn):
 
     if request.method=='POST':
         if book_in_db:
-            book_in_db.groups.add(group)
-            book_in_db.save()
-            new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)
-            new_kbook.save()
-            meeting.book=new_kbook
+            if group in book_in_db.groups.all():
+                kbook = CustomBook.objects.get(book=book_in_db, group=group)
+                meeting.book = kbook
+            else:
+                book_in_db.groups.add(group)
+                book_in_db.save()
+                new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)
+                new_kbook.save()
+                meeting.book=new_kbook
            
 
         else:
@@ -315,14 +338,16 @@ def add_new_book_to_meeting(request,id, isbn):
         return redirect('group-detail', group.slug)
     
     return render(request, 'books/book-search-detail.html', context)
+
 @login_required
 def book_detail(request, slug):
     user = request.user
-    groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
-    groups = groups.exclude(group_type="library")
-    groups = groups.exclude(group_type="wishlist")
+    
     kbook = get_object_or_404(CustomBook, slug=slug)
     book = kbook.book
+    groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    groups_of_book = book.groups.filter(members__id__contains=request.user.id)
+    print(groups_of_book)
     is_read = False
     is_reading = False
     in_wish = False
@@ -589,13 +614,30 @@ def group_books(request, slug):
     return render(request, 'books/all-books.html', context)
 
 @login_required
+def delete_book_from_group(request,slug):
+    book = get_object_or_404(Book, slug=slug)
+    user_kbooks = CustomBook.objects.filter(book=book, owner=request.user) | CustomBook.objects.filter(book=book, admin=request.user)
+    
+    context = {'user_kbooks': user_kbooks}
+
+    return render(request, 'books/delete-book.html', context=context)
+
+@login_required
 def delete_book(request, slug):
     kbook = CustomBook.objects.get(slug=slug)
+    book = kbook.book
+    book.groups.remove(kbook.group)
     if kbook.picture:
         os.remove(kbook.picture.path)
         kbook.picture.delete()
     kbook.delete()
-    return redirect('all-books')
+    if kbook.group.group_type == 'one_book' or kbook.group.group_type == 'several_books':
+        return redirect('group-detail', kbook.group.slug)
+    elif kbook.group.group_type == 'library':
+        return redirect ('library', kbook.group.slug)
+    else:
+        return redirect ('wishlist', kbook.group.slug)
+
 #REVIEWS
 
 @login_required
@@ -617,7 +659,44 @@ def add_review(request, slug):
 
     return render(request, "books/add-comment.html", {'form':form, 'book':book})
 
+@login_required
+def edit_review(request, id):
+    review = get_object_or_404(Comment, id=id)
+    all_kbooks = CustomBook.objects.filter(book=review.book)
+    #filter by groups
+    user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    user_kbooks = []
+    for kbook in all_kbooks:
+        if kbook.group in user_groups:
+            user_kbooks.append(kbook)
 
+    book = user_kbooks[0]
+
+    form = AddCommentForm(instance=review)
+
+    if request.method=='POST':
+        form=AddCommentForm(request.POST, instance=review)
+        if form.is_valid():
+            review=form.save()
+            return redirect('book-detail', book.slug)
+        
+    return render(request, "books/add-comment.html", {'form':form, 'book':book, 'review':review})
+
+@login_required
+def delete_review(request, id):
+    review = get_object_or_404(Comment, id=id)
+    all_kbooks = CustomBook.objects.filter(book=review.book)
+    #filter by groups
+    user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    user_kbooks = []
+    for kbook in all_kbooks:
+        if kbook.group in user_groups:
+            user_kbooks.append(kbook)
+
+    book = user_kbooks[0]
+    review.delete()
+
+    return redirect('book-detail', book.slug)
 #MEETINGS   
      
 @login_required
@@ -659,10 +738,7 @@ def add_meeting(request, slug):
     
     return render(request, "books/meetings/add-meeting.html", context=context)
 
-
-
-
-
+@login_required
 def edit_meeting(request, id):
     meeting = get_object_or_404(Meeting, id=id)
     book = meeting.book
@@ -703,7 +779,14 @@ def edit_meeting(request, id):
     
     return render(request, "books/meetings/add-meeting.html", context=context)
 
+@login_required
 def delete_meeting(request, id):
-    pass
+    meeting = get_object_or_404(Meeting, id=id)
+    group = meeting.group
+    meeting.delete()
+
+    return redirect('group-detail', group.slug)
+
+
 
 

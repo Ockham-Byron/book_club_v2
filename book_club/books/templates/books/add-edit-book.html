@@ -120,9 +120,9 @@
       <button class="submit mt-4" type="submit" name="create-meal">{% trans 'Submit' %}</button>
       <div class="text-center d-flex flex-column">
         <a href="{% url 'all-books' %}" class="mid-color">{% trans 'Cancel' %}</a>
-        {% if meal %}
+        {% if book %}
         <a href="#" type="button" class="joy-color" data-bs-toggle="modal" data-bs-target="#deleteMealModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Meal' %}</a>
-        <!-- Modal delete meal -->
+        <!-- Modal delete book -->
         <div class="modal fade" id="deleteMealModal" tabindex="-1" aria-labelledby="deleteMealModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -135,7 +135,7 @@
                 <p class="darkest-color p-4">{% trans "You will lose all the memories, but hey, no pression..." %}</p>
               </div>
               <div class="d-flex justify-content-evenly pb-2">
-                <a href="{% url 'delete-meal' meal.slug %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
+                <a href="{% url 'delete-book' book.slug %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
                 <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
               </div>
             </div>

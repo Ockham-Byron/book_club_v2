@@ -10,6 +10,7 @@ urlpatterns = [
   path('all-books', all_books, name="all-books"),
   path('group-books/<slug:slug>', group_books, name="group-books"),
   path('edit-book/<slug:slug>', edit_book, name="edit-book"),
+  path('delete-book-from-group/<slug:slug>', delete_book_from_group, name="delete-book-from-group"),
   path('delete-book/<slug:slug>', delete_book, name="delete-book"),
   path('edit-reading-status/<slug:slug>/<id>', edit_reading_status, name="edit-reading-status"),
 
@@ -18,12 +19,16 @@ urlpatterns = [
   path('search-book-for-meeting/<id>', search_book_for_meeting, name="search-book-for-meeting"),
   path('add-new-book-to-meeting/<id>/<str:isbn>', add_new_book_to_meeting, name="add-new-book-to-meeting"),
   path('edit-meeting/<id>', edit_meeting, name="edit-meeting"),
+  path('delete-meeting/<id>', delete_meeting, name="delete-meeting"),
 
   #book
   path('add-book-custom/', add_custom_book, name="add-book-custom"),
   path('book-detail/<slug:slug>', book_detail, name="book-detail"),
   path('add-new-book-to-group/<slug:slug>', add_new_book_to_group, name="add-new-book-to-group"),
 
+
   #comments
   path('add-review/<slug:slug>', add_review, name="add-review"),
+  path('edit-review/<id>', edit_review, name="edit-review"),
+  path('delete-review/<id>', delete_review, name="delete-review"),
 ]

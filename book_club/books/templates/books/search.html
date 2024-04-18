@@ -26,16 +26,15 @@
       
             <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
                 <div>
-                {% if book.image %}
+                
+                    
                     <img
                     src="{{ book.image }}"
                     alt="{{ book.title }}"
                     />
-                {% else %}
-                    <img src={% static 'assets/img/illustrations/book-search.svg' %} alt="{{ book.title }}" />
-                {% endif %}
+                
                 </div>
-                <div>
+                <div class="ps-2">
                     <p class="title">{{ book.title }}</p>
                     <p class="author">{{ book.authors }}</p>
                 </div>

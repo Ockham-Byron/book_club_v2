@@ -1,0 +1,33 @@
+{% extends 'dashboard/base.html' %}
+
+{% load static i18n %}
+
+{% block title %}{% trans 'Remove Book' %}{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+                <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
+                <br/>
+                <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Remove Book ?' %}</h5>
+              </div>
+              <div class="text-center">
+                <p class="darkest-color p-4">{% trans "You will lose all the memories, but hey, no pression..." %}</p>
+              </div>
+        
+
+{% for kbook in user_kbooks %}
+
+
+
+
+
+        <a href="{% url 'delete-book' kbook.slug %}" type="button" class="brand-color text-center" ><i class="fa-solid fa-trash pe-2"></i>{% trans 'Remove Book from' %} {{kbook.group.kname}}</a>
+
+        {% endfor %}
+
+        <a  style="width:80px;" class="btn btn-rounded btn-mid-color mt-4" href="{% url 'book-detail' user_kbooks.first.slug %}">{% trans 'Cancel' %}</a>
+        
+
+{% endblock %}
+      

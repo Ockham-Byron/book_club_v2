@@ -3,30 +3,18 @@ Général:
   ☐ ajouter pwa
   ☐ ajouter page qui explique comment télécharger
   ☐ sidebar responsive
-
-Groups:
-  ✔ gérer nombreux livres @done(24-04-16 11:39)
-  ✔ boutons tous les livres @done(24-04-16 11:54)
+  ☐ menu texte au milieu on scrolling
 
 Book:
-  ☐ ajouter une couverture dans les resultats de recherche
-  ☐ delete
   ☐ afficher qui a lu
-  ✔ if error quand google api, proposer custom add @done(24-04-16 15:23)
-  ☐ empêcher les doublons de livre dans le même groupe
-  ☐ if book in library, not in wishlist
   ☐ share owned_book with several_books
   ☐ prévoir prêt
   ☐ filtrer les livres dans all-books
-  ✔ FORMULAIRE ADD BOOK CUSTOM @done(24-04-16 15:23)
+  ☐ passer un livre de wishlist à library
+  ☐ dans les échanges de livre, indiquer option "ok pour prêter"
+  ☐ dans delete, donner option d'enlever juste "ok pour prêter"
 
-Meeting:
-  ☐ delete
-
-  Comment:
-    ☐ edit
-    ☐ delete
-    ☐ if commented, edit
+Comment:
     ☐ faire une page avec tous les commentaires 
 
 Profile:
@@ -38,6 +26,18 @@ Future features:
   ☐ page de statistiques
 
 Archive:
+  ✔ edit @done(24-04-18 11:34) @project(Comment)
+  ✔ delete @done(24-04-18 11:34) @project(Comment)
+  ✔ if commented, edit @done(24-04-18 11:34) @project(Comment)
+  ✔ delete @done(24-04-18 10:31) @project(Book)
+  ✔ empêcher les doublons de livre dans le même groupe @done(24-04-18 10:31) @project(Book)
+  ✔ delete @done(24-04-18 10:59) @project(Meeting)
+  ✔ gérer nombreux livres @done(24-04-16 11:39) @project(Groups)
+  ✔ boutons tous les livres @done(24-04-16 11:54) @project(Groups)
+  ✔ ajouter une couverture dans les resultats de recherche @done(24-04-18 10:31) @project(Book)
+  ✔ if error quand google api, proposer custom add @done(24-04-16 15:23) @project(Book)
+  ✔ if book in library, not in wishlist @done(24-04-17 16:24) @project(Book)
+  ✔ FORMULAIRE ADD BOOK CUSTOM @done(24-04-16 15:23) @project(Book)
   ✔ add kbook to meeting @done(24-04-12 12:05) @project(Groups)
   ✔ creer libarry et wishlist à la creation @done(24-04-12 10:53) @project(Groups)
   ✔ librarie et wishlist : verifier selection livres @done(24-04-16 09:18) @project(Groups)

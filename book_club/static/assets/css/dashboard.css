@@ -792,6 +792,7 @@ a.card-recipe-btn-small {
 
 .book-mini-card-h {
   width:400px;
+  max-width:100%;
 }
 
 .book-detail {

@@ -85,7 +85,7 @@ class CustomBook(models.Model):
     isbn = models.CharField(max_length=30, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     pages = models.IntegerField(blank=True, null=True)
-    reservations = models.ManyToManyField(User, related_name="reservations", blank=True)
+    is_borrowable = models.BooleanField(blank=True, null=True, default=False)
     cover=models.CharField(max_length=500, blank=True, null=True)
     picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -178,4 +178,13 @@ class Borrow(models.Model):
 
 
 
-    
+class Reservations(models.Model):
+    id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
+    book = models.ForeignKey(CustomBook, related_name="reservations", blank=False, null=False, on_delete=models.CASCADE)
+    borrower = models.ForeignKey(User, related_name="borrowers", blank=False, null=False, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
+    def __str__(self):
+        return self.custom_book.book.title

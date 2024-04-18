@@ -149,7 +149,7 @@ class LibraryView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         group = self.object
-        
+        print(group)
         context = super().get_context_data(**kwargs)
         context['nb_of_books'] = group.kbook_group.all().count() 
         context['books'] = group.kbook_group.all()
