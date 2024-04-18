@@ -1,0 +1,58 @@
+{% extends "dashboard/base.html" %}
+{% load i18n static %}
+{% block content %}
+<div class="d-flex flex-column align-items-center justify-content-center vh-90">
+  <form class="modal-form" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+ 
+  
+  
+
+ <div class="book-detail-card d-flex flex-column align-items-center">
+    <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+    <p class="title mt-4 mb-0">{{book.title}}</p>
+    <p class="author">{{book.author}}</p>
+    
+    
+      {% if groups.count == 1 %}
+        <p class="mt-3 mid-color">{% trans 'Share within ' %}</p>
+        <div class="choice-container" style="max-height:50px;">
+              <p class="text-center pt-2">{{ groups.first.kname }}</p>
+              <input class="mt-2" type="checkbox" value="{{groups.first.uuid}}" name="group" checked />
+        </div>
+      {% else %}
+      {% for group in groups %}
+            <div class="choice-container">
+              <p class="text-center pt-1">{{ group.kname }}</p>
+              <input class="mt-2" type="checkbox" value="{{group.uuid}}" name="group" requested />
+              <label for="dessert-1">
+                {% if group.picture %}
+                    <img src="{{ group.picture.url }}">
+                {% else %}
+                  <img src="{% static 'assets/img/illustrations/group_default.jpeg' %}" alt="Group  picture"  >
+                {% endif %}
+              </label>
+            </div>
+        {% endfor %}
+        {% endif %}
+       
+   
+ <div class="d-flex justify-content-evenly pb-2" style="width:100%;">
+        <button href="#"  type="submit" class="btn btn-mid-color btn-modal" >{% trans "Add" %}</button>
+        <a type="button" class="btn btn-outlined btn-modal outline-mid-color" href="{% url 'book-detail' kbook.slug %}">{% trans 'Cancel' %}</a>
+      </div>
+  </div>
+      
+       
+       
+     
+    
+
+  </form>
+
+ 
+
+
+
+
+{% endblock %}

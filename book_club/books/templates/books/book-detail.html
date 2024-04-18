@@ -52,7 +52,16 @@
   </div>
   <!-- Cover + basic infos End-->
 
-  
+  <!-- Book groups -->
+  {% if sharing_groups%}
+  <div class="d-flex">
+    {% for group in available_sharing_groups %}
+      <a href = {% url 'pass-book-to-sharing-club' book.slug%}>
+      {{group.kname }}
+      </a>
+    {% endfor %}
+  </div>
+  {% endif %}
     
   <!-- Book description -->
   <div class="mt-5 book-description">

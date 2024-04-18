@@ -37,7 +37,7 @@ class CustomGroup(Group):
     group_pic = models.ImageField(upload_to=path_and_rename, null=True, blank = True)
     members = models.ManyToManyField(User, related_name="group_members")
     description = models.TextField(blank=True, null=True, max_length=500)
-    group_type = models.CharField(max_length=20, choices=TYPES, default="one_book")
+    group_type = models.CharField(max_length=20, null=False, blank=False)
     slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
