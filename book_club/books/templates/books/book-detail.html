@@ -99,8 +99,40 @@
       {% endif %}
 </div>
 
-  </div>
+  
     
+  <!-- Book Borrow -->
+  <div style="width:200px;" class="mx-auto">
+  {% if is_borrowable %}
+    {% for kbook in borrowable_kbooks %}
+    <a class="btn btn-darkest-color" href="{% url 'borrow-within-group' kbook.id kbook.group.slug %}">
+      {% trans 'Borrow from' %}  {{kbook.owner}} 
+    </a>
+    {% endfor %}
+  {% endif %}
+
+  {% if borrows %}
+    {% for borrow in borrows %}
+      {% if borrow.borrower == request.user %}
+        <a class="btn btn-darkest-color text-white" href="#">
+      
+      {% trans 'Borrowed by me. Mark as given back ?' %}
+      {% else %}
+      <a class="btn btn-darkest-color text-white" href="#">
+      
+      {% trans 'Borrowed by' %} {{borrow.borrower}} 
+      {% trans 'Mark as given back' %} ?
+
+      {% endif %}
+     
+    </a>
+    {% endfor %}
+  {% endif %}
+   </div>
+ 
+
+
+  <!-- Book Borrow End -->
   <!-- Book description -->
   <div class="mt-5 book-description">
     {% if book.description %}

@@ -158,10 +158,11 @@ class Borrow(models.Model):
     ]
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
     custom_book = models.ForeignKey(CustomBook, on_delete=models.CASCADE, related_name="borrowing", unique=False, null=True)
-    borrower = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="borrower", unique=False, null=True)
+    borrower = models.ForeignKey(User, on_delete=models.CASCADE, unique=False, null=True)
+    custom_borrower = models.CharField(max_length=150, null=True, blank=True)
     demand_date = models.DateField(auto_now_add=True)
     
-    borrow_start = models.DateField(auto_now_add=False, blank=False, null=False) 
+    borrow_start = models.DateField(auto_now_add=True, blank=False, null=False) 
     borrow_end = models.DateField(auto_now_add=False, blank=True, null=True)
     status = models.CharField(max_length=32, choices = STATUS, default=PENDING)
     late_return = models.BooleanField(default=False)

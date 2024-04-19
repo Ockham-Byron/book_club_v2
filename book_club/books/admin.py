@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Book, Meeting, Comment, CustomBook
+from .models import Book, Meeting, Comment, CustomBook, Borrow
 
 # Register your models here.
 
@@ -24,4 +24,9 @@ class CommentAdmin(admin.ModelAdmin):
   list_display = ('book', 'author', 'rating')
 
 admin.site.register(Comment, CommentAdmin)
+
+class BorrowAdmin(admin.ModelAdmin):
+  list_display = ('custom_book', 'borrower', 'borrow_start', 'status')
+
+admin.site.register(Borrow, BorrowAdmin)
 

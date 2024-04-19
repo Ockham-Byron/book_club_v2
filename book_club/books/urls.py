@@ -32,4 +32,7 @@ urlpatterns = [
   path('add-review/<slug:slug>', add_review, name="add-review"),
   path('edit-review/<id>', edit_review, name="edit-review"),
   path('delete-review/<id>', delete_review, name="delete-review"),
+
+  #borrow
+  path('add-borrow/<id>/<slug:slug>', borrow_book_within_group, name="borrow-within-group"),
 ]

@@ -13,7 +13,7 @@ from django.db.models import Q, Count
 from django.shortcuts import render, redirect
 from .forms import BookSearch, AddMeetingForm, AddCommentForm, AddCustomBookForm
 from groups.models import CustomGroup
-from .models import Book, Meeting, CustomBook, Comment
+from .models import Book, Meeting, CustomBook, Comment, Borrow
 
 tz= timezone.get_current_timezone()
 
@@ -153,6 +153,7 @@ def add_book(request, id):
                                 
                         elif group.group_type == 'several_books':
                             new_kbook.owner = request.user
+                            new_kbook.is_borrowable = True
                             new_kbook.save()
                         else:
                             new_kbook.admin = request.user
@@ -170,10 +171,16 @@ def add_book(request, id):
                     print(group.kname)
                     print(group.group_type)
                     new_kbook = CustomBook(book=book_in_db, group=group)
-                    if group.group_type == 'library' or group.group_type == 'several_books':
+                    if group.group_type == 'library':
                         new_kbook.owner = request.user
                         new_kbook.admin = request.user
                         new_kbook.save()
+                    elif group.group_type == 'several_books':
+                        new_kbook.owner = request.user
+                        new_kbook.admin = request.user
+                        new_kbook.is_borrowable = True
+                        new_kbook.save()
+
                     else:
                         new_kbook.admin = request.user
                         new_kbook.save()
@@ -205,22 +212,33 @@ def add_custom_book(request):
                 else:
                     picture = request.FILES.get('picture')
                     book=form.save(commit=False)
-                    new_book_in_db = Book(title=book.title, author=book.author, isbn=book.isbn, description=book.description, pages=book.pages)
-                    new_book_in_db.save()
+                    book_in_db = Book(title=book.title, author=book.author, isbn=book.isbn, description=book.description, pages=book.pages)
+                    book_in_db.save()
                     
                     for group in groups:
-                        new_book_in_db.groups.add(group)
-                        new_book_in_db.save()
+                        book_in_db.groups.add(group)
+                        book_in_db.save()
                         group = get_object_or_404(CustomGroup, uuid=group)
                         print(group.group_type)
-                        new_kbook = CustomBook(book=new_book_in_db, group=group, picture=picture)
-                        if group.group_type == 'library' or group.group_type == 'several_books':
+                        new_kbook = CustomBook(book=book_in_db, group=group, picture=picture)
+                        if group.group_type == 'library':
                             new_kbook.owner = request.user
                             new_kbook.admin = request.user
                             new_kbook.save()
+                        elif group.group_type == 'several_books':
+                            new_kbook.owner = request.user
+                            new_kbook.admin = request.user
+                            new_kbook.is_borrowable = True
+                            new_kbook.save()
+
                         else:
                             new_kbook.admin = request.user
                             new_kbook.save()
+                    if CustomBook.objects.filter(book=book_in_db, owner=request.user, group__group_type = 'library').exists() and CustomBook.objects.filter(book=book_in_db, admin=request.user,group__group_type = 'wishlist').exists():
+                        book_to_remove = CustomBook.objects.get(book=book_in_db, admin=request.user, group__group_type = 'wishlist')
+                        book_in_db.groups.remove(book_to_remove.group)
+                        book_to_remove.delete()
+                        messages.warning(request, _("A same book can't be in your library and your wishlist. We have removed it from the whislist"))
                     return redirect('all-books')
                 
             
@@ -354,7 +372,6 @@ def book_detail(request, slug):
     book = kbook.book
     groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     groups_of_book = book.groups.filter(members__id__contains=request.user.id)
-    print(groups_of_book)
     is_read = False
     is_reading = False
     in_wish = False
@@ -398,12 +415,35 @@ def book_detail(request, slug):
                 print("existe")
             else:
 
-                available_sharing_groups.append(group)        
+                available_sharing_groups.append(group)   
+
+    #borrows     
      
+    is_borrowable = False
+    is_reservable = False
+    
+    kbooks = CustomBook.objects.filter(book=book)
+    kbooks_within_shared_groups = []
+    for kbook in kbooks:
+        if CustomGroup.objects.filter(members__id__contains = kbook.owner.id).filter(members__id__contains = request.user.id).exists():
+                kbooks_within_shared_groups.append(kbook)
+    borrowable_kbooks = []
+    borrows = []
+    for kbook in kbooks_within_shared_groups:
+        if kbook.owner != request.user and kbook.owner != None and kbook.is_borrowable == True and kbook.group.group_type != 'library':
+            borrowable_kbooks.append(kbook)
+            is_borrowable = True
+        elif Borrow.objects.filter(custom_book = kbook, status = 'on_going'):
+            borrow = Borrow.objects.get(custom_book = kbook, status = 'on_going')
+            borrows.append(borrow)
+            is_borrowable = False
+    print(borrows)
+    
+    
 
 
-    print(sharing_groups)
-    print(available_sharing_groups)  
+
+
     
 
     context = {
@@ -420,6 +460,9 @@ def book_detail(request, slug):
         'sharing_groups' :sharing_groups,
         'available_sharing_groups':available_sharing_groups,
         'groups_of_book':groups_of_book,
+        'is_borrowable':is_borrowable,
+        'borrowable_kbooks':borrowable_kbooks,
+        'borrows':borrows,
         
         }
 
@@ -587,42 +630,66 @@ def all_books(request):
      books = Book.objects.filter(groups__in=user_groups).distinct()
      kbooks= CustomBook.objects.filter(book__in=books)
 
-     unique_kbooks = set(kbook.isbn for kbook in kbooks) 
-     print(unique_kbooks)
+    #  unique_kbooks = set(kbook.isbn for kbook in kbooks) 
+    #  print(unique_kbooks)
 
      #gérer les doublons
-     list_isbn=[kbook.isbn for kbook in kbooks]
-     isbn_counts = {}
-     for isbn in list_isbn:
-        if isbn in isbn_counts:
-            isbn_counts[isbn] += 1
-        else:
-            isbn_counts[isbn] = 1
+    #  list_isbn=[kbook.isbn for kbook in kbooks]
+    #  isbn_counts = {}
+    #  for isbn in list_isbn:
+    #     if isbn in isbn_counts:
+    #         isbn_counts[isbn] += 1
+    #     else:
+    #         isbn_counts[isbn] = 1
     
-     duplicate_isbns = [isbn for isbn, count in isbn_counts.items() if count > 1]
+    #  duplicate_isbns = [isbn for isbn, count in isbn_counts.items() if count > 1]
 
-     duplicate_kbooks = kbooks.filter(isbn__in=duplicate_isbns)
+    #  duplicate_kbooks = kbooks.filter(isbn__in=duplicate_isbns)
 
-     if duplicate_kbooks.filter(owner = request.user).exists():
-        for kbook in duplicate_kbooks:
-            if kbook.owner != request.user:
-                kbooks = kbooks.exclude(id=kbook.id)
+    #  if duplicate_kbooks.filter(owner = request.user).exists():
+    #     for kbook in duplicate_kbooks:
+    #         if kbook.owner != request.user:
+    #             kbooks = kbooks.exclude(id=kbook.id)
         
-     elif duplicate_kbooks.filter(admin = request.user).exists():
-         for kbook in duplicate_kbooks:
-            if kbook.admin != request.user:
-                kbooks = kbooks.exclude(id=kbook.id)
+    #  elif duplicate_kbooks.filter(admin = request.user).exists():
+    #      for kbook in duplicate_kbooks:
+    #         if kbook.admin != request.user:
+    #             kbooks = kbooks.exclude(id=kbook.id)
 
-     if duplicate_kbooks.filter(owner = request.user, group__group_type__contains = "several").exists():
-         for kbook in duplicate_kbooks:
-             if kbook.group != None:
-                if kbook.owner == request.user and kbook.group.group_type == "several_books":
-                    kbooks = kbooks.exclude(id=kbook.id)
+    #  if duplicate_kbooks.filter(owner = request.user, group__group_type__contains = "several").exists():
+    #      for kbook in duplicate_kbooks:
+    #          if kbook.group != None:
+    #             if kbook.owner == request.user and kbook.group.group_type == "several_books":
+    #                 kbooks = kbooks.exclude(id=kbook.id)
+
+     unique_kbooks = []
+     unique_kbooks_isbn = []
+     unique_kbooks_titles = []
+     for kbook in kbooks:
+         if kbook.isbn != None:
+            if kbook.isbn in unique_kbooks_isbn:
+                pass
+            else:
+                unique_kbooks.append(kbook)
+                unique_kbooks_isbn.append(kbook.isbn)
+         else:
+             if kbook.title in unique_kbooks_titles:
+                 pass
+             else:
+                 unique_kbooks.append(kbook)
+                 unique_kbooks_titles.append(kbook.title)
+
+
+     print("uniques")
+     print(unique_kbooks)
+     
+
     
 
      context = {
          'books': books,
          'kbooks': kbooks,
+         'unique_kbooks': unique_kbooks
      }
      return render(request, 'books/all-books.html', context)
 
@@ -660,6 +727,7 @@ def pass_book_to_sharing_group(request, slug):
                     book.groups.add(group)
                     new_kbook = CustomBook(book=book, group=group)
                     new_kbook.owner = request.user
+                    new_kbook.is_borrowable = True
                     new_kbook.save()
                     
             book.save()
@@ -842,6 +910,25 @@ def delete_meeting(request, id):
     meeting.delete()
 
     return redirect('group-detail', group.slug)
+
+#BORROW
+
+def borrow_book_within_group(request, id, slug):
+    group = get_object_or_404(CustomGroup, slug=slug)
+    kbook = get_object_or_404(CustomBook, id=id)
+
+    context = {'kbook': kbook,
+               'group': group}
+    
+    if request.method == 'POST':
+        borrow = Borrow(custom_book = kbook, status = 'on_going', borrower = request.user)
+        borrow.save()
+        kbook.is_borrowable = False
+        kbook.save()
+        return redirect('book-detail', kbook.slug)
+
+
+    return render(request, 'books/borrow/borrow-within-group.html', context=context)
 
 
 

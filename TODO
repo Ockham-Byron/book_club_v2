@@ -1,3 +1,7 @@
+Prioritaire:
+  ✔ vérifier all-books @done(24-04-19 15:21)
+
+
 Général:
   ☐ traduction
   ☐ ajouter pwa
@@ -18,7 +22,8 @@ Book:
   ☐ dans delete, donner option d'enlever juste "ok pour prêter"
   ☐ add boutton add book to all-books
 
-
+Borrow:
+  ☐ rendre
 All-Books:
   ☐ filter
   ☐ search bar

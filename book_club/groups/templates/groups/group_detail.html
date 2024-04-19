@@ -111,7 +111,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 
 <div class="container mt-5">
 
-    <h1 class="text-center mb-5 darkest-color">{% trans "Books" %}</h1>
+    <h1 class="text-center mb-5 darkest-color">{{nb_of_books}} {% trans "Books" %}</h1>
 
     {% if nb_of_books == 0 %}
    
@@ -146,9 +146,15 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
                         {% endif %}
                         <p class="title mt-1 mb-0">{{book.title}}</p>
                         <p class="author">{{book.author}}</p>
+                        {% for borrow in borrows %}
+                {% if borrow.custom_book == book %}
+                <p>{% trans 'Borrowed' %}</p>
+                {% endif %}
+            {% endfor %}
                     </div>
                 </a>
             </li>
+            
             {% endfor %}
             </ul>
         </div>
