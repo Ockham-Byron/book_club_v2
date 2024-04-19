@@ -148,7 +148,7 @@ def add_book(request, id):
                             if CustomBook.objects.filter(book = book_in_db, admin = request.user, group__group_type = 'wishlist').exists():
                                 print("livre in wishlist")
                                 old_whislist = CustomBook.objects.get(book = book_in_db, admin = request.user, group__group_type = 'wishlist')
-                                book_in_db.group.remove(old_whislist.group)
+                                book_in_db.groups.remove(old_whislist.group)
                                 old_whislist.delete()
                                 
                         elif group.group_type == 'several_books':
@@ -161,15 +161,15 @@ def add_book(request, id):
                 
 
             else:
-                new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
-                new_book_in_db.save()
+                book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
+                book_in_db.save()
                 print(groups)
                 for group in groups:
-                    new_book_in_db.groups.add(group)
+                    book_in_db.groups.add(group)
                     group = get_object_or_404(CustomGroup, uuid=group)
                     print(group.kname)
                     print(group.group_type)
-                    new_kbook = CustomBook(book=new_book_in_db, group=group)
+                    new_kbook = CustomBook(book=book_in_db, group=group)
                     if group.group_type == 'library' or group.group_type == 'several_books':
                         new_kbook.owner = request.user
                         new_kbook.admin = request.user
@@ -177,9 +177,13 @@ def add_book(request, id):
                     else:
                         new_kbook.admin = request.user
                         new_kbook.save()
-                new_book_in_db.save()
-                return redirect('all-books')
+                book_in_db.save()
 
+            if CustomBook.objects.filter(book=book_in_db, owner=request.user, group__group_type = 'library').exists() and CustomBook.objects.filter(book=book_in_db, admin=request.user,group__group_type = 'wishlist').exists():
+                book_to_remove = CustomBook.objects.get(book=book_in_db, admin=request.user, group__group_type = 'wishlist')
+                book_in_db.groups.remove(book_to_remove.group)
+                book_to_remove.delete()
+                messages.warning(request, _("A same book can't be in your library and your wishlist. We have removed it from the whislist"))
             return redirect('all-books')
     
     return render(request, 'books/book-search-detail.html', context)
@@ -393,11 +397,13 @@ def book_detail(request, slug):
             if CustomBook.objects.filter(book=book, group=group, owner=user).exists():
                 print("existe")
             else:
+
                 available_sharing_groups.append(group)        
-    print(available_sharing_groups)   
+     
 
 
     print(sharing_groups)
+    print(available_sharing_groups)  
     
 
     context = {
@@ -412,7 +418,8 @@ def book_detail(request, slug):
         'all_reviews':all_reviews,
         'group_reviews':group_reviews,
         'sharing_groups' :sharing_groups,
-        'available_sharing_groups':available_sharing_groups
+        'available_sharing_groups':available_sharing_groups,
+        'groups_of_book':groups_of_book,
         
         }
 

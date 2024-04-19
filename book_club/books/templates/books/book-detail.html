@@ -53,15 +53,53 @@
   <!-- Cover + basic infos End-->
 
   <!-- Book groups -->
-  {% if sharing_groups%}
-  <div class="d-flex">
-    {% for group in available_sharing_groups %}
-      <a href = {% url 'pass-book-to-sharing-club' book.slug%}>
-      {{group.kname }}
-      </a>
-    {% endfor %}
+  <div class="d-flex flex-column">
+    <!-- Actual groups -->
+    <div class="d-flex mt-3">
+      {% for group in groups_of_book %}
+        <div class="d-flex flex-column align-items-center mx-2
+          {% if group.group_type == 'library' %}
+          order-1">
+          <div class="group-icon-small bg-brand-color d-flex justify-content-center align-items-center">
+            <i class="fa fa-lines-leaning lightest-color m-0"></i>
+          </div>
+          {% elif group.group_type == 'wishlist' %}
+            order-1" >
+            <div class="group-icon-small bg-mid-color d-flex justify-content-center align-items-center">
+              <i class="fa-solid fa-bookmark lightest-color m-0"></i>
+            </div>
+          {% else %}
+            order-2">
+              {% if group.group_pic%}
+                  <img class="group-img-small" src="{{group.group_pic.url}}" />
+              {% else %}
+                  <img class="group-img-small" src="{% static 'assets/img/illustrations/group_default.jpeg' %}" />
+              {% endif %}
+          {% endif %}
+          <p class="small">{{group.kname}}</p>
+        </div>
+      {% endfor %}
+    </div>
+      {% if sharing_groups %}
+        {% for group in sharing_groups %}
+           {% if group in available_sharing_groups %}
+           <div class="d-flex flex-column align-items-center mx-2 order-3">
+              <a class="darkest-color text-center" href="{% url 'pass-book-to-sharing-club' book.slug %}">
+              <p class="small my-0">{% trans 'Share within' %}</p>
+                {% if group.group_pic%}
+                    <img class="group-img-small" src="{{group.group_pic.url}}" />
+                {% else %}
+                    <img class="group-img-small" src="{% static 'assets/img/illustrations/group_default.jpeg' %}" />
+                {% endif %}
+                <p class="small">{{group.kname}}</p>
+              </a>
+            </div>
+            {% endif %}
+        {% endfor %}
+      {% endif %}
+</div>
+
   </div>
-  {% endif %}
     
   <!-- Book description -->
   <div class="mt-5 book-description">

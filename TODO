@@ -2,8 +2,11 @@ Général:
   ☐ traduction
   ☐ ajouter pwa
   ☐ ajouter page qui explique comment télécharger
-  ☐ sidebar responsive
+  ✔ sidebar responsive @done(24-04-19 10:32)
   ☐ menu texte au milieu on scrolling
+
+Groups:
+  ☐ Library and Wishlist - revoir beaucoup de livres
 
 Book:
   ☐ afficher qui a lu
@@ -14,6 +17,11 @@ Book:
   ☐ dans les échanges de livre, indiquer option "ok pour prêter"
   ☐ dans delete, donner option d'enlever juste "ok pour prêter"
   ☐ add boutton add book to all-books
+
+
+All-Books:
+  ☐ filter
+  ☐ search bar
 
 Comment:
     ☐ faire une page avec tous les commentaires 

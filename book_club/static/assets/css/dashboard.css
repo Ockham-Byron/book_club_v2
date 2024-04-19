@@ -780,6 +780,18 @@ a.card-recipe-btn-small {
   padding:20px;
 }
 
+div.group-icon-small {
+  width: 40px;
+  height: 40px;
+  border-radius:50%;
+}
+
+img.group-img-small {
+  width:40px !important;
+  height:40px !important;
+  border-radius:50%;
+}
+
 .book-mini-card {
   
   width:200px;

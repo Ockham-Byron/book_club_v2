@@ -46,23 +46,28 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
     </a>
 </div>
 {% else %}
-<div class="d-flex justify-content-center">
-{% for book in books %}
-<a href="{% url 'book-detail' book.slug %}">
-<div class="book-mini-card mx-auto">
-{% if book.picture %}
+<div class="d-flex flex-column align-items-center mt-3">
+        {% for book in books %}
+            <a href="{% url 'book-detail' book.slug %}" class="book-card-link">
+            <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
+                <div>
+                    {% if book.picture %}
       <img class="mx-auto" src="{{book.picture.url}}" alt="{{book.title}}" />
       {% elif book.cover %}
       <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
       {% else %}
-      <img class="mx-auto" src="{% static 'assets/img/illustrations/book-default.png'%}" alt="{{book.title}}" />
+      <img class="mx-auto" src={% static 'assets/img/illustrations/book-default.png'%} alt="{{book.title}}" />
       {% endif %}
-    <p class="title mt-1 mb-0">{{book.title}}</p>
-    <p class="author">{{book.author}}</p>
-</div>
-</a>
-{% endfor %}
-</div>
+                </div>
+                <div class="ms-2">
+                    <p class="title">{{ book.title }}</p>
+                    <p class="author">{{ book.author }}</p>
+                    
+                </div>
+            </div>
+            </a>
+        {% endfor %}
+ </div>   
 
 <!-- Books container End -->
 {% endif %}
