@@ -425,8 +425,9 @@ def book_detail(request, slug):
     kbooks = CustomBook.objects.filter(book=book)
     kbooks_within_shared_groups = []
     for kbook in kbooks:
-        if CustomGroup.objects.filter(members__id__contains = kbook.owner.id).filter(members__id__contains = request.user.id).exists():
-                kbooks_within_shared_groups.append(kbook)
+        if kbook.owner:
+            if CustomGroup.objects.filter(members__id__contains = kbook.owner.id).filter(members__id__contains = request.user.id).exists():
+                    kbooks_within_shared_groups.append(kbook)
     borrowable_kbooks = []
     borrows = []
     for kbook in kbooks_within_shared_groups:
