@@ -19,12 +19,15 @@
           </button>
       </div>
     {% endif %}
-    <p class="title">{% trans 'Create Group' %}</p>
+    <p class="title">{% trans 'Create Club' %}</p>
+
+    <p class="mb-0">{% trans "If you want to join an existing club, click here" %}</p>
+    <a href="{% url 'join-group' %}" class="btn btn-mid-color">{% trans "Join existing club" %}</a>
     
       {{form.kname}}
     
       {{form.description}}
-      <p class="mid-color">{% trans 'Type of Group' %}</p>
+      <p class="mid-color">{% trans 'Type of Club' %}</p>
       <div class="d-flex justify-content-around">
         <div class="choice-container">
           <p class="text-center pt-sm-2">{% trans 'Everyone read the same book' %}</p>
@@ -52,7 +55,7 @@
   style="display:none" 
   />
   <div class="text-center mt-2"> 
-    <a href="#" id="fileSelect" class="mid-color"><i class="fas fa-cloud-upload-alt d-block pb-2" style="font-size:45px;"></i>{% trans 'Upload Picture of the Group' %}</a>
+    <a href="#" id="fileSelect" class="mid-color"><i class="fas fa-cloud-upload-alt d-block pb-2" style="font-size:45px;"></i>{% trans 'Upload Picture of the Club' %}</a>
   </div>
 <div id="fileList" class="mt-3 color-light">
   

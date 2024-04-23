@@ -164,6 +164,7 @@ def register_view(request):
             library.members.add(user)
             library.save()
             wishlist = CustomGroup(kname=_('My Wishlist'), leader=user, group_type='wishlist')
+            wishlist.members.add(user)
             wishlist.save()
             new_user = authenticate(username=user.email, password=password)
             login(request, new_user)

@@ -11,7 +11,7 @@ class AddGroupForm(forms.ModelForm):
     
     kname = forms.CharField(max_length=100, 
                                 required=True,
-                                widget=forms.TextInput(attrs={'placeholder': _("Group's Name"),                    
+                                widget=forms.TextInput(attrs={'placeholder': _("Club's Name"),                    
                                     }))
     
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'placeholder': _("Description"),
@@ -25,7 +25,7 @@ class AddGroupForm(forms.ModelForm):
 class UpdateGroupForm(forms.ModelForm):
     kname = forms.CharField(max_length=100, 
                                 required=True,
-                                widget=forms.TextInput(attrs={'placeholder': _("Group's Name"),
+                                widget=forms.TextInput(attrs={'placeholder': _("Club's Name"),
                                                             
                                     }))
     group_pic = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))

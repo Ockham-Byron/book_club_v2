@@ -35,7 +35,13 @@
                   <i class="fa-solid fa-user-group"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Groups' %}</span>
               </a>
               <ul class="drop-menu subnav-content" >
+                  {% if groups.count == 1 %}
+                    {% for group in groups %}
+                      <li><a class="dropdown-item lightest-color" href="{% url 'group-detail' group.slug %}">{{group.kname}}</a></li>
+                    {% endfor %}
+                  {% else %}
                   <li><a class="dropdown-item lightest-color" href="{% url 'all-groups' %}">{% trans 'My groups' %}</a></li>
+                  {% endif %}
                   <li><a class="dropdown-item lightest-color" href="{% url 'add-group' %}"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add group' %}</a></li>
               </ul>
           </li>
@@ -48,7 +54,8 @@
             <li><a class="dropdown-item lightest-color ps-2" href="{% url 'new-book-search' %}"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add Book' %}</a></li>
             {% if groups.count == 1%}
                     {% for group in groups%}
-                        <li><a class="dropdown-item lightest-color" href="{% url 'all-books' %}">{% trans 'Books' %}</a></li>
+                        <li><a class="dropdown-item lightest-color" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
+                        <li><a class="dropdown-item lightest-color" href="{% url 'group-books' group.slug %}">{% trans 'Books of' %} {{group.kname}}</a></li>
                     {% endfor %}
                 {% else %}
                     <li><a class="dropdown-item lightest-color ps-2" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
@@ -56,7 +63,7 @@
                       <a class="second-level lightest-color ps-3 " tabindex="-1" href="#">{% trans 'Books of' %}<i class="ps-2 fas fa-angle-right"></i></a>
                       <ul class="subnav-content2">
                         {% for group in groups %}
-                        <li><a tabindex="-1" class="lightest-color" href="#"><small>{{group.kname}}</small></a></li>
+                        <li><a tabindex="-1" class="lightest-color" href="{% url 'group-books' group.slug %}""><small>{{group.kname}}</small></a></li>
                         <hr class="dropdown-divider">
                         {% endfor %}
                       </ul>

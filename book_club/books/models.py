@@ -78,6 +78,7 @@ class CustomBook(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
     book=models.ForeignKey(Book, related_name="kbook", on_delete=models.PROTECT)
     group = models.ForeignKey(CustomGroup, related_name="kbook_group", on_delete=models.CASCADE, blank=True, null=True)
+    sharing_groups = models.ManyToManyField(CustomGroup, related_name="shared_book", blank=True)
     admin = models.ForeignKey(User, related_name="admin", on_delete=models.CASCADE, blank=True, null=True)
     owner = models.ForeignKey(User, related_name="owner", on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=150, blank=True, null=True)

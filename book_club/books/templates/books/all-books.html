@@ -7,7 +7,7 @@
     <h1 class="text-center">{% trans 'Books of' %} {{group.kname}}</h1>
 {% endif %}
 
-{% if kbooks %}
+{% if unique_kbooks %}
     
 <div class="d-flex flex-column align-items-center mt-3">
         {% for book in unique_kbooks %}
