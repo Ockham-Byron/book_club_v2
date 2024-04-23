@@ -400,6 +400,7 @@ def add_new_book_to_meeting(request,id, isbn):
                 kbook = CustomBook.objects.get(book=book_in_db, group=group)
                 meeting.book = kbook
             else:
+                print("pas dans la db")
                 book_in_db.groups.add(group)
                 book_in_db.save()
                 new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)

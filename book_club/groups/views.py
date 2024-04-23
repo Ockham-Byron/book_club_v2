@@ -10,7 +10,7 @@ from django.views.generic.edit import UpdateView
 from django.utils.text import slugify
 from .forms import *
 from .models import CustomGroup
-from books.models import Borrow
+from books.models import Borrow, CustomBook
 
 
 
@@ -130,7 +130,13 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
             next_book = next_meeting.book
             if next_book:
                 nb_of_readers = next_book.book.readers.filter(group_members = group).count()
-        books = group.kbook_group.all().order_by('-created_at')[:10]
+        print(group.group_type)
+        if group.group_type == 'several_books':
+            print("exchange club")
+            books = CustomBook.objects.filter(sharing_groups__id__contains = group.id)
+            print(books)
+        else:
+            books = group.kbook_group.all().order_by('-created_at')[:10]
         borrows = []
         for book in books:
             if Borrow.objects.filter(custom_book = book, status = 'on_going').exists():
@@ -141,8 +147,8 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['members'] = group.members.all()
         context['nb_of_users'] = group.members.all().count()
-        context['nb_of_books'] = group.kbook_group.all().count() 
-        context['books'] = group.kbook_group.all().order_by('-created_at')[:10]
+        context['nb_of_books'] = books.count()
+        context['books'] = books
         context['borrows'] = borrows
         context['next_meeting'] = next_meeting
         context['nb_of_readers'] = nb_of_readers
