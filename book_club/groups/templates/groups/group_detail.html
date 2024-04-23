@@ -116,7 +116,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
     {% if nb_of_books == 0 %}
    
         <div class="d-flex p-2 justify-content-center">
-            <a class="btn" href="#">
+            <a class="btn" href="{% url 'new-book-search' %}">
                 <div class="sketch-box">
                     <div class="card-cta border-0 sketch-box">
                         <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="100px" >

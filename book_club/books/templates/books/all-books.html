@@ -36,4 +36,12 @@
 {% else %}
     <img class="form-img" src={% static 'assets/img/illustrations/book-search.svg' %}  />
 {% endif %}
+
+<!-- Floating button -->
+<a href="{% url 'new-book-search' %}">
+<div class="kfloat" data-bs-toggle="tooltip" title="{% trans 'Add Book' %}">
+<div class="my-float">+</div>
+</div>
+</a>
+
 {% endblock %}
