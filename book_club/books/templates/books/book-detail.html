@@ -102,14 +102,32 @@
   
     
   <!-- Book Borrow -->
-  <div style="width:200px;" class="mx-auto">
-  {% if is_borrowable %}
-    {% for kbook in borrowable_kbooks %}
-    <a class="btn btn-darkest-color" href="{% url 'borrow-within-group' kbook.id kbook.group.slug %}">
-      {% trans 'Borrow from' %}  {{kbook.owner}} 
+  <div style="width:400px;" class="mx-auto">
+  
+  {% with common_sharing_groups|first as group %}
+    <div class="d-flex justify-content-even">
+      {% if is_borrowed_by_user %}
+
+      {% else %}
+        {% if is_reserved_by_user %}
+        <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
+          {% trans 'Reserved from' %}  {{book.owner}} </br> {% trans 'Cancel Reservation' %} ?
+        </a>
+        {% else %}
+        <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
+          {% trans 'Reserve from' %}  {{book.owner}} 
+        </a>
+        {% endif %}
+      {% endif %}
+      {% if is_borrowable %}
+    <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-within-group' book.id group.slug %}">
+      {% trans 'Borrow from' %}  {{book.owner}} 
     </a>
-    {% endfor %}
-  {% endif %}
+    {% endif %}
+  </div>
+    {% endwith %}
+    
+  
 
   {% if borrows %}
     {% for borrow in borrows %}
@@ -120,9 +138,12 @@
       {% else %}
       <a class="btn btn-darkest-color text-white" href="#">
       
-      {% trans 'Borrowed by' %} {{borrow.borrower}} 
+      {% trans 'Borrowed by' %} {{borrow.borrower}} </br>
+      {% if book.owner == request.user %}
       {% trans 'Mark as given back' %} ?
-
+      {% else %}
+        {% trans 'Want to reserve it ?' %}
+      {% endif %}
       {% endif %}
      
     </a>
@@ -141,6 +162,20 @@
   </div>
   <!-- Book description End-->
 
+  <!-- Reservations -->
+  {% if reservations %}
+    <div class="rounded bg-light p-3">
+    <h3 class="text-center">{% trans 'Reservations' %}</h3>
+    {% for reservation in reservations %}
+      <div class="d-flex justify-content-between" style="width:300px;">
+      <p>{{reservation.borrower}}</p>
+      <p>{{reservation.demand_date}}</p>
+      </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Reservations End -->
 
   <!-- Reviews -->
   <div class="mt-5 d-flex flex-wrap justify-content-center">

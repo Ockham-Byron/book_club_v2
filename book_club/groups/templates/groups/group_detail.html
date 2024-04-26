@@ -92,6 +92,12 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
             {% if next_meeting.book %}
             <p>{% trans "Read by" %} {{nb_of_readers}} / {{nb_of_users}}</p>
             {% endif %}
+            {% if next_meeting.details %}
+            <div class="rounded bg-light p-2 mb-2">
+                <p class="mb-0">{% trans 'Other infos' %}:</p>
+                <p class="mb-0">{{next_meeting.details}}</p>
+            </div>
+            {% endif %}
             <a href="{% url 'edit-meeting' next_meeting.id %}"><i class="fa fa-cog dark-color"></i></a>
         </div>
         

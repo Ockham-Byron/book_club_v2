@@ -13,9 +13,10 @@ class BookSearch(forms.Form):
 class AddMeetingForm(forms.ModelForm):
     class Meta:
         model=Meeting
-        fields=[  'place']
+        fields=[  'place', 'details']
         widgets= {
-            "place":forms.TextInput(attrs={'placeholder': _('Meeting place')})
+            "place":forms.TextInput(attrs={'placeholder': _('Meeting place')}),
+            "details": forms.TextInput(attrs={'placeholder': _('Other infos')})
         }
 
 class AddCommentForm(forms.ModelForm):

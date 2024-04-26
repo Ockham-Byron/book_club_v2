@@ -474,31 +474,33 @@ def book_detail(request, slug):
             if CustomBook.objects.filter(book=book, sharing_groups__id__contains=group.id, owner=user).exists():
                 print("existe")
             else:
-
                 available_sharing_groups.append(group)   
 
     #borrows     
      
     is_borrowable = False
-    is_reservable = False
+    is_reserved_by_user = False
+    is_borrowed_by_user = False
+    common_sharing_groups = []
+    borrows = None
+    reservations = None
     
-    kbooks = CustomBook.objects.filter(book=book)
-    kbooks_within_shared_groups = []
-    for kbook in kbooks:
-        if kbook.owner:
-            if CustomGroup.objects.filter(members__id__contains = kbook.owner.id).filter(members__id__contains = request.user.id).exists():
-                    kbooks_within_shared_groups.append(kbook)
-    borrowable_kbooks = []
-    borrows = []
-    for kbook in kbooks_within_shared_groups:
-        if kbook.owner != request.user and kbook.owner != None and kbook.is_borrowable == True and kbook.group.group_type != 'library':
-            borrowable_kbooks.append(kbook)
+    for group in kbook.sharing_groups.all():
+        if user in group.members.all():
+            common_sharing_groups.append(group)
+    
+    for group in common_sharing_groups:
+        if kbook.owner != user and kbook.is_borrowable == True:
             is_borrowable = True
-        elif Borrow.objects.filter(custom_book = kbook, status = 'on_going'):
-            borrow = Borrow.objects.get(custom_book = kbook, status = 'on_going')
-            borrows.append(borrow)
-            is_borrowable = False
-    print(borrows)
+
+    borrows = Borrow.objects.filter(custom_book = kbook, status = 'on_going')
+    if Borrow.objects.filter(custom_book = kbook, status = 'on_going', borrower=request.user).exists():
+        is_borrowed_by_user = True
+    reservations = Borrow.objects.filter(custom_book = kbook, status = 'pending')
+    if Borrow.objects.filter(custom_book = kbook, status="pending", borrower=user):
+        is_reserved_by_user = True
+        
+    
     
     
 
@@ -521,9 +523,12 @@ def book_detail(request, slug):
         'sharing_groups' :sharing_groups,
         'available_sharing_groups':available_sharing_groups,
         'groups_of_book':groups_of_book,
+        'common_sharing_groups':common_sharing_groups,
         'is_borrowable':is_borrowable,
-        'borrowable_kbooks':borrowable_kbooks,
+        'is_borrowed_by_user':is_borrowed_by_user,
         'borrows':borrows,
+        'reservations':reservations,
+        'is_reserved_by_user':is_reserved_by_user
         
         }
 
@@ -879,6 +884,7 @@ def delete_review(request, id):
     review.delete()
 
     return redirect('book-detail', book.slug)
+
 #MEETINGS   
      
 @login_required
@@ -971,6 +977,7 @@ def delete_meeting(request, id):
 
 #BORROW
 
+@login_required
 def borrow_book_within_group(request, id, slug):
     group = get_object_or_404(CustomGroup, slug=slug)
     kbook = get_object_or_404(CustomBook, id=id)
@@ -979,14 +986,35 @@ def borrow_book_within_group(request, id, slug):
                'group': group}
     
     if request.method == 'POST':
-        borrow = Borrow(custom_book = kbook, status = 'on_going', borrower = request.user)
+        if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = 'pending').exists():
+            borrow = get_object_or_404(Borrow, custom_book = kbook, status = 'pending', borrower = request.user)
+            borrow.status = 'on_going'
+        else:
+            borrow = Borrow(custom_book = kbook, status = 'on_going', borrower = request.user)
         borrow.save()
         kbook.is_borrowable = False
         kbook.save()
+        
         return redirect('book-detail', kbook.slug)
 
 
     return render(request, 'books/borrow/borrow-within-group.html', context=context)
+
+@login_required
+def reserve_book_within_group(request, id, slug):
+    group = get_object_or_404(CustomGroup, slug=slug)
+    kbook = get_object_or_404(CustomBook, id=id)
+
+    context = {'kbook': kbook,
+               'group': group}
+    
+    if request.method == 'POST':
+        reservation = Borrow(custom_book = kbook, status = 'pending', borrower = request.user)
+        reservation.save()
+        return redirect('book-detail', kbook.slug)
+
+
+    return render(request, 'books/borrow/reserve-within-group.html', context=context)
 
 
 

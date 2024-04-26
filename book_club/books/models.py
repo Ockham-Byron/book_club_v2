@@ -132,6 +132,7 @@ class Meeting(models.Model):
     meeting_at = models.DateTimeField(auto_now_add=False, blank=True, null=True)
     attendees = models.ManyToManyField(User, related_name="attendees", blank=True)
     place = models.CharField(max_length=200, blank=True, null=True)
+    details = models.CharField(max_length=300, blank=True, null=True)
 
 class Borrow(models.Model):
     PENDING = 'pending'
