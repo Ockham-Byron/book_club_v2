@@ -26,6 +26,7 @@ urlpatterns = [
   path('book-detail/<slug:slug>', book_detail, name="book-detail"),
   path('add-new-book-to-group/<slug:slug>', add_new_book_to_group, name="add-new-book-to-group"),
   path('pass-book-to-club/<slug:slug>', pass_book_to_sharing_group, name="pass-book-to-sharing-club"),
+  path('pass-book-to-library/<slug:slug>', pass_book_to_library, name="pass-book-to-library"),
 
 
   #comments

@@ -1,11 +1,11 @@
 {% extends "dashboard/base.html" %}
 {% load static i18n %}
-{% block title %}{% trans 'My Groups' %} {% endblock %}
+{% block title %}{% trans 'My Clubs' %} {% endblock %}
 {% block content %}
 {% include 'users/includes/messages.html' %}
 
 {% if groups %}
-  <h1 class="text-center mb-5">{% trans 'Groups' %}</h1>
+  <h1 class="text-center mb-5">{% trans 'Clubs' %}</h1>
     <div class="d-flex justify-content-center flex-wrap">
         {% for i in groups %}
           <a href="{% url 'group-detail' i.slug %}" class="btn btn-rounded btn-kdark">
@@ -32,7 +32,7 @@
           <div class="card-cta border-0">
             <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="150px" >
             <div class="card-body text-uppercase">
-              {% trans 'Create a Group '%}
+              {% trans 'Create a Club '%}
             </div>
           </div>
         </a>
@@ -42,7 +42,7 @@
           <div class="card-cta border-0" >
             <img class="card-icon mx-auto" src="{% static 'assets/img/icons/circled-right-100.png' %}" alt="Card image cap" width="150px">
             <div class="card-body text-uppercase">
-            {% trans 'Join a Group' %}
+            {% trans 'Join a Club' %}
             </div>
           </div>
         </a>

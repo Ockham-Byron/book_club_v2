@@ -80,32 +80,17 @@
         </div>
       {% endfor %}
     </div>
-      {% if sharing_groups %}
-        {% for group in sharing_groups %}
-           {% if group in available_sharing_groups %}
-           <div class="d-flex flex-column align-items-center mx-2 order-3">
-              <a class="darkest-color text-center" href="{% url 'pass-book-to-sharing-club' book.slug %}">
-              <p class="small my-0">{% trans 'Share within' %}</p>
-                {% if group.group_pic%}
-                    <img class="group-img-small" src="{{group.group_pic.url}}" />
-                {% else %}
-                    <img class="group-img-small" src="{% static 'assets/img/illustrations/group_default.jpeg' %}" />
-                {% endif %}
-                <p class="small">{{group.kname}}</p>
-              </a>
-            </div>
-            {% endif %}
-        {% endfor %}
-      {% endif %}
+      
+
 </div>
 
   
     
   <!-- Book Borrow -->
-  <div style="width:400px;" class="mx-auto">
   
+  {% if common_sharing_groups %}
   {% with common_sharing_groups|first as group %}
-    <div class="d-flex justify-content-even">
+    <div class="d-flex justify-content-center">
       {% if is_borrowed_by_user %}
 
       {% else %}
@@ -113,7 +98,7 @@
         <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
           {% trans 'Reserved from' %}  {{book.owner}} </br> {% trans 'Cancel Reservation' %} ?
         </a>
-        {% else %}
+        {% elif book.owner != request.user %}
         <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
           {% trans 'Reserve from' %}  {{book.owner}} 
         </a>
@@ -126,6 +111,7 @@
     {% endif %}
   </div>
     {% endwith %}
+    {% endif %}
     
   
 
@@ -149,7 +135,7 @@
     </a>
     {% endfor %}
   {% endif %}
-   </div>
+   
  
 
 
@@ -202,25 +188,58 @@
 
 <!-- Button -->
 
-<div class="btn-container">
-    <div class="expandable-button">
-      <div class="fill-block"></div>
-      <div class="close-icon">
-        <div class="fas fa-times"></div>
-      </div><a class="expansion-item" href="{% url 'add-review' book.slug %}">
-        <div class="expansion-content">
+
+
+<div class="float-container"><span class="button">...</span>
+  <div class="content">
+    <div class="head">
+    </div>
+    <div class="body">
+    {% if sharing_groups %}
+        {% for group in sharing_groups %}
+           {% if group in available_sharing_groups %}
+           <div class="d-flex flex-column align-items-center mx-2 order-3">
+              <a class="darkest-color text-center" href="{% url 'pass-book-to-sharing-club' book.slug %}">
+              <p class="small my-0">{% trans 'Share within' %}</p>
+                {% if group.group_pic%}
+                    <img class="group-img-small" src="{{group.group_pic.url}}" />
+                {% else %}
+                    <img class="group-img-small" src="{% static 'assets/img/illustrations/group_default.jpeg' %}" />
+                {% endif %}
+                <p class="small">{{group.kname}}</p>
+              </a>
+            </div>
+            {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% if in_library == False%}
+      <a class="d-flex" href="{% url 'pass-book-to-library' book.slug %}">
+      
+          <div class="icon fa fa-lines-leaning"></div>
+          <div class="text">{% trans 'Add to Library' %}</div>
+      </a>
+      {% endif %}
+      <a class="d-flex" href="{% url 'add-review' book.slug %}"> 
+       
           <div class="icon fas fa-star"></div>
           <div class="text">{% trans 'Review' %}</div>
-        </div></a><a class="expansion-item" href="{% url 'edit-book' book.slug%}">
-        <div class="expansion-content">
+        
+      </a>
+      <a class="d-flex" href="{% url 'edit-book' book.slug%}">
+       
           <div class="icon fas fa-pen"></div>
           <div class="text">Edit</div>
-        </div></a><a class="expansion-item" href="{% url 'delete-book-from-group' book.book.slug%}">
-        <div class="expansion-content">
+       
+      </a>
+      <a class="d-flex" href="{% url 'delete-book-from-group' book.book.slug%}">
+     
           <div class="icon fas fa-trash"></div>
           <div class="text">{% trans 'Delete' %}</div>
-        </div></a>
+       
+      </a>
+      
     </div>
+  </div>
 </div>
 
 
@@ -239,6 +258,12 @@ btn.addEventListener("click", () => {
 });
 
 
+</script>
+
+<script>
+$('.button').click(function () {
+  $(this).parent().toggleClass('expand');     
+});
 </script>
 
 {% endblock %}

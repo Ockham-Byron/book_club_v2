@@ -35,7 +35,7 @@
       
       <button class="submit" type="submit ">{% trans 'Submit' %}</button>
       <div class="text-center d-flex flex-column">
-        <a href="{% url 'book-detail' book.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+        <a href="{% url 'book-detail' kbook.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
         {% if review %}
           <a href="#" type="button" class="joy-color" data-bs-toggle="modal" data-bs-target="#deleteCommentModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Review' %}</a>
           <!-- Modal delete comment -->

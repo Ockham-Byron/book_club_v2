@@ -121,7 +121,7 @@
       <div class="text-center d-flex flex-column">
         <a href="{% url 'all-books' %}" class="mid-color">{% trans 'Cancel' %}</a>
         {% if book %}
-        <a href="#" type="button" class="joy-color" data-bs-toggle="modal" data-bs-target="#deleteMealModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Meal' %}</a>
+        <a href="#" type="button" class="joy-color" data-bs-toggle="modal" data-bs-target="#deleteMealModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Book' %}</a>
         <!-- Modal delete book -->
         <div class="modal fade" id="deleteMealModal" tabindex="-1" aria-labelledby="deleteMealModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
@@ -129,7 +129,7 @@
               <div class="text-center">
                 <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
                 <br/>
-                <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Meal ?' %}</h5>
+                <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Book ?' %}</h5>
               </div>
               <div class="text-center">
                 <p class="darkest-color p-4">{% trans "You will lose all the memories, but hey, no pression..." %}</p>

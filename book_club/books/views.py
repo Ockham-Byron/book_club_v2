@@ -30,7 +30,7 @@ MESSAGE_BOOK_REGISTERED = _(
     "The book is already registered here."
 )
 
-# Create your views here.
+# Functions
 def book_search(search):
     api = "https://www.googleapis.com/books/v1/volumes?q=search:"
   
@@ -146,6 +146,8 @@ def book_add(request, book_in_db, groups, picture):
         book_to_remove.delete()
         messages.warning(request, _("A same book can't be in your library and your wishlist. We have removed it from the whislist"))
 
+
+# BOOK VIEWS
 @login_required
 def add_book(request, id):
     book_in_db = None
@@ -317,11 +319,6 @@ def new_book_search(request):
             except:
                 messages.error(request, _('Invalid search. Try without any accent.'))
                 return render(request, 'books/search.html', {'form': form})
-            
-       
-
-        
-
 
 @login_required
 def search_book_for_meeting(request, id):
@@ -430,8 +427,31 @@ def book_detail(request, slug):
     
     kbook = get_object_or_404(CustomBook, slug=slug)
     book = kbook.book 
+    
     groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     groups_of_book = book.groups.filter(members__id__contains=request.user.id)
+
+    all_reviews = Comment.objects.filter(book=book)
+    #filter by groups
+    
+    author_filter = Q()
+    for group in groups:
+        author_filter |= Q(author__group_members = group)
+
+    group_reviews = all_reviews.filter(author_filter).distinct()
+
+    if kbook.group.group_type == 'one_book':
+        if CustomBook.objects.filter(book=book, owner=user).exists():
+            kbook = get_object_or_404(CustomBook, book=book, owner=user)
+        elif CustomBook.objects.filter(book=book, group__group_type = "several_books").exists():
+            sharable_kbooks = CustomBook.objects.filter(book=book, group__group_type = "several_books", owner=author_filter)
+            kbook = sharable_kbooks.first()
+            print("sharable_kbooks")
+            print(sharable_kbooks)
+            
+    print(kbook.group)
+
+    
     is_read = False
     is_reading = False
     in_wish = False
@@ -458,14 +478,7 @@ def book_detail(request, slug):
 
 
 
-    all_reviews = Comment.objects.filter(book=book)
-    #filter by groups
     
-    author_filter = Q()
-    for group in groups:
-        author_filter |= Q(author__group_members = group)
-
-    group_reviews = all_reviews.filter(author_filter).distinct()
 
     sharing_groups = CustomGroup.objects.filter(members__id__contains=user.id, group_type="several_books")
     available_sharing_groups = []
@@ -688,7 +701,6 @@ def edit_book(request, slug):
 
     return render(request, 'books/add-edit-book.html', {'form': form, 'book': book})
 
-
 @login_required
 def all_books(request):
      user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
@@ -768,6 +780,37 @@ def group_books(request, slug):
     return render(request, 'books/all-books.html', context)
 
 @login_required
+def pass_book_to_library(request,slug):
+    kbook = get_object_or_404(CustomBook, slug=slug)
+    book = kbook.book
+    groups = CustomGroup.objects.filter(members__id__contains = request.user.id, group_type = "library")
+
+    context = {'groups': groups,
+               'book': book,
+               'kbook':kbook}
+
+    if request.method == 'POST':
+        groups = request.POST.getlist('group')
+        if len(groups) == 0:
+            messages.error(request, _('You have to choose where to register this book.'))
+        else:
+            for i in groups:
+                group = CustomGroup.objects.get(uuid=i)
+                
+                if group in book.groups.all():
+                    messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
+                else:
+                    book.groups.add(group)
+                    book.in_library.add(request.user)
+                    kbook = CustomBook(book=book, owner = request.user, group = group)
+                    kbook.save()
+                    
+            book.save()
+            return redirect('book-detail', kbook.slug)
+    
+    return render(request, 'books/pass-book-to-sharing-club.html', context=context)
+
+@login_required
 def pass_book_to_sharing_group(request, slug):
     kbook = get_object_or_404(CustomBook, slug=slug)
     book = kbook.book
@@ -797,8 +840,6 @@ def pass_book_to_sharing_group(request, slug):
             return redirect('book-detail', kbook.slug)
 
     return render(request, 'books/pass-book-to-sharing-club.html', context=context)
-
-
     
 @login_required
 def delete_book_from_group(request,slug):
@@ -821,6 +862,7 @@ def delete_book(request, slug):
     if kbook.group.group_type == 'one_book' or kbook.group.group_type == 'several_books':
         return redirect('group-detail', kbook.group.slug)
     elif kbook.group.group_type == 'library':
+        book.in_library.remove(request.user)
         return redirect ('library', kbook.group.slug)
     else:
         return redirect ('wishlist', kbook.group.slug)
@@ -844,7 +886,7 @@ def add_review(request, slug):
             book.save()
             return redirect('book-detail', kbook.slug)
 
-    return render(request, "books/add-comment.html", {'form':form, 'book':book})
+    return render(request, "books/add-comment.html", {'form':form, 'book':book, 'kbook':kbook})
 
 @login_required
 def edit_review(request, id):
