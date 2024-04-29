@@ -32,7 +32,7 @@
         <!-- Groups -->
           <li class="subnav">
               <a href="#" class="nav-link lightest-color second-level">
-                  <i class="fa-solid fa-user-group"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Groups' %}</span>
+                  <i class="fa-solid fa-user-group"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Clubs' %}</span>
               </a>
               <ul class="drop-menu subnav-content" >
                   {% if groups.count == 1 %}
@@ -40,9 +40,9 @@
                       <li><a class="dropdown-item lightest-color" href="{% url 'group-detail' group.slug %}">{{group.kname}}</a></li>
                     {% endfor %}
                   {% else %}
-                  <li><a class="dropdown-item lightest-color" href="{% url 'all-groups' %}">{% trans 'My groups' %}</a></li>
+                  <li><a class="dropdown-item lightest-color" href="{% url 'all-groups' %}">{% trans 'My Clubs' %}</a></li>
                   {% endif %}
-                  <li><a class="dropdown-item lightest-color" href="{% url 'add-group' %}"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add group' %}</a></li>
+                  <li><a class="dropdown-item lightest-color" href="{% url 'add-group' %}"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add Club' %}</a></li>
               </ul>
           </li>
         <!-- Books-->

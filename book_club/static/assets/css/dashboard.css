@@ -1070,7 +1070,7 @@ img.curly2 {
   flex-basis: calc(100% / 4 - (10px * 2) - (20px / 4));
   margin: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   flex-direction: column;
   position: relative;
@@ -1115,4 +1115,12 @@ img.curly2 {
   .hs__wrapper .hs__item {
     flex: 1 0 calc(45% - 10px * 2);
   }
+}
+
+.book-status-tag {
+  background-color: var(--mid-color);
+  color:var(--darkest-color) !important;
+  font-size: 12px;
+  padding:5px 10px;
+  border-radius:10px;
 }
