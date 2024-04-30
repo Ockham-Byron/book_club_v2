@@ -714,72 +714,97 @@ def edit_book(request, slug):
 
 @login_required
 def all_books(request):
-     user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
      
-     books = Book.objects.filter(groups__in=user_groups).distinct()
-     kbooks= CustomBook.objects.filter(book__in=books)
+    books = Book.objects.filter(groups__in=user_groups).distinct()
+    kbooks= CustomBook.objects.filter(book__in=books)
 
-    #  unique_kbooks = set(kbook.isbn for kbook in kbooks) 
-    #  print(unique_kbooks)
-
-     #gérer les doublons
-    #  list_isbn=[kbook.isbn for kbook in kbooks]
-    #  isbn_counts = {}
-    #  for isbn in list_isbn:
-    #     if isbn in isbn_counts:
-    #         isbn_counts[isbn] += 1
-    #     else:
-    #         isbn_counts[isbn] = 1
     
-    #  duplicate_isbns = [isbn for isbn, count in isbn_counts.items() if count > 1]
 
-    #  duplicate_kbooks = kbooks.filter(isbn__in=duplicate_isbns)
-
-    #  if duplicate_kbooks.filter(owner = request.user).exists():
-    #     for kbook in duplicate_kbooks:
-    #         if kbook.owner != request.user:
-    #             kbooks = kbooks.exclude(id=kbook.id)
-        
-    #  elif duplicate_kbooks.filter(admin = request.user).exists():
-    #      for kbook in duplicate_kbooks:
-    #         if kbook.admin != request.user:
-    #             kbooks = kbooks.exclude(id=kbook.id)
-
-    #  if duplicate_kbooks.filter(owner = request.user, group__group_type__contains = "several").exists():
-    #      for kbook in duplicate_kbooks:
-    #          if kbook.group != None:
-    #             if kbook.owner == request.user and kbook.group.group_type == "several_books":
-    #                 kbooks = kbooks.exclude(id=kbook.id)
-
-     unique_kbooks = []
-     unique_kbooks_isbn = []
-     unique_kbooks_titles = []
-     for kbook in kbooks:
-         if kbook.isbn != None:
+    unique_kbooks = []
+    unique_kbooks_isbn = []
+    unique_kbooks_titles = []
+    for kbook in kbooks:
+        if kbook.isbn != None:
             if kbook.isbn in unique_kbooks_isbn:
                 pass
             else:
                 unique_kbooks.append(kbook)
                 unique_kbooks_isbn.append(kbook.isbn)
-         else:
-             if kbook.title in unique_kbooks_titles:
-                 pass
-             else:
-                 unique_kbooks.append(kbook)
-                 unique_kbooks_titles.append(kbook.title)
+        else:
+            if kbook.title in unique_kbooks_titles:
+                pass
+            else:
+                unique_kbooks.append(kbook)
+                unique_kbooks_titles.append(kbook.title)
+
+        unique_kbooks_reset = unique_kbooks
+     
+    if request.method == "POST":
+        
+        
+        if "filter" in request.POST:
+            queryset = []
+            for kbook in unique_kbooks:
+                print(kbook)
+            reading_status = request.POST.get('reading-status')
+            borrow_status = request.POST.get('borrow-status')
+            for kbook in unique_kbooks:
+                if reading_status == "all_status":
+                    queryset = unique_kbooks
+                elif reading_status == "is_read":
+                    if request.user in kbook.book.readers.all():
+                        queryset.append(kbook)
+                elif reading_status == "is_reading":
+                    if request.user in kbook.book.readings.all():
+                        queryset.append(kbook)
+                elif reading_status == "in_wish":
+                    if request.user in kbook.book.in_wishlist.all():
+                        queryset.append(kbook)
+                elif reading_status == "no_read":
+                    if request.user in kbook.book.no_read.all():
+                        queryset.append(kbook)
+                elif reading_status == "wont_read":
+                    if request.user in kbook.book.wont_read.all():
+                        queryset.append(kbook)
+                elif reading_status == "give_up":
+                    if request.user in kbook.book.give_up.all():
+                        queryset.append(kbook)
+
+                if borrow_status == "all_borrow_status":
+                    queryset = queryset
+                elif borrow_status == "is_borrowed_by_user":
+                    print(kbook.book)
+                    book = kbook.book
+                    print(book)
+                    bkbook = CustomBook.objects.filter(book = book, borrowing__borrower = request.user)
+                    queryset.append(bkbook)
+                
+
+            unique_kbooks = queryset
+            
+            
+            
+
+            
+              
+            
+                
+        elif "reset" in request.POST:
+            unique_kbooks = unique_kbooks_reset
 
 
-     
-     
+            
+    
 
     
 
-     context = {
-         'books': books,
-         'kbooks': kbooks,
-         'unique_kbooks': unique_kbooks
-     }
-     return render(request, 'books/all-books.html', context)
+    context = {
+        'books': books,
+        'kbooks': kbooks,
+        'unique_kbooks': unique_kbooks
+    }
+    return render(request, 'books/all-books.html', context)
 
 @login_required
 def group_books(request, slug):

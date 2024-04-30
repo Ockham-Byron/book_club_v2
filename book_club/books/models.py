@@ -6,7 +6,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 from groups.models import CustomGroup
 from django.db import models
-from datetime import datetime, timedelta, date
+from datetime import timedelta, date
+from taggit.managers import TaggableManager
 
 User = get_user_model()
 
@@ -89,6 +90,7 @@ class CustomBook(models.Model):
     is_borrowable = models.BooleanField(blank=True, null=True, default=False)
     cover=models.CharField(max_length=500, blank=True, null=True)
     picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
+    tags = TaggableManager()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
@@ -191,3 +193,13 @@ class Reservations(models.Model):
 
     def __str__(self):
         return self.custom_book.book.title
+    
+class Citation(models.Model):
+    id = models.UUIDField(default= uuid4, editable = False, primary_key=True)
+    kbook = models.ForeignKey(CustomBook, related_name="citations", blank=False, null=False, on_delete=models.CASCADE)
+    page = models.IntegerField(blank=True, null=True)
+    author = models.ForeignKey(User, related_name="user_citations", blank=True, null=True, on_delete=models.SET_NULL)
+
+
+    def __str__(self):
+        return self.kbook.title

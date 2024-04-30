@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 
     #plugins
     'bootstrap_datepicker_plus',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -181,3 +182,7 @@ LOGIN_REDIRECT_URL = '/'
 
 #duration of the cookies to remember the user credentials
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
+
+
+#Taggit
+TAGGIT_CASE_INSENSITIVE = True

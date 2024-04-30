@@ -3,6 +3,33 @@
 {% block title %}{% trans 'Books' %}{% endblock %}
 {% block content %}
 
+<form method="POST">
+{% csrf_token%}
+
+<select id="reading-status" name="reading-status">
+  <option value="all_status" selected>{% trans 'All Reading Status' %}</option>
+  <option value="is_read">{% trans "Read" %}</option>
+  <option value="is_reading">{% trans "Reading it" %}</option>
+  <option value="in_wish">{% trans "Want to read" %}</option>
+  <option value="no_read">{% trans "Not read yet" %}</option>
+  <option value="wont_read">{% trans "No intention to read it" %}</option>
+  <option value="give_up">{% trans "Given up" %}</option>
+</select>
+
+<select id="borrow-status" name="borrow-status">
+  <option value="all_borrow_status" selected>{% trans 'All Borrow Status' %}</option>
+  <option value="is_borrowed_by_user">{% trans "Borrowed" %}</option>
+  <option value="reserved_by_me">{% trans "Reserved by me" %}</option>
+  <option value="borrowable">{% trans "Borrowable" %}</option>
+  <option value="is_on_loan">{% trans "On Loan" %}</option>
+  <option value="with_reservations">{% trans "Reservations asked to me" %}</option>
+</select>
+ <button class="submit mt-4" type="submit" name="filter">{% trans 'Filter' %}</button>
+
+ <button class="submit mt-4" type="submit" name="reset">{% trans 'Reset' %}</button>
+
+</form>
+
 {% if group %}
     <h1 class="text-center">{% trans 'Books of' %} {{group.kname}}</h1>
 {% endif %}
