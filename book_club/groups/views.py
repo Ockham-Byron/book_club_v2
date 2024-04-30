@@ -140,7 +140,6 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         borrows = []
         for book in books:
             if Borrow.objects.filter(custom_book = book, status = 'on_going').exists():
-                print("oui")
                 borrow = Borrow.objects.get(custom_book = book, status = 'on_going')
                 borrows.append(borrow)
         print(borrows)

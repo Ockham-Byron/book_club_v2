@@ -13,42 +13,27 @@
             <br/>
             <h5 class="modal-title brand-color" id="exampleModalLabel">
             {% if borrow %}
-            {% trans 'Edit Borrow' %} {{kbook.title}}</h5>
+            {% trans 'Mark' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'as returned' %} ?</h5>
             
             {% else %}
-            {% trans 'Borrow' %} {{kbook.title}} {% trans 'from' %} {{kbook.owner}}</h5>
+            {% trans 'Borrow' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'from' %}<span class="dark-color"> </br> {{kbook.owner}} </span></h5>
             {% endif %}
         </div>
         
         
         <button class="submit mt-4" type="submit" name="add-meeting">{% trans 'Yes' %}</button>
         <div class="text-center d-flex flex-column">
-            <a href="{% url 'group-detail' group.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+            {% if group %}
+            <a href="{% url 'group-detail' group.slug %}" class="mid-color">
+            {% else %}
+            <a href="{% url 'book-detail' kbook.slug %}" class="mid-color">
+            {% endif %}
+            {% trans 'Cancel' %}
+            </a>
             
         </div>
 
-        {% if borrow %}
-        <a href="#" type="button" class="darkest-color text-center" data-bs-toggle="modal" data-bs-target="#deleteMealModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Meeting' %}</a>
-        <!-- Modal delete meal -->
-        <div class="modal fade" id="deleteMealModal" tabindex="-1" aria-labelledby="deleteMealModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="text-center">
-                <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
-                <br/>
-                <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Meeting ?' %}</h5>
-              </div>
-              <div class="text-center">
-                <p class="darkest-color p-4">{% trans "You will lose a big occasion to share your passion, but hey, no pression..." %}</p>
-              </div>
-              <div class="d-flex justify-content-evenly pb-2">
-                <a href="{% url 'delete-meeting' meeting.id %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
-                <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endif %}
+
         
 
     </form>

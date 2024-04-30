@@ -506,16 +506,25 @@ def book_detail(request, slug):
         if kbook.owner != user and kbook.is_borrowable == True:
             is_borrowable = True
 
-    borrows = Borrow.objects.filter(custom_book = kbook, status = 'on_going')
+    borrows = Borrow.objects.filter(custom_book = kbook, status = 'on_going') | Borrow.objects.filter(custom_book = kbook, status = 'returned', need_return_confirmation = True)
     if Borrow.objects.filter(custom_book = kbook, status = 'on_going', borrower=request.user).exists():
+        is_borrowed_by_user = True
+    elif Borrow.objects.filter(custom_book = kbook, status = 'returned', need_return_confirmation = True, borrower = request.user).exists():
         is_borrowed_by_user = True
     reservations = Borrow.objects.filter(custom_book = kbook, status = 'pending')
     if Borrow.objects.filter(custom_book = kbook, status="pending", borrower=user):
         is_reserved_by_user = True
-        
+
     
-    
-    
+    #read_by
+    readers = []
+    for group in groups_of_book:
+        for member in group.members.all():
+            if member in book.readers.all():
+                readers.append(member)
+
+    print("readers")
+    print(readers)
 
 
 
@@ -541,7 +550,9 @@ def book_detail(request, slug):
         'is_borrowed_by_user':is_borrowed_by_user,
         'borrows':borrows,
         'reservations':reservations,
-        'is_reserved_by_user':is_reserved_by_user
+        'is_reserved_by_user':is_reserved_by_user,
+        'readers':readers,
+        
         
         }
 
@@ -773,7 +784,12 @@ def all_books(request):
 @login_required
 def group_books(request, slug):
     group = get_object_or_404(CustomGroup, slug=slug)
-    unique_kbooks = CustomBook.objects.filter(group=group)
+    if group.group_type == 'several_books':
+        
+        unique_kbooks = CustomBook.objects.filter(sharing_groups__id__contains = group.id)
+        
+    else:
+        unique_kbooks = CustomBook.objects.filter(group=group)
     context = {'unique_kbooks': unique_kbooks,
                'group': group}
     
@@ -800,10 +816,17 @@ def pass_book_to_library(request,slug):
                 if group in book.groups.all():
                     messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
                 else:
+                    if kbook.group.group_type == 'wishlist':
+                        book.groups.remove(kbook.group)
+                        kbook.group = group
+                        kbook.owner = request.user
+                    else:
+                        kbook = CustomBook(book=book, owner = request.user, group = group)
                     book.groups.add(group)
                     book.in_library.add(request.user)
-                    kbook = CustomBook(book=book, owner = request.user, group = group)
                     kbook.save()
+                
+
                     
             book.save()
             return redirect('book-detail', kbook.slug)
@@ -1058,6 +1081,29 @@ def reserve_book_within_group(request, id, slug):
 
     return render(request, 'books/borrow/reserve-within-group.html', context=context)
 
+@login_required
+def give_back(request, id):
+    borrow = get_object_or_404(Borrow, id=id)
+    kbook = borrow.custom_book
+    
+
+    if request.method == 'POST':
+        borrow.status="returned"
+        if kbook.owner == request.user:
+            borrow.borrow_end=timezone.now()
+            borrow.need_return_confirmation = False
+            kbook.is_borrowable = True
+            kbook.save()
+        else:
+            borrow.need_return_confirmation = True
+            messages.success(request, f'Please ask {kbook.owner} to confirm the return')
+    
+        borrow.save()
+        return redirect('book-detail', kbook.slug)
+    
+    return render(request, "books/borrow/borrow-within-group.html", {'borrow':borrow, 'kbook':kbook})
 
 
+            
 
+            

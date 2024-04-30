@@ -163,11 +163,11 @@ class Borrow(models.Model):
     borrower = models.ForeignKey(User, on_delete=models.CASCADE, unique=False, null=True)
     custom_borrower = models.CharField(max_length=150, null=True, blank=True)
     demand_date = models.DateField(auto_now_add=True)
-    
     borrow_start = models.DateField(auto_now_add=True, blank=False, null=False) 
     borrow_end = models.DateField(auto_now_add=False, blank=True, null=True)
     status = models.CharField(max_length=32, choices = STATUS, default=PENDING)
     late_return = models.BooleanField(default=False)
+    need_return_confirmation = models.BooleanField(default=False)
 
     def is_waiting_long(self):
         current_date = date.today()

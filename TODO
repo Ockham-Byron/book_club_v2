@@ -11,19 +11,20 @@ Général:
 
 Groups:
   ☐ Library and Wishlist - revoir beaucoup de livres
+  ☐ add status "with reservations"
 
 Book:
-  ☐ afficher qui a lu
+  ✔ afficher qui a lu @done(24-04-30 11:55)
   ✔ share owned_book with several_books @done(24-04-18 14:44)
-  ☐ prévoir prêt
   ☐ filtrer les livres dans all-books
-  ☐ passer un livre de wishlist à library
+  ✔ passer un livre de wishlist à library @done(24-04-30 11:26)
   ☐ dans les échanges de livre, indiquer option "ok pour prêter"
   ☐ dans delete, donner option d'enlever juste "ok pour prêter"
-  ☐ add boutton add book to all-books
+  ✔ add boutton add book to all-books @done(24-04-30 11:25)
 
 Borrow:
-  ☐ rendre
+  ✔ rendre @done(24-04-30 11:25)
+  ☐ prêt hors app
 All-Books:
   ☐ filter
   ☐ search bar
