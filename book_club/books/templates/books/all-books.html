@@ -3,36 +3,84 @@
 {% block title %}{% trans 'Books' %}{% endblock %}
 {% block content %}
 
-<form method="POST">
+<h1 class="text-center">
+{% if group %}
+    {% trans 'Books of' %} {{group.kname}}
+{% else %}
+    {% trans 'All Books' %}
+{% endif %}
+ </h1>
+
+
+
+<form class="px-4 d-flex justify-content-start justify-content-sm-center align-items-center flex-wrap" method="POST">
 {% csrf_token%}
 
-<select id="reading-status" name="reading-status">
-  <option value="all_status" selected>{% trans 'All Reading Status' %}</option>
+<div class="mt-2">
+
+<select id="reading-status" name="reading-status" >
+  <option value={{reading_status}} selected>{{reading_status_description}}</option>
+  {% if reading_status != "is_read" %}
   <option value="is_read">{% trans "Read" %}</option>
+  {% endif %}
+  {% if reading_status != "is_reading" %}
   <option value="is_reading">{% trans "Reading it" %}</option>
+  {% endif %}
+  {% if reading_status != "in_wish" %}
   <option value="in_wish">{% trans "Want to read" %}</option>
+  {% endif %}
+  {% if reading_status != "no_read" %}
   <option value="no_read">{% trans "Not read yet" %}</option>
+  {% endif %}
+  {% if reading_status != "wont_read" %}
   <option value="wont_read">{% trans "No intention to read it" %}</option>
+  {% endif %}
+  {% if reading_status != "give_up" %}
   <option value="give_up">{% trans "Given up" %}</option>
+  {% endif %}
+  {% if reading_status != "all_status" %}
+  <option value="all_status">{% trans "All Reading Status" %}</option>
+  {% endif %}
 </select>
 
+{% comment %} <button class="btn btn-brand-color mx-1" type="submit" name="filter_by_reading">{% trans 'Filter' %}</button> {% endcomment %}
+
+</div>
+
+<div class="mt-2">
 <select id="borrow-status" name="borrow-status">
-  <option value="all_borrow_status" selected>{% trans 'All Borrow Status' %}</option>
-  <option value="is_borrowed_by_user">{% trans "Borrowed" %}</option>
+  <option value={{borrow_status}} selected>{{borrow_status_description}}</option>
+  {% if borrow_status != "is_borrowed_by_user" %}
+  <option value="is_borrowed_by_user">{% trans "Actually Borrowed" %}</option>
+  {% endif %}
+  {% if borrow_status != "reserved_by_me" %}
   <option value="reserved_by_me">{% trans "Reserved by me" %}</option>
+  {% endif %}
+  {% if borrow_status != "borrowable" %}
   <option value="borrowable">{% trans "Borrowable" %}</option>
+  {% endif %}
+  {% if borrow_status != "is_on_loan" %}
   <option value="is_on_loan">{% trans "On Loan" %}</option>
+  {% endif %}
+  {% if borrow_status != "with_reservations" %}
   <option value="with_reservations">{% trans "Reservations asked to me" %}</option>
+  {% endif %}
+  {% if borrow_status != "all_borrow_status" %}
+  <option value="all_borrow_status">{% trans 'All Borrow Status' %}</option>
+  {% endif %}
 </select>
- <button class="submit mt-4" type="submit" name="filter">{% trans 'Filter' %}</button>
+ 
+ <button class="btn btn-brand-color ms-1" type="submit" name="filter_by_borrow">{% trans 'Filter' %}</button>
 
- <button class="submit mt-4" type="submit" name="reset">{% trans 'Reset' %}</button>
+</div>
+
+ <button class="btn btn-dark-color ms-1 mt-2" type="submit" name="reset">{% trans 'Reset' %}</button>
+
+ 
 
 </form>
 
-{% if group %}
-    <h1 class="text-center">{% trans 'Books of' %} {{group.kname}}</h1>
-{% endif %}
+
 
 {% if unique_kbooks %}
     

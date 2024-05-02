@@ -56,6 +56,16 @@ input#id_eaten_at {
   padding:5px;
   border-color:grey !important;
   color:grey !important;
+  
+}
+
+select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  border-radius: 10px !important;
+  padding:5px;
+  border-color:grey !important;
+  color:grey !important;
 }
 
 /* || Login and Register */

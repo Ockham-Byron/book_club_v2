@@ -291,6 +291,16 @@ color:var(--light-color) !important;
   background-color: var(--dark-color);
 }
 
+.btn-dark-color {
+  background-color: var(--dark-color);
+  color: white;
+}
+
+.btn-dark-color:hover{
+  background-color: var(--brand-color);
+  color:white;
+}
+
 .btn-mid-color {
   background-color: var(--mid-color);
   color:white;
