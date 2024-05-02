@@ -16,7 +16,7 @@
 <form class="px-4 d-flex justify-content-start justify-content-sm-center align-items-center flex-wrap" method="POST">
 {% csrf_token%}
 
-<div class="mt-2">
+<div class="mt-2 ms-1">
 
 <select id="reading-status" name="reading-status" >
   <option value={{reading_status}} selected>{{reading_status_description}}</option>
@@ -47,7 +47,7 @@
 
 </div>
 
-<div class="mt-2">
+<div class="mt-2 ms-1">
 <select id="borrow-status" name="borrow-status">
   <option value={{borrow_status}} selected>{{borrow_status_description}}</option>
   {% if borrow_status != "is_borrowed_by_user" %}
@@ -70,7 +70,7 @@
   {% endif %}
 </select>
  
- <button class="btn btn-brand-color ms-1" type="submit" name="filter_by_borrow">{% trans 'Filter' %}</button>
+ <button class="btn btn-brand-color ms-1" type="submit" name="filter">{% trans 'Filter' %}</button>
 
 </div>
 
