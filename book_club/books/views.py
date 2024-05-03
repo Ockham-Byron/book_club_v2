@@ -847,98 +847,99 @@ def all_books(request):
     #         reading_status_description = _("All Reading Status")
 
     if request.method == "POST":
-        reading_status = request.POST.get('reading-status')
-        borrow_status = request.POST.get('borrow-status')   
         
-        queryset = []
-            
-        for kbook in unique_kbooks:
-            print(kbook)
-            if reading_status == "all_status":
-                queryset = unique_kbooks
-                reading_status_description = _("All Reading Status")
-            if reading_status == "is_read":
-                reading_status_description = _("Read")
-                if request.user in kbook.book.readers.all():
-                    queryset.append(kbook)
-            if reading_status == "is_reading":
-                reading_status_description = _("Reading it")
-                if request.user in kbook.book.readings.all():
-                    queryset.append(kbook)
-            if reading_status == "in_wish":
-                reading_status_description = _("Want to read")
-                if request.user in kbook.book.in_wishlist.all():
-                    queryset.append(kbook)
-            if reading_status == "no_read":
-                reading_status_description = _("Not read yet")
-                if request.user in kbook.book.no_read.all():
-                    queryset.append(kbook)
-            if reading_status == "wont_read":
-                reading_status_description = _("No intention to read it")
-                if request.user in kbook.book.wont_read.all():
-                    queryset.append(kbook)
-            if reading_status == "give_up":
-                reading_status_description = _("Given up")
-                if request.user in kbook.book.give_up.all():
-                    queryset.append(kbook)
-                    
-            
-            if borrow_status == "all_borrow_status":
-                queryset = queryset
-                borrow_status_description=_("All borrow status")
-            if borrow_status == "is_borrowed_by_user":
-                borrow_status_description=_("Actually borrowed by me")
-                if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "on_going").exists():
-                    pass
-                else:
-                    if kbook in queryset:
-                        queryset.remove(kbook)
-            if borrow_status == "reserved_by_me":
-                borrow_status_description=_("Reserved by me")
-                if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "pending").exists():
-                    pass
-                else:
-                    if kbook in queryset:
-                        queryset.remove(kbook)
-            if borrow_status == "borrowable":
-                borrow_status_description=_("Borrowable")
-                if kbook.is_borrowable == True and kbook.owner != request.user: 
-                    pass
-                else:
-                    print(kbook.owner)
-                    if kbook in queryset:
-                        queryset.remove(kbook)
-            if borrow_status == "is_on_loan":
-                borrow_status_description=_("On Loan")
-                if Borrow.objects.filter(custom_book = kbook, status="on_going").exists() and kbook.owner == request.user:
-                    pass
-                else:
-                    if kbook in queryset:
-                        queryset.remove(kbook)
-            if borrow_status == "with_reservations":
-                borrow_status_description=_("Reservations asked to me")
-                if Borrow.objects.filter(custom_book = kbook, status="pending").exists() and kbook.owner == request.user:
-                    pass
-                else:
-                    if kbook in queryset:
-                        queryset.remove(kbook)
 
-           
-
-            unique_kbooks = queryset
+        if "filter" in request.POST:
             
+            reading_status = request.POST.get('reading-status')
+            borrow_status = request.POST.get('borrow-status')   
+            
+            queryset = []
                 
+            for kbook in unique_kbooks:
+                print(kbook)
+                if reading_status == "all_status":
+                    queryset = unique_kbooks
+                    reading_status_description = _("All Reading Status")
+                elif reading_status == "is_read":
+                    reading_status_description = _("Read")
+                    if request.user in kbook.book.readers.all():
+                        queryset.append(kbook)
+                elif reading_status == "is_reading":
+                    reading_status_description = _("Reading it")
+                    if request.user in kbook.book.readings.all():
+                        queryset.append(kbook)
+                elif reading_status == "in_wish":
+                    reading_status_description = _("Want to read")
+                    if request.user in kbook.book.in_wishlist.all():
+                        queryset.append(kbook)
+                elif reading_status == "no_read":
+                    reading_status_description = _("Not read yet")
+                    if request.user in kbook.book.no_read.all():
+                        queryset.append(kbook)
+                elif reading_status == "wont_read":
+                    reading_status_description = _("No intention to read it")
+                    if request.user in kbook.book.wont_read.all():
+                        queryset.append(kbook)
+                elif reading_status == "give_up":
+                    reading_status_description = _("Given up")
+                    if request.user in kbook.book.give_up.all():
+                        queryset.append(kbook)
 
-        
-            
-            
-            
+            print(queryset)
+
+            queryset_2 = []
+            if borrow_status == "all_borrow_status":
+                    queryset_2 = queryset
+                    borrow_status_description=_("All borrow status")
+            else:
+                for kbook in queryset:           
+                    if borrow_status == "is_borrowed_by_user":
+                        borrow_status_description=_("Actually borrowed by me")
+                        if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "on_going").exists():
+                            queryset_2.append(kbook)
+                        # else:
+                        #     if kbook in queryset:
+                        #         queryset.remove(kbook)
+                    elif borrow_status == "reserved_by_me":
+                        borrow_status_description=_("Reserved by me")
+                        if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "pending").exists():
+                            pass
+                        else:
+                            if kbook in queryset:
+                                queryset.remove(kbook)
+                    elif borrow_status == "borrowable":
+                        borrow_status_description=_("Borrowable")
+                        if kbook.is_borrowable == True and kbook.owner != request.user: 
+                            pass
+                        else:
+                            print(kbook.owner)
+                            if kbook in queryset:
+                                queryset.remove(kbook)
+                    elif borrow_status == "is_on_loan":
+                        borrow_status_description=_("On Loan")
+                        if Borrow.objects.filter(custom_book = kbook, status="on_going").exists() and kbook.owner == request.user:
+                            pass
+                        else:
+                            if kbook in queryset:
+                                queryset.remove(kbook)
+                    elif borrow_status == "with_reservations":
+                        borrow_status_description=_("Reservations asked to me")
+                        if Borrow.objects.filter(custom_book = kbook, status="pending").exists() and kbook.owner == request.user:
+                            pass
+                        else:
+                            if kbook in queryset:
+                                queryset.remove(kbook)
 
             
+
+            unique_kbooks = queryset_2
+            print(queryset_2)
               
             
                 
         if "reset" in request.POST:
+
             unique_kbooks = unique_kbooks_reset
             borrow_status = "all_borrow_status"
             borrow_status_description = _("All Borrow Status")
