@@ -169,7 +169,9 @@ class Borrow(models.Model):
     borrow_end = models.DateField(auto_now_add=False, blank=True, null=True)
     status = models.CharField(max_length=32, choices = STATUS, default=PENDING)
     late_return = models.BooleanField(default=False)
+    need_borrow_confirmation = models.BooleanField(default=False)
     need_return_confirmation = models.BooleanField(default=False)
+    
 
     def is_waiting_long(self):
         current_date = date.today()

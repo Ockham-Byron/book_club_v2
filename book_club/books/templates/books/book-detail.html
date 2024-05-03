@@ -127,31 +127,41 @@
   
     
   <!-- Book Borrow -->
-  
   {% if common_sharing_groups %}
-  {% with common_sharing_groups|first as group %}
-    <div class="d-flex justify-content-center">
-      {% if is_borrowed_by_user %}
+    {% with common_sharing_groups|first as group %}
+      <div class="d-flex justify-content-center">
+        {% if is_borrowed_by_user %}
 
-      {% else %}
-        {% if is_reserved_by_user %}
-        <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
-          {% trans 'Reserved from' %}  {{book.owner}} </br> {% trans 'Cancel Reservation' %} ?
-        </a>
-        {% elif book.owner != request.user and is_borrowed_by_user == False %}
-        <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
-          {% trans 'Reserve from' %}  {{book.owner}} 
-        </a>
+        {% else %}
+          {% if is_reserved_by_user %}
+          <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
+            {% trans 'Reserved from' %}  {{book.owner}} </br> {% trans 'Cancel Reservation' %} ?
+          </a>
+          {% elif book.owner != request.user and is_borrowed_by_user == False %}
+          <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
+            {% trans 'Reserve from' %}  {{book.owner}} 
+          </a>
+          {% endif %}
         {% endif %}
+
+      {% if book.is_borrowable %}
+        
+        {% if book.owner != request.user %}
+          <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-within-group' book.id group.slug %}">
+            {% trans 'Borrow from' %}  {{book.owner}} 
+          </a>
+        {% elif book.owner == request.user %}
+          {% for group in common_sharing_groups %}
+          <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-within-group' book.id group.slug %}">
+            {% trans 'Loan to a member of' %}  {{group.kname}} 
+          </a>
+          {% endfor %}
+        {% endif %}
+        
       {% endif %}
-      {% if is_borrowable %}
-    <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-within-group' book.id group.slug %}">
-      {% trans 'Borrow from' %}  {{book.owner}} 
-    </a>
-    {% endif %}
-  </div>
+      </div>
     {% endwith %}
-    {% endif %}
+  {% endif %}
     
   
 
@@ -160,14 +170,27 @@
       {% if borrow.status == "on_going" %}
       
         {% if borrow.borrower == request.user %}
+          {% if borrow.need_borrow_confirmation %}
+            <a class="btn btn-darkest-color text-white" href="#">
+          {% trans 'Confirm you received the book from' %} {{book.owner}}
+          {% else %}
         <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
           {% trans 'Borrowed by me. Mark as given back ?' %}
+          {% endif %}
         </a>
         {% elif book.owner == request.user %}
-        <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
-          {% trans 'Borrowed by' %} {{borrow.borrower}} </br>
-          {% trans 'Mark as given back' %} ?
-        </a>
+          {% if borrow.need_borrow_confirmation %}
+            <div class="btn btn-darkest-color text-white" >
+              {% trans 'Waiting for Borrow Confirmation by' %} {{borrow.borrower}} </br>
+            </div>
+          {% else %}
+
+            <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
+              {% trans 'Borrowed by' %} {{borrow.borrower}} </br>
+              {% trans 'Mark as given back' %} ?
+            </a>
+          {% endif %}
+        
         {% else %}
         <a class="btn btn-darkest-color text-white" href="#">
           {% trans 'Borrowed by' %} {{borrow.borrower}} </br>

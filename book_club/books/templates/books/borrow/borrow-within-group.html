@@ -13,10 +13,23 @@
             <br/>
             <h5 class="modal-title brand-color" id="exampleModalLabel">
             {% if borrow %}
-            {% trans 'Mark' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'as returned' %} ?</h5>
+                {% trans 'Mark' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'as returned' %} ?</h5>
             
             {% else %}
-            {% trans 'Borrow' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'from' %}<span class="dark-color"> </br> {{kbook.owner}} </span></h5>
+                {% if kbook.owner != request.user %}
+                    {% trans 'Borrow' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'from' %}<span class="dark-color"> </br> {{kbook.owner}} </span></h5>
+                {% else %}
+                    {% trans 'Loan' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'to' %}<span class="dark-color"> </br></span></h5>
+                    {% if group %}
+                        <select name="borrower">
+                            {% for member in group.members.all %}
+                                {% if member != request.user %}
+                                <option value="{{ member.id }}">{{ member.pseudo }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                {% endif %}
             {% endif %}
         </div>
         

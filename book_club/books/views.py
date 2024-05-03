@@ -14,6 +14,7 @@ from django.shortcuts import render, redirect
 from .forms import BookSearch, AddMeetingForm, AddCommentForm, AddCustomBookForm
 from groups.models import CustomGroup
 from .models import Book, Meeting, CustomBook, Comment, Borrow
+from users.models import CustomUser
 
 tz= timezone.get_current_timezone()
 
@@ -1230,11 +1231,24 @@ def borrow_book_within_group(request, id, slug):
                'group': group}
     
     if request.method == 'POST':
-        if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = 'pending').exists():
-            borrow = get_object_or_404(Borrow, custom_book = kbook, status = 'pending', borrower = request.user)
-            borrow.status = 'on_going'
+        if kbook.owner != request.user:
+            if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = 'pending').exists():
+                borrow = get_object_or_404(Borrow, custom_book = kbook, status = 'pending', borrower = request.user)
+                borrow.status = 'on_going'
+            else:
+                borrow = Borrow(custom_book = kbook, status = 'on_going', borrower = request.user)
         else:
-            borrow = Borrow(custom_book = kbook, status = 'on_going', borrower = request.user)
+            borrower = request.POST.get('borrower')
+            borrower = get_object_or_404(CustomUser, id=borrower)
+            if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = 'pending').exists():
+                borrow = get_object_or_404(Borrow, custom_book = kbook, status = 'pending', borrower = borrower)
+                borrow.status = 'on_going'
+                borrow.need_borrow_confirmation = True
+                borrower.save()
+            else:
+                borrow = Borrow(custom_book = kbook, status = 'on_going', borrower = borrower, need_borrow_confirmation = True)
+            messages.success(request, f'Please ask {borrower} to confirm the loan')
+
         borrow.save()
         kbook.is_borrowable = False
         kbook.save()
