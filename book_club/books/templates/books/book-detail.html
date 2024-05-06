@@ -156,6 +156,9 @@
             {% trans 'Loan to a member of' %}  {{group.kname}} 
           </a>
           {% endfor %}
+          <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-no-group' book.id  %}">
+            {% trans 'Loan outside of clubs' %} 
+          </a>
         {% endif %}
         
       {% endif %}
@@ -186,7 +189,11 @@
           {% else %}
 
             <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
+              {% if borrow.borrower %}
               {% trans 'Borrowed by' %} {{borrow.borrower}} </br>
+              {% else %}
+              {% trans 'Borrowed by' %} {{borrow.custom_borrower}} </br>
+              {% endif %}
               {% trans 'Mark as given back' %} ?
             </a>
           {% endif %}

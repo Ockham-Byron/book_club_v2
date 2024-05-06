@@ -36,6 +36,7 @@ urlpatterns = [
 
   #borrow
   path('add-borrow/<id>/<slug:slug>', borrow_book_within_group, name="borrow-within-group"),
+  path('add-borrow/<id>', borrow_book_no_group, name="borrow-no-group"),
   path('add-reservation/<id>/<slug>', reserve_book_within_group, name="reserve-within-group"),
   path('give-book-back/<id>', give_back, name="give-book-back"),
 ]

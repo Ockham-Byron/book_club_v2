@@ -28,6 +28,19 @@
                                 {% endif %}
                             {% endfor %}
                         </select>
+                    {% else %}
+                        <select name="borrower">
+                        {% for member in common_members %}
+                                {% if member != request.user %}
+                                <option value="{{ member.id }}">{{ member.pseudo }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <p class="brand-color modal-title">{% trans 'OR Loan to someone without account ?' %}</p>
+                        <input name="kborrower" type="text" placeholder="Name of Borrower" value="None">
+
+                        
+
                     {% endif %}
                 {% endif %}
             {% endif %}
