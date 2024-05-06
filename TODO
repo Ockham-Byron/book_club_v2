@@ -10,14 +10,9 @@ Groups:
   ☐ add status "with reservations"
 
 Book:
-  ✔ if want to read, add to wishlist @done(24-05-02 13:44)
   ☐ dans les échanges de livre, indiquer option "ok pour prêter"
   ☐ dans delete, donner option d'enlever juste "ok pour prêter"
 
-Borrow:
-  ☐ prêt hors app
-  ☐ gérer les confirmations de retour
-  ☐ gérer les confirmations de prêt
 All-Books:
   ☐ filter dans les all-Books by group
   ☐ ordonner
@@ -40,6 +35,10 @@ Future features:
   ☐ ajouter citations
 
 Archive:
+  ✔ if want to read, add to wishlist @done(24-05-02 13:44) @project(Book)
+  ✔ prêt hors app @done(24-05-06 17:48) @project(Borrow)
+  ✔ gérer les confirmations de retour @done(24-05-06 17:48) @project(Borrow)
+  ✔ gérer les confirmations de prêt @done(24-05-06 17:48) @project(Borrow)
   ✔ vérifier all-books @done(24-04-19 15:21) @project(Prioritaire)
   ✔ sidebar responsive @done(24-04-19 10:32) @project(Général)
   ✔ afficher qui a lu @done(24-04-30 11:55) @project(Book)
