@@ -6,6 +6,7 @@
 <div class="container px-2 book-detail d-flex flex-column align-items-center">
   <div class="hero-container bg-darkest-color mt-0 d-flex flex-column justify-content-center">
     <div class="title text-center joy-color p-2">{{book.title}}</div>
+    
   </div>
   <!-- Cover + basic infos -->
   <div class="book-infos d-flex">
@@ -156,14 +157,24 @@
             {% trans 'Loan to a member of' %}  {{group.kname}} 
           </a>
           {% endfor %}
-          <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-no-group' book.id  %}">
-            {% trans 'Loan outside of clubs' %} 
-          </a>
+          
         {% endif %}
         
       {% endif %}
       </div>
     {% endwith %}
+  {% endif %}
+
+  {% if book.is_borrowable %}
+
+    {% if book.owner == request.user %}
+      <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-no-group' book.id  %}">
+            {% trans 'Loan outside of sharing Clubs' %} 
+      </a>
+    {% else %}
+
+    {% endif %}
+
   {% endif %}
     
   
@@ -174,7 +185,7 @@
       
         {% if borrow.borrower == request.user %}
           {% if borrow.need_borrow_confirmation %}
-            <a class="btn btn-darkest-color text-white" href="#">
+            <a class="btn btn-darkest-color text-white" href="{% url 'confirm-borrow' borrow.id%}">
           {% trans 'Confirm you received the book from' %} {{book.owner}}
           {% else %}
         <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
@@ -183,9 +194,11 @@
         </a>
         {% elif book.owner == request.user %}
           {% if borrow.need_borrow_confirmation %}
+          
             <div class="btn btn-darkest-color text-white" >
               {% trans 'Waiting for Borrow Confirmation by' %} {{borrow.borrower}} </br>
             </div>
+          <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
           {% else %}
 
             <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
@@ -213,7 +226,7 @@
           <div class="btn btn-darkest-color text-white" >
             {% trans 'Waiting return confirmation from' %}  {{book.owner}}
           </div>
-          {% elif book.owner == request.user %}
+          {% elif book.owner == request.user and borrow.need_return_confirmation == True %}
           <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
             {% trans 'Confirm return by' %} {{borrow.borrower}} ?
           </a>
@@ -312,24 +325,41 @@
           <div class="text">{% trans 'Add to Library' %}</div>
       </a>
       {% endif %}
+      
+
+      {% if book.owner == request.user %}
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="book_id" value="{{book.id}}">
+          {% if book.is_borrowable == False %}
+          <button class="d-flex" type="submit"><div class="icon fa-solid fa-recycle"></div>{% trans 'Enable loan options' %}</button>
+          {% elif book.is_borrowable == True %}
+          <button class="d-flex" type="submit"><div class="icon fa-solid fa-house"></div>{% trans 'Disable loan options' %}</button>
+          {% endif %}
+      </form>
+      
+      {% endif %}
       <a class="d-flex" href="{% url 'add-review' book.slug %}"> 
        
           <div class="icon fas fa-star"></div>
           <div class="text">{% trans 'Review' %}</div>
         
       </a>
+      {% if book.owner == request.user or book.admin == request.user %}
       <a class="d-flex" href="{% url 'edit-book' book.slug%}">
        
           <div class="icon fas fa-pen"></div>
           <div class="text">Edit</div>
        
       </a>
+      
       <a class="d-flex" href="{% url 'delete-book-from-group' book.book.slug%}">
      
           <div class="icon fas fa-trash"></div>
           <div class="text">{% trans 'Delete' %}</div>
        
       </a>
+      {% endif %}
       
     </div>
   </div>

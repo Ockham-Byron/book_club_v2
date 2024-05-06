@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% load avatar i18n static %}
-{% block title %}{% trans 'Add Meeting' %}{% endblock title %}
+{% block title %}{% trans 'Borrow of' %} {{kbook.title}}{% endblock title %}
 {% block content %}
 
 {{form.media}}
@@ -13,8 +13,13 @@
             <br/>
             <h5 class="modal-title brand-color" id="exampleModalLabel">
             {% if borrow %}
-                {% trans 'Mark' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'as returned' %} ?</h5>
-            
+                {% if borrow.status == "on_going" and borrow.need_borrow_confirmation == True and borrow.borrower == request.user %}
+                    {% trans 'You confirm having received' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'from' %} ? <span class="dark-color"> </br>{{kbook.owner}} </span></h5>
+                {% elif borrow.status == "returned" and borrow.need_return_confirmation == True and kbook.owner == request.user %}
+                    {% trans 'You confirm that' %} <span class="dark-color"> </br> {{borrow.borrower}} </span> </br>{% trans 'has returned' %}<span class="dark-color"> </br>{{kbook.title}} </span> ? </h5>
+                {% else %}
+                    {% trans 'Mark' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'as returned' %} ?</h5>
+                {% endif %}
             {% else %}
                 {% if kbook.owner != request.user %}
                     {% trans 'Borrow' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'from' %}<span class="dark-color"> </br> {{kbook.owner}} </span></h5>

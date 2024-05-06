@@ -271,10 +271,12 @@ color:var(--light-color) !important;
 
 /* || Buttons */
 
-[type=button] {
+[type=button], [type=submit] {
   appearance: none !important;
   -webkit-appearance: none !important;
 }
+
+
 
 .btn {
   border-radius:10px !important;

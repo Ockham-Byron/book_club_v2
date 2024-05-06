@@ -35,8 +35,11 @@ urlpatterns = [
   path('delete-review/<id>', delete_review, name="delete-review"),
 
   #borrow
+  path('toggle-borrowable/', toggle_borrowable, name="toggle-borrowable"),
   path('add-borrow/<id>/<slug:slug>', borrow_book_within_group, name="borrow-within-group"),
   path('add-borrow/<id>', borrow_book_no_group, name="borrow-no-group"),
+  path('confirm-borrow/<id>', confirm_borrow, name="confirm-borrow"),
   path('add-reservation/<id>/<slug>', reserve_book_within_group, name="reserve-within-group"),
   path('give-book-back/<id>', give_back, name="give-book-back"),
+  # path('confirm-return/<id>', confirm_return, name="confirm-return"),
 ]

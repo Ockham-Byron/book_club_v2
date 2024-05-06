@@ -90,7 +90,6 @@ class CustomBook(models.Model):
     is_borrowable = models.BooleanField(blank=True, null=True, default=False)
     cover=models.CharField(max_length=500, blank=True, null=True)
     picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
-    tags = TaggableManager()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
