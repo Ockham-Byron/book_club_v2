@@ -46,6 +46,72 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
     </a>
 </div>
 {% else %}
+<form class="px-4 d-flex justify-content-start justify-content-sm-center align-items-center flex-wrap" method="POST">
+{% csrf_token%}
+
+<div class="mt-2 ms-1">
+
+<select id="reading-status" name="reading-status" >
+  <option value={{reading_status}} selected>{{reading_status_description}}</option>
+  {% if reading_status != "is_read" %}
+  <option value="is_read">{% trans "Read" %}</option>
+  {% endif %}
+  {% if reading_status != "is_reading" %}
+  <option value="is_reading">{% trans "Reading it" %}</option>
+  {% endif %}
+  {% if reading_status != "in_wish" %}
+  <option value="in_wish">{% trans "Want to read" %}</option>
+  {% endif %}
+  {% if reading_status != "no_read" %}
+  <option value="no_read">{% trans "Not read yet" %}</option>
+  {% endif %}
+  {% if reading_status != "wont_read" %}
+  <option value="wont_read">{% trans "No intention to read it" %}</option>
+  {% endif %}
+  {% if reading_status != "give_up" %}
+  <option value="give_up">{% trans "Given up" %}</option>
+  {% endif %}
+  {% if reading_status != "all_status" %}
+  <option value="all_status">{% trans "All Reading Status" %}</option>
+  {% endif %}
+</select>
+
+
+
+</div>
+
+<div class="mt-2 ms-1">
+<select id="borrow-status" name="borrow-status">
+  <option value={{borrow_status}} selected>{{borrow_status_description}}</option>
+  {% if borrow_status != "is_borrowed_by_user" %}
+  <option value="is_borrowed_by_user">{% trans "Actually Borrowed" %}</option>
+  {% endif %}
+  {% if borrow_status != "reserved_by_me" %}
+  <option value="reserved_by_me">{% trans "Reserved by me" %}</option>
+  {% endif %}
+  {% if borrow_status != "borrowable" %}
+  <option value="borrowable">{% trans "Borrowable" %}</option>
+  {% endif %}
+  {% if borrow_status != "is_on_loan" %}
+  <option value="is_on_loan">{% trans "On Loan" %}</option>
+  {% endif %}
+  {% if borrow_status != "with_reservations" %}
+  <option value="with_reservations">{% trans "Reservations asked to me" %}</option>
+  {% endif %}
+  {% if borrow_status != "all_borrow_status" %}
+  <option value="all_borrow_status">{% trans 'All Borrow Status' %}</option>
+  {% endif %}
+</select>
+ 
+ <button class="btn btn-brand-color ms-1" type="submit" name="filter">{% trans 'Filter' %}</button>
+
+</div>
+
+ <button class="btn btn-dark-color ms-1 mt-2" type="submit" name="reset">{% trans 'Reset' %}</button>
+
+ 
+
+</form>
 <div class="d-flex flex-column align-items-center mt-3">
         {% for book in books %}
             <a href="{% url 'book-detail' book.slug %}" class="book-card-link">

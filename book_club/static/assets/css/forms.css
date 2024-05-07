@@ -376,7 +376,7 @@ input.input-date {
 }
 
 .fullscreen-form input[type="checkbox"]  {
-  -webkit-appearance: none;
+  appearance: none;
   position: absolute;
   top:-2px;
   right:-8px;
@@ -384,14 +384,15 @@ input.input-date {
   cursor: pointer;
 }
 
-.modal-form input[type="checkbox"]  {
-  -webkit-appearance: none;
-  position: absolute;
+.modal-form input[type="checkbox"] {
+  appearance: none !important;
+  position: absolute !important;
   top:-10px;
   right:-5px;
   width: 100%;
   cursor: pointer;
 }
+
 
 
 
@@ -411,11 +412,39 @@ input.input-date {
   height:100px !important;
 }
 
+.horizontal-choice-container {
+  border:1px solid #ccc;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 20px;
+  position: relative;
+  height:100px;
+  width:300px;
+  margin-bottom:20px;
+  padding-left: 15px;
+}
+
+.horizontal-choice-container img {
+  height:80px;
+  width: 80px;
+  border-radius: 10px;;
+}
+
+.horizontal-choice-container input[type="checkbox"] {
+  appearance: none !important;
+  position: absolute !important;
+  top:25px !important;
+  right: 0px;
+  left:0px !important;
+  border:none !important;
+}
+
 @media only screen and (min-width: 768px) {
   .choice-container {
     height: 230px;
     width: 300px;
   }
+
+  
 
   .choice-container p {
     font-size: 1rem;
@@ -437,7 +466,7 @@ input.input-date {
 }
 
 .user-choice-container input[type="checkbox"]{
-  -webkit-appearance: none !important;
+  appearance: none !important;
   border:none !important;
   cursor:pointer !important;
 }
@@ -446,7 +475,7 @@ input[type="checkbox"]+label {
   cursor: pointer;
 }
 
-.user-choice-container input[type="checkbox"]:after, .modal-form input[type="checkbox"]:after {
+.user-choice-container input[type="checkbox"]:after, .modal-form input[type="checkbox"]:after, .horizontal-choice-container input[type="checkbox"]:after {
   position: absolute;
   font-family: "Font Awesome 5 Free";
   font-weight: 400;
@@ -458,7 +487,7 @@ input[type="checkbox"]+label {
   cursor:pointer !important;
 }
 
-.user-choice-container input[type="checkbox"]:checked:after, .modal-form input[type="checkbox"]:checked:after {
+.user-choice-container input[type="checkbox"]:checked:after, .modal-form input[type="checkbox"]:checked:after, .horizontal-choice-container input[type="checkbox"]:checked:after {
   font-weight: 900;
   content: "\f058" !important;
   color: var(--brand-color);

@@ -3,6 +3,28 @@
 {% block title %}{% trans 'Books' %}{% endblock %}
 {% block content %}
 
+{% if group %}
+{% if group.group_pic %}
+<section class="hero-wrap d-flex flex-column justify-content-end mb-5"
+style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url({{group.group_pic.url}}); background-size: cover; background-position: center;" 
+    >
+{% else %}
+<section class="hero-wrap d-flex flex-column justify-content-end mb-5"
+    style="background:linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url('{% static 'assets/img/illustrations/group_default.jpeg' %}') ; background-blend-mode: multiply; background-size:cover; background-position:center;">
+{% endif %}
+    <div class="overlay"></div>
+    <div class="container">
+        <h1 class="mb-2">{{group.kname}}</h1>
+        {% if group.description %}
+            <p class="mb-4">{{group.description}}</p>
+        {% endif %}
+        {% if group.leader == request.user %}
+            <a href="{% url 'update-group' group.uuid group.slug %}"><i class="fa fa-cog fa-5x"></i></a>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
 <h1 class="text-center">
 {% if group %}
     {% trans 'Books of' %} {{group.kname}}
@@ -43,7 +65,7 @@
   {% endif %}
 </select>
 
-{% comment %} <button class="btn btn-brand-color mx-1" type="submit" name="filter_by_reading">{% trans 'Filter' %}</button> {% endcomment %}
+
 
 </div>
 

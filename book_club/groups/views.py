@@ -158,6 +158,8 @@ class LibraryView(LoginRequiredMixin, DetailView):
     model = CustomGroup
     template_name = 'groups/library.html'
     slug_url_kwarg = 'slug'
+
+    
     
 
     
