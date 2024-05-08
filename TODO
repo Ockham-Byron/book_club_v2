@@ -10,14 +10,13 @@ Groups:
   ☐ add status "with reservations"
 
 Book:
-  ☐ dans les échanges de livre, indiquer option "ok pour prêter"
   ☐ dans delete, donner option d'enlever juste "ok pour prêter"
 
 All-Books:
   ☐ filter dans les all-Books by group
   ☐ ordonner
   ☐ search bar
-  ☐ disctinct : prevoir sans isbn
+  ☐ ajouter dans les filtres : prêtables
 
 Library:
   ☐ rajouter des lieux
@@ -35,6 +34,9 @@ Future features:
   ☐ ajouter citations
 
 Archive:
+  ✔ dans les échanges de livre, indiquer option "ok pour prêter" @done(24-05-07 12:27) @project(Book)
+  ✔ ne montrer aux autres membres que les livres "borrowable" @done(24-05-08 12:13) @project(All-Books)
+  ✔ disctinct : prevoir sans isbn @done(24-05-07 12:27) @project(All-Books)
   ✔ if want to read, add to wishlist @done(24-05-02 13:44) @project(Book)
   ✔ prêt hors app @done(24-05-06 17:48) @project(Borrow)
   ✔ gérer les confirmations de retour @done(24-05-06 17:48) @project(Borrow)

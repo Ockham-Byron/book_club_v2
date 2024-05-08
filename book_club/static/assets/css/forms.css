@@ -383,6 +383,9 @@ input.input-date {
   width: 100%;
   cursor: pointer;
 }
+.modal-form {
+  min-width:300px;
+}
 
 .modal-form input[type="checkbox"] {
   appearance: none !important;

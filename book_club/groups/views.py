@@ -1,5 +1,5 @@
 import uuid
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.utils.timezone import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -200,10 +200,13 @@ class GroupUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomGroup
     
     slug_url_kwarg = 'slug'
-    pk_url_kwarg = 'uuid'
+    # pk_url_kwarg = 'uuid'
     template_name = 'groups/update_group.html'
 
     def get_form_kwargs(self):
         kwargs = super(GroupUpdateView, self).get_form_kwargs()
-        kwargs['group'] = CustomGroup.objects.get(uuid=self.object.uuid)
+        kwargs['group'] = CustomGroup.objects.get(slug=self.object.slug)
         return kwargs
+    
+    def get_success_url(self):
+        return reverse('group-detail', kwargs={'slug':self.object.slug})

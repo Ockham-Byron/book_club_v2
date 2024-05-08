@@ -88,6 +88,7 @@ class CustomBook(models.Model):
     description = models.TextField(blank=True, null=True)
     pages = models.IntegerField(blank=True, null=True)
     is_borrowable = models.BooleanField(blank=True, null=True, default=False)
+    is_disponible = models.BooleanField(blank=True, null=True, default=False)
     cover=models.CharField(max_length=500, blank=True, null=True)
     picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
     created_at=models.DateTimeField(auto_now_add=True)

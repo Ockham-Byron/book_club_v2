@@ -643,6 +643,12 @@ a.card-recipe-btn-small {
 
   }
 
+  .icon-xsmall .avatar {
+    height:30px !important;
+    width: 30px !important;
+    font-size:15px !important;
+  }
+
 
 
 /* Floating button*/
@@ -787,9 +793,16 @@ div.group-icon-small {
   border-radius:50%;
 }
 
+
 img.group-img-small {
   width:40px !important;
   height:40px !important;
+  border-radius:50%;
+}
+
+.group-icon-xsmall {
+  width:30px;
+  height: 30px;
   border-radius:50%;
 }
 

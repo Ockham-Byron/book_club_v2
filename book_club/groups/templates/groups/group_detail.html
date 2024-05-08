@@ -18,7 +18,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
             <p class="mb-4">{{object.description}}</p>
         {% endif %}
         {% if object.leader == request.user %}
-            <a href="{% url 'update-group' object.uuid object.slug %}"><i class="fa fa-cog fa-5x"></i></a>
+            <a href="{% url 'update-group' object.slug %}"><i class="fa fa-cog fa-5x"></i></a>
         {% endif %}
     </div>
 </section>
