@@ -152,11 +152,19 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
                         {% endif %}
                         <p class="title mt-1 mb-0">{{book.title}}</p>
                         <p class="author">{{book.author}}</p>
-                        {% for borrow in borrows %}
-                {% if borrow.custom_book == book %}
-                <p class="book-status-tag">{% trans 'Borrowed' %}</p>
-                {% endif %}
-            {% endfor %}
+
+                        {% for borrow in book.borrowing.all %}
+                                {% if borrow.status == "on_going"%}
+                                    <p class="book-status-tag bg-mid-color">{% trans 'Borrowed' %}</p>
+                                {% endif %}
+                                {% if borrow.status == "pending"%}
+                                    <p class="book-status-tag bg-joy-color">{% trans 'With reservations' %}</p>
+                                    
+                                {% endif %}
+                            {% endfor %}
+             
+               
+            
                     </div>
                 </a>
             </li>

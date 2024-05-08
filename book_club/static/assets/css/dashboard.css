@@ -697,7 +697,7 @@ a.card-recipe-btn-small {
   background-color: white;
   border-radius:10px;
   padding:10px;
-  height:110px;
+  min-height:110px;
   margin-bottom:10px;
 }
 
@@ -714,6 +714,7 @@ a.card-recipe-btn-small {
 .book-small-horizontal-card .title {
   font-weight: bold !important;
   color:black !important;
+  font-size:12px !important;
 }
 
 .book-small-horizontal-card .author {
@@ -1142,7 +1143,6 @@ img.curly2 {
 }
 
 .book-status-tag {
-  background-color: var(--mid-color);
   color:var(--darkest-color) !important;
   font-size: 12px;
   padding:5px 10px;

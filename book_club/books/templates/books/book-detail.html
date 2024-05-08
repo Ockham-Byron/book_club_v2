@@ -166,14 +166,37 @@
     {% endwith %}
   {% endif %}
 
+{% if not common_sharing_group and book.is_borrowable and book.owner != request.user %}
+  <div class="d-flex">
+  {% if is_reserved_by_user %}
+    <a class="btn btn-mid-color me-1" href="{% url 'delete-reservation' book.id  %}">
+      {% trans 'Reserved from' %}  {{book.owner}} </br> {% trans 'Cancel Reservation' %} ?
+    </a>
+
+  {% else %}
+    {% if not is_borrowed_by_user %}
+    
+   <a class="btn btn-mid-color me-1" href="{% url 'reserve-no-group' book.id %}">
+            {% trans 'Reserve from' %}  {{book.owner}} 
+          </a>
+    {% endif %}
+  {% endif %}
+  {% if book.is_disponible and request.user != book.owner %}
+  <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-no-group' book.id  %}">
+            {% trans 'Borrow from' %} {{book.owner}}
+      </a>
+    {% endif %}
+  </div>
+{% endif %}
+
   {% if book.is_disponible %}
 
     {% if book.owner == request.user %}
-      <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-no-group' book.id  %}">
+      <a class="btn btn-darkest-color ms-1 mt-2" href="{% url 'borrow-no-group' book.id  %}">
             {% trans 'Loan outside of sharing Clubs' %} 
       </a>
-    {% else %}
-
+    
+      
     {% endif %}
 
   {% endif %}

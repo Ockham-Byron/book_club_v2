@@ -1275,6 +1275,35 @@ def reserve_book_within_group(request, id, slug):
     return render(request, 'books/borrow/reserve-within-group.html', context=context)
 
 @login_required
+def reserve_book_no_group(request, id):
+    
+    kbook = get_object_or_404(CustomBook, id=id)
+
+    context = {'kbook': kbook,
+               }
+    
+    if request.method == 'POST':
+        reservation = Borrow(custom_book = kbook, status = 'pending', borrower = request.user)
+        reservation.save()
+        return redirect('book-detail', kbook.slug)
+
+
+    return render(request, 'books/borrow/reserve-within-group.html', context=context)
+
+@login_required
+def delete_reservation(request, id):
+    kbook= get_object_or_404(CustomBook, id=id)
+    borrow = Borrow.objects.filter(custom_book = kbook, status="pending", borrower=request.user)
+
+    borrow.delete()
+
+    messages.success(request, _("Reservation cancelled !"))
+
+    
+    return redirect('book-detail', kbook.slug)
+
+
+@login_required
 def give_back(request, id):
     borrow = get_object_or_404(Borrow, id=id)
     kbook = borrow.custom_book

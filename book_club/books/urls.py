@@ -40,6 +40,8 @@ urlpatterns = [
   path('add-borrow/<id>', borrow_book_no_group, name="borrow-no-group"),
   path('confirm-borrow/<id>', confirm_borrow, name="confirm-borrow"),
   path('add-reservation/<id>/<slug>', reserve_book_within_group, name="reserve-within-group"),
+  path('add-reservation/<id>', reserve_book_no_group, name="reserve-no-group"),
+  path('delete-reservation/<id>', delete_reservation, name="delete-reservation"),
   path('give-book-back/<id>', give_back, name="give-book-back"),
   # path('confirm-return/<id>', confirm_return, name="confirm-return"),
 ]
