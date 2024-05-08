@@ -60,6 +60,7 @@ input#id_eaten_at {
 }
 
 select {
+  appearance: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   border-radius: 10px !important;
@@ -74,7 +75,8 @@ select {
 
 
 .auth-wrapper{
-  height:85vh;
+  margin-top:20px;
+  min-height:85vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

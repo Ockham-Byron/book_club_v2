@@ -24,7 +24,7 @@
                 {% if kbook.owner != request.user %}
                     {% trans 'Borrow' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'from' %}<span class="dark-color"> </br> {{kbook.owner}} </span></h5>
                 {% else %}
-                    {% trans 'Loan' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'to' %}<span class="dark-color"> </br></span></h5>
+                    {% trans 'Loan' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br></h5>
                     {% if group %}
                         <select name="borrower">
                             {% for member in group.members.all %}
@@ -34,6 +34,9 @@
                             {% endfor %}
                         </select>
                     {% else %}
+                        {% if common_members %}
+                        <h5 class="brand-color text-center">{% trans 'to' %}</h5>
+
                         <select name="borrower">
                         {% for member in common_members %}
                                 {% if member != request.user %}
@@ -41,7 +44,8 @@
                                 {% endif %}
                             {% endfor %}
                         </select>
-                        <p class="brand-color modal-title">{% trans 'OR Loan to someone without account ?' %}</p>
+                        {% endif %}
+                        <p class="brand-color modal-title">{% trans 'Loan to someone without account ?' %}</p>
                         <input name="kborrower" type="text" placeholder="Name of Borrower" value="None">
 
                         

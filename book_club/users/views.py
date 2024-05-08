@@ -107,7 +107,7 @@ def home_view(request):
 def login_view(request):
     # Logged in user can't register a new account
     if request.user.is_authenticated:
-        return redirect("all-groups")
+        return redirect("all-books")
     
     login_form = UserLoginForm(request.POST)
     

@@ -129,15 +129,18 @@ def book_add(request, book_in_db, groups, picture):
                     new_kbook = get_object_or_404(CustomBook, book=book_in_db, owner=request.user, group__group_type = 'library')
                     new_kbook.sharing_groups.add(group)
                     new_kbook.is_borrowable = True
+                    new_kbook.is_disponible = True 
                     new_kbook.save()
                 else:
                     new_kbook.save()
                     new_kbook.sharing_groups.add(group)
-                    group=get_object_or_404(CustomGroup, group_type="library", leader=request.user)
+                    library=get_object_or_404(CustomGroup, group_type="library", leader=request.user)
                     new_kbook.owner = request.user
-                    new_kbook.group = group
+                    new_kbook.group = library
                     new_kbook.is_borrowable = True
+                    new_kbook.is_disponible = True
                     book_in_db.in_library.add(request.user)
+                    book_in_db.groups.add(library)
                     new_kbook.save()
             else:
                 new_kbook.admin = request.user
@@ -347,6 +350,7 @@ def book_detail(request, slug):
     
     groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     groups_of_book = book.groups.filter(members__id__contains=request.user.id)
+    print(groups_of_book)
 
     all_reviews = Comment.objects.filter(book=book)
     #filter by groups
@@ -548,9 +552,6 @@ def edit_reading_status(request, slug, id):
         if reading_status == "in_wish":
             if in_wish == False:
                 book.in_wishlist.add(user)
-                wishlist = CustomGroup.objects.filter(leader=user, group_type="wishlist").first()
-                kbook = CustomBook(book=book, owner=user, group=wishlist)
-                kbook.save()
                 if is_reading:
                     book.readings.remove(user)
                 elif is_read:
@@ -1009,7 +1010,7 @@ def delete_book(request, slug):
     if kbook.group.group_type == 'library':
         book.in_library.remove(request.user)
        
-    return redirect('group-detail', kbook.group.slug)
+    return redirect('group-books', kbook.group.slug)
 
 #REVIEWS
 

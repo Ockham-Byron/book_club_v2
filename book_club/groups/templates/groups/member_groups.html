@@ -22,7 +22,8 @@
     </div>
 
 {% else %}
-    <h3 class="text-center px-5">{% trans "Everything begins with a group to share good books and good moments !" %}
+    <h3 class="text-center px-5">{% trans "Everything begins with a Club to share good books and good moments !" %}</h3>
+    <a class="btn btn-darkest-color rounded-4" href="{% url 'new-book-search' %}" style="width:200px;">{% trans 'Or Add a book' %}</a>
 {% endif %}
 <div class="row mt-5 pb-5">
   <div class="col-md-6 mx-auto">

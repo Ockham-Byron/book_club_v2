@@ -750,6 +750,13 @@ a.card-recipe-btn-small {
   margin-bottom: 0;
   color:black !important;
 }
+
+@media only screen and (max-width: 768px) {
+  .book-detail .title {
+    font-size:2rem !important;
+    line-height: 2.2rem !important;
+  }
+}
 .book-mini-card img {
   height: 215px;
 }
