@@ -994,7 +994,9 @@ def delete_book_from_group(request,slug):
     book = get_object_or_404(Book, slug=slug)
     user_kbooks = CustomBook.objects.filter(book=book, owner=request.user) | CustomBook.objects.filter(book=book, admin=request.user)
     
-    context = {'user_kbooks': user_kbooks}
+            
+    context = {'user_kbooks': user_kbooks,
+               }
 
     return render(request, 'books/delete-book.html', context=context)
 
@@ -1012,6 +1014,33 @@ def delete_book(request, slug):
        
     return redirect('group-books', kbook.group.slug)
 
+@login_required
+def delete_book_from_sharing_group(request, id, slug):
+    kbook = get_object_or_404(CustomBook, id=id)
+    group = get_object_or_404(CustomGroup, slug=slug)
+
+    kbook.sharing_groups.remove(group)
+    kbook.book.groups.remove(group)
+
+    return redirect('group-books', group.slug)
+
+
+@login_required
+def toggle_exchange(request, id):
+    kbook = get_object_or_404(CustomBook, id=id)
+    if kbook.is_borrowable == True:
+        kbook.is_borrowable = False
+        kbook.is_disponible = False
+        kbook.save()
+        return redirect('book-detail', kbook.slug)
+    else:
+        kbook.is_borrowable = True
+        if Borrow.objects.filter(custom_book=kbook, status="on_going").exists():
+            kbook.is_disponible = False
+        else:
+            kbook.is_disponible = True
+    kbook.save()
+    return redirect('book-detail', kbook.slug)
 #REVIEWS
 
 @login_required

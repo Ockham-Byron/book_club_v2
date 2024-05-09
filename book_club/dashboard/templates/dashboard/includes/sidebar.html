@@ -20,7 +20,10 @@
               <li>
                   <hr class="dropdown-divider">
               </li>
+              <div class="text-center">
               {% include 'users/includes/langswitch.html' %}
+              </div>
+              <li><a href="{% url 'install-app' %}" class="nav-link lightest-color dropdown-item text-small px-3"><i class="fas fa-mobile"></i>{% trans 'Install on your phone' %}</a></li>
               <li><a class="dropdown-item" href="{% url 'logout' %}">{% trans 'Sign out' %}</a></li>
           </ul>
       </div>
@@ -92,7 +95,6 @@
           </li>
         
          
-
           
           
          

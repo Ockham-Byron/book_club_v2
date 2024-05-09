@@ -159,7 +159,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
                 </div>
                 <div class="d-flex align-items-center">
                 <!-- Groups -->
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column me-1">
                     {% for group in book.book.groups.all %}
                         {% if group.group_type == "one_book" or group.group_type == "several_books" %}
                          {% if request.user in group.members.all %}

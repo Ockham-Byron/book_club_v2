@@ -27,7 +27,8 @@ urlpatterns = [
   path('add-new-book-to-group/<slug:slug>', add_new_book_to_group, name="add-new-book-to-group"),
   path('pass-book-to-club/<slug:slug>', pass_book_to_sharing_group, name="pass-book-to-sharing-club"),
   path('pass-book-to-library/<slug:slug>', pass_book_to_library, name="pass-book-to-library"),
-
+  path('delete-book-from-group/<id>/<slug:slug>', delete_book_from_sharing_group, name="delete-book-from-group"),
+  path('toggle.exchange/<id>', toggle_exchange, name="toggle-exchange"),
 
   #comments
   path('add-review/<slug:slug>', add_review, name="add-review"),

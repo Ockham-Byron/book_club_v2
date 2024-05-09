@@ -28,3 +28,6 @@ def dashboard_view(request):
    
   else:
     return redirect('login')
+  
+def install_app_view(request):
+    return render(request, 'dashboard/install-app.html')

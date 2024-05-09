@@ -1,0 +1,1394 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-09 18:06+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: books/forms.py:11
+msgid "Search for a book"
+msgstr "Chercher un livre"
+
+#: books/forms.py:18
+msgid "Meeting place"
+msgstr ""
+
+#: books/forms.py:19 groups/templates/groups/group_detail.html:97
+msgid "Other infos"
+msgstr "Autres infos"
+
+#: books/forms.py:24
+msgid "Comment"
+msgstr "Avis"
+
+#: books/templates/books/add-comment.html:3
+msgid "Add Comment"
+msgstr "Ajouter un avis"
+
+#: books/templates/books/add-comment.html:26
+msgid "Edit your review of"
+msgstr "Modifier votre avis sur"
+
+#: books/templates/books/add-comment.html:28
+msgid "Add Review to"
+msgstr "Ajouter un avis sur"
+
+#: books/templates/books/add-comment.html:33
+msgid "Your rating"
+msgstr "Votre note"
+
+#: books/templates/books/add-comment.html:36
+#: books/templates/books/add-edit-book.html:119
+#: books/templates/books/edit-reading-status.html:62
+#: books/templates/books/meetings/add-meeting.html:55
+#: groups/templates/groups/add_group.html:65
+#: users/templates/users/choose_avatar.html:25
+#: users/templates/users/profile_update.html:84
+msgid "Submit"
+msgstr "Envoyer"
+
+#: books/templates/books/add-comment.html:38
+#: books/templates/books/add-comment.html:55
+#: books/templates/books/add-edit-book.html:121
+#: books/templates/books/add-edit-book.html:138
+#: books/templates/books/book-search-detail.html:44
+#: books/templates/books/borrow/borrow-within-group.html:66
+#: books/templates/books/borrow/reserve-within-group.html:26
+#: books/templates/books/borrow/reserve-within-group.html:46
+#: books/templates/books/delete-book.html:46
+#: books/templates/books/delete-book.html:56
+#: books/templates/books/delete-book.html:73
+#: books/templates/books/edit-reading-status.html:64
+#: books/templates/books/meetings/add-meeting.html:57
+#: books/templates/books/meetings/add-meeting.html:77
+#: books/templates/books/pass-book-to-sharing-club.html:43
+#: groups/templates/groups/add_group.html:67
+#: groups/templates/groups/group_detail.html:282
+#: groups/templates/groups/update_group.html:57
+#: users/templates/users/authentication/change_email.html:43
+#: users/templates/users/authentication/password_reset.html:47
+#: users/templates/users/authentication/password_reset_confirm.html:60
+#: users/templates/users/choose_avatar.html:27
+#: users/templates/users/profile_update.html:86
+#: users/templates/users/profile_update.html:114
+#: users/templates/users/profile_update.html:133
+msgid "Cancel"
+msgstr "Annuler"
+
+#: books/templates/books/add-comment.html:40
+msgid "Delete Review"
+msgstr "Supprimer l'avis"
+
+#: books/templates/books/add-comment.html:48
+msgid "Delete Review ?"
+msgstr "Supprimer l'avis ?"
+
+#: books/templates/books/add-comment.html:51
+msgid "Your opinion was interesant, you know..."
+msgstr "Votre avis était intéressant, mais bon..."
+
+#: books/templates/books/add-comment.html:54
+#: books/templates/books/add-edit-book.html:137
+#: books/templates/books/borrow/reserve-within-group.html:45
+#: books/templates/books/delete-book.html:72
+#: books/templates/books/meetings/add-meeting.html:76
+#: users/templates/users/profile_update.html:113
+#: users/templates/users/profile_update.html:132
+msgid "Yes, no regret"
+msgstr "Oui, pas de regret"
+
+#: books/templates/books/add-edit-book.html:3
+msgid "Add/Edit Book"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:25
+msgid "Edit"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:28
+#: books/templates/books/all-books.html:210
+#: books/templates/books/book-search-detail.html:23
+#: dashboard/templates/dashboard/includes/sidebar.html:54
+#: groups/templates/groups/group_detail.html:261
+#: groups/templates/groups/library.html:154
+msgid "Add Book"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:57
+msgid "Title"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:63
+msgid "Author"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:69
+#: books/templates/books/book-search-detail.html:70
+msgid "Pages"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:74 groups/forms.py:17
+msgid "Description"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:79
+msgid "Isbn-10"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:86
+#: books/templates/books/book-search-detail.html:25
+msgid "Where"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:123
+msgid "Delete Book"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:131
+msgid "Delete Book ?"
+msgstr ""
+
+#: books/templates/books/add-edit-book.html:134
+#: books/templates/books/delete-book.html:15
+msgid "You will lose all the memories, but hey, no pression..."
+msgstr ""
+
+#: books/templates/books/all-books.html:3
+#: dashboard/templates/dashboard/includes/sidebar.html:51
+#: groups/templates/groups/group_detail.html:120
+#: groups/templates/groups/library.html:32
+msgid "Books"
+msgstr ""
+
+#: books/templates/books/all-books.html:30
+#: dashboard/templates/dashboard/includes/sidebar.html:58
+#: dashboard/templates/dashboard/includes/sidebar.html:63
+msgid "Books of"
+msgstr ""
+
+#: books/templates/books/all-books.html:32
+#: dashboard/templates/dashboard/includes/sidebar.html:57
+#: dashboard/templates/dashboard/includes/sidebar.html:61
+msgid "All Books"
+msgstr ""
+
+#: books/templates/books/all-books.html:45
+#: books/templates/books/book-detail.html:35
+#: books/templates/books/book-detail.html:95
+#: books/templates/books/edit-reading-status.html:34
+#: books/templates/books/edit-reading-status.html:54 books/views.py:731
+#: books/views.py:843 groups/templates/groups/library.html:57
+msgid "Read"
+msgstr ""
+
+#: books/templates/books/all-books.html:48
+#: books/templates/books/edit-reading-status.html:55 books/views.py:735
+#: books/views.py:847 groups/templates/groups/library.html:60
+msgid "Reading it"
+msgstr ""
+
+#: books/templates/books/all-books.html:51
+#: books/templates/books/book-detail.html:39
+#: books/templates/books/book-detail.html:99
+#: books/templates/books/edit-reading-status.html:38
+#: books/templates/books/edit-reading-status.html:56 books/views.py:739
+#: books/views.py:851 groups/templates/groups/library.html:63
+msgid "Want to read"
+msgstr ""
+
+#: books/templates/books/all-books.html:54
+#: books/templates/books/edit-reading-status.html:57 books/views.py:743
+#: books/views.py:855 groups/templates/groups/library.html:66
+msgid "Not read yet"
+msgstr ""
+
+#: books/templates/books/all-books.html:57
+#: books/templates/books/edit-reading-status.html:58 books/views.py:747
+#: books/views.py:859 groups/templates/groups/library.html:69
+msgid "No intention to read it"
+msgstr ""
+
+#: books/templates/books/all-books.html:60
+#: books/templates/books/book-detail.html:45
+#: books/templates/books/book-detail.html:105
+#: books/templates/books/edit-reading-status.html:44
+#: books/templates/books/edit-reading-status.html:59 books/views.py:751
+#: books/views.py:863 groups/templates/groups/library.html:72
+msgid "Given up"
+msgstr ""
+
+#: books/templates/books/all-books.html:63 books/views.py:710
+#: books/views.py:729 books/views.py:795 books/views.py:826 books/views.py:841
+#: books/views.py:907 groups/templates/groups/library.html:75
+msgid "All Reading Status"
+msgstr ""
+
+#: books/templates/books/all-books.html:73 books/views.py:764
+#: books/views.py:876
+msgid "Actually borrowed by me"
+msgstr ""
+
+#: books/templates/books/all-books.html:76 books/views.py:768
+#: books/views.py:880 groups/templates/groups/library.html:90
+msgid "Reserved by me"
+msgstr ""
+
+#: books/templates/books/all-books.html:79 books/views.py:772
+#: books/views.py:884 groups/templates/groups/library.html:93
+msgid "Borrowable"
+msgstr ""
+
+#: books/templates/books/all-books.html:82
+msgid "Actually loaned by me"
+msgstr ""
+
+#: books/templates/books/all-books.html:85 books/views.py:780
+#: books/views.py:892 groups/templates/groups/library.html:99
+msgid "Reservations asked to me"
+msgstr ""
+
+#: books/templates/books/all-books.html:88 books/views.py:708
+#: books/views.py:793 books/views.py:824 books/views.py:905
+#: groups/templates/groups/library.html:102
+msgid "All Borrow Status"
+msgstr ""
+
+#: books/templates/books/all-books.html:92
+#: groups/templates/groups/library.html:106
+msgid "Filter"
+msgstr ""
+
+#: books/templates/books/all-books.html:96
+#: groups/templates/groups/library.html:110
+msgid "Reset"
+msgstr ""
+
+#: books/templates/books/book-detail.html:24
+msgid "By"
+msgstr ""
+
+#: books/templates/books/book-detail.html:25
+msgid "pages"
+msgstr ""
+
+#: books/templates/books/book-detail.html:28
+msgid "Average rating"
+msgstr ""
+
+#: books/templates/books/book-detail.html:37
+#: books/templates/books/book-detail.html:97
+#: books/templates/books/edit-reading-status.html:36
+msgid "Reading Now"
+msgstr ""
+
+#: books/templates/books/book-detail.html:41
+#: books/templates/books/book-detail.html:101
+#: books/templates/books/edit-reading-status.html:40
+msgid "Not read"
+msgstr ""
+
+#: books/templates/books/book-detail.html:43
+#: books/templates/books/book-detail.html:103
+#: books/templates/books/edit-reading-status.html:42
+msgid "Dont'want to read"
+msgstr ""
+
+#: books/templates/books/book-detail.html:47
+#: books/templates/books/edit-reading-status.html:46
+msgid "Add Reading Status"
+msgstr ""
+
+#: books/templates/books/book-detail.html:88
+msgid "Readers"
+msgstr ""
+
+#: books/templates/books/book-detail.html:107
+msgid "No Reading Status"
+msgstr ""
+
+#: books/templates/books/book-detail.html:114
+msgid "Close"
+msgstr ""
+
+#: books/templates/books/book-detail.html:140
+#: books/templates/books/book-detail.html:173
+msgid "Reserved from"
+msgstr ""
+
+#: books/templates/books/book-detail.html:140
+#: books/templates/books/book-detail.html:173
+msgid "Cancel Reservation"
+msgstr ""
+
+#: books/templates/books/book-detail.html:144
+#: books/templates/books/book-detail.html:180
+msgid "Reserve from"
+msgstr ""
+
+#: books/templates/books/book-detail.html:153
+#: books/templates/books/book-detail.html:186
+msgid "Borrow from"
+msgstr ""
+
+#: books/templates/books/book-detail.html:158
+msgid "Loan to a member of"
+msgstr ""
+
+#: books/templates/books/book-detail.html:196
+msgid "Loan outside of sharing Clubs"
+msgstr ""
+
+#: books/templates/books/book-detail.html:212
+msgid "Confirm you received the book from"
+msgstr ""
+
+#: books/templates/books/book-detail.html:216
+msgid "Borrowed by me. Mark as given back ?"
+msgstr ""
+
+#: books/templates/books/book-detail.html:223
+msgid "Waiting for Borrow Confirmation by"
+msgstr ""
+
+#: books/templates/books/book-detail.html:228
+#: books/templates/books/book-detail.html:230
+#: books/templates/books/book-detail.html:238
+msgid "Borrowed by"
+msgstr ""
+
+#: books/templates/books/book-detail.html:232
+msgid "Mark as given back"
+msgstr ""
+
+#: books/templates/books/book-detail.html:239
+#: books/templates/books/book-detail.html:258
+msgid "Want to reserve it ?"
+msgstr ""
+
+#: books/templates/books/book-detail.html:249
+msgid "Waiting return confirmation from"
+msgstr ""
+
+#: books/templates/books/book-detail.html:253
+msgid "Confirm return by"
+msgstr ""
+
+#: books/templates/books/book-detail.html:257
+msgid "Waiting return confirmation by"
+msgstr ""
+
+#: books/templates/books/book-detail.html:282
+msgid "Reservations"
+msgstr ""
+
+#: books/templates/books/book-detail.html:331
+msgid "Share within"
+msgstr ""
+
+#: books/templates/books/book-detail.html:347
+msgid "Add to Library"
+msgstr ""
+
+#: books/templates/books/book-detail.html:357
+msgid "Enable loan options"
+msgstr ""
+
+#: books/templates/books/book-detail.html:359
+msgid "Disable loan options"
+msgstr ""
+
+#: books/templates/books/book-detail.html:367
+msgid "Review"
+msgstr ""
+
+#: books/templates/books/book-detail.html:381
+msgid "Delete"
+msgstr ""
+
+#: books/templates/books/book-search-detail.html:10
+#: books/templates/books/book-search-detail.html:12
+#: groups/templates/groups/update_group.html:53
+msgid "Save"
+msgstr ""
+
+#: books/templates/books/book-search-detail.html:43
+#: books/templates/books/pass-book-to-sharing-club.html:42
+msgid "Add"
+msgstr ""
+
+#: books/templates/books/book-search-detail.html:60
+msgid "Genre"
+msgstr ""
+
+#: books/templates/books/book-search-detail.html:65
+msgid "Year"
+msgstr ""
+
+#: books/templates/books/book-search-detail.html:74
+msgid "Language"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:3
+msgid "Borrow of"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:17
+msgid "You confirm having received"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:17
+#: books/templates/books/borrow/borrow-within-group.html:25
+#: books/templates/books/borrow/reserve-within-group.html:19
+msgid "from"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:19
+msgid "You confirm that"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:19
+msgid "has returned"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:21
+msgid "Mark"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:21
+msgid "as returned"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:25
+msgid "Borrow"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:27
+msgid "Loan"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:38
+msgid "to"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:48
+msgid "Loan to someone without account ?"
+msgstr ""
+
+#: books/templates/books/borrow/borrow-within-group.html:59
+#: books/templates/books/borrow/reserve-within-group.html:24
+msgid "Yes"
+msgstr ""
+
+#: books/templates/books/borrow/reserve-within-group.html:3
+msgid "Add Reservation"
+msgstr ""
+
+#: books/templates/books/borrow/reserve-within-group.html:16
+msgid "Edit Reservation of"
+msgstr ""
+
+#: books/templates/books/borrow/reserve-within-group.html:19
+msgid "Reserve"
+msgstr ""
+
+#: books/templates/books/borrow/reserve-within-group.html:31
+#: books/templates/books/meetings/add-meeting.html:62
+msgid "Delete Meeting"
+msgstr ""
+
+#: books/templates/books/borrow/reserve-within-group.html:39
+msgid "Delete Reservation ?"
+msgstr ""
+
+#: books/templates/books/borrow/reserve-within-group.html:42
+#: books/templates/books/meetings/add-meeting.html:73
+msgid ""
+"You will lose a big occasion to share your passion, but hey, no pression..."
+msgstr ""
+
+#: books/templates/books/delete-book.html:5
+msgid "Remove Book"
+msgstr ""
+
+#: books/templates/books/delete-book.html:12
+msgid "Remove Book ?"
+msgstr ""
+
+#: books/templates/books/delete-book.html:20
+#: books/templates/books/delete-book.html:27
+#: books/templates/books/delete-book.html:35
+msgid "Remove Book from"
+msgstr ""
+
+#: books/templates/books/delete-book.html:38
+msgid ""
+"If you remove the book from the club, all memories associated will be "
+"unavailable to the members of the club."
+msgstr ""
+
+#: books/templates/books/delete-book.html:39
+msgid "You can just disable the option to borrow/loan it..."
+msgstr ""
+
+#: books/templates/books/delete-book.html:42
+msgid "Disable the Borrowable option"
+msgstr ""
+
+#: books/templates/books/delete-book.html:43
+msgid "Remove it totally"
+msgstr ""
+
+#: books/templates/books/delete-book.html:66
+msgid "Remove Book from ?"
+msgstr ""
+
+#: books/templates/books/delete-book.html:69
+#: users/templates/users/profile_update.html:110
+msgid "We think you look good on this pic, but your face, your choice !"
+msgstr ""
+
+#: books/templates/books/edit-reading-status.html:3
+msgid "Reading Status"
+msgstr ""
+
+#: books/templates/books/edit-reading-status.html:27
+msgid "Update Reading Status of"
+msgstr ""
+
+#: books/templates/books/edit-reading-status.html:31
+msgid "Actual Reading Status"
+msgstr ""
+
+#: books/templates/books/edit-reading-status.html:52
+#: groups/templates/groups/update_group.html:3
+#: groups/templates/groups/update_group.html:9
+msgid "Update"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:3
+msgid "Add Meeting"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:16
+msgid "Edit Meeting with"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:19
+msgid "Add Meeting with"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:22
+msgid "When will you meet ?"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:26
+msgid "Where will you meet ?"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:30
+msgid "Which book will you read ?"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:35
+msgid "Change  Book"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:39
+msgid "Add New Book"
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:45
+msgid "Add other infos ? Chapters to read, infos on the meeting place..."
+msgstr ""
+
+#: books/templates/books/meetings/add-meeting.html:70
+msgid "Delete Meeting ?"
+msgstr ""
+
+#: books/templates/books/pass-book-to-sharing-club.html:17
+msgid "Add to "
+msgstr ""
+
+#: books/views.py:31
+msgid "The book is already registered here."
+msgstr ""
+
+#: books/views.py:87
+msgid "Unknown Authors"
+msgstr ""
+
+#: books/views.py:154
+msgid ""
+"A same book can't be in your library and your wishlist. We have removed it "
+"from the whislist"
+msgstr ""
+
+#: books/views.py:166
+msgid ""
+"There was an error in the interpretation of result : please add the book "
+"yourself."
+msgstr ""
+
+#: books/views.py:188 books/views.py:209 books/views.py:932
+msgid "You have to choose where to register this book."
+msgstr ""
+
+#: books/views.py:240
+msgid "Invalid search. Try without any accent."
+msgstr ""
+
+#: books/views.py:276
+msgid "Book already in group"
+msgstr ""
+
+#: books/views.py:760 books/views.py:872
+msgid "All borrow status"
+msgstr ""
+
+#: books/views.py:776 books/views.py:888
+#: groups/templates/groups/library.html:96
+msgid "On Loan"
+msgstr ""
+
+#: books/views.py:970
+msgid "You have to choose where to share this book."
+msgstr ""
+
+#: books/views.py:1330
+msgid "Reservation cancelled !"
+msgstr ""
+
+#: core/settings.py:129
+msgid "English"
+msgstr ""
+
+#: core/settings.py:130
+msgid "French"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:6
+msgid "Dashboard"
+msgstr ""
+
+#: dashboard/templates/dashboard/includes/sidebar.html:18
+msgid "Profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/includes/sidebar.html:24
+#: users/templates/users/includes/header.html:33
+msgid "Sign out"
+msgstr ""
+
+#: dashboard/templates/dashboard/includes/sidebar.html:35
+#: groups/templates/groups/member_groups.html:8
+msgid "Clubs"
+msgstr ""
+
+#: dashboard/templates/dashboard/includes/sidebar.html:43
+#: groups/templates/groups/member_groups.html:3
+msgid "My Clubs"
+msgstr ""
+
+#: dashboard/templates/dashboard/includes/sidebar.html:45
+msgid "Add Club"
+msgstr ""
+
+#: groups/forms.py:14 groups/forms.py:28
+msgid "Club's Name"
+msgstr ""
+
+#: groups/templates/groups/add_group.html:3
+msgid "Create a group"
+msgstr ""
+
+#: groups/templates/groups/add_group.html:22
+msgid "Create Club"
+msgstr ""
+
+#: groups/templates/groups/add_group.html:24
+msgid "If you want to join an existing club, click here"
+msgstr ""
+
+#: groups/templates/groups/add_group.html:25
+msgid "Join existing club"
+msgstr ""
+
+#: groups/templates/groups/add_group.html:30
+msgid "Type of Club"
+msgstr ""
+
+#: groups/templates/groups/add_group.html:33
+msgid "Everyone read the same book"
+msgstr ""
+
+#: groups/templates/groups/add_group.html:41
+msgid "Book exchanges"
+msgstr ""
+
+#: groups/templates/groups/add_group.html:58
+msgid "Upload Picture of the Club"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:76
+msgid "Next Meeting"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:93
+msgid "Read by"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:109
+msgid "Next meeting"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:130
+msgid "ADD FIRST BOOK TO THIS GROUP"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:158
+msgid "Borrowed"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:161
+msgid "With reservations"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:176
+msgid "See all books"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:186
+msgid "Members"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:192
+#: groups/templates/groups/group_detail.html:274
+msgid "Invite other people to join your group"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:193
+msgid "Group's code"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:195
+#: groups/templates/groups/group_detail.html:279
+msgid "Copy the invitation"
+msgstr ""
+
+#: groups/templates/groups/group_detail.html:277
+msgid "Code of the group :"
+msgstr ""
+
+#: groups/templates/groups/join_group.html:3
+#: groups/templates/groups/join_group.html:6
+#: groups/templates/groups/member_groups.html:46
+msgid "Join a Club"
+msgstr ""
+
+#: groups/templates/groups/join_group.html:11
+msgid "Club's Code"
+msgstr ""
+
+#: groups/templates/groups/join_group.html:13
+msgid "Join"
+msgstr ""
+
+#: groups/templates/groups/library.html:42
+msgid "ADD FIRST BOOK"
+msgstr ""
+
+#: groups/templates/groups/library.html:87
+msgid "Actually Borrowed"
+msgstr ""
+
+#: groups/templates/groups/member_groups.html:25
+msgid "Everything begins with a Club to share good books and good moments !"
+msgstr ""
+
+#: groups/templates/groups/member_groups.html:26
+msgid "Or Add a book"
+msgstr ""
+
+#: groups/templates/groups/member_groups.html:36
+msgid "Create a Club "
+msgstr ""
+
+#: groups/templates/groups/update_group.html:11
+#: users/templates/users/profile.html:33
+msgid "Name"
+msgstr ""
+
+#: groups/templates/groups/update_group.html:15
+msgid "Upload New Picture"
+msgstr ""
+
+#: groups/templates/groups/update_group.html:45
+msgid "Admin of the Group"
+msgstr ""
+
+#: groups/views.py:34
+#, python-brace-format
+msgid "New group {group.kname} created successfully"
+msgstr ""
+
+#: groups/views.py:34
+msgid "Great !"
+msgstr ""
+
+#: groups/views.py:47 users/views.py:162
+msgid "My Library"
+msgstr ""
+
+#: groups/views.py:63 users/views.py:166
+msgid "My Wishlist"
+msgstr ""
+
+#: pages/templates/pages/bye.html:3 pages/templates/pages/bye.html:10
+msgid "See you ?"
+msgstr ""
+
+#: pages/templates/pages/bye.html:11
+msgid "Your account has been deleted successfully"
+msgstr ""
+
+#: pages/templates/pages/bye.html:12
+msgid "If there is anything we could have done differently, please write us !"
+msgstr ""
+
+#: pages/templates/pages/bye.html:13
+msgid "Write a message"
+msgstr ""
+
+#: pages/templates/pages/page_not_found.html:3
+msgid "Page not found"
+msgstr ""
+
+#: pages/templates/pages/page_not_found.html:10
+msgid "Oops"
+msgstr ""
+
+#: pages/templates/pages/page_not_found.html:11
+msgid "We can't find what your looking for ;-( "
+msgstr ""
+
+#: pages/templates/pages/page_not_found.html:18
+msgid "Go back"
+msgstr ""
+
+#: users/admin.py:11
+msgid "Activity within six months"
+msgstr ""
+
+#: users/admin.py:25
+msgid "Active"
+msgstr ""
+
+#: users/admin.py:26
+msgid "Inactive"
+msgstr ""
+
+#: users/forms.py:24
+msgid ""
+"A user with that email already exists. If you have lost your password, "
+"please go to Login and Forgot password."
+msgstr ""
+
+#: users/forms.py:25 users/forms.py:49 users/forms.py:72 users/forms.py:124
+#: users/templates/users/profile.html:47
+#: users/templates/users/profile_update.html:75
+msgid "Email"
+msgstr ""
+
+#: users/forms.py:27
+msgid "Username"
+msgstr ""
+
+#: users/forms.py:28 users/forms.py:50
+msgid "Password"
+msgstr ""
+
+#: users/forms.py:29
+msgid "Repeat Password"
+msgstr ""
+
+#: users/forms.py:59
+#, python-format
+msgid ""
+"This isn't the password registered with %(email)s. If you don't remember "
+"your password, please click on 'Forgot Password' ."
+msgstr ""
+
+#: users/forms.py:62
+#, python-format
+msgid "No user registered with %(email)s..."
+msgstr ""
+
+#: users/forms.py:84
+msgid "The two password fields didn’t match."
+msgstr ""
+
+#: users/forms.py:87
+msgid "New password"
+msgstr ""
+
+#: users/forms.py:93
+msgid "New password confirmation"
+msgstr ""
+
+#: users/forms.py:122
+msgid "First Name"
+msgstr ""
+
+#: users/forms.py:123
+msgid "Last Name"
+msgstr ""
+
+#: users/forms.py:125
+msgid "Pseudo"
+msgstr ""
+
+#: users/forms.py:127 users/templates/users/profile.html:54
+msgid "Bio"
+msgstr ""
+
+#: users/templates/users/authentication/change_email.html:11
+msgid "Update your email"
+msgstr ""
+
+#: users/templates/users/authentication/change_email.html:41
+msgid "Update Email"
+msgstr ""
+
+#: users/templates/users/authentication/emails/create_account_email.html:4
+#: users/templates/users/authentication/emails/password_reset_email.html:4
+#: users/templates/users/authentication/emails/verify_email_message.html:4
+#: users/templates/users/authentication/emails/verify_email_message.html:9
+#: users/views.py:40
+msgid "Verify Email"
+msgstr ""
+
+#: users/templates/users/authentication/emails/create_account_email.html:6
+#: users/templates/users/authentication/emails/password_reset_email.html:6
+#: users/templates/users/authentication/emails/verify_email_message.html:6
+msgid "Hi"
+msgstr ""
+
+#: users/templates/users/authentication/emails/create_account_email.html:7
+#: users/templates/users/authentication/emails/password_reset_email.html:7
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at"
+msgstr ""
+
+#: users/templates/users/authentication/emails/create_account_email.html:8
+msgid "We don't have any account registered with this email address."
+msgstr ""
+
+#: users/templates/users/authentication/emails/create_account_email.html:9
+msgid "However, you can create a new account !"
+msgstr ""
+
+#: users/templates/users/authentication/emails/create_account_email.html:11
+msgid "Create account"
+msgstr ""
+
+#: users/templates/users/authentication/emails/create_account_email.html:13
+#: users/templates/users/authentication/emails/password_reset_email.html:11
+#: users/templates/users/authentication/emails/verify_email_message.html:11
+msgid "Or you can copy the link below to your browser"
+msgstr ""
+
+#: users/templates/users/authentication/emails/password_reset_email.html:9
+#: users/templates/users/authentication/password_reset_confirm.html:58
+msgid "Reset Password"
+msgstr ""
+
+#: users/templates/users/authentication/emails/password_reset_subject.txt:3
+msgid "Password Reset"
+msgstr ""
+
+#: users/templates/users/authentication/emails/verify_email_message.html:7
+msgid ""
+"You created an account on ...., you need to verify your email. Please click "
+"on the button below to verify your email."
+msgstr ""
+
+#: users/templates/users/authentication/login.html:11
+msgid "Welcome back"
+msgstr ""
+
+#: users/templates/users/authentication/login.html:12
+msgid "Please sign in to access your account"
+msgstr ""
+
+#: users/templates/users/authentication/login.html:47
+msgid "Remember me"
+msgstr ""
+
+#: users/templates/users/authentication/login.html:48
+msgid "Forgot password?"
+msgstr ""
+
+#: users/templates/users/authentication/login.html:57
+#: users/templates/users/authentication/register.html:79
+msgid "Log in"
+msgstr ""
+
+#: users/templates/users/authentication/login.html:59
+msgid "New member?"
+msgstr ""
+
+#: users/templates/users/authentication/login.html:59
+msgid "Signup now"
+msgstr ""
+
+#: users/templates/users/authentication/logout.html:3
+msgid "See you soon"
+msgstr ""
+
+#: users/templates/users/authentication/logout.html:10
+msgid "See you soon !"
+msgstr ""
+
+#: users/templates/users/authentication/logout.html:11
+msgid "You have been logged out successfully "
+msgstr ""
+
+#: users/templates/users/authentication/logout.html:12
+#: users/templates/users/includes/header.html:37
+msgid "Log In"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset.html:11
+#: users/templates/users/authentication/password_reset_confirm.html:11
+msgid "Reset password"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset.html:12
+msgid ""
+"Please enter your email address below and we will send you an email with a "
+"link to reset your password."
+msgstr ""
+
+#: users/templates/users/authentication/password_reset.html:45
+msgid "Send Email"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_complete.html:10
+msgid "You have successfully reset your password !"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_complete.html:12
+#: users/templates/users/authentication/verify_email_complete.html:12
+msgid "Access my dashboard"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_confirm.html:44
+#: users/templates/users/authentication/register.html:58
+msgid "Minimum 8 characters"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_confirm.html:45
+#: users/templates/users/authentication/register.html:59
+msgid "Mix of lowercase and uppercase"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_confirm.html:46
+#: users/templates/users/authentication/register.html:60
+msgid "Minimum a number"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_confirm.html:47
+#: users/templates/users/authentication/register.html:61
+msgid "Minimum a special character"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_confirm.html:48
+#: users/templates/users/authentication/register.html:62
+msgid "Same passwords"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_done.html:10
+msgid "An email has been sent !"
+msgstr ""
+
+#: users/templates/users/authentication/password_reset_done.html:12
+msgid ""
+"Please check your mailbox and follow the instructions to reset your password."
+msgstr ""
+
+#: users/templates/users/authentication/register.html:11
+msgid "Get Started"
+msgstr ""
+
+#: users/templates/users/authentication/register.html:12
+msgid "by creating a free account"
+msgstr ""
+
+#: users/templates/users/authentication/register.html:67
+msgid "By creating an account you agree to our"
+msgstr ""
+
+#: users/templates/users/authentication/register.html:67
+#: users/templates/users/includes/footer.html:12
+msgid "Terms and Conditions"
+msgstr ""
+
+#: users/templates/users/authentication/register.html:67
+msgid "and our "
+msgstr ""
+
+#: users/templates/users/authentication/register.html:67
+#: users/templates/users/includes/footer.html:14
+msgid "Privacy Policy"
+msgstr ""
+
+#: users/templates/users/authentication/register.html:77
+msgid "Sign up"
+msgstr ""
+
+#: users/templates/users/authentication/register.html:79
+msgid "Already a member?"
+msgstr ""
+
+#: users/templates/users/authentication/verify_email.html:10
+msgid "Verify your email address"
+msgstr ""
+
+#: users/templates/users/authentication/verify_email.html:11
+msgid "To unlock all the features of the app, we need to verify your email:"
+msgstr ""
+
+#: users/templates/users/authentication/verify_email.html:16
+msgid "Verify now"
+msgstr ""
+
+#: users/templates/users/authentication/verify_email.html:20
+msgid "Verify later"
+msgstr ""
+
+#: users/templates/users/authentication/verify_email.html:23
+#: users/templates/users/authentication/verify_email_done.html:15
+msgid "Update email"
+msgstr ""
+
+#: users/templates/users/authentication/verify_email_complete.html:10
+msgid "You have successfully verified your email !"
+msgstr ""
+
+#: users/templates/users/authentication/verify_email_done.html:10
+msgid "An email has been sent with instructions to verify your email address"
+msgstr ""
+
+#: users/templates/users/authentication/verify_email_done.html:12
+msgid "Please check your mailbox and follow the instructions."
+msgstr ""
+
+#: users/templates/users/authentication/verify_email_done.html:13
+msgid "No thanks, I prefer going to my dashboard"
+msgstr ""
+
+#: users/templates/users/choose_avatar.html:3
+msgid "Update Avatar"
+msgstr ""
+
+#: users/templates/users/choose_avatar.html:11
+msgid "Update Avatar Color"
+msgstr ""
+
+#: users/templates/users/choose_avatar.html:18
+msgid "Pick your favorite color"
+msgstr ""
+
+#: users/templates/users/home.html:8
+msgid "Books Party"
+msgstr ""
+
+#: users/templates/users/home.html:9
+msgid ""
+"The ultimate app for managing book clubs, book exchange groups, your "
+"personal library, and wishlist all in one place."
+msgstr ""
+
+#: users/templates/users/home.html:10
+msgid ""
+"Join the literary revolution and make every reading experience a celebration "
+"with Books Party. Whether you're an avid reader, a book club enthusiast, or "
+"simply looking to expand your literary horizons, our app is your one-stop "
+"destination for all things books."
+msgstr ""
+
+#: users/templates/users/home.html:14 users/templates/users/home.html:16
+msgid "Enter"
+msgstr ""
+
+#: users/templates/users/home.html:17
+msgid "Join for first time"
+msgstr ""
+
+#: users/templates/users/home.html:32
+msgid "Organize Reading Groups"
+msgstr ""
+
+#: users/templates/users/home.html:34
+msgid ""
+"Easily manage your book clubs and reading circles. Schedule meetings, "
+"discuss books, and engage with fellow members in vibrant literary "
+"discussions."
+msgstr ""
+
+#: users/templates/users/home.html:39
+msgid "Book Exchange Made Easy"
+msgstr ""
+
+#: users/templates/users/home.html:42
+msgid ""
+"Connect with other book lovers in your community and exchange books "
+"seamlessly. Discover new reads while sharing your favorites with like-minded "
+"individuals."
+msgstr ""
+
+#: users/templates/users/home.html:48
+msgid "Personal Library"
+msgstr ""
+
+#: users/templates/users/home.html:51
+msgid ""
+"Keep track of your entire book collection right at your fingertips. From "
+"classics to contemporary bestsellers, your virtual library is just a tap "
+"away."
+msgstr ""
+
+#: users/templates/users/home.html:57
+msgid "Wishlist Management"
+msgstr ""
+
+#: users/templates/users/home.html:60
+msgid ""
+"Never forget a book you want to read again. Create and manage your wishlist, "
+"making it easier to keep track of books you're eager to explore next."
+msgstr ""
+
+#: users/templates/users/includes/footer.html:11
+msgid "Legal Information"
+msgstr ""
+
+#: users/templates/users/includes/footer.html:16
+msgid "Credits"
+msgstr ""
+
+#: users/templates/users/includes/footer.html:19
+msgid "Contact"
+msgstr ""
+
+#: users/templates/users/includes/footer.html:27
+msgid "All Rights Reserved"
+msgstr ""
+
+#: users/templates/users/includes/footer.html:28
+msgid "Made with"
+msgstr ""
+
+#: users/templates/users/includes/footer.html:28
+msgid "by"
+msgstr ""
+
+#: users/templates/users/profile.html:22
+msgid "Informations"
+msgstr ""
+
+#: users/templates/users/profile.html:25
+msgid "Your name"
+msgstr ""
+
+#: users/templates/users/profile.html:38
+msgid "Your Email"
+msgstr ""
+
+#: users/templates/users/profile.html:73
+msgid "Edit Profile"
+msgstr ""
+
+#: users/templates/users/profile.html:79
+msgid "Create an Account"
+msgstr ""
+
+#: users/templates/users/profile_update.html:3
+msgid "Profile Update"
+msgstr ""
+
+#: users/templates/users/profile_update.html:26
+msgid "Create Account"
+msgstr ""
+
+#: users/templates/users/profile_update.html:28
+msgid "Update Profile"
+msgstr ""
+
+#: users/templates/users/profile_update.html:61
+msgid "Delete your profile picture ?"
+msgstr ""
+
+#: users/templates/users/profile_update.html:64
+msgid "Change your avatar color ?"
+msgstr ""
+
+#: users/templates/users/profile_update.html:76
+msgid "Keep your email updated because it's your connection id"
+msgstr ""
+
+#: users/templates/users/profile_update.html:81
+msgid "Change password"
+msgstr ""
+
+#: users/templates/users/profile_update.html:89
+msgid "Delete Account"
+msgstr ""
+
+#: users/templates/users/profile_update.html:107
+msgid "Delete Profile Pic ?"
+msgstr ""
+
+#: users/templates/users/profile_update.html:126
+msgid "Delete your Account ?"
+msgstr ""
+
+#: users/templates/users/profile_update.html:129
+msgid "We'll miss you, but no emotional blackmail here !"
+msgstr ""
+
+#: users/views.py:203
+msgid "Password reset"
+msgstr ""
+
+#: users/views.py:233
+msgid "Password reset on App"
+msgstr ""
+
+#: users/views.py:258
+msgid "Enter new password"
+msgstr ""
+
+#: users/views.py:318
+msgid "Password reset unsuccessful"
+msgstr ""
+
+#: users/views.py:336
+msgid "Your profile has been successfully updated "
+msgstr ""
+
+#: users/views.py:383
+msgid "Your profile has been successfully created "
+msgstr ""
