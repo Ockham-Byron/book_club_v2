@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-09 18:06+0200\n"
+"POT-Creation-Date: 2024-05-10 15:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: books/forms.py:11
 msgid "Search for a book"
 msgstr ""
@@ -69,7 +70,6 @@ msgstr ""
 #: books/templates/books/borrow/reserve-within-group.html:46
 #: books/templates/books/delete-book.html:46
 #: books/templates/books/delete-book.html:56
-#: books/templates/books/delete-book.html:73
 #: books/templates/books/edit-reading-status.html:64
 #: books/templates/books/meetings/add-meeting.html:57
 #: books/templates/books/meetings/add-meeting.html:77
@@ -102,7 +102,6 @@ msgstr ""
 #: books/templates/books/add-comment.html:54
 #: books/templates/books/add-edit-book.html:137
 #: books/templates/books/borrow/reserve-within-group.html:45
-#: books/templates/books/delete-book.html:72
 #: books/templates/books/meetings/add-meeting.html:76
 #: users/templates/users/profile_update.html:113
 #: users/templates/users/profile_update.html:132
@@ -120,7 +119,7 @@ msgstr ""
 #: books/templates/books/add-edit-book.html:28
 #: books/templates/books/all-books.html:210
 #: books/templates/books/book-search-detail.html:23
-#: dashboard/templates/dashboard/includes/sidebar.html:54
+#: dashboard/templates/dashboard/includes/sidebar.html:57
 #: groups/templates/groups/group_detail.html:261
 #: groups/templates/groups/library.html:154
 msgid "Add Book"
@@ -166,21 +165,21 @@ msgid "You will lose all the memories, but hey, no pression..."
 msgstr ""
 
 #: books/templates/books/all-books.html:3
-#: dashboard/templates/dashboard/includes/sidebar.html:51
+#: dashboard/templates/dashboard/includes/sidebar.html:54
 #: groups/templates/groups/group_detail.html:120
 #: groups/templates/groups/library.html:32
 msgid "Books"
 msgstr ""
 
 #: books/templates/books/all-books.html:30
-#: dashboard/templates/dashboard/includes/sidebar.html:58
-#: dashboard/templates/dashboard/includes/sidebar.html:63
+#: dashboard/templates/dashboard/includes/sidebar.html:61
+#: dashboard/templates/dashboard/includes/sidebar.html:66
 msgid "Books of"
 msgstr ""
 
 #: books/templates/books/all-books.html:32
-#: dashboard/templates/dashboard/includes/sidebar.html:57
-#: dashboard/templates/dashboard/includes/sidebar.html:61
+#: dashboard/templates/dashboard/includes/sidebar.html:60
+#: dashboard/templates/dashboard/includes/sidebar.html:64
 msgid "All Books"
 msgstr ""
 
@@ -188,14 +187,14 @@ msgstr ""
 #: books/templates/books/book-detail.html:35
 #: books/templates/books/book-detail.html:95
 #: books/templates/books/edit-reading-status.html:34
-#: books/templates/books/edit-reading-status.html:54 books/views.py:731
-#: books/views.py:843 groups/templates/groups/library.html:57
+#: books/templates/books/edit-reading-status.html:54 books/views.py:735
+#: books/views.py:863 groups/templates/groups/library.html:57
 msgid "Read"
 msgstr ""
 
 #: books/templates/books/all-books.html:48
-#: books/templates/books/edit-reading-status.html:55 books/views.py:735
-#: books/views.py:847 groups/templates/groups/library.html:60
+#: books/templates/books/edit-reading-status.html:55 books/views.py:739
+#: books/views.py:867 groups/templates/groups/library.html:60
 msgid "Reading it"
 msgstr ""
 
@@ -203,20 +202,20 @@ msgstr ""
 #: books/templates/books/book-detail.html:39
 #: books/templates/books/book-detail.html:99
 #: books/templates/books/edit-reading-status.html:38
-#: books/templates/books/edit-reading-status.html:56 books/views.py:739
-#: books/views.py:851 groups/templates/groups/library.html:63
+#: books/templates/books/edit-reading-status.html:56 books/views.py:743
+#: books/views.py:871 groups/templates/groups/library.html:63
 msgid "Want to read"
 msgstr ""
 
 #: books/templates/books/all-books.html:54
-#: books/templates/books/edit-reading-status.html:57 books/views.py:743
-#: books/views.py:855 groups/templates/groups/library.html:66
+#: books/templates/books/edit-reading-status.html:57 books/views.py:747
+#: books/views.py:875 groups/templates/groups/library.html:66
 msgid "Not read yet"
 msgstr ""
 
 #: books/templates/books/all-books.html:57
-#: books/templates/books/edit-reading-status.html:58 books/views.py:747
-#: books/views.py:859 groups/templates/groups/library.html:69
+#: books/templates/books/edit-reading-status.html:58 books/views.py:751
+#: books/views.py:879 groups/templates/groups/library.html:69
 msgid "No intention to read it"
 msgstr ""
 
@@ -224,29 +223,29 @@ msgstr ""
 #: books/templates/books/book-detail.html:45
 #: books/templates/books/book-detail.html:105
 #: books/templates/books/edit-reading-status.html:44
-#: books/templates/books/edit-reading-status.html:59 books/views.py:751
-#: books/views.py:863 groups/templates/groups/library.html:72
+#: books/templates/books/edit-reading-status.html:59 books/views.py:755
+#: books/views.py:883 groups/templates/groups/library.html:72
 msgid "Given up"
 msgstr ""
 
-#: books/templates/books/all-books.html:63 books/views.py:710
-#: books/views.py:729 books/views.py:795 books/views.py:826 books/views.py:841
-#: books/views.py:907 groups/templates/groups/library.html:75
+#: books/templates/books/all-books.html:63 books/views.py:714
+#: books/views.py:733 books/views.py:799 books/views.py:846 books/views.py:861
+#: books/views.py:927 groups/templates/groups/library.html:75
 msgid "All Reading Status"
 msgstr ""
 
-#: books/templates/books/all-books.html:73 books/views.py:764
-#: books/views.py:876
+#: books/templates/books/all-books.html:73 books/views.py:768
+#: books/views.py:896
 msgid "Actually borrowed by me"
 msgstr ""
 
-#: books/templates/books/all-books.html:76 books/views.py:768
-#: books/views.py:880 groups/templates/groups/library.html:90
+#: books/templates/books/all-books.html:76 books/views.py:772
+#: books/views.py:900 groups/templates/groups/library.html:90
 msgid "Reserved by me"
 msgstr ""
 
-#: books/templates/books/all-books.html:79 books/views.py:772
-#: books/views.py:884 groups/templates/groups/library.html:93
+#: books/templates/books/all-books.html:79 books/views.py:776
+#: books/views.py:904 groups/templates/groups/library.html:93
 msgid "Borrowable"
 msgstr ""
 
@@ -254,13 +253,13 @@ msgstr ""
 msgid "Actually loaned by me"
 msgstr ""
 
-#: books/templates/books/all-books.html:85 books/views.py:780
-#: books/views.py:892 groups/templates/groups/library.html:99
+#: books/templates/books/all-books.html:85 books/views.py:784
+#: books/views.py:912 groups/templates/groups/library.html:99
 msgid "Reservations asked to me"
 msgstr ""
 
-#: books/templates/books/all-books.html:88 books/views.py:708
-#: books/views.py:793 books/views.py:824 books/views.py:905
+#: books/templates/books/all-books.html:88 books/views.py:712
+#: books/views.py:797 books/views.py:844 books/views.py:925
 #: groups/templates/groups/library.html:102
 msgid "All Borrow Status"
 msgstr ""
@@ -550,15 +549,6 @@ msgstr ""
 msgid "Remove it totally"
 msgstr ""
 
-#: books/templates/books/delete-book.html:66
-msgid "Remove Book from ?"
-msgstr ""
-
-#: books/templates/books/delete-book.html:69
-#: users/templates/users/profile_update.html:110
-msgid "We think you look good on this pic, but your face, your choice !"
-msgstr ""
-
 #: books/templates/books/edit-reading-status.html:3
 msgid "Reading Status"
 msgstr ""
@@ -629,44 +619,38 @@ msgstr ""
 msgid "Unknown Authors"
 msgstr ""
 
-#: books/views.py:154
-msgid ""
-"A same book can't be in your library and your wishlist. We have removed it "
-"from the whislist"
-msgstr ""
-
-#: books/views.py:166
+#: books/views.py:170
 msgid ""
 "There was an error in the interpretation of result : please add the book "
 "yourself."
 msgstr ""
 
-#: books/views.py:188 books/views.py:209 books/views.py:932
+#: books/views.py:192 books/views.py:213 books/views.py:952
 msgid "You have to choose where to register this book."
 msgstr ""
 
-#: books/views.py:240
+#: books/views.py:244
 msgid "Invalid search. Try without any accent."
 msgstr ""
 
-#: books/views.py:276
+#: books/views.py:280
 msgid "Book already in group"
 msgstr ""
 
-#: books/views.py:760 books/views.py:872
+#: books/views.py:764 books/views.py:892
 msgid "All borrow status"
 msgstr ""
 
-#: books/views.py:776 books/views.py:888
+#: books/views.py:780 books/views.py:908
 #: groups/templates/groups/library.html:96
 msgid "On Loan"
 msgstr ""
 
-#: books/views.py:970
+#: books/views.py:990
 msgid "You have to choose where to share this book."
 msgstr ""
 
-#: books/views.py:1330
+#: books/views.py:1350
 msgid "Reservation cancelled !"
 msgstr ""
 
@@ -686,23 +670,43 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: dashboard/templates/dashboard/includes/sidebar.html:24
+#: dashboard/templates/dashboard/includes/sidebar.html:26
+msgid "Install on your phone"
+msgstr ""
+
+#: dashboard/templates/dashboard/includes/sidebar.html:27
 #: users/templates/users/includes/header.html:33
 msgid "Sign out"
 msgstr ""
 
-#: dashboard/templates/dashboard/includes/sidebar.html:35
+#: dashboard/templates/dashboard/includes/sidebar.html:38
 #: groups/templates/groups/member_groups.html:8
 msgid "Clubs"
 msgstr ""
 
-#: dashboard/templates/dashboard/includes/sidebar.html:43
+#: dashboard/templates/dashboard/includes/sidebar.html:46
 #: groups/templates/groups/member_groups.html:3
 msgid "My Clubs"
 msgstr ""
 
-#: dashboard/templates/dashboard/includes/sidebar.html:45
+#: dashboard/templates/dashboard/includes/sidebar.html:48
 msgid "Add Club"
+msgstr ""
+
+#: dashboard/templates/dashboard/install-app.html:5
+msgid "Install app"
+msgstr ""
+
+#: dashboard/templates/dashboard/install-app.html:9
+msgid "How to install the app on your phone ?"
+msgstr ""
+
+#: dashboard/templates/dashboard/install-app.html:14
+msgid "On an Iphone"
+msgstr ""
+
+#: dashboard/templates/dashboard/install-app.html:33
+msgid "On an Android phone"
 msgstr ""
 
 #: groups/forms.py:14 groups/forms.py:28
@@ -1359,6 +1363,10 @@ msgstr ""
 
 #: users/templates/users/profile_update.html:107
 msgid "Delete Profile Pic ?"
+msgstr ""
+
+#: users/templates/users/profile_update.html:110
+msgid "We think you look good on this pic, but your face, your choice !"
 msgstr ""
 
 #: users/templates/users/profile_update.html:126

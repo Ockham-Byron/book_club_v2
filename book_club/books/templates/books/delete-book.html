@@ -56,24 +56,6 @@
         <a  style="width:80px;" class="btn btn-rounded btn-mid-color mt-4" href="{% url 'book-detail' user_kbooks.first.slug %}">{% trans 'Cancel' %}</a>
         
 
-<!-- Modal delete book from sharing club -->
-<div class="modal fade" id="deletePicModal" tabindex="-1" aria-labelledby="deletePicModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="text-center">
-        <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
-        <br/>
-        <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Remove Book from ?' %}</h5>
-      </div>
-      <div class="text-center">
-        <p class="darkest-color p-4">{% trans "We think you look good on this pic, but your face, your choice !" %}</p>
-      </div>
-      <div class="d-flex justify-content-evenly pb-2">
-        <a href="{% url 'profile-pic-delete' request.user.slug %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
-        <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
-      </div>
-    </div>
-  </div>
-</div>
+
 {% endblock %}
       

@@ -57,10 +57,11 @@
             <li><a class="dropdown-item lightest-color ps-2" href="{% url 'new-book-search' %}"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add Book' %}</a></li>
             {% if groups.count == 1%}
                     {% for group in groups%}
+                    
                         <li><a class="dropdown-item lightest-color" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
                         <li><a class="dropdown-item lightest-color" href="{% url 'group-books' group.slug %}">{% trans 'Books of' %} {{group.kname}}</a></li>
                     {% endfor %}
-                {% else %}
+                {% elif groups.count > 2 %}
                     <li><a class="dropdown-item lightest-color ps-2" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
                     <li class="subnav2">
                       <a class="second-level lightest-color ps-3 " tabindex="-1" href="#">{% trans 'Books of' %}<i class="ps-2 fas fa-angle-right"></i></a>
@@ -71,6 +72,8 @@
                         {% endfor %}
                       </ul>
                     </li>
+                {% else %}
+                <li><a class="dropdown-item lightest-color ps-2" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
               {% endif %}
             </ul>
         </li>

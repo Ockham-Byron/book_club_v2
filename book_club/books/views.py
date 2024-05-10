@@ -144,14 +144,18 @@ def book_add(request, book_in_db, groups, picture):
                     new_kbook.save()
             else:
                 new_kbook.admin = request.user
+                if group.group_type == "wishlist":
+                    book_in_db.in_wishlist.add(request.user)
                 new_kbook.save()
     book_in_db.save()
 
     if CustomBook.objects.filter(book=book_in_db, owner=request.user, group__group_type = 'library').exists() and CustomBook.objects.filter(book=book_in_db, admin=request.user,group__group_type = 'wishlist').exists():
+        book_in_db.in_wishlist.add(request.user)
         book_to_remove = CustomBook.objects.get(book=book_in_db, admin=request.user, group__group_type = 'wishlist')
         book_in_db.groups.remove(book_to_remove.group)
         book_to_remove.delete()
-        messages.warning(request, _("A same book can't be in your library and your wishlist. We have removed it from the whislist"))
+
+        #messages.warning(request, _("A same book can't be in your library and your wishlist. We have removed it from the whislist"))
 
 
 # BOOK VIEWS
@@ -811,11 +815,27 @@ def all_books(request):
 @login_required
 def group_books(request, slug):
     group = get_object_or_404(CustomGroup, slug=slug)
+    user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    common_members = []
+
+    for kgroup in user_groups:
+        for member in kgroup.members.all():
+            common_members.append(member)
+    common_members = set(common_members)
+
+    print(group)
+    
+    kbooks = CustomBook.objects.filter(owner__in=common_members) | CustomBook.objects.filter(admin__in=common_members)
     unique_kbooks = []
     if group.group_type == 'several_books':
         
         unique_kbooks = CustomBook.objects.filter(sharing_groups__id__contains = group.id)
         
+    elif group.group_type == 'wishlist':
+        for kbook in kbooks:
+            if request.user in kbook.book.in_wishlist.all():
+                unique_kbooks.append(kbook)
+
     else:
         unique_kbooks = CustomBook.objects.filter(group=group)
 
