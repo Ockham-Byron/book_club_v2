@@ -128,7 +128,7 @@ def login_view(request):
                     # Set session as modified to force data updates/cookie to be saved.
                     request.session.modified = True
                     if user.email_is_verified:
-                        return redirect('dashboard')
+                        return redirect('all-books')
                     else:
                         return redirect('verify-email')
 

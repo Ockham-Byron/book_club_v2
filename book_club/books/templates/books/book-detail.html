@@ -268,8 +268,19 @@
 
 
   <!-- Book Borrow End -->
+
+  <!-- Book Tags -->
+  {% if tags %}
+  <div class="d-flex justify-content-center flex-wrap mt-3">
+  {% for tag in tags %}
+  <p class="reading-status" style="background-color:{{tag.color}}; color:white;">{{tag.name}}</p>
+  {% endfor %}
+  </div>
+  {% endif %}
+  <!-- End Book Tags -->
+
   <!-- Book description -->
-  <div class="mt-5 book-description">
+  <div class="mt-3 book-description">
     {% if book.description %}
     {{book.description}}
     {% endif %}
@@ -359,7 +370,10 @@
           <button class="d-flex" type="submit"><div class="icon fa-solid fa-house"></div>{% trans 'Disable loan options' %}</button>
           {% endif %}
       </form>
-      
+      <a class="d-flex" href="{% url 'add-book-tags' book.slug %}">
+          <div class="icon fas fa-tag"></div>
+          <div class="text">{% trans 'Assign tags' %}</div>
+      </a>
       {% endif %}
       <a class="d-flex" href="{% url 'add-review' book.slug %}"> 
        

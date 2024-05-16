@@ -106,7 +106,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
         <a href="{% url 'book-detail' book.slug %}" class="book-card-link">
             <div class="book-small-horizontal-card d-flex shadow align-items-center justify-content-between mx-auto">
                 <div class="d-flex">
-                    <div>
+                    <div class="d-flex flex-column justify-content-center"> 
                     {% if book.picture %}
                         <img class="mx-auto" src="{{book.picture.url}}" alt="{{book.title}}" />
                     {% elif book.cover %}
@@ -155,7 +155,15 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
                             {% endif %}
                         </div>
                         {% endif %}
+                        {% if book.kbook_tags %}
+                            <div class="mt-1 d-flex justify-content-start">
+                            {% for tag in book.kbook_tags.all %}
+                                <p class="reading-status small" style="background-color:{{tag.color}}; color:white;">{{tag.name}}</p>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
+                    
                 </div>
                 <div class="d-flex align-items-center">
                 <!-- Groups -->

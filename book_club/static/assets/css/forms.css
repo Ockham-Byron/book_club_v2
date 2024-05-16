@@ -470,7 +470,7 @@ input.input-date {
 
 }
 
-.user-choice-container input[type="checkbox"]{
+.user-choice-container input[type="checkbox"], .horizontal-tag-choice-container input[type="checkbox"]{
   appearance: none !important;
   border:none !important;
   cursor:pointer !important;
@@ -613,4 +613,32 @@ input[type="checkbox"]+label {
 img.form-img {
   max-width:90%;
   margin-top:50px;
+}
+
+/* Tag Forms */
+
+
+.horizontal-tag-choice-container input[type="checkbox"] {
+  width:30px !important;
+  
+}
+
+.horizontal-tag-choice-container input[type="checkbox"]:after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f111" !important;
+  font-size: 18px;
+  color: var(--mid-color);
+}
+
+.horizontal-tag-choice-container input[type="checkbox"]:checked:after {
+  font-weight: 900;
+  content: "\f058" !important;
+  color: var(--mid-color);
+}
+
+.horizontal-tag-choice-container p {
+  color:white !important;
+  border-radius:10px;
+  padding:5px 10px;
 }

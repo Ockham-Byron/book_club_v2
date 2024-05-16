@@ -25,8 +25,13 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 # Create your models here.
-class Book(models.Model):
+class Genre(models.Model):
+    name = models.CharField(max_length=200, blank = False, null=False)
+
+    def __str__(self):
+        return self.name
     
+class Book(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
     title = models.CharField(max_length=150, blank=False, null=False)
     author = models.CharField(max_length=150, blank=False, null=False)
@@ -42,6 +47,7 @@ class Book(models.Model):
     give_up = models.ManyToManyField(User, related_name="give_up", blank=True)
     cover=models.CharField(max_length=500, blank=True, null=True)
     picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
+    genres = models.ManyToManyField(Genre, blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     groups = models.ManyToManyField(CustomGroup, related_name="books", blank=True)
@@ -183,18 +189,6 @@ class Borrow(models.Model):
     def __str__(self):
         return self.custom_book.book.title
 
-
-
-class Reservations(models.Model):
-    id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
-    book = models.ForeignKey(CustomBook, related_name="reservations", blank=False, null=False, on_delete=models.CASCADE)
-    borrower = models.ForeignKey(User, related_name="borrowers", blank=False, null=False, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-
-    def __str__(self):
-        return self.custom_book.book.title
     
 class Citation(models.Model):
     id = models.UUIDField(default= uuid4, editable = False, primary_key=True)
@@ -205,3 +199,14 @@ class Citation(models.Model):
 
     def __str__(self):
         return self.kbook.title
+
+class BookTag(models.Model):
+    author = models.ForeignKey(User, related_name="user_tags", blank=True, null=True, on_delete=models.CASCADE)
+    kbooks = models.ManyToManyField(CustomBook, related_name="kbook_tags", blank=True)
+    name = models.CharField(max_length=100, blank = False, null=False)
+    color = models.CharField(max_length=255, default="#383e42", null=True)
+
+    def __str__(self):
+        return self.name
+
+

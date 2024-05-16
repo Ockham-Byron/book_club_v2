@@ -30,6 +30,9 @@ urlpatterns = [
   path('delete-book-from-group/<id>/<slug:slug>', delete_book_from_sharing_group, name="delete-book-from-group"),
   path('toggle.exchange/<id>', toggle_exchange, name="toggle-exchange"),
 
+  #tags
+  path('add-tag/<slug:slug>', add_book_tags, name="add-book-tags"),
+
   #comments
   path('add-review/<slug:slug>', add_review, name="add-review"),
   path('edit-review/<id>', edit_review, name="edit-review"),

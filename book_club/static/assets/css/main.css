@@ -282,6 +282,10 @@ color:var(--light-color) !important;
   border-radius:10px !important;
 }
 
+.btn-small {
+  max-width: 250px !important;
+}
+
 .btn-wide {
   width: 90%;
   padding:8px 20px;
@@ -309,13 +313,13 @@ color:var(--light-color) !important;
 }
 
 .btn-mid-color {
-  background-color: var(--mid-color);
+  background-color: var(--mid-color) !important;
   color:white;
 }
 
 .btn-mid-color:hover {
   color:white;
-  background-color: var(--dark-color);
+  background-color: var(--dark-color) !important;
 }
 
 .btn-joy-color {

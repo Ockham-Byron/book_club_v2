@@ -13,7 +13,7 @@ from django.db.models import Q, Count
 from django.shortcuts import render, redirect
 from .forms import BookSearch, AddMeetingForm, AddCommentForm, AddCustomBookForm
 from groups.models import CustomGroup
-from .models import Book, Meeting, CustomBook, Comment, Borrow
+from .models import Book, Meeting, CustomBook, Comment, Borrow, BookTag
 from users.models import CustomUser
 
 tz= timezone.get_current_timezone()
@@ -432,7 +432,8 @@ def book_detail(request, slug):
         kbook.save()
         return redirect('book-detail', kbook.slug)
 
-        
+    #tags
+    tags = BookTag.objects.filter(kbooks__id__contains = kbook.id).distinct()
         
     #borrows
     
@@ -492,6 +493,7 @@ def book_detail(request, slug):
         'reservations':reservations,
         'is_reserved_by_user':is_reserved_by_user,
         'readers':readers,
+        'tags':tags,
         
         
         }
@@ -1061,6 +1063,53 @@ def toggle_exchange(request, id):
             kbook.is_disponible = True
     kbook.save()
     return redirect('book-detail', kbook.slug)
+
+#TAGS
+
+@login_required
+def add_book_tags(request, slug):
+    kbook = get_object_or_404(CustomBook, slug=slug)
+    kbook_tags = BookTag.objects.filter(kbooks__id__contains=kbook.id)
+    tags = BookTag.objects.filter(author=kbook.owner)
+
+    context = {
+        'kbook': kbook,
+        'kbook_tags': kbook_tags,
+        'tags': tags
+    }
+
+    if request.method == 'POST':
+        if "add-tag" in request.POST:
+            name = request.POST.get("tag-name")
+            tag_color = request.POST.get("tag-color")
+
+            new_tag = BookTag(author=request.user, name=name, color=tag_color)
+            new_tag.save()
+            new_tag.kbooks.add(kbook)
+            new_tag.save()
+            return redirect('add-book-tags', kbook.slug)
+            
+
+        if "select-tags" in request.POST:
+            tags = request.POST.getlist(('tag'))
+            print(tags)
+            #remove tags
+        
+            for tag in kbook_tags:
+                if tag not in tags:
+                    tag.kbooks.remove(kbook)
+
+            #add tags                                          
+            for tag in tags:
+                book_tag = get_object_or_404(BookTag, id=tag)
+                if tag not in kbook_tags:
+                    book_tag.kbooks.add(kbook)
+                    book_tag.save()
+
+            return redirect('book-detail', kbook.slug)
+
+    return render(request, 'books/add-edit-tags.html', context=context)
+
 #REVIEWS
 
 @login_required
