@@ -41,24 +41,33 @@ def book_search(search):
             return redirect('book-search')
 
     search = search.replace(' ', '+')
+    
     r = urlopen(api + search, context=ctx)
     
     data = json.load(r)
     
+   
+    books=[]
+    if data["totalItems"] > 0:
+        
+        fetched_books = data['items']
     
-    fetched_books = data['items']
-    books = []
-    for book in fetched_books:
-        book_dict = {
-            'title': book['volumeInfo']['title'],
-            'image': book['volumeInfo']['imageLinks']['thumbnail'] if 'imageLinks' in book['volumeInfo'] else "/static/assets/img/illustrations/book-placeholder.jpeg",
-            'authors': ", ".join(book['volumeInfo']['authors']) if 'authors' in book['volumeInfo'] else "",
-            'publisher': book['volumeInfo']['publisher'] if 'publisher' in book['volumeInfo'] else "",
-            'info': book['volumeInfo']['infoLink'],
-            'popularity': book['volumeInfo']['ratingsCount'] if 'ratingsCount' in book['volumeInfo'] else 0,
-            'isbn': book['volumeInfo']['industryIdentifiers'][0]['identifier'] if 'industryIdentifiers' in book['volumeInfo'] else 0,
-        }
-        books.append(book_dict)
+
+        
+        for book in fetched_books:
+            book_dict = {
+                'title': book['volumeInfo']['title'],
+                'image': book['volumeInfo']['imageLinks']['thumbnail'] if 'imageLinks' in book['volumeInfo'] else "/static/assets/img/illustrations/book-placeholder.jpeg",
+                'authors': ", ".join(book['volumeInfo']['authors']) if 'authors' in book['volumeInfo'] else "",
+                'publisher': book['volumeInfo']['publisher'] if 'publisher' in book['volumeInfo'] else "",
+                'info': book['volumeInfo']['infoLink'],
+                'popularity': book['volumeInfo']['ratingsCount'] if 'ratingsCount' in book['volumeInfo'] else 0,
+                'isbn': book['volumeInfo']['industryIdentifiers'][0]['identifier'] if 'industryIdentifiers' in book['volumeInfo'] else 0,
+            }
+            books.append(book_dict)
+    
+    else:
+        print("no items")
 
     return books
 
@@ -68,7 +77,7 @@ def book_save(request, id):
     isbn = id
   
     r = urlopen(api + isbn, context=ctx)
-    print(r)
+    
     book_data = json.load(r)
   # if r.status_code != 200:
   #     return render(request, 'books/book-results.html', {'message': 'Sorry, there seems to be an issue with Google Books right now.'})
@@ -155,7 +164,7 @@ def book_add(request, book_in_db, groups, picture):
         book_in_db.groups.remove(book_to_remove.group)
         book_to_remove.delete()
 
-        #messages.warning(request, _("A same book can't be in your library and your wishlist. We have removed it from the whislist"))
+        
 
 
 # BOOK VIEWS
@@ -237,12 +246,21 @@ def new_book_search(request):
         form = BookSearch(request.POST)
         if form.is_valid():
             search = request.POST.get('search', False)
+            
             try:
-                books = book_search(search)
-                return render(request, 'books/search.html', {'form': form, 'books': books})
-            except:
+                books=book_search(search)
+                if len(books) == 0:
+                    messages.error(request, _('There was an error in the interpretation of result : please add the book yourself.'))
+                    return redirect('add-book-custom')
+                else:
+                    return render(request, 'books/search.html', {'form': form, 'books': books})
+            except Exception as e:
+                print(e)
                 messages.error(request, _('Invalid search. Try without any accent.'))
                 return render(request, 'books/search.html', {'form': form})
+         
+                
+            
 
 @login_required
 def search_book_for_meeting(request, id):

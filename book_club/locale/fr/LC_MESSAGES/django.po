@@ -190,7 +190,7 @@ msgstr "Tous les livres"
 #: books/templates/books/edit-reading-status.html:54 books/views.py:735
 #: books/views.py:863 groups/templates/groups/library.html:57
 msgid "Read"
-msgstr "Lire"
+msgstr "Lu"
 
 #: books/templates/books/all-books.html:48
 #: books/templates/books/edit-reading-status.html:55 books/views.py:739
@@ -894,7 +894,7 @@ msgstr ""
 
 #: pages/templates/pages/page_not_found.html:11
 msgid "We can't find what your looking for ;-( "
-msgstr ""
+msgstr "Nous ne pouvons pas trouver ce que vous cherchez..."
 
 #: pages/templates/pages/page_not_found.html:18
 msgid "Go back"
@@ -1174,7 +1174,7 @@ msgstr ""
 
 #: users/templates/users/authentication/register.html:79
 msgid "Already a member?"
-msgstr ""
+msgstr "Déjà membre ?"
 
 #: users/templates/users/authentication/verify_email.html:10
 msgid "Verify your email address"
