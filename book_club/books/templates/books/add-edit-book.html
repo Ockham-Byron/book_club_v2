@@ -102,7 +102,7 @@
               {% if group.group_pic %}
                 <img src="{{ group.group_pic.url }}">
               {% else %}
-                <img src="{% static 'assets/img/illustrations/group_default.jpeg' %}" alt="Group picture"  >
+                <img src="{% static 'assets/img/illustrations/borrowing-group.jpeg' %}" alt="Group picture"  >
               {% endif %}
               <p class="mb-0 ps-3" style="max-width:60%;">{% trans 'Borrowed outside of a Club' %}</p>
               <input type="checkbox" value="{{group.uuid}}" name="borrowing" requested />
