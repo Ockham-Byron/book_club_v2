@@ -615,6 +615,12 @@ img.form-img {
   margin-top:50px;
 }
 
+@media only screen and (max-width:767px) {
+  .searchbar {
+    width: 95%;
+  }
+}
+
 /* Tag Forms */
 
 

@@ -61,7 +61,7 @@
                         <li><a class="dropdown-item lightest-color" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
                         <li><a class="dropdown-item lightest-color" href="{% url 'group-books' group.slug %}">{% trans 'Books of' %} {{group.kname}}</a></li>
                     {% endfor %}
-                {% elif groups.count > 2 %}
+                {% elif groups.count > 1 %}
                     <li><a class="dropdown-item lightest-color ps-2" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
                     <li class="subnav2">
                       <a class="second-level lightest-color ps-3 " tabindex="-1" href="#">{% trans 'Books of' %}<i class="ps-2 fas fa-angle-right"></i></a>

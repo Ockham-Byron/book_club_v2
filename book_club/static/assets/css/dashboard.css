@@ -763,6 +763,7 @@ a.card-recipe-btn-small {
 }
 .book-mini-card img {
   height: 215px;
+  max-width:200px;
 }
 
 .book-data-box {
@@ -866,6 +867,10 @@ img.group-img-small {
 
 .book-card-link {
   width:100% !important;
+}
+
+.meeting-infos p {
+  color: var(--darkest-color) !important;
 }
 
 /* Blockquote main style */

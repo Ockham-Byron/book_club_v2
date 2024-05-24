@@ -29,6 +29,7 @@ urlpatterns = [
   path('pass-book-to-library/<slug:slug>', pass_book_to_library, name="pass-book-to-library"),
   path('delete-book-from-group/<id>/<slug:slug>', delete_book_from_sharing_group, name="delete-book-from-group"),
   path('toggle.exchange/<id>', toggle_exchange, name="toggle-exchange"),
+  path('define-owner/<id>', define_owner, name="define-owner"),
 
   #tags
   path('add-tag/<slug:slug>', add_book_tags, name="add-book-tags"),

@@ -11,6 +11,7 @@ def get_groups(request):
         wishlists = CustomGroup.objects.filter(leader=request.user, group_type="wishlist")
         groups = groups.exclude(group_type="library")
         groups = groups.exclude(group_type="wishlist")
+        groups = groups.exclude(group_type="borrowing")
         nb_of_groups = len(groups)
         if nb_of_groups <= 0:
             groups = None

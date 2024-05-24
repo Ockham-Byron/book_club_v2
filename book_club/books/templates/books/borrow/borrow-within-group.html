@@ -18,19 +18,56 @@
                 {% elif borrow.status == "returned" and borrow.need_return_confirmation == True and kbook.owner == request.user %}
                     {% trans 'You confirm that' %} <span class="dark-color"> </br> {{borrow.borrower}} </span> </br>{% trans 'has returned' %}<span class="dark-color"> </br>{{kbook.title}} </span> ? </h5>
                 {% else %}
-                    {% trans 'Mark' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'as returned' %} ?</h5>
+                    {% if borrow.borrower == request.user %}
+                        {% trans 'Mark' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'as returned to' %}
+                    <span class="dark-color"> </br>
+                    {% if borrow.custom_book.kowner%}
+                        {{borrow.custom_book.kowner}}
+                    {% else %}
+                        {{borrow.custom_book.owner}}
+                    {% endif %}
+                    </span>
+                    {% else %}
+                    {% trans 'Mark' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br>{% trans 'as returned by' %}
+                    <span class="dark-color"> </br>
+                    {% if borrow.kborrower != None%}
+                        {{borrow.kborrower}}
+                    {% else %}
+                        {{borrow.borrower}}
+                    {% endif %}
+                    </span>
+                    {% endif %}
+                     ?
+
+                    </h5>
                 {% endif %}
             {% else %}
                 {% if kbook.owner != request.user %}
-                    {% trans 'Borrow' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'from' %}<span class="dark-color"> </br> {{kbook.owner}} </span></h5>
+                    {% trans 'Borrow' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br> {% trans 'from' %}
+                    {% if kbook.owner %}
+                        <span class="dark-color"> </br> {{kbook.owner}} </span></h5>
+                    {% elif kbook.kowner %}
+                        <span class="dark-color"> </br> {{kbook.kowner}} </span></h5>
+                    {% else %}
+                        </br>
+                        {% if common_members%}
+                        <select name="borrowing_owner">
+                            {% for member in common_members %}
+                                {% if member != request.user %}
+                                <option value="{{ member.id }}">{{ member.pseudo }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                        <p class="brand-color modal-title mt-3">{% trans 'Borrow from someone without account ?' %}</p>
+                        <input name="kowner" type="text" placeholder="Name of Owner" value="None">
+                    {% endif %}
                 {% else %}
                     {% trans 'Loan' %} <span class="dark-color"> </br> {{kbook.title}} </span> </br></h5>
                     {% if group %}
                         <select name="borrower">
                             {% for member in group.members.all %}
-                                {% if member != request.user %}
-                                <option value="{{ member.id }}">{{ member.pseudo }}</option>
-                                {% endif %}
+                                
                             {% endfor %}
                         </select>
                     {% else %}
@@ -81,11 +118,3 @@
 
 {% endblock %}
 
-{% block extrajs %}
-<script>
-$(document).ready(function() {
-    $('.datepicker').datepicker();
-});
-</script>
-
-{% endblock extrajs%}

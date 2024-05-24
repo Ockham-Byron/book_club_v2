@@ -5,12 +5,24 @@ Général:
   ☐ ajouter page qui explique comment télécharger
   ☐ menu texte au milieu on scrolling
 
+Borrow:
+  ☐ annuler quand "attente de confirmation"
+
+
+Borrow outside:
+  ☐ prevoir borrow outside + sharing club
+  ☐ verifier que ceux qui appartiennent à un groupe commun et avec kowner sont dans all-books
+  ☐ verfiier que ceux sans groupe commun ne sont pas dans all-books des autres
+  ✔ mettre bouton emprunter dans book-detail @done(24-05-23 16:06)
+
+
 Groups:
   ☐ Library and Wishlist - revoir beaucoup de livres
   ☐ add status "with reservations"
 
 Book:
   ☐ dans delete, donner option d'enlever juste "ok pour prêter"
+  ☐ edit livre : edit ownership
 
 All-Books:
   ☐ filter dans les all-Books by group
@@ -38,6 +50,8 @@ Future features:
   ☐ page de statistiques
   ☐ ajouter citations
   ☐ prévoir des friends ?
+  ☐ prévoir ajouter des livres empruntés
+  ☐ scanner isbn
 
 Archive:
   ✔ dans les échanges de livre, indiquer option "ok pour prêter" @done(24-05-07 12:27) @project(Book)

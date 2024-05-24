@@ -87,14 +87,26 @@
       <div class="modal-choice-box d-flex flex-wrap justify-content-center">
       {% for group in kgroups %}
             <div class="horizontal-choice-container d-flex align-items-center">
-            {% if group.picture %}
-                    <img src="{{ group.picture.url }}">
+            {% if group.group_pic %}
+                    <img src="{{ group.group_pic.url }}">
                 {% else %}
-                  <img src="{% static 'assets/img/illustrations/group_default.jpeg' %}" alt="Dish picture"  >
+                  <img src="{% static 'assets/img/illustrations/group_default.jpeg' %}" alt="Group picture"  >
                 {% endif %}
               <p class="text-center mb-0 ps-3">{{ group.kname }}</p>
               <input class="mt-2" type="checkbox" value="{{group.uuid}}" name="group" requested />
              
+            </div>
+        {% endfor %}
+        {% for group in borrowing %}
+            <div class="horizontal-choice-container d-flex align-items-center">
+              {% if group.group_pic %}
+                <img src="{{ group.group_pic.url }}">
+              {% else %}
+                <img src="{% static 'assets/img/illustrations/group_default.jpeg' %}" alt="Group picture"  >
+              {% endif %}
+              <p class="mb-0 ps-3" style="max-width:60%;">{% trans 'Borrowed outside of a Club' %}</p>
+              <input type="checkbox" value="{{group.uuid}}" name="borrowing" requested />
+              
             </div>
         {% endfor %}
         </div>

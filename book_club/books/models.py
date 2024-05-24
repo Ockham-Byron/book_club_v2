@@ -88,6 +88,7 @@ class CustomBook(models.Model):
     sharing_groups = models.ManyToManyField(CustomGroup, related_name="shared_book", blank=True)
     admin = models.ForeignKey(User, related_name="admin", on_delete=models.CASCADE, blank=True, null=True)
     owner = models.ForeignKey(User, related_name="owner", on_delete=models.CASCADE, blank=True, null=True)
+    kowner = models.CharField(max_length=150, blank=True, null=True)
     title = models.CharField(max_length=150, blank=True, null=True)
     author = models.CharField(max_length=150, blank=True, null=True)
     isbn = models.CharField(max_length=30, blank=True, null=True)

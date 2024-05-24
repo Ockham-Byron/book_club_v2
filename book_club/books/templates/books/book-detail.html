@@ -137,11 +137,22 @@
         {% else %}
           {% if is_reserved_by_user %}
           <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
-            {% trans 'Reserved from' %}  {{book.owner}} </br> {% trans 'Cancel Reservation' %} ?
+            {% trans 'Reserved from' %}  
+            {% if book.owner %}
+              {{book.owner}} 
+            {% else %}
+              {{book.kowner}}
+            {% endif %}
+            </br> {% trans 'Cancel Reservation' %} ?
           </a>
           {% elif book.owner != request.user and is_borrowed_by_user == False %}
           <a class="btn btn-mid-color me-1" href="{% url 'reserve-within-group' book.id group.slug %}">
-            {% trans 'Reserve from' %}  {{book.owner}} 
+            {% trans 'Reserve from' %}  
+            {% if book.owner %}
+              {{book.owner}} 
+            {% else %}
+              {{book.kowner}}
+            {% endif %}
           </a>
           {% endif %}
         {% endif %}
@@ -150,7 +161,12 @@
         
         {% if book.owner != request.user %}
           <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-within-group' book.id group.slug %}">
-            {% trans 'Borrow from' %}  {{book.owner}} 
+            {% trans 'Borrow from' %} 
+            {% if book.owner %}
+              {{book.owner}} 
+            {% else %}
+              {{book.kowner}}
+            {% endif %}
           </a>
         {% elif book.owner == request.user %}
           {% for group in common_sharing_groups %}
@@ -166,24 +182,41 @@
     {% endwith %}
   {% endif %}
 
-{% if not common_sharing_group and book.is_borrowable and book.owner != request.user %}
+{% if not common_sharing_groups and book.is_borrowable and book.owner != request.user %}
+  
   <div class="d-flex">
   {% if is_reserved_by_user %}
     <a class="btn btn-mid-color me-1" href="{% url 'delete-reservation' book.id  %}">
-      {% trans 'Reserved from' %}  {{book.owner}} </br> {% trans 'Cancel Reservation' %} ?
+      {% trans 'Reserved from' %}  
+        {% if book.owner %}
+          {{book.owner}} 
+        {% else %}
+          {{book.kowner}}
+        {% endif %}
+      </br> {% trans 'Cancel Reservation' %} ?
     </a>
 
   {% else %}
     {% if not is_borrowed_by_user %}
     
    <a class="btn btn-mid-color me-1" href="{% url 'reserve-no-group' book.id %}">
-            {% trans 'Reserve from' %}  {{book.owner}} 
+            {% trans 'Reserve from' %}  
+            {% if book.owner %}
+              {{book.owner}} 
+            {% else %}
+              {{book.kowner}}
+            {% endif %}
           </a>
     {% endif %}
   {% endif %}
   {% if book.is_disponible and request.user != book.owner %}
   <a class="btn btn-darkest-color ms-1" href="{% url 'borrow-no-group' book.id  %}">
-            {% trans 'Borrow from' %} {{book.owner}}
+            {% trans 'Borrow from' %} 
+            {% if book.owner %}
+              {{book.owner}}
+            {% elif book.kowner %}
+              {{book.kowner}}
+            {% endif %}
       </a>
     {% endif %}
   </div>
@@ -207,13 +240,18 @@
     {% for borrow in borrows %}
       {% if borrow.status == "on_going" %}
         {% if borrow.borrower == request.user %}
+          
           {% if borrow.need_borrow_confirmation %}
             <a class="btn btn-darkest-color text-white" href="{% url 'confirm-borrow' borrow.id%}">
               {% trans 'Confirm you received the book from' %} {{book.owner}}
             </a>
           {% else %}
             <a class="btn btn-darkest-color text-white" href="{% url 'give-book-back' borrow.id%}">
-              {% trans 'Borrowed by me. Mark as given back ?' %}
+              {% trans 'Borrowed by me. Mark as given back' %}
+              {% if borrow.custom_book.kowner %}
+              <br/> {% trans 'to' %} {{book.kowner}}
+              {% endif%}
+              ?
             </a>
           {% endif %}
         

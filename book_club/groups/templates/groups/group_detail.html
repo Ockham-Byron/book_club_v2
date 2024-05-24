@@ -80,8 +80,15 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
         {% if next_meeting.book %}
         <div class="book-infos text-center">
             <a href="{% url 'book-detail' next_meeting.book.slug %}">
-            <img class="shadow" src="{{next_meeting.book.cover}}" alt="{{book.title}}" />
-            </a>
+            <div class="book-mini-card mx-auto">
+                {% if next_meeting.book.picture %}
+                    <img class="mx-auto" src="{{next_meeting.book.picture.url}}" alt="{{book.title}}" />
+                {% elif next_meeting.book.cover %}
+                    <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+                {% else %}
+                    <img class="mx-auto" src="{% static 'assets/img/illustrations/book-default.png'%}" alt="{{book.title}}" />
+                {% endif %}
+            </div>
             <p class="title mt-1 mb-0">{{next_meeting.book.title}}</p>
             <p class="author">{{next_meeting.book.author}}</p>
         </div>
