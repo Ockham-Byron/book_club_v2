@@ -84,7 +84,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
                 {% if next_meeting.book.picture %}
                     <img class="mx-auto" src="{{next_meeting.book.picture.url}}" alt="{{book.title}}" />
                 {% elif next_meeting.book.cover %}
-                    <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+                    <img class="mx-auto" src="{{next_meeting.book.cover}}" alt="{{book.title}}" />
                 {% else %}
                     <img class="mx-auto" src="{% static 'assets/img/illustrations/book-default.png'%}" alt="{{book.title}}" />
                 {% endif %}
