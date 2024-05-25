@@ -2,14 +2,13 @@ import json
 import environ
 import ssl
 import os
-from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 from urllib.request import urlopen
-from django.db.models import Q, Count
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from .forms import BookSearch, AddMeetingForm, AddCommentForm, AddCustomBookForm
 from groups.models import CustomGroup
@@ -778,15 +777,10 @@ def all_books(request):
         for member in group.members.all():
             common_members.append(member)
     common_members = set(common_members)
-    print(common_members)
      
     # books = Book.objects.filter(groups__in=user_groups).distinct()
     # kbooks= CustomBook.objects.filter(book__in=books)
     kbooks = CustomBook.objects.filter(owner__in=common_members) | CustomBook.objects.filter(admin__in=common_members)
-    
-
-    print(kbooks)
-
     
     members_kbooks = []
     owned_kbooks_isbn = []
@@ -835,22 +829,31 @@ def all_books(request):
     borrow_status_description = _("All Borrow Status")
     reading_status = "all_status"
     reading_status_description = _("All Reading Status")
+    search_query = ""
 
-   
+    
 
     if request.method == "POST":
-        
-        
 
         if "filter" in request.POST:
-            
+            print(unique_kbooks)
             reading_status = request.POST.get('reading-status')
             borrow_status = request.POST.get('borrow-status')   
+            search_query = request.POST["search_query"]
             
+            search_queryset = []
+            
+            for kbook in unique_kbooks:
+                if search_query in kbook.title:
+                    search_queryset.append(kbook)
+                elif search_query in kbook.author:
+                    search_queryset.append(kbook)
+            
+            unique_kbooks = search_queryset
+            print(unique_kbooks)
             queryset = []
                 
             for kbook in unique_kbooks:
-                print(kbook)
                 if reading_status == "all_status":
                     queryset = unique_kbooks
                     reading_status_description = _("All Reading Status")
@@ -879,7 +882,6 @@ def all_books(request):
                     if request.user in kbook.book.give_up.all():
                         queryset.append(kbook)
 
-            print(queryset)
 
             queryset_2 = []
             if borrow_status == "all_borrow_status":
@@ -910,6 +912,20 @@ def all_books(request):
             
 
             unique_kbooks = queryset_2
+
+        if "search" in request.POST:
+            search_queryset = []
+            search_query = request.POST["search_query"]
+            
+
+            for kbook in unique_kbooks:
+                if search_query in kbook.title:
+                    search_queryset.append(kbook)
+                elif search_query in kbook.author:
+                    search_queryset.append(kbook)
+            
+            unique_kbooks = search_queryset
+            
               
             
                 
@@ -922,7 +938,9 @@ def all_books(request):
             reading_status_description = _("All Reading Status")
             
     
-
+    unique_kbooks = unique_kbooks
+    print(unique_kbooks)
+    
     context = {
         
         'kbooks': kbooks,
@@ -931,6 +949,7 @@ def all_books(request):
         'borrow_status': borrow_status,
         'reading_status_description':reading_status_description,
         'borrow_status_description': borrow_status_description,
+        'search_query': search_query,
         
     }
     return render(request, 'books/all-books.html', context)
