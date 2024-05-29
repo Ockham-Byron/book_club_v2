@@ -18,9 +18,15 @@
                 <select name="owner" class="mt-3">
                     {% if kbook.owner %}
                         <option value="{{ kbook.owner.id }}">{{ kbook.owner.pseudo }}</option>
+                    {% else %}
+                        <option value="{{ request.user.id }}">{% trans "It's mine" %}</option>
                     {% endif %}
                     {% for member in common_members %}
+                        {% if member != request.user %}
                         <option value="{{ member.id }}">{{ member.pseudo }}</option>
+                        {% else %}
+                        <option value="{{ request.user.id }}">{% trans "It's mine" %}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             {% endif %}

@@ -305,6 +305,7 @@ def add_custom_book(request):
 def define_owner(request, id):
     kbook = get_object_or_404(CustomBook, id=id)
 
+
     user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     common_members = []
 

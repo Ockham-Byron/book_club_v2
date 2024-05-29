@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-24 09:48+0200\n"
+"POT-Creation-Date: 2024-05-29 11:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,7 +69,7 @@ msgstr ""
 #: books/templates/books/borrow/borrow-within-group.html:103
 #: books/templates/books/borrow/reserve-within-group.html:26
 #: books/templates/books/borrow/reserve-within-group.html:46
-#: books/templates/books/define-owner.html:43
+#: books/templates/books/define-owner.html:45
 #: books/templates/books/delete-book.html:46
 #: books/templates/books/delete-book.html:56
 #: books/templates/books/edit-reading-status.html:64
@@ -120,7 +120,8 @@ msgid "Edit"
 msgstr ""
 
 #: books/templates/books/add-edit-book.html:28
-#: books/templates/books/all-books.html:218
+#: ⁨books/templates/books/all-books copy.html⁩:218
+#: books/templates/books/all-books.html:232
 #: books/templates/books/book-search-detail.html:23
 #: dashboard/templates/dashboard/includes/sidebar.html:57
 #: groups/templates/groups/group_detail.html:268
@@ -188,7 +189,7 @@ msgstr ""
 #: books/templates/books/add-edit-tags.html:72
 #: books/templates/books/book-search-detail.html:10
 #: books/templates/books/book-search-detail.html:12
-#: books/templates/books/define-owner.html:35
+#: books/templates/books/define-owner.html:37
 #: groups/templates/groups/update_group.html:53
 msgid "Save"
 msgstr ""
@@ -208,6 +209,7 @@ msgstr ""
 msgid "Pick your favorite color"
 msgstr ""
 
+#: ⁨books/templates/books/all-books copy.html⁩:3
 #: books/templates/books/all-books.html:3
 #: dashboard/templates/dashboard/includes/sidebar.html:54
 #: groups/templates/groups/group_detail.html:127
@@ -215,12 +217,14 @@ msgstr ""
 msgid "Books"
 msgstr ""
 
+#: ⁨books/templates/books/all-books copy.html⁩:30
 #: books/templates/books/all-books.html:30
 #: dashboard/templates/dashboard/includes/sidebar.html:62
 #: dashboard/templates/dashboard/includes/sidebar.html:67
 msgid "Books of"
 msgstr ""
 
+#: ⁨books/templates/books/all-books copy.html⁩:32
 #: books/templates/books/all-books.html:32
 #: dashboard/templates/dashboard/includes/sidebar.html:61
 #: dashboard/templates/dashboard/includes/sidebar.html:65
@@ -228,95 +232,115 @@ msgstr ""
 msgid "All Books"
 msgstr ""
 
-#: books/templates/books/all-books.html:45
+#: ⁨books/templates/books/all-books copy.html⁩:45
+#: books/templates/books/all-books.html:59
 #: books/templates/books/book-detail.html:35
 #: books/templates/books/book-detail.html:95
 #: books/templates/books/edit-reading-status.html:34
-#: books/templates/books/edit-reading-status.html:54 books/views.py:858
-#: books/views.py:986 groups/templates/groups/library.html:57
+#: books/templates/books/edit-reading-status.html:54 books/views.py:862
+#: books/views.py:1006 groups/templates/groups/library.html:57
 msgid "Read"
 msgstr ""
 
-#: books/templates/books/all-books.html:48
-#: books/templates/books/edit-reading-status.html:55 books/views.py:862
-#: books/views.py:990 groups/templates/groups/library.html:60
+#: ⁨books/templates/books/all-books copy.html⁩:48
+#: books/templates/books/all-books.html:62
+#: books/templates/books/edit-reading-status.html:55 books/views.py:866
+#: books/views.py:1010 groups/templates/groups/library.html:60
 msgid "Reading it"
 msgstr ""
 
-#: books/templates/books/all-books.html:51
+#: ⁨books/templates/books/all-books copy.html⁩:51
+#: books/templates/books/all-books.html:65
 #: books/templates/books/book-detail.html:39
 #: books/templates/books/book-detail.html:99
 #: books/templates/books/edit-reading-status.html:38
-#: books/templates/books/edit-reading-status.html:56 books/views.py:866
-#: books/views.py:994 groups/templates/groups/library.html:63
+#: books/templates/books/edit-reading-status.html:56 books/views.py:870
+#: books/views.py:1014 groups/templates/groups/library.html:63
 msgid "Want to read"
 msgstr ""
 
-#: books/templates/books/all-books.html:54
-#: books/templates/books/edit-reading-status.html:57 books/views.py:870
-#: books/views.py:998 groups/templates/groups/library.html:66
+#: ⁨books/templates/books/all-books copy.html⁩:54
+#: books/templates/books/all-books.html:68
+#: books/templates/books/edit-reading-status.html:57 books/views.py:874
+#: books/views.py:1018 groups/templates/groups/library.html:66
 msgid "Not read yet"
 msgstr ""
 
-#: books/templates/books/all-books.html:57
-#: books/templates/books/edit-reading-status.html:58 books/views.py:874
-#: books/views.py:1002 groups/templates/groups/library.html:69
+#: ⁨books/templates/books/all-books copy.html⁩:57
+#: books/templates/books/all-books.html:71
+#: books/templates/books/edit-reading-status.html:58 books/views.py:878
+#: books/views.py:1022 groups/templates/groups/library.html:69
 msgid "No intention to read it"
 msgstr ""
 
-#: books/templates/books/all-books.html:60
+#: ⁨books/templates/books/all-books copy.html⁩:60
+#: books/templates/books/all-books.html:74
 #: books/templates/books/book-detail.html:45
 #: books/templates/books/book-detail.html:105
 #: books/templates/books/edit-reading-status.html:44
-#: books/templates/books/edit-reading-status.html:59 books/views.py:878
-#: books/views.py:1006 groups/templates/groups/library.html:72
+#: books/templates/books/edit-reading-status.html:59 books/views.py:882
+#: books/views.py:1026 groups/templates/groups/library.html:72
 msgid "Given up"
 msgstr ""
 
-#: books/templates/books/all-books.html:63 books/views.py:837
-#: books/views.py:856 books/views.py:922 books/views.py:969 books/views.py:984
-#: books/views.py:1050 groups/templates/groups/library.html:75
+#: ⁨books/templates/books/all-books copy.html⁩:63
+#: books/templates/books/all-books.html:77 books/views.py:832
+#: books/views.py:860 books/views.py:939 books/views.py:989 books/views.py:1004
+#: books/views.py:1070 groups/templates/groups/library.html:75
 msgid "All Reading Status"
 msgstr ""
 
-#: books/templates/books/all-books.html:73 books/views.py:891
-#: books/views.py:1019
+#: ⁨books/templates/books/all-books copy.html⁩:73
+#: books/templates/books/all-books.html:87 books/views.py:894
+#: books/views.py:1039
 msgid "Actually borrowed by me"
 msgstr ""
 
-#: books/templates/books/all-books.html:76 books/views.py:895
-#: books/views.py:1023 groups/templates/groups/library.html:90
+#: ⁨books/templates/books/all-books copy.html⁩:76
+#: books/templates/books/all-books.html:90 books/views.py:898
+#: books/views.py:1043 groups/templates/groups/library.html:90
 msgid "Reserved by me"
 msgstr ""
 
-#: books/templates/books/all-books.html:79 books/views.py:899
-#: books/views.py:1027 groups/templates/groups/library.html:93
+#: ⁨books/templates/books/all-books copy.html⁩:79
+#: books/templates/books/all-books.html:93 books/views.py:902
+#: books/views.py:1047 groups/templates/groups/library.html:93
 msgid "Borrowable"
 msgstr ""
 
-#: books/templates/books/all-books.html:82
+#: ⁨books/templates/books/all-books copy.html⁩:82
+#: books/templates/books/all-books.html:96
 msgid "Actually loaned by me"
 msgstr ""
 
-#: books/templates/books/all-books.html:85 books/views.py:907
-#: books/views.py:1035 groups/templates/groups/library.html:99
+#: ⁨books/templates/books/all-books copy.html⁩:85
+#: books/templates/books/all-books.html:99 books/views.py:910
+#: books/views.py:1055 groups/templates/groups/library.html:99
 msgid "Reservations asked to me"
 msgstr ""
 
-#: books/templates/books/all-books.html:88 books/views.py:835
-#: books/views.py:920 books/views.py:967 books/views.py:1048
+#: ⁨books/templates/books/all-books copy.html⁩:88
+#: books/templates/books/all-books.html:102 books/views.py:830
+#: books/views.py:937 books/views.py:987 books/views.py:1068
 #: groups/templates/groups/library.html:102
 msgid "All Borrow Status"
 msgstr ""
 
-#: books/templates/books/all-books.html:92
+#: ⁨books/templates/books/all-books copy.html⁩:92
+#: books/templates/books/all-books.html:106
 #: groups/templates/groups/library.html:106
 msgid "Filter"
 msgstr ""
 
-#: books/templates/books/all-books.html:96
+#: ⁨books/templates/books/all-books copy.html⁩:96
+#: books/templates/books/all-books.html:110
 #: groups/templates/groups/library.html:110
 msgid "Reset"
+msgstr ""
+
+#: books/templates/books/all-books.html:46
+#: books/templates/books/all-books.html:48
+msgid "Search for a book by title or author"
 msgstr ""
 
 #: books/templates/books/book-detail.html:24
@@ -574,7 +598,11 @@ msgstr ""
 msgid "Whose book is"
 msgstr ""
 
-#: books/templates/books/define-owner.html:28
+#: books/templates/books/define-owner.html:22
+msgid "It's mine"
+msgstr ""
+
+#: books/templates/books/define-owner.html:30
 msgid "The owner is someone without account ?"
 msgstr ""
 
@@ -676,21 +704,21 @@ msgstr ""
 msgid "Or Add Manually"
 msgstr ""
 
-#: books/views.py:31
+#: books/views.py:30
 msgid "The book is already registered here."
 msgstr ""
 
-#: books/views.py:108
+#: books/views.py:107
 msgid "Unknown Authors"
 msgstr ""
 
-#: books/views.py:216 books/views.py:350
+#: books/views.py:215 books/views.py:350
 msgid ""
 "There was an error in the interpretation of result : please add the book "
 "yourself."
 msgstr ""
 
-#: books/views.py:240 books/views.py:275 books/views.py:1075
+#: books/views.py:239 books/views.py:274 books/views.py:1095
 msgid "You have to choose where to register this book."
 msgstr ""
 
@@ -702,20 +730,20 @@ msgstr ""
 msgid "Book already in group"
 msgstr ""
 
-#: books/views.py:887 books/views.py:1015
+#: books/views.py:890 books/views.py:1035
 msgid "All borrow status"
 msgstr ""
 
-#: books/views.py:903 books/views.py:1031
+#: books/views.py:906 books/views.py:1051
 #: groups/templates/groups/library.html:96
 msgid "On Loan"
 msgstr ""
 
-#: books/views.py:1113
+#: books/views.py:1133
 msgid "You have to choose where to share this book."
 msgstr ""
 
-#: books/views.py:1535
+#: books/views.py:1555
 msgid "Reservation cancelled !"
 msgstr ""
 
@@ -1437,26 +1465,30 @@ msgstr ""
 msgid "We'll miss you, but no emotional blackmail here !"
 msgstr ""
 
-#: users/views.py:203
+#: users/views.py:170
+msgid "My Borrowings"
+msgstr ""
+
+#: users/views.py:207
 msgid "Password reset"
 msgstr ""
 
-#: users/views.py:233
+#: users/views.py:237
 msgid "Password reset on App"
 msgstr ""
 
-#: users/views.py:258
+#: users/views.py:262
 msgid "Enter new password"
 msgstr ""
 
-#: users/views.py:318
+#: users/views.py:322
 msgid "Password reset unsuccessful"
 msgstr ""
 
-#: users/views.py:336
+#: users/views.py:340
 msgid "Your profile has been successfully updated "
 msgstr ""
 
-#: users/views.py:383
+#: users/views.py:387
 msgid "Your profile has been successfully created "
 msgstr ""
