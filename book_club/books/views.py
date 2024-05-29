@@ -840,14 +840,14 @@ def all_books(request):
             print(unique_kbooks)
             reading_status = request.POST.get('reading-status')
             borrow_status = request.POST.get('borrow-status')   
-            search_query = request.POST["search_query"]
+            search_query = request.POST["search_query"].lower()
             
             search_queryset = []
             
             for kbook in unique_kbooks:
-                if search_query in kbook.title:
+                if search_query in kbook.title.lower():
                     search_queryset.append(kbook)
-                elif search_query in kbook.author:
+                elif search_query in kbook.author.lower():
                     search_queryset.append(kbook)
             
             unique_kbooks = search_queryset
@@ -914,20 +914,7 @@ def all_books(request):
 
             unique_kbooks = queryset_2
 
-        if "search" in request.POST:
-            search_queryset = []
-            search_query = request.POST["search_query"]
-            
-
-            for kbook in unique_kbooks:
-                if search_query in kbook.title:
-                    search_queryset.append(kbook)
-                elif search_query in kbook.author:
-                    search_queryset.append(kbook)
-            
-            unique_kbooks = search_queryset
-            
-              
+        
             
                 
         if "reset" in request.POST:
@@ -991,14 +978,24 @@ def group_books(request, slug):
     
     if request.method == 'POST':
         if "filter" in request.POST:
-            
             reading_status = request.POST.get('reading-status')
             borrow_status = request.POST.get('borrow-status')   
+            search_query = request.POST["search_query"].lower()
+            
+            search_queryset = []
+            
+            for kbook in unique_kbooks:
+                if search_query in kbook.title.lower():
+                    search_queryset.append(kbook)
+                elif search_query in kbook.author.lower():
+                    search_queryset.append(kbook)
+            
+            unique_kbooks = search_queryset
             
             queryset = []
                 
             for kbook in unique_kbooks:
-                print(kbook)
+                
                 if reading_status == "all_status":
                     queryset = unique_kbooks
                     reading_status_description = _("All Reading Status")
@@ -1027,7 +1024,7 @@ def group_books(request, slug):
                     if request.user in kbook.book.give_up.all():
                         queryset.append(kbook)
 
-            print(queryset)
+            
 
             queryset_2 = []
             if borrow_status == "all_borrow_status":
