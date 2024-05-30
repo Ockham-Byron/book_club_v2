@@ -143,6 +143,10 @@ a, a:hover{
 .bg-light-color{
   background-color: var(--light-color);
 }
+
+.bg-lightest-color {
+  background-color: var(--lightest-color);
+}
 /* || Header and Main Navigation */
 
 .site-header {

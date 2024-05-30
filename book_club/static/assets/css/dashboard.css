@@ -192,7 +192,40 @@ li.subnav:hover .subnav-content{
 
 }
 
+/* Mobile menu */
 
+#mobile-menu {
+  z-index:10 !important;
+  background-color: var(--lightest-color) !important;
+}
+
+#mobile-menu .dropdown {
+  height:40px !important;
+  
+}
+
+#mobile-menu .dropdown-menu {
+  transform: translate3d(0px, 50px, 0px) !important;
+}
+
+button.menu-btn {
+  background-color: transparent !important;
+  border:none !important;
+  color:var(--darkest-color) !important;
+}
+button.menu-btn i {
+  margin:0 !important;
+}
+button.menu-btn p {
+  font-size: 0.7em !important;
+  margin:0 !important;
+}
+
+hr.mobile-hr {
+  margin:0 !important;
+  border-top: 1px solid var(--mid-color) !important;
+  margin:0 10px !important;
+}
 
 /* Recipe Card */
 

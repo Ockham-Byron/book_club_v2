@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-29 12:02+0200\n"
+"POT-Creation-Date: 2024-05-30 15:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,636 +18,624 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: book_club/books/forms.py:11
+#: books/forms.py:11
 msgid "Search for a book"
 msgstr "Chercher un livre"
 
-#: book_club/books/forms.py:18
+#: books/forms.py:18
 msgid "Meeting place"
-msgstr ""
+msgstr "Lieu de la rencontre"
 
-#: book_club/books/forms.py:19
-#: book_club/groups/templates/groups/group_detail.html:104
+#: books/forms.py:19 groups/templates/groups/group_detail.html:104
 msgid "Other infos"
 msgstr "Autres infos"
 
-#: book_club/books/forms.py:24
+#: books/forms.py:24
 msgid "Comment"
 msgstr "Avis"
 
-#: book_club/books/templates/books/add-comment.html:3
+#: books/templates/books/add-comment.html:3
 msgid "Add Comment"
 msgstr "Ajouter un avis"
 
-#: book_club/books/templates/books/add-comment.html:26
+#: books/templates/books/add-comment.html:26
 msgid "Edit your review of"
 msgstr "Modifier votre avis sur"
 
-#: book_club/books/templates/books/add-comment.html:28
+#: books/templates/books/add-comment.html:28
 msgid "Add Review to"
 msgstr "Ajouter un avis sur"
 
-#: book_club/books/templates/books/add-comment.html:33
+#: books/templates/books/add-comment.html:33
 msgid "Your rating"
 msgstr "Votre note"
 
-#: book_club/books/templates/books/add-comment.html:36
-#: book_club/books/templates/books/add-edit-book.html:131
-#: book_club/books/templates/books/edit-reading-status.html:62
-#: book_club/books/templates/books/meetings/add-meeting.html:55
-#: book_club/groups/templates/groups/add_group.html:65
-#: book_club/users/templates/users/choose_avatar.html:25
-#: book_club/users/templates/users/profile_update.html:84
+#: books/templates/books/add-comment.html:36
+#: books/templates/books/add-edit-book.html:131
+#: books/templates/books/edit-reading-status.html:62
+#: books/templates/books/meetings/add-meeting.html:55
+#: groups/templates/groups/add_group.html:65
+#: users/templates/users/choose_avatar.html:25
+#: users/templates/users/profile_update.html:84
 msgid "Submit"
 msgstr "Envoyer"
 
-#: book_club/books/templates/books/add-comment.html:38
-#: book_club/books/templates/books/add-comment.html:55
-#: book_club/books/templates/books/add-edit-book.html:133
-#: book_club/books/templates/books/add-edit-book.html:150
-#: book_club/books/templates/books/add-edit-tags.html:45
-#: book_club/books/templates/books/book-search-detail.html:57
-#: book_club/books/templates/books/borrow/borrow-within-group.html:103
-#: book_club/books/templates/books/borrow/reserve-within-group.html:26
-#: book_club/books/templates/books/borrow/reserve-within-group.html:46
-#: book_club/books/templates/books/define-owner.html:49
-#: book_club/books/templates/books/delete-book.html:46
-#: book_club/books/templates/books/delete-book.html:56
-#: book_club/books/templates/books/edit-reading-status.html:64
-#: book_club/books/templates/books/meetings/add-meeting.html:57
-#: book_club/books/templates/books/meetings/add-meeting.html:77
-#: book_club/books/templates/books/pass-book-to-sharing-club.html:43
-#: book_club/groups/templates/groups/add_group.html:67
-#: book_club/groups/templates/groups/group_detail.html:289
-#: book_club/groups/templates/groups/update_group.html:57
-#: book_club/users/templates/users/authentication/change_email.html:43
-#: book_club/users/templates/users/authentication/password_reset.html:47
-#: book_club/users/templates/users/authentication/password_reset_confirm.html:60
-#: book_club/users/templates/users/choose_avatar.html:27
-#: book_club/users/templates/users/profile_update.html:86
-#: book_club/users/templates/users/profile_update.html:114
-#: book_club/users/templates/users/profile_update.html:133
+#: books/templates/books/add-comment.html:38
+#: books/templates/books/add-comment.html:55
+#: books/templates/books/add-edit-book.html:133
+#: books/templates/books/add-edit-book.html:150
+#: books/templates/books/add-edit-tags.html:45
+#: books/templates/books/book-search-detail.html:57
+#: books/templates/books/borrow/borrow-within-group.html:103
+#: books/templates/books/borrow/reserve-within-group.html:26
+#: books/templates/books/borrow/reserve-within-group.html:46
+#: books/templates/books/define-owner.html:49
+#: books/templates/books/delete-book.html:46
+#: books/templates/books/delete-book.html:56
+#: books/templates/books/edit-reading-status.html:64
+#: books/templates/books/meetings/add-meeting.html:57
+#: books/templates/books/meetings/add-meeting.html:77
+#: books/templates/books/pass-book-to-sharing-club.html:43
+#: groups/templates/groups/add_group.html:67
+#: groups/templates/groups/group_detail.html:289
+#: groups/templates/groups/update_group.html:57
+#: users/templates/users/authentication/change_email.html:43
+#: users/templates/users/authentication/password_reset.html:47
+#: users/templates/users/authentication/password_reset_confirm.html:60
+#: users/templates/users/choose_avatar.html:27
+#: users/templates/users/profile_update.html:86
+#: users/templates/users/profile_update.html:114
+#: users/templates/users/profile_update.html:133
 msgid "Cancel"
 msgstr "Annuler"
 
-#: book_club/books/templates/books/add-comment.html:40
+#: books/templates/books/add-comment.html:40
 msgid "Delete Review"
 msgstr "Supprimer l'avis"
 
-#: book_club/books/templates/books/add-comment.html:48
+#: books/templates/books/add-comment.html:48
 msgid "Delete Review ?"
 msgstr "Supprimer l'avis ?"
 
-#: book_club/books/templates/books/add-comment.html:51
+#: books/templates/books/add-comment.html:51
 msgid "Your opinion was interesant, you know..."
 msgstr "Votre avis était intéressant, mais bon..."
 
-#: book_club/books/templates/books/add-comment.html:54
-#: book_club/books/templates/books/add-edit-book.html:149
-#: book_club/books/templates/books/borrow/reserve-within-group.html:45
-#: book_club/books/templates/books/meetings/add-meeting.html:76
-#: book_club/users/templates/users/profile_update.html:113
-#: book_club/users/templates/users/profile_update.html:132
+#: books/templates/books/add-comment.html:54
+#: books/templates/books/add-edit-book.html:149
+#: books/templates/books/borrow/reserve-within-group.html:45
+#: books/templates/books/meetings/add-meeting.html:76
+#: users/templates/users/profile_update.html:113
+#: users/templates/users/profile_update.html:132
 msgid "Yes, no regret"
 msgstr "Oui, pas de regret"
 
-#: book_club/books/templates/books/add-edit-book.html:3
-#: book_club/books/templates/books/add-edit-tags.html:3
+#: books/templates/books/add-edit-book.html:3
+#: books/templates/books/add-edit-tags.html:3
 msgid "Add/Edit Book"
 msgstr "Ajouter/Modifier Livre"
 
-#: book_club/books/templates/books/add-edit-book.html:25
+#: books/templates/books/add-edit-book.html:25
 msgid "Edit"
 msgstr "Modifier"
 
-#: book_club/books/templates/books/add-edit-book.html:28
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:218
-#: book_club/books/templates/books/all-books.html:232
-#: book_club/books/templates/books/book-search-detail.html:23
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:57
-#: book_club/groups/templates/groups/group_detail.html:268
-#: book_club/groups/templates/groups/library.html:154
+#: books/templates/books/add-edit-book.html:28
+#: ⁨books/templates/books/all-books copy.html⁩:218
+#: books/templates/books/all-books.html:232
+#: books/templates/books/book-search-detail.html:23
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:57
+#: dashboard/templates/dashboard/includes/sidebar.html:149
+#: groups/templates/groups/group_detail.html:268
+#: groups/templates/groups/library.html:154
 msgid "Add Book"
 msgstr "Ajouter un livre"
 
-#: book_club/books/templates/books/add-edit-book.html:57
+#: books/templates/books/add-edit-book.html:57
 msgid "Title"
 msgstr "Titre"
 
-#: book_club/books/templates/books/add-edit-book.html:63
+#: books/templates/books/add-edit-book.html:63
 msgid "Author"
 msgstr "Auteur.e"
 
-#: book_club/books/templates/books/add-edit-book.html:69
-#: book_club/books/templates/books/book-search-detail.html:83
+#: books/templates/books/add-edit-book.html:69
+#: books/templates/books/book-search-detail.html:83
 msgid "Pages"
 msgstr "Nombre de pages"
 
-#: book_club/books/templates/books/add-edit-book.html:74
-#: book_club/groups/forms.py:17
+#: books/templates/books/add-edit-book.html:74 groups/forms.py:17
 msgid "Description"
 msgstr "Description"
 
-#: book_club/books/templates/books/add-edit-book.html:79
+#: books/templates/books/add-edit-book.html:79
 msgid "Isbn-10"
 msgstr ""
 
-#: book_club/books/templates/books/add-edit-book.html:86
-#: book_club/books/templates/books/book-search-detail.html:25
+#: books/templates/books/add-edit-book.html:86
+#: books/templates/books/book-search-detail.html:25
 msgid "Where"
 msgstr "Où"
 
-#: book_club/books/templates/books/add-edit-book.html:107
-#: book_club/books/templates/books/book-search-detail.html:46
+#: books/templates/books/add-edit-book.html:107
+#: books/templates/books/book-search-detail.html:46
 msgid "Borrowed outside of a Club"
 msgstr "Emprunté à l'extérieur d'un club d'échange"
 
-#: book_club/books/templates/books/add-edit-book.html:135
+#: books/templates/books/add-edit-book.html:135
 msgid "Delete Book"
 msgstr "Supprimer le livre"
 
-#: book_club/books/templates/books/add-edit-book.html:143
+#: books/templates/books/add-edit-book.html:143
 msgid "Delete Book ?"
 msgstr "Supprimer le livre ?"
 
-#: book_club/books/templates/books/add-edit-book.html:146
-#: book_club/books/templates/books/delete-book.html:15
+#: books/templates/books/add-edit-book.html:146
+#: books/templates/books/delete-book.html:15
 msgid "You will lose all the memories, but hey, no pression..."
 msgstr "Vous allez perdre toutes les traces, mais bon, pas de pression..."
 
-#: book_club/books/templates/books/add-edit-tags.html:25
+#: books/templates/books/add-edit-tags.html:25
 msgid "Edit Tags of"
 msgstr ""
 
-#: book_club/books/templates/books/add-edit-tags.html:28
-#, fuzzy
-#| msgid "Add to "
+#: books/templates/books/add-edit-tags.html:28
 msgid "Add Tags to"
-msgstr "Ajouter à "
+msgstr "Assigner des mots-clés à"
 
-#: book_club/books/templates/books/add-edit-tags.html:31
-#, fuzzy
-#| msgid "Add Review to"
+#: books/templates/books/add-edit-tags.html:31
 msgid "Add new tag"
-msgstr "Ajouter un avis sur"
+msgstr "Ajouter un mot-clé"
 
-#: book_club/books/templates/books/add-edit-tags.html:44
-#: book_club/books/templates/books/add-edit-tags.html:72
-#: book_club/books/templates/books/book-search-detail.html:10
-#: book_club/books/templates/books/book-search-detail.html:12
-#: book_club/books/templates/books/define-owner.html:41
-#: book_club/groups/templates/groups/update_group.html:53
+#: books/templates/books/add-edit-tags.html:44
+#: books/templates/books/add-edit-tags.html:72
+#: books/templates/books/book-search-detail.html:10
+#: books/templates/books/book-search-detail.html:12
+#: books/templates/books/define-owner.html:41
+#: groups/templates/groups/update_group.html:53
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: book_club/books/templates/books/add-edit-tags.html:58
-#, fuzzy
-#| msgid "Add New Book"
+#: books/templates/books/add-edit-tags.html:58
 msgid "Add New Tag ?"
-msgstr "Ajouter un nouveau livre"
+msgstr "Ajouter un nouveau mot-clé ?"
 
-#: book_club/books/templates/books/add-edit-tags.html:65
-#: book_club/groups/templates/groups/update_group.html:11
-#: book_club/users/templates/users/profile.html:33
+#: books/templates/books/add-edit-tags.html:65
+#: groups/templates/groups/update_group.html:11
+#: users/templates/users/profile.html:33
 msgid "Name"
 msgstr "Nom"
 
-#: book_club/books/templates/books/add-edit-tags.html:68
-#: book_club/users/templates/users/choose_avatar.html:18
+#: books/templates/books/add-edit-tags.html:68
+#: users/templates/users/choose_avatar.html:18
 msgid "Pick your favorite color"
-msgstr ""
+msgstr "Choisissez une couleur"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:3
-#: book_club/books/templates/books/all-books.html:3
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:54
-#: book_club/groups/templates/groups/group_detail.html:127
-#: book_club/groups/templates/groups/library.html:32
+#: ⁨books/templates/books/all-books copy.html⁩:3
+#: books/templates/books/all-books.html:3
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:54
+#: dashboard/templates/dashboard/includes/sidebar.html:26
+#: dashboard/templates/dashboard/includes/sidebar.html:146
+#: groups/templates/groups/group_detail.html:127
+#: groups/templates/groups/library.html:32
 msgid "Books"
 msgstr "Livres"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:30
-#: book_club/books/templates/books/all-books.html:30
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:62
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:67
+#: ⁨books/templates/books/all-books copy.html⁩:30
+#: books/templates/books/all-books.html:30
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:62
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:67
+#: dashboard/templates/dashboard/includes/sidebar.html:43
+#: dashboard/templates/dashboard/includes/sidebar.html:154
+#: dashboard/templates/dashboard/includes/sidebar.html:159
 msgid "Books of"
 msgstr "Livres de"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:32
-#: book_club/books/templates/books/all-books.html:32
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:61
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:65
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:76
+#: ⁨books/templates/books/all-books copy.html⁩:32
+#: books/templates/books/all-books.html:32
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:61
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:65
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:76
+#: dashboard/templates/dashboard/includes/sidebar.html:29
+#: dashboard/templates/dashboard/includes/sidebar.html:153
+#: dashboard/templates/dashboard/includes/sidebar.html:157
+#: dashboard/templates/dashboard/includes/sidebar.html:168
 msgid "All Books"
 msgstr "Tous les livres"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:45
-#: book_club/books/templates/books/all-books.html:59
-#: book_club/books/templates/books/book-detail.html:35
-#: book_club/books/templates/books/book-detail.html:95
-#: book_club/books/templates/books/edit-reading-status.html:34
-#: book_club/books/templates/books/edit-reading-status.html:54
-#: book_club/books/views.py:862 book_club/books/views.py:1006
-#: book_club/groups/templates/groups/library.html:57
+#: ⁨books/templates/books/all-books copy.html⁩:45
+#: books/templates/books/all-books.html:59
+#: books/templates/books/book-detail.html:35
+#: books/templates/books/book-detail.html:95
+#: books/templates/books/edit-reading-status.html:34
+#: books/templates/books/edit-reading-status.html:54 books/views.py:862
+#: books/views.py:1003 groups/templates/groups/library.html:57
 msgid "Read"
 msgstr "Lu"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:48
-#: book_club/books/templates/books/all-books.html:62
-#: book_club/books/templates/books/edit-reading-status.html:55
-#: book_club/books/views.py:866 book_club/books/views.py:1010
-#: book_club/groups/templates/groups/library.html:60
+#: ⁨books/templates/books/all-books copy.html⁩:48
+#: books/templates/books/all-books.html:62
+#: books/templates/books/edit-reading-status.html:55 books/views.py:866
+#: books/views.py:1007 groups/templates/groups/library.html:60
 msgid "Reading it"
 msgstr "Lecture en cours"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:51
-#: book_club/books/templates/books/all-books.html:65
-#: book_club/books/templates/books/book-detail.html:39
-#: book_club/books/templates/books/book-detail.html:99
-#: book_club/books/templates/books/edit-reading-status.html:38
-#: book_club/books/templates/books/edit-reading-status.html:56
-#: book_club/books/views.py:870 book_club/books/views.py:1014
-#: book_club/groups/templates/groups/library.html:63
+#: ⁨books/templates/books/all-books copy.html⁩:51
+#: books/templates/books/all-books.html:65
+#: books/templates/books/book-detail.html:39
+#: books/templates/books/book-detail.html:99
+#: books/templates/books/edit-reading-status.html:38
+#: books/templates/books/edit-reading-status.html:56 books/views.py:870
+#: books/views.py:1011 groups/templates/groups/library.html:63
 msgid "Want to read"
 msgstr "Envie de lire"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:54
-#: book_club/books/templates/books/all-books.html:68
-#: book_club/books/templates/books/edit-reading-status.html:57
-#: book_club/books/views.py:874 book_club/books/views.py:1018
-#: book_club/groups/templates/groups/library.html:66
+#: ⁨books/templates/books/all-books copy.html⁩:54
+#: books/templates/books/all-books.html:68
+#: books/templates/books/edit-reading-status.html:57 books/views.py:874
+#: books/views.py:1015 groups/templates/groups/library.html:66
 msgid "Not read yet"
 msgstr "Pas encore lu"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:57
-#: book_club/books/templates/books/all-books.html:71
-#: book_club/books/templates/books/edit-reading-status.html:58
-#: book_club/books/views.py:878 book_club/books/views.py:1022
-#: book_club/groups/templates/groups/library.html:69
+#: ⁨books/templates/books/all-books copy.html⁩:57
+#: books/templates/books/all-books.html:71
+#: books/templates/books/edit-reading-status.html:58 books/views.py:878
+#: books/views.py:1019 groups/templates/groups/library.html:69
 msgid "No intention to read it"
 msgstr "Pas l'intention de le lire"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:60
-#: book_club/books/templates/books/all-books.html:74
-#: book_club/books/templates/books/book-detail.html:45
-#: book_club/books/templates/books/book-detail.html:105
-#: book_club/books/templates/books/edit-reading-status.html:44
-#: book_club/books/templates/books/edit-reading-status.html:59
-#: book_club/books/views.py:882 book_club/books/views.py:1026
-#: book_club/groups/templates/groups/library.html:72
+#: ⁨books/templates/books/all-books copy.html⁩:60
+#: books/templates/books/all-books.html:74
+#: books/templates/books/book-detail.html:45
+#: books/templates/books/book-detail.html:105
+#: books/templates/books/edit-reading-status.html:44
+#: books/templates/books/edit-reading-status.html:59 books/views.py:882
+#: books/views.py:1023 groups/templates/groups/library.html:72
 msgid "Given up"
 msgstr "Abandonné"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:63
-#: book_club/books/templates/books/all-books.html:77
-#: book_club/books/views.py:832 book_club/books/views.py:860
-#: book_club/books/views.py:939 book_club/books/views.py:989
-#: book_club/books/views.py:1004 book_club/books/views.py:1070
-#: book_club/groups/templates/groups/library.html:75
+#: ⁨books/templates/books/all-books copy.html⁩:63
+#: books/templates/books/all-books.html:77 books/views.py:832
+#: books/views.py:860 books/views.py:926 books/views.py:976 books/views.py:1001
+#: books/views.py:1067 groups/templates/groups/library.html:75
 msgid "All Reading Status"
 msgstr "Tous les statuts de lecture"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:73
-#: book_club/books/templates/books/all-books.html:87
-#: book_club/books/views.py:894 book_club/books/views.py:1039
+#: ⁨books/templates/books/all-books copy.html⁩:73
+#: books/templates/books/all-books.html:87 books/views.py:894
+#: books/views.py:1036
 msgid "Actually borrowed by me"
 msgstr "Mes emprunts actuels"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:76
-#: book_club/books/templates/books/all-books.html:90
-#: book_club/books/views.py:898 book_club/books/views.py:1043
-#: book_club/groups/templates/groups/library.html:90
+#: ⁨books/templates/books/all-books copy.html⁩:76
+#: books/templates/books/all-books.html:90 books/views.py:898
+#: books/views.py:1040 groups/templates/groups/library.html:90
 msgid "Reserved by me"
 msgstr "Mes réservations"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:79
-#: book_club/books/templates/books/all-books.html:93
-#: book_club/books/views.py:902 book_club/books/views.py:1047
-#: book_club/groups/templates/groups/library.html:93
+#: ⁨books/templates/books/all-books copy.html⁩:79
+#: books/templates/books/all-books.html:93 books/views.py:902
+#: books/views.py:1044 groups/templates/groups/library.html:93
 msgid "Borrowable"
 msgstr "Empruntable"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:82
-#: book_club/books/templates/books/all-books.html:96
+#: ⁨books/templates/books/all-books copy.html⁩:82
+#: books/templates/books/all-books.html:96
 msgid "Actually loaned by me"
 msgstr "Mes prêts actuels"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:85
-#: book_club/books/templates/books/all-books.html:99
-#: book_club/books/views.py:910 book_club/books/views.py:1055
-#: book_club/groups/templates/groups/library.html:99
+#: ⁨books/templates/books/all-books copy.html⁩:85
+#: books/templates/books/all-books.html:99 books/views.py:910
+#: books/views.py:1052 groups/templates/groups/library.html:99
 msgid "Reservations asked to me"
 msgstr "Réservations qui me sont demandées "
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:88
-#: book_club/books/templates/books/all-books.html:102
-#: book_club/books/views.py:830 book_club/books/views.py:937
-#: book_club/books/views.py:987 book_club/books/views.py:1068
-#: book_club/groups/templates/groups/library.html:102
+#: ⁨books/templates/books/all-books copy.html⁩:88
+#: books/templates/books/all-books.html:102 books/views.py:830
+#: books/views.py:924 books/views.py:974 books/views.py:1065
+#: groups/templates/groups/library.html:102
 msgid "All Borrow Status"
 msgstr "Tous les statuts d'emprunt"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:92
-#: book_club/books/templates/books/all-books.html:106
-#: book_club/groups/templates/groups/library.html:106
+#: ⁨books/templates/books/all-books copy.html⁩:92
+#: books/templates/books/all-books.html:106
+#: groups/templates/groups/library.html:106
 msgid "Filter"
 msgstr "Filtrer"
 
-#: ⁨book_club/books/templates/books/all-books copy.html⁩:96
-#: book_club/books/templates/books/all-books.html:110
-#: book_club/groups/templates/groups/library.html:110
+#: ⁨books/templates/books/all-books copy.html⁩:96
+#: books/templates/books/all-books.html:110
+#: groups/templates/groups/library.html:110
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: book_club/books/templates/books/all-books.html:46
-#: book_club/books/templates/books/all-books.html:48
-#, fuzzy
-#| msgid "Search for a book"
+#: books/templates/books/all-books.html:46
+#: books/templates/books/all-books.html:48
 msgid "Search for a book by title or author"
-msgstr "Chercher un livre"
+msgstr "Chercher un livre par titre ou auteur.e"
 
-#: book_club/books/templates/books/book-detail.html:24
+#: books/templates/books/book-detail.html:24
 msgid "By"
 msgstr "par"
 
-#: book_club/books/templates/books/book-detail.html:25
+#: books/templates/books/book-detail.html:25
 msgid "pages"
 msgstr ""
 
-#: book_club/books/templates/books/book-detail.html:28
+#: books/templates/books/book-detail.html:28
 msgid "Average rating"
 msgstr "Note moyenne"
 
-#: book_club/books/templates/books/book-detail.html:37
-#: book_club/books/templates/books/book-detail.html:97
-#: book_club/books/templates/books/edit-reading-status.html:36
+#: books/templates/books/book-detail.html:37
+#: books/templates/books/book-detail.html:97
+#: books/templates/books/edit-reading-status.html:36
 msgid "Reading Now"
 msgstr "En cours de lecture"
 
-#: book_club/books/templates/books/book-detail.html:41
-#: book_club/books/templates/books/book-detail.html:101
-#: book_club/books/templates/books/edit-reading-status.html:40
+#: books/templates/books/book-detail.html:41
+#: books/templates/books/book-detail.html:101
+#: books/templates/books/edit-reading-status.html:40
 msgid "Not read"
 msgstr "Non lu"
 
-#: book_club/books/templates/books/book-detail.html:43
-#: book_club/books/templates/books/book-detail.html:103
-#: book_club/books/templates/books/edit-reading-status.html:42
+#: books/templates/books/book-detail.html:43
+#: books/templates/books/book-detail.html:103
+#: books/templates/books/edit-reading-status.html:42
 msgid "Dont'want to read"
 msgstr "Pas envie de lire"
 
-#: book_club/books/templates/books/book-detail.html:47
-#: book_club/books/templates/books/edit-reading-status.html:46
+#: books/templates/books/book-detail.html:47
+#: books/templates/books/edit-reading-status.html:46
 msgid "Add Reading Status"
 msgstr "Ajouter un statut de lecture"
 
-#: book_club/books/templates/books/book-detail.html:88
+#: books/templates/books/book-detail.html:88
 msgid "Readers"
 msgstr "Lecteurs/trices"
 
-#: book_club/books/templates/books/book-detail.html:107
+#: books/templates/books/book-detail.html:107
 msgid "No Reading Status"
 msgstr "Pas de statut de lecture"
 
-#: book_club/books/templates/books/book-detail.html:114
+#: books/templates/books/book-detail.html:114
 msgid "Close"
 msgstr "Fermer"
 
-#: book_club/books/templates/books/book-detail.html:140
-#: book_club/books/templates/books/book-detail.html:190
+#: books/templates/books/book-detail.html:140
+#: books/templates/books/book-detail.html:190
 msgid "Reserved from"
 msgstr "Réservé auprès de"
 
-#: book_club/books/templates/books/book-detail.html:146
-#: book_club/books/templates/books/book-detail.html:196
+#: books/templates/books/book-detail.html:146
+#: books/templates/books/book-detail.html:196
 msgid "Cancel Reservation"
 msgstr "Annuler la réservation"
 
-#: book_club/books/templates/books/book-detail.html:150
-#: book_club/books/templates/books/book-detail.html:203
+#: books/templates/books/book-detail.html:150
+#: books/templates/books/book-detail.html:203
 msgid "Reserve from"
 msgstr "Réserver auprès de"
 
-#: book_club/books/templates/books/book-detail.html:164
-#: book_club/books/templates/books/book-detail.html:214
+#: books/templates/books/book-detail.html:164
+#: books/templates/books/book-detail.html:214
 msgid "Borrow from"
 msgstr "Emprunter à"
 
-#: book_club/books/templates/books/book-detail.html:174
+#: books/templates/books/book-detail.html:174
 msgid "Loan to a member of"
 msgstr "Prêter à un.e membre de"
 
-#: book_club/books/templates/books/book-detail.html:229
+#: books/templates/books/book-detail.html:229
 msgid "Loan outside of sharing Clubs"
 msgstr "Prêter à l'extérieur d'un club d'échange"
 
-#: book_club/books/templates/books/book-detail.html:246
+#: books/templates/books/book-detail.html:246
 msgid "Confirm you received the book from"
 msgstr "Confirmez avoir reçu le livre de"
 
-#: book_club/books/templates/books/book-detail.html:250
+#: books/templates/books/book-detail.html:250
 msgid "Borrowed by me. Mark as given back"
 msgstr "Emprunté par moi. Indiquer l'avoir rendu"
 
-#: book_club/books/templates/books/book-detail.html:252
-#: book_club/books/templates/books/borrow/borrow-within-group.html:75
+#: books/templates/books/book-detail.html:252
+#: books/templates/books/borrow/borrow-within-group.html:75
 msgid "to"
 msgstr "à"
 
-#: book_club/books/templates/books/book-detail.html:261
+#: books/templates/books/book-detail.html:261
 msgid "Waiting for Borrow Confirmation by"
 msgstr "En attente de la confirmation d'emprunt par"
 
-#: book_club/books/templates/books/book-detail.html:266
-#: book_club/books/templates/books/book-detail.html:268
-#: book_club/books/templates/books/book-detail.html:276
+#: books/templates/books/book-detail.html:266
+#: books/templates/books/book-detail.html:268
+#: books/templates/books/book-detail.html:276
 msgid "Borrowed by"
 msgstr "Emprunté par"
 
-#: book_club/books/templates/books/book-detail.html:270
+#: books/templates/books/book-detail.html:270
 msgid "Mark as given back"
 msgstr "Indiquer comme rendu"
 
-#: book_club/books/templates/books/book-detail.html:277
-#: book_club/books/templates/books/book-detail.html:296
+#: books/templates/books/book-detail.html:277
+#: books/templates/books/book-detail.html:296
 msgid "Want to reserve it ?"
 msgstr "Vous souhaitez le réserver ?"
 
-#: book_club/books/templates/books/book-detail.html:287
+#: books/templates/books/book-detail.html:287
 msgid "Waiting return confirmation from"
 msgstr "En attente de la confirmation de retour par"
 
-#: book_club/books/templates/books/book-detail.html:291
+#: books/templates/books/book-detail.html:291
 msgid "Confirm return by"
 msgstr "Confirmer le retour par"
 
-#: book_club/books/templates/books/book-detail.html:295
+#: books/templates/books/book-detail.html:295
 msgid "Waiting return confirmation by"
 msgstr "En attente de la confirmation de retour par"
 
-#: book_club/books/templates/books/book-detail.html:331
+#: books/templates/books/book-detail.html:331
 msgid "Reservations"
 msgstr "Réservations"
 
-#: book_club/books/templates/books/book-detail.html:380
+#: books/templates/books/book-detail.html:380
 msgid "Share within"
 msgstr "Partager avec"
 
-#: book_club/books/templates/books/book-detail.html:396
+#: books/templates/books/book-detail.html:396
 msgid "Add to Library"
 msgstr "Ajouter à votre bibliothèque"
 
-#: book_club/books/templates/books/book-detail.html:406
+#: books/templates/books/book-detail.html:406
 msgid "Enable loan options"
 msgstr "Activer les options de prêt"
 
-#: book_club/books/templates/books/book-detail.html:408
+#: books/templates/books/book-detail.html:408
 msgid "Disable loan options"
 msgstr "Désactiver les options de prêt"
 
-#: book_club/books/templates/books/book-detail.html:413
+#: books/templates/books/book-detail.html:413
 msgid "Assign tags"
 msgstr "Assigner des étiquettes"
 
-#: book_club/books/templates/books/book-detail.html:419
+#: books/templates/books/book-detail.html:419
 msgid "Review"
 msgstr "Avis"
 
-#: book_club/books/templates/books/book-detail.html:433
+#: books/templates/books/book-detail.html:433
 msgid "Delete"
 msgstr "Supprimer"
 
-#: book_club/books/templates/books/book-search-detail.html:56
-#: book_club/books/templates/books/pass-book-to-sharing-club.html:42
+#: books/templates/books/book-search-detail.html:56
+#: books/templates/books/pass-book-to-sharing-club.html:42
 msgid "Add"
 msgstr "Ajouter"
 
-#: book_club/books/templates/books/book-search-detail.html:73
+#: books/templates/books/book-search-detail.html:73
 msgid "Genre"
 msgstr "Genre"
 
-#: book_club/books/templates/books/book-search-detail.html:78
+#: books/templates/books/book-search-detail.html:78
 msgid "Year"
 msgstr "Année"
 
-#: book_club/books/templates/books/book-search-detail.html:87
+#: books/templates/books/book-search-detail.html:87
 msgid "Language"
 msgstr "Langue"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:3
+#: books/templates/books/borrow/borrow-within-group.html:3
 msgid "Borrow of"
 msgstr "Emprunter à"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:17
+#: books/templates/books/borrow/borrow-within-group.html:17
 msgid "You confirm having received"
 msgstr "Vous confirmez avoir reçu"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:17
-#: book_club/books/templates/books/borrow/borrow-within-group.html:46
-#: book_club/books/templates/books/borrow/reserve-within-group.html:19
+#: books/templates/books/borrow/borrow-within-group.html:17
+#: books/templates/books/borrow/borrow-within-group.html:46
+#: books/templates/books/borrow/reserve-within-group.html:19
 msgid "from"
 msgstr "de"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:19
+#: books/templates/books/borrow/borrow-within-group.html:19
 msgid "You confirm that"
 msgstr "Vous confirmez que"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:19
+#: books/templates/books/borrow/borrow-within-group.html:19
 msgid "has returned"
 msgstr "a rendu"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:22
-#: book_club/books/templates/books/borrow/borrow-within-group.html:31
+#: books/templates/books/borrow/borrow-within-group.html:22
+#: books/templates/books/borrow/borrow-within-group.html:31
 msgid "Mark"
 msgstr "Indiquer"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:22
+#: books/templates/books/borrow/borrow-within-group.html:22
 msgid "as returned to"
 msgstr "comme rendu à"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:31
+#: books/templates/books/borrow/borrow-within-group.html:31
 msgid "as returned by"
 msgstr "comme rendu par"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:46
+#: books/templates/books/borrow/borrow-within-group.html:46
 msgid "Borrow"
 msgstr "Emprunter"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:62
+#: books/templates/books/borrow/borrow-within-group.html:62
 #, fuzzy
 #| msgid "Loan to someone without account ?"
 msgid "Borrow from someone without account ?"
 msgstr "Prêter à une personne sans compte ?"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:66
+#: books/templates/books/borrow/borrow-within-group.html:66
 msgid "Loan"
 msgstr "Prêter"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:85
+#: books/templates/books/borrow/borrow-within-group.html:85
 msgid "Loan to someone without account ?"
 msgstr "Prêter à une personne sans compte ?"
 
-#: book_club/books/templates/books/borrow/borrow-within-group.html:96
-#: book_club/books/templates/books/borrow/reserve-within-group.html:24
+#: books/templates/books/borrow/borrow-within-group.html:96
+#: books/templates/books/borrow/reserve-within-group.html:24
 msgid "Yes"
 msgstr "Oui"
 
-#: book_club/books/templates/books/borrow/reserve-within-group.html:3
+#: books/templates/books/borrow/reserve-within-group.html:3
 msgid "Add Reservation"
 msgstr "Réserver"
 
-#: book_club/books/templates/books/borrow/reserve-within-group.html:16
+#: books/templates/books/borrow/reserve-within-group.html:16
 msgid "Edit Reservation of"
 msgstr "Modifier la réservation de"
 
-#: book_club/books/templates/books/borrow/reserve-within-group.html:19
+#: books/templates/books/borrow/reserve-within-group.html:19
 msgid "Reserve"
 msgstr "Réserver"
 
-#: book_club/books/templates/books/borrow/reserve-within-group.html:31
-#: book_club/books/templates/books/meetings/add-meeting.html:62
+#: books/templates/books/borrow/reserve-within-group.html:31
+#: books/templates/books/meetings/add-meeting.html:62
 msgid "Delete Meeting"
 msgstr "Supprimer la rencontre"
 
-#: book_club/books/templates/books/borrow/reserve-within-group.html:39
+#: books/templates/books/borrow/reserve-within-group.html:39
 msgid "Delete Reservation ?"
 msgstr "Supprimer réservation ?"
 
-#: book_club/books/templates/books/borrow/reserve-within-group.html:42
-#: book_club/books/templates/books/meetings/add-meeting.html:73
+#: books/templates/books/borrow/reserve-within-group.html:42
+#: books/templates/books/meetings/add-meeting.html:73
 msgid ""
 "You will lose a big occasion to share your passion, but hey, no pression..."
 msgstr ""
 "Vous allez perdre une grande occasion pour partager votre passion, mais bon, "
 "pas de pression..."
 
-#: book_club/books/templates/books/define-owner.html:15
+#: books/templates/books/define-owner.html:15
 msgid "Whose book is"
 msgstr "À qui est"
 
-#: book_club/books/templates/books/define-owner.html:22
-#: book_club/books/templates/books/define-owner.html:28
+#: books/templates/books/define-owner.html:22
+#: books/templates/books/define-owner.html:28
 msgid "It's mine"
 msgstr "À moi"
 
-#: book_club/books/templates/books/define-owner.html:34
+#: books/templates/books/define-owner.html:34
 msgid "The owner is someone without account ?"
 msgstr "Il s'agit d'une personne sans compte ?"
 
-#: book_club/books/templates/books/delete-book.html:5
+#: books/templates/books/delete-book.html:5
 msgid "Remove Book"
 msgstr "Supprimer le livre"
 
-#: book_club/books/templates/books/delete-book.html:12
+#: books/templates/books/delete-book.html:12
 msgid "Remove Book ?"
 msgstr "Supprimer le livre ?"
 
-#: book_club/books/templates/books/delete-book.html:20
-#: book_club/books/templates/books/delete-book.html:27
-#: book_club/books/templates/books/delete-book.html:35
+#: books/templates/books/delete-book.html:20
+#: books/templates/books/delete-book.html:27
+#: books/templates/books/delete-book.html:35
 msgid "Remove Book from"
 msgstr "Enlever le livre de"
 
-#: book_club/books/templates/books/delete-book.html:38
+#: books/templates/books/delete-book.html:38
 msgid ""
 "If you remove the book from the club, all memories associated will be "
 "unavailable to the members of the club."
@@ -655,94 +643,94 @@ msgstr ""
 "Si tu enlèves le livre du club, toutes les traces associées seront "
 "indisponibles pour les membres du club."
 
-#: book_club/books/templates/books/delete-book.html:39
+#: books/templates/books/delete-book.html:39
 msgid "You can just disable the option to borrow/loan it..."
 msgstr "Vous pouvez juste désactiver l'option de l'emprunter/prêter..."
 
-#: book_club/books/templates/books/delete-book.html:42
+#: books/templates/books/delete-book.html:42
 msgid "Disable the Borrowable option"
 msgstr "Désactiver l'option d'emprunt"
 
-#: book_club/books/templates/books/delete-book.html:43
+#: books/templates/books/delete-book.html:43
 msgid "Remove it totally"
 msgstr "Supprimer totalement le livre"
 
-#: book_club/books/templates/books/edit-reading-status.html:3
+#: books/templates/books/edit-reading-status.html:3
 msgid "Reading Status"
 msgstr "Statut de lecture"
 
-#: book_club/books/templates/books/edit-reading-status.html:27
+#: books/templates/books/edit-reading-status.html:27
 msgid "Update Reading Status of"
 msgstr "Actualiser le statut de lecture de"
 
-#: book_club/books/templates/books/edit-reading-status.html:31
+#: books/templates/books/edit-reading-status.html:31
 msgid "Actual Reading Status"
 msgstr "Statut de lecture actuel"
 
-#: book_club/books/templates/books/edit-reading-status.html:52
-#: book_club/groups/templates/groups/update_group.html:3
-#: book_club/groups/templates/groups/update_group.html:9
+#: books/templates/books/edit-reading-status.html:52
+#: groups/templates/groups/update_group.html:3
+#: groups/templates/groups/update_group.html:9
 msgid "Update"
 msgstr "Actualiser"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:3
+#: books/templates/books/meetings/add-meeting.html:3
 msgid "Add Meeting"
 msgstr "Ajouter une rencontre"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:16
+#: books/templates/books/meetings/add-meeting.html:16
 msgid "Edit Meeting with"
 msgstr "Modifier la rencontre avec"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:19
+#: books/templates/books/meetings/add-meeting.html:19
 msgid "Add Meeting with"
 msgstr "Ajouter une rencontre avec"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:22
+#: books/templates/books/meetings/add-meeting.html:22
 msgid "When will you meet ?"
 msgstr "Quand aura-t-elle lieu ?"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:26
+#: books/templates/books/meetings/add-meeting.html:26
 msgid "Where will you meet ?"
 msgstr "Où aura-t-elle lieu ?"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:30
+#: books/templates/books/meetings/add-meeting.html:30
 msgid "Which book will you read ?"
 msgstr "Quel livre lirez-vous ?"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:35
+#: books/templates/books/meetings/add-meeting.html:35
 msgid "Change  Book"
 msgstr "Changer de livre"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:39
+#: books/templates/books/meetings/add-meeting.html:39
 msgid "Add New Book"
 msgstr "Ajouter un nouveau livre"
 
-#: book_club/books/templates/books/meetings/add-meeting.html:45
+#: books/templates/books/meetings/add-meeting.html:45
 msgid "Add other infos ? Chapters to read, infos on the meeting place..."
 msgstr ""
 "Ajouter d'autres infos ? Chapitres à lire, infos sur le lieu de rencontre..."
 
-#: book_club/books/templates/books/meetings/add-meeting.html:70
+#: books/templates/books/meetings/add-meeting.html:70
 msgid "Delete Meeting ?"
 msgstr "Supprimer la rencontre ?"
 
-#: book_club/books/templates/books/pass-book-to-sharing-club.html:17
+#: books/templates/books/pass-book-to-sharing-club.html:17
 msgid "Add to "
 msgstr "Ajouter à "
 
-#: book_club/books/templates/books/search.html:15
+#: books/templates/books/search.html:15
 msgid "Or Add Manually"
 msgstr "Ou ajouter manuellement"
 
-#: book_club/books/views.py:30
+#: books/views.py:30
 msgid "The book is already registered here."
 msgstr "Le livre est déjà enregistré ici."
 
-#: book_club/books/views.py:107
+#: books/views.py:107
 msgid "Unknown Authors"
 msgstr "Auteur.e inconnu.e"
 
-#: book_club/books/views.py:215 book_club/books/views.py:350
+#: books/views.py:215 books/views.py:350
 msgid ""
 "There was an error in the interpretation of result : please add the book "
 "yourself."
@@ -750,284 +738,310 @@ msgstr ""
 "Erreur dans l'interprétation des résultats. Merci d'ajouter le livre "
 "manuellement."
 
-#: book_club/books/views.py:239 book_club/books/views.py:274
-#: book_club/books/views.py:1095
+#: books/views.py:239 books/views.py:274 books/views.py:1092
 msgid "You have to choose where to register this book."
 msgstr "Vous devez choisir où enregistrer ce livre."
 
-#: book_club/books/views.py:356
+#: books/views.py:356
 msgid "Invalid search. Try without any accent."
 msgstr ""
 "Recherche invalide (pas de votre faute). Essayez sans accent et sans cédille."
 
-#: book_club/books/views.py:395
+#: books/views.py:395
 msgid "Book already in group"
 msgstr "Livre déjà enregistré ici."
 
-#: book_club/books/views.py:890 book_club/books/views.py:1035
+#: books/views.py:890 books/views.py:1032
 msgid "All borrow status"
 msgstr "Tous les statuts d'emprunt"
 
-#: book_club/books/views.py:906 book_club/books/views.py:1051
-#: book_club/groups/templates/groups/library.html:96
+#: books/views.py:906 books/views.py:1048
+#: groups/templates/groups/library.html:96
 msgid "On Loan"
 msgstr "Vos prêts"
 
-#: book_club/books/views.py:1133
+#: books/views.py:1130
 msgid "You have to choose where to share this book."
 msgstr "Vous devez choisir où partager ce livre."
 
-#: book_club/books/views.py:1555
+#: books/views.py:1552
 msgid "Reservation cancelled !"
 msgstr "Réservation annulée !"
 
-#: book_club/core/settings.py:129
+#: core/settings.py:129
 msgid "English"
 msgstr "Anglais"
 
-#: book_club/core/settings.py:130
+#: core/settings.py:130
 msgid "French"
 msgstr "Français"
 
-#: book_club/dashboard/templates/dashboard/dashboard.html:6
+#: dashboard/templates/dashboard/dashboard.html:6
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:18
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:18
+#: dashboard/templates/dashboard/includes/sidebar.html:75
+#: dashboard/templates/dashboard/includes/sidebar.html:110
 msgid "Profile"
 msgstr "Profil"
 
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:26
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:26
+#: dashboard/templates/dashboard/includes/sidebar.html:82
+#: dashboard/templates/dashboard/includes/sidebar.html:118
 msgid "Install on your phone"
 msgstr "Installer sur votre mobile"
 
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:27
-#: book_club/users/templates/users/includes/header.html:33
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:27
+#: dashboard/templates/dashboard/includes/sidebar.html:84
+#: dashboard/templates/dashboard/includes/sidebar.html:119
+#: users/templates/users/includes/header.html:33
 msgid "Sign out"
 msgstr "Se déconnecter"
 
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:38
-#: book_club/groups/templates/groups/member_groups.html:8
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:38
+#: dashboard/templates/dashboard/includes/sidebar.html:11
+#: dashboard/templates/dashboard/includes/sidebar.html:130
+#: groups/templates/groups/member_groups.html:8
 msgid "Clubs"
 msgstr "Clubs"
 
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:46
-#: book_club/groups/templates/groups/member_groups.html:3
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:46
+#: dashboard/templates/dashboard/includes/sidebar.html:138
+#: groups/templates/groups/member_groups.html:3
 msgid "My Clubs"
 msgstr "Mes clubs"
 
-#: book_club/dashboard/templates/dashboard/includes/sidebar.html:48
+#: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:48
+#: dashboard/templates/dashboard/includes/sidebar.html:140
 msgid "Add Club"
 msgstr "Ajouter un club"
 
-#: book_club/dashboard/templates/dashboard/install-app.html:5
+#: dashboard/templates/dashboard/includes/sidebar.html:18
+#, fuzzy
+#| msgid "Join"
+msgid "Add/Join"
+msgstr "Rejoindre"
+
+#: dashboard/templates/dashboard/includes/sidebar.html:55
+msgid "Book"
+msgstr "Livre"
+
+#: dashboard/templates/dashboard/includes/sidebar.html:58
+msgid "Search online"
+msgstr "Chercher en ligne"
+
+#: dashboard/templates/dashboard/includes/sidebar.html:60
+msgid "Add Manually"
+msgstr "Ajouter manuellement"
+
+#: dashboard/templates/dashboard/install-app.html:5
 msgid "Install app"
 msgstr "Installer l'app"
 
-#: book_club/dashboard/templates/dashboard/install-app.html:9
+#: dashboard/templates/dashboard/install-app.html:9
 msgid "How to install the app on your phone ?"
 msgstr "Comment installer l'app sur votre téléphone ?"
 
-#: book_club/dashboard/templates/dashboard/install-app.html:14
+#: dashboard/templates/dashboard/install-app.html:14
 msgid "On an Iphone"
 msgstr "Sur un Iphone"
 
-#: book_club/dashboard/templates/dashboard/install-app.html:33
+#: dashboard/templates/dashboard/install-app.html:33
 msgid "On an Android phone"
 msgstr "Sur un Android"
 
-#: book_club/groups/forms.py:14 book_club/groups/forms.py:28
+#: groups/forms.py:14 groups/forms.py:28
 msgid "Club's Name"
 msgstr "Nom du club"
 
-#: book_club/groups/templates/groups/add_group.html:3
+#: groups/templates/groups/add_group.html:3
 msgid "Create a group"
 msgstr "Créer un club"
 
-#: book_club/groups/templates/groups/add_group.html:22
+#: groups/templates/groups/add_group.html:22
 msgid "Create Club"
 msgstr "Créer un club"
 
-#: book_club/groups/templates/groups/add_group.html:24
+#: groups/templates/groups/add_group.html:24
 msgid "If you want to join an existing club, click here"
 msgstr "Si vous souhaitez rejoindre un club existant, cliquez ici."
 
-#: book_club/groups/templates/groups/add_group.html:25
+#: groups/templates/groups/add_group.html:25
 msgid "Join existing club"
 msgstr "Rejoindre un club existant"
 
-#: book_club/groups/templates/groups/add_group.html:30
+#: groups/templates/groups/add_group.html:30
 msgid "Type of Club"
 msgstr "Type de club"
 
-#: book_club/groups/templates/groups/add_group.html:33
+#: groups/templates/groups/add_group.html:33
 msgid "Everyone read the same book"
 msgstr "Tout le monde lit le même livre"
 
-#: book_club/groups/templates/groups/add_group.html:41
+#: groups/templates/groups/add_group.html:41
 msgid "Book exchanges"
 msgstr "Échange de livres"
 
-#: book_club/groups/templates/groups/add_group.html:58
+#: groups/templates/groups/add_group.html:58
 msgid "Upload Picture of the Club"
 msgstr "Téléverser une image du club"
 
-#: book_club/groups/templates/groups/group_detail.html:76
+#: groups/templates/groups/group_detail.html:76
 msgid "Next Meeting"
 msgstr "Prochaine rencontre"
 
-#: book_club/groups/templates/groups/group_detail.html:100
+#: groups/templates/groups/group_detail.html:100
 msgid "Read by"
 msgstr "Lu par"
 
-#: book_club/groups/templates/groups/group_detail.html:116
+#: groups/templates/groups/group_detail.html:116
 msgid "Next meeting"
 msgstr "Prochaine rencontre"
 
-#: book_club/groups/templates/groups/group_detail.html:137
+#: groups/templates/groups/group_detail.html:137
 msgid "ADD FIRST BOOK TO THIS GROUP"
 msgstr "AJOUTER UN PREMIER LIVRE À CE CLUB"
 
-#: book_club/groups/templates/groups/group_detail.html:165
+#: groups/templates/groups/group_detail.html:165
 msgid "Borrowed"
 msgstr "Emprunté"
 
-#: book_club/groups/templates/groups/group_detail.html:168
+#: groups/templates/groups/group_detail.html:168
 msgid "With reservations"
 msgstr "Réservations"
 
-#: book_club/groups/templates/groups/group_detail.html:183
+#: groups/templates/groups/group_detail.html:183
 msgid "See all books"
 msgstr "Voir tous les livres"
 
-#: book_club/groups/templates/groups/group_detail.html:193
+#: groups/templates/groups/group_detail.html:193
 msgid "Members"
 msgstr "Membres"
 
-#: book_club/groups/templates/groups/group_detail.html:199
-#: book_club/groups/templates/groups/group_detail.html:281
+#: groups/templates/groups/group_detail.html:199
+#: groups/templates/groups/group_detail.html:281
 msgid "Invite other people to join your group"
 msgstr "Invitez d'autres membres à rejoindre votre club"
 
-#: book_club/groups/templates/groups/group_detail.html:200
+#: groups/templates/groups/group_detail.html:200
 msgid "Group's code"
 msgstr "Code du club"
 
-#: book_club/groups/templates/groups/group_detail.html:202
-#: book_club/groups/templates/groups/group_detail.html:286
+#: groups/templates/groups/group_detail.html:202
+#: groups/templates/groups/group_detail.html:286
 msgid "Copy the invitation"
 msgstr "Copier l'invitation"
 
-#: book_club/groups/templates/groups/group_detail.html:284
+#: groups/templates/groups/group_detail.html:284
 msgid "Code of the group :"
 msgstr "Code du club :"
 
-#: book_club/groups/templates/groups/join_group.html:3
-#: book_club/groups/templates/groups/join_group.html:6
-#: book_club/groups/templates/groups/member_groups.html:46
+#: groups/templates/groups/join_group.html:3
+#: groups/templates/groups/join_group.html:6
+#: groups/templates/groups/member_groups.html:46
 msgid "Join a Club"
 msgstr "Rejoindre un club"
 
-#: book_club/groups/templates/groups/join_group.html:11
+#: groups/templates/groups/join_group.html:11
 msgid "Club's Code"
 msgstr "Code du club"
 
-#: book_club/groups/templates/groups/join_group.html:13
+#: groups/templates/groups/join_group.html:13
 msgid "Join"
 msgstr "Rejoindre"
 
-#: book_club/groups/templates/groups/library.html:42
+#: groups/templates/groups/library.html:42
 msgid "ADD FIRST BOOK"
 msgstr "AJOUTER LE PREMIER LIVRE"
 
-#: book_club/groups/templates/groups/library.html:87
+#: groups/templates/groups/library.html:87
 msgid "Actually Borrowed"
 msgstr "Actuellement emprunté"
 
-#: book_club/groups/templates/groups/member_groups.html:25
+#: groups/templates/groups/member_groups.html:25
 msgid "Everything begins with a Club to share good books and good moments !"
 msgstr ""
 "Tout commence avec un club où partager de bons livres et de bons moments !"
 
-#: book_club/groups/templates/groups/member_groups.html:26
+#: groups/templates/groups/member_groups.html:26
 msgid "Or Add a book"
 msgstr "Ou ajouter un livre"
 
-#: book_club/groups/templates/groups/member_groups.html:36
+#: groups/templates/groups/member_groups.html:36
 msgid "Create a Club "
 msgstr "Créer un club"
 
-#: book_club/groups/templates/groups/update_group.html:15
+#: groups/templates/groups/update_group.html:15
 msgid "Upload New Picture"
 msgstr ""
 
-#: book_club/groups/templates/groups/update_group.html:45
+#: groups/templates/groups/update_group.html:45
 msgid "Admin of the Group"
 msgstr "Admin du club"
 
-#: book_club/groups/views.py:34
+#: groups/views.py:34
 #, python-brace-format
 msgid "New group {group.kname} created successfully"
 msgstr "Nouveau group {group.kname} créé avec succès"
 
-#: book_club/groups/views.py:34
+#: groups/views.py:34
 msgid "Great !"
 msgstr "Magnifique !"
 
-#: book_club/groups/views.py:47 book_club/users/views.py:162
+#: groups/views.py:47 users/views.py:162
 msgid "My Library"
 msgstr "Ma bibliothèque"
 
-#: book_club/groups/views.py:63 book_club/users/views.py:166
+#: groups/views.py:63 users/views.py:166
 msgid "My Wishlist"
 msgstr "Ma liste de souhaits"
 
-#: book_club/pages/templates/pages/bye.html:3
-#: book_club/pages/templates/pages/bye.html:10
+#: pages/templates/pages/bye.html:3 pages/templates/pages/bye.html:10
 msgid "See you ?"
 msgstr "À bientôt ?"
 
-#: book_club/pages/templates/pages/bye.html:11
+#: pages/templates/pages/bye.html:11
 msgid "Your account has been deleted successfully"
 msgstr "Votre compte a bien été supprimé"
 
-#: book_club/pages/templates/pages/bye.html:12
+#: pages/templates/pages/bye.html:12
 msgid "If there is anything we could have done differently, please write us !"
 msgstr ""
 
-#: book_club/pages/templates/pages/bye.html:13
+#: pages/templates/pages/bye.html:13
 msgid "Write a message"
 msgstr ""
 
-#: book_club/pages/templates/pages/page_not_found.html:3
+#: pages/templates/pages/page_not_found.html:3
 msgid "Page not found"
 msgstr ""
 
-#: book_club/pages/templates/pages/page_not_found.html:10
+#: pages/templates/pages/page_not_found.html:10
 msgid "Oops"
 msgstr ""
 
-#: book_club/pages/templates/pages/page_not_found.html:11
+#: pages/templates/pages/page_not_found.html:11
 msgid "We can't find what your looking for ;-( "
 msgstr "Nous ne pouvons pas trouver ce que vous cherchez..."
 
-#: book_club/pages/templates/pages/page_not_found.html:18
+#: pages/templates/pages/page_not_found.html:18
 msgid "Go back"
 msgstr ""
 
-#: book_club/users/admin.py:11
+#: users/admin.py:11
 msgid "Activity within six months"
 msgstr ""
 
-#: book_club/users/admin.py:25
+#: users/admin.py:25
 msgid "Active"
 msgstr ""
 
-#: book_club/users/admin.py:26
+#: users/admin.py:26
 msgid "Inactive"
 msgstr ""
 
-#: book_club/users/forms.py:24
+#: users/forms.py:24
 msgid ""
 "A user with that email already exists. If you have lost your password, "
 "please go to Login and Forgot password."
@@ -1035,26 +1049,25 @@ msgstr ""
 "Un utilisateur avec cet email existe déjà. Si vous avez perdu votre mot de "
 "passe, merci de cliquer sur Se connecter puis Oubli du mot de passe."
 
-#: book_club/users/forms.py:25 book_club/users/forms.py:49
-#: book_club/users/forms.py:72 book_club/users/forms.py:124
-#: book_club/users/templates/users/profile.html:47
-#: book_club/users/templates/users/profile_update.html:75
+#: users/forms.py:25 users/forms.py:49 users/forms.py:72 users/forms.py:124
+#: users/templates/users/profile.html:47
+#: users/templates/users/profile_update.html:75
 msgid "Email"
 msgstr "Adresse mail"
 
-#: book_club/users/forms.py:27
+#: users/forms.py:27
 msgid "Username"
 msgstr "Pseudo"
 
-#: book_club/users/forms.py:28 book_club/users/forms.py:50
+#: users/forms.py:28 users/forms.py:50
 msgid "Password"
 msgstr "Mot de passe"
 
-#: book_club/users/forms.py:29
+#: users/forms.py:29
 msgid "Repeat Password"
 msgstr "Vérification du mot de passe"
 
-#: book_club/users/forms.py:59
+#: users/forms.py:59
 #, python-format
 msgid ""
 "This isn't the password registered with %(email)s. If you don't remember "
@@ -1063,98 +1076,98 @@ msgstr ""
 "Ce n'est pas le mot de passe associé à %(email)s. Si vous avez oublié mot de "
 "passe, merci de cliquer sur 'Oubli du mot de passe' ."
 
-#: book_club/users/forms.py:62
+#: users/forms.py:62
 #, python-format
 msgid "No user registered with %(email)s..."
 msgstr "Aucun utilisateur enregistré avec %(email)s..."
 
-#: book_club/users/forms.py:84
+#: users/forms.py:84
 msgid "The two password fields didn’t match."
 msgstr "Les deux mots de passe ne coïncident pas."
 
-#: book_club/users/forms.py:87
+#: users/forms.py:87
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: book_club/users/forms.py:93
+#: users/forms.py:93
 msgid "New password confirmation"
 msgstr "Confirmation du nouveau mot de passe"
 
-#: book_club/users/forms.py:122
+#: users/forms.py:122
 msgid "First Name"
 msgstr "Prénom"
 
-#: book_club/users/forms.py:123
+#: users/forms.py:123
 msgid "Last Name"
 msgstr "Nom"
 
-#: book_club/users/forms.py:125
+#: users/forms.py:125
 msgid "Pseudo"
 msgstr ""
 
-#: book_club/users/forms.py:127 book_club/users/templates/users/profile.html:54
+#: users/forms.py:127 users/templates/users/profile.html:54
 msgid "Bio"
 msgstr ""
 
-#: book_club/users/templates/users/authentication/change_email.html:11
+#: users/templates/users/authentication/change_email.html:11
 msgid "Update your email"
 msgstr "Actualisez votre email"
 
-#: book_club/users/templates/users/authentication/change_email.html:41
+#: users/templates/users/authentication/change_email.html:41
 msgid "Update Email"
 msgstr "Actualisation de l'email"
 
-#: book_club/users/templates/users/authentication/emails/create_account_email.html:4
-#: book_club/users/templates/users/authentication/emails/password_reset_email.html:4
-#: book_club/users/templates/users/authentication/emails/verify_email_message.html:4
-#: book_club/users/templates/users/authentication/emails/verify_email_message.html:9
-#: book_club/users/views.py:40
+#: users/templates/users/authentication/emails/create_account_email.html:4
+#: users/templates/users/authentication/emails/password_reset_email.html:4
+#: users/templates/users/authentication/emails/verify_email_message.html:4
+#: users/templates/users/authentication/emails/verify_email_message.html:9
+#: users/views.py:40
 msgid "Verify Email"
 msgstr "Vérifier votre email"
 
-#: book_club/users/templates/users/authentication/emails/create_account_email.html:6
-#: book_club/users/templates/users/authentication/emails/password_reset_email.html:6
-#: book_club/users/templates/users/authentication/emails/verify_email_message.html:6
+#: users/templates/users/authentication/emails/create_account_email.html:6
+#: users/templates/users/authentication/emails/password_reset_email.html:6
+#: users/templates/users/authentication/emails/verify_email_message.html:6
 msgid "Hi"
 msgstr "Salut"
 
-#: book_club/users/templates/users/authentication/emails/create_account_email.html:7
-#: book_club/users/templates/users/authentication/emails/password_reset_email.html:7
+#: users/templates/users/authentication/emails/create_account_email.html:7
+#: users/templates/users/authentication/emails/password_reset_email.html:7
 msgid ""
 "You're receiving this email because you requested a password reset for your "
 "user account at"
 msgstr ""
 
-#: book_club/users/templates/users/authentication/emails/create_account_email.html:8
+#: users/templates/users/authentication/emails/create_account_email.html:8
 msgid "We don't have any account registered with this email address."
 msgstr ""
 
-#: book_club/users/templates/users/authentication/emails/create_account_email.html:9
+#: users/templates/users/authentication/emails/create_account_email.html:9
 msgid "However, you can create a new account !"
 msgstr ""
 
-#: book_club/users/templates/users/authentication/emails/create_account_email.html:11
+#: users/templates/users/authentication/emails/create_account_email.html:11
 msgid "Create account"
 msgstr "Créer un compte"
 
-#: book_club/users/templates/users/authentication/emails/create_account_email.html:13
-#: book_club/users/templates/users/authentication/emails/password_reset_email.html:11
-#: book_club/users/templates/users/authentication/emails/verify_email_message.html:11
+#: users/templates/users/authentication/emails/create_account_email.html:13
+#: users/templates/users/authentication/emails/password_reset_email.html:11
+#: users/templates/users/authentication/emails/verify_email_message.html:11
 msgid "Or you can copy the link below to your browser"
 msgstr ""
 "Ou vous pouvez copier coller le lien ci-dessous dans la barre d'adresse de "
 "votre navigateur"
 
-#: book_club/users/templates/users/authentication/emails/password_reset_email.html:9
-#: book_club/users/templates/users/authentication/password_reset_confirm.html:58
+#: users/templates/users/authentication/emails/password_reset_email.html:9
+#: users/templates/users/authentication/password_reset_confirm.html:58
 msgid "Reset Password"
 msgstr "Réinitialiser le mot de passe"
 
-#: book_club/users/templates/users/authentication/emails/password_reset_subject.txt:3
+#: users/templates/users/authentication/emails/password_reset_subject.txt:3
 msgid "Password Reset"
 msgstr "Réinitialiser le mot de passe"
 
-#: book_club/users/templates/users/authentication/emails/verify_email_message.html:7
+#: users/templates/users/authentication/emails/verify_email_message.html:7
 msgid ""
 "You created an account on ...., you need to verify your email. Please click "
 "on the button below to verify your email."
@@ -1162,58 +1175,58 @@ msgstr ""
 "Vousa vez créé un compte chez ...., vous devez vérifier votre mail. Meric de "
 "cliquer sur le bouton si dessous pour ce faire."
 
-#: book_club/users/templates/users/authentication/login.html:11
+#: users/templates/users/authentication/login.html:11
 msgid "Welcome back"
 msgstr "Ravis de vous revoir"
 
-#: book_club/users/templates/users/authentication/login.html:12
+#: users/templates/users/authentication/login.html:12
 msgid "Please sign in to access your account"
 msgstr "Merci de vous connecter pour accéder à votre compte."
 
-#: book_club/users/templates/users/authentication/login.html:47
+#: users/templates/users/authentication/login.html:47
 msgid "Remember me"
 msgstr "Se souvenir de moi"
 
-#: book_club/users/templates/users/authentication/login.html:48
+#: users/templates/users/authentication/login.html:48
 msgid "Forgot password?"
 msgstr "Oubli du mot de passe ?"
 
-#: book_club/users/templates/users/authentication/login.html:57
-#: book_club/users/templates/users/authentication/register.html:79
+#: users/templates/users/authentication/login.html:57
+#: users/templates/users/authentication/register.html:79
 msgid "Log in"
 msgstr "Se connecter"
 
-#: book_club/users/templates/users/authentication/login.html:59
+#: users/templates/users/authentication/login.html:59
 msgid "New member?"
 msgstr "Pas encore de compte"
 
-#: book_club/users/templates/users/authentication/login.html:59
+#: users/templates/users/authentication/login.html:59
 msgid "Signup now"
 msgstr "S'inscrire maintenant"
 
-#: book_club/users/templates/users/authentication/logout.html:3
+#: users/templates/users/authentication/logout.html:3
 msgid "See you soon"
 msgstr "À bientôt"
 
-#: book_club/users/templates/users/authentication/logout.html:10
+#: users/templates/users/authentication/logout.html:10
 msgid "See you soon !"
 msgstr "À bientôt !"
 
-#: book_club/users/templates/users/authentication/logout.html:11
+#: users/templates/users/authentication/logout.html:11
 msgid "You have been logged out successfully "
 msgstr "Déconnexion réussie !"
 
-#: book_club/users/templates/users/authentication/logout.html:12
-#: book_club/users/templates/users/includes/header.html:37
+#: users/templates/users/authentication/logout.html:12
+#: users/templates/users/includes/header.html:37
 msgid "Log In"
 msgstr "Se connecter"
 
-#: book_club/users/templates/users/authentication/password_reset.html:11
-#: book_club/users/templates/users/authentication/password_reset_confirm.html:11
+#: users/templates/users/authentication/password_reset.html:11
+#: users/templates/users/authentication/password_reset_confirm.html:11
 msgid "Reset password"
 msgstr "Réinitialiser le mot de passe"
 
-#: book_club/users/templates/users/authentication/password_reset.html:12
+#: users/templates/users/authentication/password_reset.html:12
 msgid ""
 "Please enter your email address below and we will send you an email with a "
 "link to reset your password."
@@ -1221,143 +1234,143 @@ msgstr ""
 "Merci d'entrer votre adresse mail ci-dessous et nous vous enverrons un mail "
 "avec un lien pour réinitialiser votre mot de passe."
 
-#: book_club/users/templates/users/authentication/password_reset.html:45
+#: users/templates/users/authentication/password_reset.html:45
 msgid "Send Email"
 msgstr "Envoyer le mail"
 
-#: book_club/users/templates/users/authentication/password_reset_complete.html:10
+#: users/templates/users/authentication/password_reset_complete.html:10
 msgid "You have successfully reset your password !"
 msgstr "Vous avez réinitialisé avec succès votre mot de passe !"
 
-#: book_club/users/templates/users/authentication/password_reset_complete.html:12
-#: book_club/users/templates/users/authentication/verify_email_complete.html:12
+#: users/templates/users/authentication/password_reset_complete.html:12
+#: users/templates/users/authentication/verify_email_complete.html:12
 msgid "Access my dashboard"
 msgstr "Accéder à mon tableau de bord"
 
-#: book_club/users/templates/users/authentication/password_reset_confirm.html:44
-#: book_club/users/templates/users/authentication/register.html:58
+#: users/templates/users/authentication/password_reset_confirm.html:44
+#: users/templates/users/authentication/register.html:58
 msgid "Minimum 8 characters"
 msgstr "Minimum 8 caractères"
 
-#: book_club/users/templates/users/authentication/password_reset_confirm.html:45
-#: book_club/users/templates/users/authentication/register.html:59
+#: users/templates/users/authentication/password_reset_confirm.html:45
+#: users/templates/users/authentication/register.html:59
 msgid "Mix of lowercase and uppercase"
 msgstr "Un mix de minuscules et majuscules"
 
-#: book_club/users/templates/users/authentication/password_reset_confirm.html:46
-#: book_club/users/templates/users/authentication/register.html:60
+#: users/templates/users/authentication/password_reset_confirm.html:46
+#: users/templates/users/authentication/register.html:60
 msgid "Minimum a number"
 msgstr "Au moins un chiffre"
 
-#: book_club/users/templates/users/authentication/password_reset_confirm.html:47
-#: book_club/users/templates/users/authentication/register.html:61
+#: users/templates/users/authentication/password_reset_confirm.html:47
+#: users/templates/users/authentication/register.html:61
 msgid "Minimum a special character"
 msgstr "Au moins un caractère spécial"
 
-#: book_club/users/templates/users/authentication/password_reset_confirm.html:48
-#: book_club/users/templates/users/authentication/register.html:62
+#: users/templates/users/authentication/password_reset_confirm.html:48
+#: users/templates/users/authentication/register.html:62
 msgid "Same passwords"
 msgstr "Mots de passe identiques"
 
-#: book_club/users/templates/users/authentication/password_reset_done.html:10
+#: users/templates/users/authentication/password_reset_done.html:10
 msgid "An email has been sent !"
 msgstr "Un email a été envoyé !"
 
-#: book_club/users/templates/users/authentication/password_reset_done.html:12
+#: users/templates/users/authentication/password_reset_done.html:12
 msgid ""
 "Please check your mailbox and follow the instructions to reset your password."
 msgstr ""
 "Merci de vérifier votre boîte mail et de suivre les instructions pour "
 "renouveler votre mot de passe."
 
-#: book_club/users/templates/users/authentication/register.html:11
+#: users/templates/users/authentication/register.html:11
 msgid "Get Started"
 msgstr "Ouvrons la première page"
 
-#: book_club/users/templates/users/authentication/register.html:12
+#: users/templates/users/authentication/register.html:12
 msgid "by creating a free account"
 msgstr "en créant un compte gratuit"
 
-#: book_club/users/templates/users/authentication/register.html:67
+#: users/templates/users/authentication/register.html:67
 msgid "By creating an account you agree to our"
 msgstr "En créant un compte vous confirmez avoir lu et être en accord avec nos"
 
-#: book_club/users/templates/users/authentication/register.html:67
-#: book_club/users/templates/users/includes/footer.html:12
+#: users/templates/users/authentication/register.html:67
+#: users/templates/users/includes/footer.html:12
 msgid "Terms and Conditions"
 msgstr "Conditions générales"
 
-#: book_club/users/templates/users/authentication/register.html:67
+#: users/templates/users/authentication/register.html:67
 msgid "and our "
 msgstr "et notre"
 
-#: book_club/users/templates/users/authentication/register.html:67
-#: book_club/users/templates/users/includes/footer.html:14
+#: users/templates/users/authentication/register.html:67
+#: users/templates/users/includes/footer.html:14
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
 
-#: book_club/users/templates/users/authentication/register.html:77
+#: users/templates/users/authentication/register.html:77
 msgid "Sign up"
 msgstr "S'inscrire"
 
-#: book_club/users/templates/users/authentication/register.html:79
+#: users/templates/users/authentication/register.html:79
 msgid "Already a member?"
 msgstr "Déjà membre ?"
 
-#: book_club/users/templates/users/authentication/verify_email.html:10
+#: users/templates/users/authentication/verify_email.html:10
 msgid "Verify your email address"
 msgstr "Vérifiez votre adresse mail"
 
-#: book_club/users/templates/users/authentication/verify_email.html:11
+#: users/templates/users/authentication/verify_email.html:11
 msgid "To unlock all the features of the app, we need to verify your email:"
 msgstr ""
 "Pour débloquer toutes les  fonctionnalités de l'app, nous avons besoin de "
 "vérifier votre mail."
 
-#: book_club/users/templates/users/authentication/verify_email.html:16
+#: users/templates/users/authentication/verify_email.html:16
 msgid "Verify now"
 msgstr "Vérifier maintenant"
 
-#: book_club/users/templates/users/authentication/verify_email.html:20
+#: users/templates/users/authentication/verify_email.html:20
 msgid "Verify later"
 msgstr "Vérifier plus tard"
 
-#: book_club/users/templates/users/authentication/verify_email.html:23
-#: book_club/users/templates/users/authentication/verify_email_done.html:15
+#: users/templates/users/authentication/verify_email.html:23
+#: users/templates/users/authentication/verify_email_done.html:15
 msgid "Update email"
 msgstr "Actualiser l'email"
 
-#: book_club/users/templates/users/authentication/verify_email_complete.html:10
+#: users/templates/users/authentication/verify_email_complete.html:10
 msgid "You have successfully verified your email !"
 msgstr "Email vérifié !"
 
-#: book_club/users/templates/users/authentication/verify_email_done.html:10
+#: users/templates/users/authentication/verify_email_done.html:10
 msgid "An email has been sent with instructions to verify your email address"
 msgstr ""
 "Un message a été envoyé avec des instructions pour vérifier votre adresse "
 "mail."
 
-#: book_club/users/templates/users/authentication/verify_email_done.html:12
+#: users/templates/users/authentication/verify_email_done.html:12
 msgid "Please check your mailbox and follow the instructions."
 msgstr "Merci de consulter votre boîte mail et de suivre les instructions."
 
-#: book_club/users/templates/users/authentication/verify_email_done.html:13
+#: users/templates/users/authentication/verify_email_done.html:13
 msgid "No thanks, I prefer going to my dashboard"
 msgstr "Non merci, je préfère aller voir mon tableau de bord"
 
-#: book_club/users/templates/users/choose_avatar.html:3
+#: users/templates/users/choose_avatar.html:3
 msgid "Update Avatar"
 msgstr "Modifier avatar"
 
-#: book_club/users/templates/users/choose_avatar.html:11
+#: users/templates/users/choose_avatar.html:11
 msgid "Update Avatar Color"
 msgstr "Modifier la couleur de l'avatar"
 
-#: book_club/users/templates/users/home.html:8
+#: users/templates/users/home.html:8
 msgid "Books Party"
 msgstr ""
 
-#: book_club/users/templates/users/home.html:9
+#: users/templates/users/home.html:9
 msgid ""
 "The ultimate app for managing book clubs, book exchange groups, your "
 "personal library, and wishlist all in one place."
@@ -1366,7 +1379,7 @@ msgstr ""
 "de livres, votre bibliothèque personnelle et votre liste de souhaits en un "
 "seul endroit."
 
-#: book_club/users/templates/users/home.html:10
+#: users/templates/users/home.html:10
 msgid ""
 "Join the literary revolution and make every reading experience a celebration "
 "with Books Party. Whether you're an avid reader, a book club enthusiast, or "
@@ -1379,20 +1392,19 @@ msgstr ""
 "votre bibliothèque, notre application est votre lieu unique pour  tout ce "
 "qui concerne les livres."
 
-#: book_club/users/templates/users/home.html:14
-#: book_club/users/templates/users/home.html:16
+#: users/templates/users/home.html:14 users/templates/users/home.html:16
 msgid "Enter"
 msgstr "Entrer"
 
-#: book_club/users/templates/users/home.html:17
+#: users/templates/users/home.html:17
 msgid "Join for first time"
 msgstr "S'inscrire"
 
-#: book_club/users/templates/users/home.html:32
+#: users/templates/users/home.html:32
 msgid "Organize Reading Groups"
 msgstr "Organiser des clubs de lecture"
 
-#: book_club/users/templates/users/home.html:34
+#: users/templates/users/home.html:34
 msgid ""
 "Easily manage your book clubs and reading circles. Schedule meetings, "
 "discuss books, and engage with fellow members in vibrant literary "
@@ -1402,11 +1414,11 @@ msgstr ""
 "des réunions,  et engager avec les autres membres des  discussions "
 "littéraires animées. "
 
-#: book_club/users/templates/users/home.html:39
+#: users/templates/users/home.html:39
 msgid "Book Exchange Made Easy"
 msgstr "L'échange de livres facilité"
 
-#: book_club/users/templates/users/home.html:42
+#: users/templates/users/home.html:42
 msgid ""
 "Connect with other book lovers in your community and exchange books "
 "seamlessly. Discover new reads while sharing your favorites with like-minded "
@@ -1416,11 +1428,11 @@ msgstr ""
 "échangez des livres  sans interruption. Découvrez de nouvelles lectures tout "
 "en partageant vos coups de cœur."
 
-#: book_club/users/templates/users/home.html:48
+#: users/templates/users/home.html:48
 msgid "Personal Library"
 msgstr "Bibliothèque personnelle"
 
-#: book_club/users/templates/users/home.html:51
+#: users/templates/users/home.html:51
 msgid ""
 "Keep track of your entire book collection right at your fingertips. From "
 "classics to contemporary bestsellers, your virtual library is just a tap "
@@ -1430,11 +1442,11 @@ msgstr ""
 "Des  classiques aux best-sellers contemporains, votre bibliothèque virtuelle "
 "n'est qu'à  un clic. "
 
-#: book_club/users/templates/users/home.html:57
+#: users/templates/users/home.html:57
 msgid "Wishlist Management"
 msgstr "Gérer votre liste de souhaits"
 
-#: book_club/users/templates/users/home.html:60
+#: users/templates/users/home.html:60
 msgid ""
 "Never forget a book you want to read again. Create and manage your wishlist, "
 "making it easier to keep track of books you're eager to explore next."
@@ -1443,130 +1455,130 @@ msgstr ""
 "liste de souhaits,  pour faciliter le suivi des livres que vous avez envie "
 "de découvrir. "
 
-#: book_club/users/templates/users/includes/footer.html:11
+#: users/templates/users/includes/footer.html:11
 msgid "Legal Information"
 msgstr "Informations légales"
 
-#: book_club/users/templates/users/includes/footer.html:16
+#: users/templates/users/includes/footer.html:16
 msgid "Credits"
 msgstr "Crédits"
 
-#: book_club/users/templates/users/includes/footer.html:19
+#: users/templates/users/includes/footer.html:19
 msgid "Contact"
 msgstr "Contact"
 
-#: book_club/users/templates/users/includes/footer.html:22
+#: users/templates/users/includes/footer.html:22
 msgid "Team Bêta"
 msgstr ""
 
-#: book_club/users/templates/users/includes/footer.html:27
+#: users/templates/users/includes/footer.html:27
 msgid "All Rights Reserved"
 msgstr "Tous droits réservés"
 
-#: book_club/users/templates/users/includes/footer.html:28
+#: users/templates/users/includes/footer.html:28
 msgid "Made with"
 msgstr "Fait avec"
 
-#: book_club/users/templates/users/includes/footer.html:28
+#: users/templates/users/includes/footer.html:28
 msgid "by"
 msgstr "par"
 
-#: book_club/users/templates/users/profile.html:22
+#: users/templates/users/profile.html:22
 msgid "Informations"
 msgstr "Informations"
 
-#: book_club/users/templates/users/profile.html:25
+#: users/templates/users/profile.html:25
 msgid "Your name"
 msgstr "Votre nom"
 
-#: book_club/users/templates/users/profile.html:38
+#: users/templates/users/profile.html:38
 msgid "Your Email"
 msgstr "Votre courriel"
 
-#: book_club/users/templates/users/profile.html:73
+#: users/templates/users/profile.html:73
 msgid "Edit Profile"
 msgstr "Actualiser votre profil"
 
-#: book_club/users/templates/users/profile.html:79
+#: users/templates/users/profile.html:79
 msgid "Create an Account"
 msgstr "Créer un compte"
 
-#: book_club/users/templates/users/profile_update.html:3
+#: users/templates/users/profile_update.html:3
 msgid "Profile Update"
 msgstr "Actualiser votre profil"
 
-#: book_club/users/templates/users/profile_update.html:26
+#: users/templates/users/profile_update.html:26
 msgid "Create Account"
 msgstr "Créer un compte"
 
-#: book_club/users/templates/users/profile_update.html:28
+#: users/templates/users/profile_update.html:28
 msgid "Update Profile"
 msgstr "Actualiser votre profil"
 
-#: book_club/users/templates/users/profile_update.html:61
+#: users/templates/users/profile_update.html:61
 msgid "Delete your profile picture ?"
 msgstr "Supprimer votre photo de profil ?"
 
-#: book_club/users/templates/users/profile_update.html:64
+#: users/templates/users/profile_update.html:64
 msgid "Change your avatar color ?"
 msgstr "Changez votre couleur d'avatar ?"
 
-#: book_club/users/templates/users/profile_update.html:76
+#: users/templates/users/profile_update.html:76
 msgid "Keep your email updated because it's your connection id"
 msgstr "Gardez votre courriel à jour car c'est votre identifiant de connexion."
 
-#: book_club/users/templates/users/profile_update.html:81
+#: users/templates/users/profile_update.html:81
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: book_club/users/templates/users/profile_update.html:89
+#: users/templates/users/profile_update.html:89
 msgid "Delete Account"
 msgstr "Supprimer le compte"
 
-#: book_club/users/templates/users/profile_update.html:107
+#: users/templates/users/profile_update.html:107
 msgid "Delete Profile Pic ?"
 msgstr "Supprimer votre photo de profil ?"
 
-#: book_club/users/templates/users/profile_update.html:110
+#: users/templates/users/profile_update.html:110
 msgid "We think you look good on this pic, but your face, your choice !"
 msgstr ""
 "On trouve que vous sortez bien sur cette photo, mais bon, votre visage, "
 "votre choix !"
 
-#: book_club/users/templates/users/profile_update.html:126
+#: users/templates/users/profile_update.html:126
 msgid "Delete your Account ?"
 msgstr "Supprimer votre compte ?"
 
-#: book_club/users/templates/users/profile_update.html:129
+#: users/templates/users/profile_update.html:129
 msgid "We'll miss you, but no emotional blackmail here !"
 msgstr "Vous nous manquerez, mais on ne fait pas de chantage affectif ici !"
 
-#: book_club/users/views.py:170
+#: users/views.py:170
 #, fuzzy
 #| msgid "Borrow"
 msgid "My Borrowings"
 msgstr "Emprunter"
 
-#: book_club/users/views.py:207
+#: users/views.py:207
 msgid "Password reset"
 msgstr "Réinitialiser le mot de passe"
 
-#: book_club/users/views.py:237
+#: users/views.py:237
 msgid "Password reset on App"
 msgstr "Réinitialisation de votre mot de passe"
 
-#: book_club/users/views.py:262
+#: users/views.py:262
 msgid "Enter new password"
 msgstr "Entrez votre nouveau mot de passe"
 
-#: book_club/users/views.py:322
+#: users/views.py:322
 msgid "Password reset unsuccessful"
 msgstr "Mot de passe actualisé"
 
-#: book_club/users/views.py:340
+#: users/views.py:340
 msgid "Your profile has been successfully updated "
 msgstr "Votre profil a bien été actualisé"
 
-#: book_club/users/views.py:387
+#: users/views.py:387
 msgid "Your profile has been successfully created "
 msgstr "Votre profil a été créé avec succès."
