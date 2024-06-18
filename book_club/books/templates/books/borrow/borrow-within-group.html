@@ -67,7 +67,9 @@
                     {% if group %}
                         <select name="borrower">
                             {% for member in group.members.all %}
-                                
+                                {% if member != request.user %}
+                                <option value="{{ member.id }}">{{ member.pseudo }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     {% else %}

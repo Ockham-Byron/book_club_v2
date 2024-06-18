@@ -1406,8 +1406,11 @@ def borrow_book_within_group(request, id, slug):
     group = get_object_or_404(CustomGroup, slug=slug)
     kbook = get_object_or_404(CustomBook, id=id)
 
+    common_members = group.members.all()
+
     context = {'kbook': kbook,
-               'group': group}
+               'group': group,
+               'common_members': common_members}
     
     if request.method == 'POST':
         if kbook.owner != request.user:
