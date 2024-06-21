@@ -719,4 +719,14 @@ div.features-bar {
 }
 
 
+/* Home */
+@media only screen and (min-width: 768px) {
+div.showcase-right.bg-brand {
+  max-width:50%;
+}
 
+.showcase-right img {
+  max-width:90% !important;
+}
+
+}
