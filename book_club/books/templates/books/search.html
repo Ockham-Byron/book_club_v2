@@ -1,0 +1,51 @@
+{% extends 'dashboard/base.html' %}
+{% load static i18n %}
+{% block content %}
+
+<div class="row d-flex flex-column justify-content-start align-items-center">
+<form method="post">
+    {% csrf_token %}
+    <div class="searchbar-box">
+          {{ form.search }}
+          <button type="submit" class="field__button" aria-label="Search">
+             <i class="fas fa-search"></i>
+          </button>
+        </div>
+</form>
+<a class="btn btn-darkest-color btn-small mt-2"  href="{% url 'add-book-custom'%}">{% trans 'Or Add Manually' %}</a>
+</div>
+
+{% if books %}
+    
+<div class="d-flex flex-column align-items-center mt-3">
+        {% for book in books %}
+        {% if meeting %}
+            <a href="{% url 'add-new-book-to-meeting' meeting.id book.isbn %}" style="width:100%;">
+        {% else %}
+              <a href="{% url 'save-book' book.isbn %}" style="width:100%;">
+        {% endif %}
+      
+            <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
+                <div>
+                
+                    
+                    <img
+                    src="{{ book.image }}"
+                    alt="{{ book.title }}"
+                    />
+                
+                </div>
+                <div class="ps-2">
+                    <p class="title">{{ book.title }}</p>
+                    <p class="author">{{ book.authors }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+ </div>   
+
+
+{% else %}
+    <img class="form-img" src={% static 'assets/img/illustrations/book-search.svg' %}  />
+{% endif %}
+{% endblock %}

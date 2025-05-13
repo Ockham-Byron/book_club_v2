@@ -1,0 +1,71 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Add Reservation' %}{% endblock title %}
+{% block content %}
+
+{{form.media}}
+<!-- New Form -->
+<div class="d-flex align-items-center justify-content-center">
+    <form class="kform" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="text-center">
+            <img src="{% static 'assets/img/icons/book-100.png' %}" alt="calendar icon" />
+            <br/>
+            <h5 class="modal-title brand-color" id="exampleModalLabel">
+            {% if reservation %}
+            {% trans 'Edit Reservation of' %} {{kbook.title}}</h5>
+            
+            {% else %}
+            {% trans 'Reserve' %} {{kbook.title}} {% trans 'from' %} {{kbook.owner}}</h5>
+            {% endif %}
+        </div>
+        
+        
+        <button class="submit mt-4" type="submit" name="add-meeting">{% trans 'Yes' %}</button>
+        <div class="text-center d-flex flex-column">
+            <a href="{% url 'book-detail' kbook.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+            
+        </div>
+
+        {% if reservation %}
+        <a href="#" type="button" class="darkest-color text-center" data-bs-toggle="modal" data-bs-target="#deleteMealModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Meeting' %}</a>
+        <!-- Modal delete meal -->
+        <div class="modal fade" id="deleteMealModal" tabindex="-1" aria-labelledby="deleteMealModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="text-center">
+                <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
+                <br/>
+                <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Reservation ?' %}</h5>
+              </div>
+              <div class="text-center">
+                <p class="darkest-color p-4">{% trans "You will lose a big occasion to share your passion, but hey, no pression..." %}</p>
+              </div>
+              <div class="d-flex justify-content-evenly pb-2">
+                <a href="{% url 'delete-meeting' meeting.id %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
+                <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        
+
+    </form>
+        
+        
+        
+       
+
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+<script>
+$(document).ready(function() {
+    $('.datepicker').datepicker();
+});
+</script>
+
+{% endblock extrajs%}

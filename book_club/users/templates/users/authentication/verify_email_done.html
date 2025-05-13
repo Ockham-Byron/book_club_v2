@@ -1,0 +1,20 @@
+{% extends 'users/base.html' %}
+{% load static i18n %}
+{% block content %}
+
+<div class="container-fluid d-flex align-items-center justify-content-center text-center">
+    <div class="verify-container">
+      <div class="text-center">
+          <img  src="{% static 'assets/img/illustrations/email_sent.svg' %}" style="height:200px;"/>
+      </div>
+      <h4 class="mt-4">{% trans "An email has been sent with instructions to verify your email address" %}:</h4>
+      <p class="mid-color"> {{user.email}}</p>
+      <p>{% trans 'Please check your mailbox and follow the instructions.' %}</p>
+      <a href="{% url 'dashboard' %}" class="brand-color small">{% trans 'No thanks, I prefer going to my dashboard' %}</a>
+      <div>
+        <a href="{% url 'change-email' %}" class="mid-color small mt-5">{% trans 'Update email' %}</a>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

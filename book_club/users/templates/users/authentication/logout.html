@@ -1,0 +1,16 @@
+{% extends 'users/base.html' %}
+{% load i18n static %}
+{% block title %}{% trans 'See you soon' %}{% endblock %}
+{% block content %}
+<div class="container-fluid d-flex align-items-center justify-content-center text-center">
+    <div class="logout-container">
+        <div class="text-center">
+            <img  src="{% static 'assets/img/illustrations/logout.svg' %}" style="height:200px;"/>
+        </div>
+        <h4 class="brand-color mt-1">{% trans "See you soon !" %}</h4>
+        <p>{% trans 'You have been logged out successfully '%}</p>
+        <a href="{% url 'login' %}" class="btn btn-brand-color">{% trans 'Log In' %}</a>
+    </div>
+</div>
+    
+{% endblock content %}

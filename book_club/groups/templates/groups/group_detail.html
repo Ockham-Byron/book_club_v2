@@ -1,0 +1,424 @@
+{% extends "dashboard/base.html" %}
+{% load static i18n avatar %}
+{% block title %}{{object.kname}}{% endblock %}
+
+{% block content %}
+{% if object.group_pic %}
+<section class="hero-wrap d-flex flex-column justify-content-end"
+style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url({{object.group_pic.url}}); background-size: cover; background-position: center;" 
+    >
+{% else %}
+<section class="hero-wrap d-flex flex-column justify-content-end"
+    style="background:linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url('{% static 'assets/img/illustrations/group_default.jpeg' %}') ; background-blend-mode: multiply; background-size:cover; background-position:center;">
+{% endif %}
+    <div class="overlay"></div>
+    <div class="container">
+        <h1 class="mb-2">{{object.kname}}</h1>
+        {% if object.description %}
+            <p class="mb-4">{{object.description}}</p>
+        {% endif %}
+        {% if object.leader == request.user %}
+            <a href="{% url 'update-group' object.slug %}"><i class="fa fa-cog fa-5x"></i></a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="ftco-section ftco-no-pt mt-5 mt-md-0">
+   
+        <div class="d-flex justify-content-center">
+            <div class="col-6 d-flex align-items-stretch justify-content-center ftco-animate fadeInUp ftco-animated">
+                <div class="services-2 text-center">
+                    <div class="icon-wrap">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="col-md-12">
+                                    <p class="nb_count">{{nb_of_users}}</p>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="col-6 d-flex align-items-stretch justify-content-center ftco-animate fadeInUp ftco-animated">
+                <a href="#">
+                <div class="services-2 text-center">
+                    <div class="icon-wrap">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="col-md-12">
+                                    <p class="nb_count">{{nb_of_books}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+            
+
+        </div>
+   
+</section>
+
+<!-- Next Meeting container start -->
+<div class="container d-flex flex-column align-items-center">
+    <h1 class="text-center mb-5 darkest-color">{% trans "Next Meeting" %}</h1>
+    {% if next_meeting %}
+    
+    <div class="book-mini-card-h d-flex justify-content-center">
+        {% if next_meeting.book %}
+        <div class="book-infos text-center">
+            <a href="{% url 'book-detail' next_meeting.book.slug %}">
+            <div class="book-mini-card mx-auto">
+                {% if next_meeting.book.picture %}
+                    <img class="mx-auto" src="{{next_meeting.book.picture.url}}" alt="{{book.title}}" />
+                {% elif next_meeting.book.cover %}
+                    <img class="mx-auto" src="{{next_meeting.book.cover}}" alt="{{book.title}}" />
+                {% else %}
+                    <img class="mx-auto" src="{% static 'assets/img/illustrations/book-default.png'%}" alt="{{book.title}}" />
+                {% endif %}
+            </div>
+            <p class="title mt-1 mb-0">{{next_meeting.book.title}}</p>
+            <p class="author">{{next_meeting.book.author}}</p>
+        </div>
+        {% endif %}
+        <div class="ps-4 meeting-infos">
+            <p class="meeting-date"><i class="fa-regular fa-calendar brand-color"></i> {{next_meeting.meeting_at}}</p>
+            <p><i class="fa-solid fa-map-pin brand-color"></i>{{next_meeting.place}}</p>
+            {% if next_meeting.book %}
+            <p>{% trans "Read by" %} {{nb_of_readers}} / {{nb_of_users}}</p>
+            {% endif %}
+            {% if next_meeting.details %}
+            <div class="rounded bg-light p-2 mb-2">
+                <p class="mb-0">{% trans 'Other infos' %}:</p>
+                <p class="mb-0">{{next_meeting.details}}</p>
+            </div>
+            {% endif %}
+            <a href="{% url 'edit-meeting' next_meeting.id %}"><i class="fa fa-cog dark-color"></i></a>
+        </div>
+        
+    </div>
+   
+    {% else %}
+
+    <div class="text-center">
+        <a href="{% url 'add-meeting' object.slug %}" class="btn btn-brand-color"><i class="fa-solid fa-plus"></i>{% trans 'Next meeting' %}</a>
+    </div>
+    
+
+    {% endif %}
+
+</div>
+<!-- Books container start -->
+
+<div class="container mt-5">
+
+    <h1 class="text-center mb-5 darkest-color">{{nb_of_books}} {% trans "Books" %}</h1>
+
+    {% if nb_of_books == 0 %}
+   
+        <div class="d-flex p-2 justify-content-center">
+            <a class="btn" href="{% url 'new-book-search' %}">
+                <div class="sketch-box">
+                    <div class="card-cta border-0 sketch-box">
+                        <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="100px" >
+                        <div class="card-body">
+                        {% trans 'ADD FIRST BOOK TO THIS GROUP' %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% else %}
+        <div class="hs__wrapper">
+            <div class="hs__header">
+            <div class="hs__arrows"><a class="arrow disabled arrow-prev"></a><a class="arrow arrow-next"></a></div>
+            </div>
+            <ul class="hs">
+            {% for book in books%}
+            <li class="hs__item"> 
+                <a href="{% url 'book-detail' book.slug %}">
+                    <div class="book-mini-card mx-auto">
+                        {% if book.picture %}
+                            <img class="mx-auto" src="{{book.picture.url}}" alt="{{book.title}}" />
+                        {% elif book.cover %}
+                            <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+                        {% else %}
+                            <img class="mx-auto" src="{% static 'assets/img/illustrations/book-default.png'%}" alt="{{book.title}}" />
+                        {% endif %}
+                        <p class="title mt-1 mb-0">{{book.title}}</p>
+                        <p class="author">{{book.author}}</p>
+
+                        {% for borrow in book.borrowing.all %}
+                                {% if borrow.status == "on_going"%}
+                                    <p class="book-status-tag bg-mid-color">{% trans 'Borrowed' %}</p>
+                                {% endif %}
+                                {% if borrow.status == "pending"%}
+                                    <p class="book-status-tag bg-joy-color">{% trans 'With reservations' %}</p>
+                                    
+                                {% endif %}
+                            {% endfor %}
+             
+               
+            
+                    </div>
+                </a>
+            </li>
+            
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="text-center">
+            <a class="btn btn-brand-color" href="{% url 'group-books' object.slug%}">{% trans 'See all books' %}</a>
+        </div>
+
+    {% endif %}
+</div> <!-- Books container End -->
+
+
+<!-- Members container -->
+
+<div class="container mt-5">
+    <h1 class="text-center mb-5 darkest-color">{% trans "Members" %}</h1>
+    {% if nb_of_users  == 1 %} 
+    <div class="d-flex flex-wrap justify-content-center">
+        
+            <div class="sketch-box text-center">
+                <img class="card-icon mx-auto" src="{% static 'assets/img/icons/user-100.png' %}" alt="Card image cap" width="100px" >
+                <p>{% trans 'Invite other people to join your group' %}</p>
+                <p>{% trans "Group's code" %} : </p>
+                <p>{{object.uuid}}</p>
+                <button id="copy-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Copy the invitation" %}</button>
+            </div>
+        
+    </div>
+    {% else %}
+        <div class="d-flex flex-wrap justify-content-center">
+            <div class="member text-center mx-2">
+                <div class="icon-wrap">
+                    <button class="icon d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="member text-center mx-2">
+            <a href="{% url 'profile' object.leader.slug  %}">
+                <div class="icon-wrap">
+                    {% if object.leader.profile_pic%}
+                    <div class="icon d-flex align-items-center justify-content-center" style="background:url('{{object.leader.profile_pic.url}}') rgba(255, 255, 255, 0.8) ; background-blend-mode: multiply;"></div>
+                    {% else %}
+                    <div class="icon">{{ object.leader|avatar }}</div>
+                    {% endif %}
+                </div>
+                <p class="text-center">{{object.leader.username}}
+                
+                <i class="fas fa-key"></i>
+                
+                </p>
+                </a>
+            </div>
+        {% for i in members %}
+            {% if object.leader == i %}
+
+            {% else %}
+            <div class="member text-center mx-2">
+            <a href="{% url 'profile'  i.slug %}">
+                <div class="icon-wrap">
+                    {% if i.profile_pic %}
+                    <div class="icon d-flex align-items-center justify-content-center" style="background:url('{{i.profile_pic.url}}') rgba(255, 255, 255, 0.8) ; background-blend-mode: multiply;background-size:cover;"></div>
+                    {% else %}
+                    <div class="icon">{{ i|avatar }}</div>
+                    {% endif %}
+                </div>
+                <p class="text-center">{{i.pseudo}}
+                
+                </p>
+                </a>
+            </div>
+            {%endif%}
+            
+        {% endfor %}
+        </div>
+    {% endif %}  
+</div> <!-- Members container end -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- Floating button -->
+<a href="{% url 'new-book-search' %}">
+<div class="kfloat" data-bs-toggle="tooltip" title="{% trans 'Add Book' %}">
+<div class="my-float">+</div>
+</div>
+</a>
+
+<!-- Modals -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+       <div class="text-center">
+        <img src="{% static 'assets/img/icons/user-100.png' %}" alt="error icon" />
+        <br/>
+        <h3 class="modal-title mid-color" id="exampleModalLabel">{% trans "Invite other people to join your group" %}</h3>
+        </div>
+        <div class="text-center">
+            <p class="darkest-color mt-4">{% trans "Code of the group :" %}</p>
+            <p class="text-center darkest-color">{{object.uuid}}</p>
+            <button id="copy-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Copy the invitation" %}</button>
+        </div>
+        <div class="text-center">
+          <a type="button" class="btn btn-outlined btn-modal outline-mid-color my-2" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
+        </div>
+          
+       
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+{% block extrajs %}
+<script>
+  const copyBtn = document.getElementById('copy-btn')
+  const siteName = "Books-Party"
+  const url = "https://books-party.top"
+  
+  console.log(copyBtn)
+  copyBtn.addEventListener('click', () => {
+    
+    const code= copyBtn.getAttribute('data')
+    
+    invitation = "I suggest you to join the group I have created on \n"
+    line = "\n ********************* \n" 
+    code_invit = "\n The code to join the group is:\n " + code
+    navigator.clipboard.writeText(invitation + url + line + code_invit)
+    
+   
+   
+    copyBtn.textContent = "Copied !"
+  })
+</script>
+
+
+<script>
+$(function() {
+
+        var $myGroup = $('#filterGroup');
+        $myGroup.on('show.bs.collapse','.collapse', function() {
+        $myGroup.find('.show').collapse('hide');
+        });
+        $('.material-card > .mc-btn-action').click(function () {
+            var card = $(this).parent('.material-card');
+            var icon = $(this).children('i');
+            icon.addClass('fa-spin-fast');
+
+            if (card.hasClass('mc-active')) {
+                card.removeClass('mc-active');
+
+                window.setTimeout(function() {
+                    icon
+                        .removeClass('fa-arrow-left')
+                        .removeClass('fa-spin-fast')
+                        .addClass('fa-bars');
+
+                }, 800);
+            } else {
+                card.addClass('mc-active');
+
+                window.setTimeout(function() {
+                    icon
+                        .removeClass('fa-bars')
+                        .removeClass('fa-spin-fast')
+                        .addClass('fa-arrow-left');
+
+                }, 800);
+            }
+        });
+    });
+</script>
+
+<script>
+var instance = $(".hs__wrapper");
+$.each( instance, function(key, value) {
+    
+  var arrows = $(instance[key]).find(".arrow"),
+      prevArrow = arrows.filter('.arrow-prev'),
+      nextArrow = arrows.filter('.arrow-next'),
+      box = $(instance[key]).find(".hs"), 
+      x = 0,
+      mx = 0,
+      maxScrollWidth = box[0].scrollWidth - (box[0].clientWidth / 2) - (box.width() / 2);
+
+  $(arrows).on('click', function() {
+      
+    if ($(this).hasClass("arrow-next")) {
+      x = ((box.width() / 2)) + box.scrollLeft() - 10;
+      box.animate({
+        scrollLeft: x,
+      })
+    } else {
+      x = ((box.width() / 2)) - box.scrollLeft() -10;
+      box.animate({
+        scrollLeft: -x,
+      })
+    }
+      
+  });
+    
+  $(box).on({
+    mousemove: function(e) {
+      var mx2 = e.pageX - this.offsetLeft;
+      if(mx) this.scrollLeft = this.sx + mx - mx2;
+    },
+    mousedown: function(e) {
+      this.sx = this.scrollLeft;
+      mx = e.pageX - this.offsetLeft;
+    },
+    scroll: function() {
+      toggleArrows();
+    }
+  });
+
+  $(document).on("mouseup", function(){
+    mx = 0;
+  });
+  
+  function toggleArrows() {
+    if(box.scrollLeft() > maxScrollWidth - 10) {
+        // disable next button when right end has reached 
+        prevArrow.addClass('disabled');
+      } else if(box.scrollLeft() < 10) {
+        // disable prev button when left end has reached 
+        nextArrow.addClass('disabled')
+      } else{
+        // both are enabled
+        nextArrow.removeClass('disabled');
+        prevArrow.removeClass('disabled');
+      }
+  }
+  
+});
+
+</script>
+
+
+
+{% endblock extrajs %}

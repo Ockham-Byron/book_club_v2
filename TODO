@@ -1,0 +1,106 @@
+
+Général:
+  ☐ traduction
+  ☐ ajouter pwa
+  ☐ ajouter page qui explique comment télécharger
+  ☐ menu texte au milieu on scrolling
+
+Borrow:
+  ☐ annuler quand "attente de confirmation"
+
+
+Borrow outside:
+  ☐ prevoir borrow outside + sharing club
+  ☐ verifier que ceux qui appartiennent à un groupe commun et avec kowner sont dans all-books
+  ☐ verfiier que ceux sans groupe commun ne sont pas dans all-books des autres
+  ✔ mettre bouton emprunter dans book-detail @done(24-05-23 16:06)
+
+
+Groups:
+  ☐ Library and Wishlist - revoir beaucoup de livres
+  ☐ add status "with reservations"
+
+Book:
+  ☐ dans delete, donner option d'enlever juste "ok pour prêter"
+  ☐ edit livre : edit ownership
+
+All-Books:
+  ☐ filter dans les all-Books by group
+  ☐ ordonner
+  ☐ search bar
+  ☐ ajouter dans les filtres : prêtables
+
+Library:
+  ☐ rajouter des lieux
+  ☐ Ajouter liseuse
+
+Tags:
+  ☐ Edit
+  ☐ Delete
+
+Comment:
+    ☐ faire une page avec tous les commentaires 
+
+Profile:
+  ☐ changer le slug avec changement de pseudo
+ 
+Future features:
+  ☐ emprunt à la bibliothèque
+  ☐ tirer au hasard le prochain livre
+  ☐ page de statistiques
+  ☐ ajouter citations
+  ☐ prévoir des friends ?
+  ☐ prévoir ajouter des livres empruntés
+  ☐ scanner isbn
+
+Archive:
+  ✔ dans les échanges de livre, indiquer option "ok pour prêter" @done(24-05-07 12:27) @project(Book)
+  ✔ ne montrer aux autres membres que les livres "borrowable" @done(24-05-08 12:13) @project(All-Books)
+  ✔ disctinct : prevoir sans isbn @done(24-05-07 12:27) @project(All-Books)
+  ✔ if want to read, add to wishlist @done(24-05-02 13:44) @project(Book)
+  ✔ prêt hors app @done(24-05-06 17:48) @project(Borrow)
+  ✔ gérer les confirmations de retour @done(24-05-06 17:48) @project(Borrow)
+  ✔ gérer les confirmations de prêt @done(24-05-06 17:48) @project(Borrow)
+  ✔ vérifier all-books @done(24-04-19 15:21) @project(Prioritaire)
+  ✔ sidebar responsive @done(24-04-19 10:32) @project(Général)
+  ✔ afficher qui a lu @done(24-04-30 11:55) @project(Book)
+  ✔ share owned_book with several_books @done(24-04-18 14:44) @project(Book)
+  ✔ filtrer les livres dans all-books @done(24-05-02 13:38) @project(Book)
+  ✔ passer un livre de wishlist à library @done(24-04-30 11:26) @project(Book)
+  ✔ add boutton add book to all-books @done(24-04-30 11:25) @project(Book)
+  ✔ rendre @done(24-04-30 11:25) @project(Borrow)
+  ✔ edit @done(24-04-18 11:34) @project(Comment)
+  ✔ delete @done(24-04-18 11:34) @project(Comment)
+  ✔ if commented, edit @done(24-04-18 11:34) @project(Comment)
+  ✔ delete @done(24-04-18 10:31) @project(Book)
+  ✔ empêcher les doublons de livre dans le même groupe @done(24-04-18 10:31) @project(Book)
+  ✔ delete @done(24-04-18 10:59) @project(Meeting)
+  ✔ gérer nombreux livres @done(24-04-16 11:39) @project(Groups)
+  ✔ boutons tous les livres @done(24-04-16 11:54) @project(Groups)
+  ✔ ajouter une couverture dans les resultats de recherche @done(24-04-18 10:31) @project(Book)
+  ✔ if error quand google api, proposer custom add @done(24-04-16 15:23) @project(Book)
+  ✔ if book in library, not in wishlist @done(24-04-17 16:24) @project(Book)
+  ✔ FORMULAIRE ADD BOOK CUSTOM @done(24-04-16 15:23) @project(Book)
+  ✔ add kbook to meeting @done(24-04-12 12:05) @project(Groups)
+  ✔ creer libarry et wishlist à la creation @done(24-04-12 10:53) @project(Groups)
+  ✔ librarie et wishlist : verifier selection livres @done(24-04-16 09:18) @project(Groups)
+  ✔ librairie et wishlist : lien vers book-detail @done(24-04-16 09:33) @project(Groups)
+  ✔ add a book from group @done(24-04-16 09:33) @project(Book)
+  ✔ edit:change cover @done(24-04-12 12:06) @project(Book)
+  ✔ alerte recherche sans accent @done(24-04-16 10:20) @project(Book)
+  ✔ all books : eviter les doublons @done(24-04-16 10:22) @project(Book)
+  ✔ edit @done(24-04-16 10:23) @project(Meeting)
+  ✔ meeting sans livre @done(24-04-16 10:25) @project(Meeting)
+  ✔ Définir les états: lu, en cours de lecture, envie de lire @done(24-04-11 12:17) @project(Book)
+  ✔ all books @done(24-04-12 10:09) @project(Book)
+  ✔ montrer kbook_detail @done(24-04-12 10:09) @project(Book)
+  ✔ edit @done(24-04-12 10:09) @project(Book)
+  ✔ button float @done(24-04-12 10:09) @project(Book)
+  ✔ add @done(24-04-11 12:17) @project(Book.Comment)
+  ✔ show @done(24-04-11 12:16) @project(Book.Comment)
+  ✔ texte @done(24-04-10 11:19) @project(Home page)
+  ✔ image @done(24-04-10 11:19) @project(Home page)
+  ✔ Créer deux groupes par user : bibliothèque et liste de souhaits : à partir du menu @done(24-04-10 11:19) @project(Groups)
+  ✔ verifier les slugs @done(24-04-10 11:19) @project(Groups)
+  ✔ logique un seul livre pour tous les proprios @done(24-04-10 12:02) @project(Book)
+  ✔ add owner to book @done(24-04-10 12:02) @project(Book)

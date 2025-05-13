@@ -1,0 +1,69 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Add Comment' %}{% endblock title %}
+{% block content %}
+
+
+<!-- New Form -->
+<div class="d-flex align-items-center justify-content-center">
+  <form class="kform" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.errors %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+          <div id="form_errors">
+              {% for key, value in form.errors.items %}
+              <strong>{{ value }}</strong>
+              {% endfor %}
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+    {% endif %}
+    
+    <p class="title">
+    {% if review %}
+      {% trans 'Edit your review of' %}
+    {% else %}
+      {% trans 'Add Review to' %} 
+    {% endif %}
+    {{book}}</p>
+    
+        {{form.message}}
+    <p class="m-0">{% trans 'Your rating' %}</p>
+        {{form.rating}}
+      
+      <button class="submit" type="submit ">{% trans 'Submit' %}</button>
+      <div class="text-center d-flex flex-column">
+        <a href="{% url 'book-detail' kbook.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+        {% if review %}
+          <a href="#" type="button" class="joy-color" data-bs-toggle="modal" data-bs-target="#deleteCommentModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Review' %}</a>
+          <!-- Modal delete comment -->
+          <div class="modal fade" id="deleteCommentModal" tabindex="-1" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="text-center">
+                  <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
+                  <br/>
+                  <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Review ?' %}</h5>
+                </div>
+                <div class="text-center">
+                  <p class="darkest-color p-4">{% trans "Your opinion was interesant, you know..." %}</p>
+                </div>
+                <div class="d-flex justify-content-evenly pb-2">
+                  <a href="{% url 'delete-review' review.id %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
+                  <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+  </form>
+</div>
+
+
+
+
+
+{% endblock content %}

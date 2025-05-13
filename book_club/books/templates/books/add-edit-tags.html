@@ -1,0 +1,87 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Add/Edit Book' %}{% endblock title %}
+{% block content %}
+
+
+<!-- Select Form -->
+<div class="d-flex align-items-center justify-content-center">
+  <form class="kform" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.errors %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+          <div id="form_errors">
+              {% for key, value in form.errors.items %}
+              <strong>{{ value }}</strong>
+              {% endfor %}
+          </div>
+          
+      </div>
+    {% endif %}
+    
+    
+    <p class="title">
+    {% if kbook_tags %}
+      {% trans 'Edit Tags of' %} </br> {{kbook.title }}
+    {% else %}
+
+      {% trans 'Add Tags to' %} </br> {{kbook.title}}
+    {% endif %}
+    </p>
+    <a href="#" type="button" class="reading-status bg-darkest-color text-white mb-2" data-bs-toggle="modal" data-bs-target="#addTagModal"><i class="fa-solid fa-plus"></i>{% trans 'Add new tag' %}</a>
+    {% for tag in tags %}
+      <div class="horizontal-tag-choice-container d-flex align-items-center justify-content-start">
+        
+        <input type="checkbox" value="{{ tag.id }}" name="tag" 
+        {% if tag in kbook_tags %}
+        checked
+        {% endif %}
+         >
+        <p class="mb-0" style="background-color:{{tag.color}};">{{tag.name}}</p>
+      </div>
+    {% endfor %}
+
+    <button class="submit mt-5 btn-mid-color" type="submit" name="select-tags">{% trans 'Save' %}</button>
+    <a href="{% url 'book-detail' kbook.slug %}" class="mid-color text-center">{% trans 'Cancel' %}</a>
+    
+  </form>
+
+
+
+<!-- Modal add Tag -->
+<div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="text-center">
+        <img src="{% static 'assets/img/icons/add-100.png' %}" alt="error icon" />
+        <br/>
+        <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Add New Tag ?' %}</h5>
+      </div>
+      <!-- Add tag Form -->
+      <div class="row d-flex flex-column justify-content-start align-items-center">
+        <form method="post">
+        {% csrf_token %}
+          <div class="form-container">
+            <input type="text" class="form-control" placeholder="{% trans 'Name' %}" name="tag-name">
+          </div>
+          <div class="text-center">
+            <p>{% trans 'Pick your favorite color' %}</p>
+            <input type="color" value="#ff0000" id="color-picker" name="tag-color" />
+          </div>
+          <button type="submit" class="btn btn-small btn-mid-color"  name="add-tag">
+            {% trans 'Save' %}
+          </button>
+        </form>
+      </div>
+        
+
+
+    </div>
+    </div>
+  </div>
+</div>
+
+
+ 
+{% endblock content %}
+

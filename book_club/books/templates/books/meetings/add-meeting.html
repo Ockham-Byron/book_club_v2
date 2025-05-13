@@ -1,0 +1,102 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Add Meeting' %}{% endblock title %}
+{% block content %}
+
+{{form.media}}
+<!-- New Form -->
+<div class="d-flex align-items-center justify-content-center">
+    <form class="kform" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="text-center">
+            <img src="{% static 'assets/img/icons/calendar-100.png' %}" alt="calendar icon" />
+            <br/>
+            <h5 class="modal-title brand-color" id="exampleModalLabel">
+            {% if meeting %}
+            {% trans 'Edit Meeting with' %} {{group.kname}}</h5>
+            <p>{{meeting.meeting_at}}</p>
+            {% else %}
+            {% trans 'Add Meeting with' %} {{group.kname}}</h5>
+            {% endif %}
+        </div>
+        <p class="mb-0 mid-color">{% trans "When will you meet ?" %}</p>
+        <input type="datetime-local" id="date" name="meeting_at">
+        
+
+         <p class="mb-0 mid-color">{% trans "Where will you meet ?" %}</p>
+        {{form.place}}
+
+        {% if group.group_type == 'one_book' %}
+            <p class="mb-2 mid-color">{% trans "Which book will you read ?" %}</p>
+
+            <div class="d-flex justify-content-between">
+            {% if book %}
+            <p>{{book.title}}</p>
+            <button class="btn btn-mid-color w-75 me-1" type="submit" name="search-book"><small>{% trans 'Change  Book' %}</small></button>
+            {% else %}
+            
+           
+            <button class="btn btn-mid-color w-75 me-1" type="submit" name="search-book"><small>{% trans 'Add New Book' %}</small></button>
+            {% endif %}
+            </div>
+        
+        {% endif %}
+
+        <p class="mb-0 mid-color">{% trans "Add other infos ? Chapters to read, infos on the meeting place..." %}</p>
+        {{form.details}}
+
+        
+        
+            
+            
+            
+        
+        
+        <button class="submit mt-4" type="submit" name="add-meeting">{% trans 'Submit' %}</button>
+        <div class="text-center d-flex flex-column">
+            <a href="{% url 'group-detail' group.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+            
+        </div>
+
+        {% if meeting %}
+        <a href="#" type="button" class="darkest-color text-center" data-bs-toggle="modal" data-bs-target="#deleteMealModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Meeting' %}</a>
+        <!-- Modal delete meal -->
+        <div class="modal fade" id="deleteMealModal" tabindex="-1" aria-labelledby="deleteMealModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="text-center">
+                <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
+                <br/>
+                <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Meeting ?' %}</h5>
+              </div>
+              <div class="text-center">
+                <p class="darkest-color p-4">{% trans "You will lose a big occasion to share your passion, but hey, no pression..." %}</p>
+              </div>
+              <div class="d-flex justify-content-evenly pb-2">
+                <a href="{% url 'delete-meeting' meeting.id %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
+                <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        
+
+    </form>
+        
+        
+        
+       
+
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+<script>
+$(document).ready(function() {
+    $('.datepicker').datepicker();
+});
+</script>
+
+{% endblock extrajs%}

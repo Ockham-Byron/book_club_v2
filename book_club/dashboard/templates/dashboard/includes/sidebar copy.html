@@ -1,0 +1,114 @@
+{% load i18n static avatar %}
+<div id="sidebar" class="col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-dark d-flex sticky-top ">
+  <div  class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start ps-1 pe-4 py-2 text-white order-1" style="max-width:100%;">
+      <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
+          <img id="sidebar-logo" src="{% static 'assets/img/logo-blanc.png' %}" />
+      </a>
+      <!-- User menu - Start -->
+      <div class="dropdown py-sm-4  ms-auto ms-sm-0 flex-shrink-1 order-3 order-md-2">
+          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if request.user.profile_pic %}
+                <span class="user-img"><img class="rounded-circle" src="{{ request.user.profile_pic.url }} "width="45" height="45" alt="profile_pic"></span>
+              {% else %}
+                  <span class="user-img">{{ request.user|avatar }}</span> 
+              {% endif %} 
+              <span class="d-none d-sm-inline mx-1">{{user.pseudo}}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+              <li><a class="dropdown-item" href="{% url 'profile' request.user.slug %}">{% trans 'Profile' %}</a></li>
+              
+              <li>
+                  <hr class="dropdown-divider">
+              </li>
+              <div class="text-center">
+              {% include 'users/includes/langswitch.html' %}
+              </div>
+              <li><a href="{% url 'install-app' %}" class="nav-link lightest-color dropdown-item text-small px-3"><i class="fas fa-mobile"></i>{% trans 'Install on your phone' %}</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">{% trans 'Sign out' %}</a></li>
+          </ul>
+      </div>
+      <!-- User menu - End -->
+      <div id="accordian" class="order-2 order-md-3 flex-shrink-1 flex-sm-grow-0 flex-grow-1">
+      <ul class="mobile-drop nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start order-2" id="menu">
+         
+         
+        <!-- Groups -->
+          <li class="subnav">
+              <a href="#" class="nav-link lightest-color second-level">
+                  <i class="fa-solid fa-user-group"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Clubs' %}</span>
+              </a>
+              <ul class="drop-menu subnav-content" >
+                  {% if groups.count == 1 %}
+                    {% for group in groups %}
+                      <li><a class="dropdown-item lightest-color" href="{% url 'group-detail' group.slug %}">{{group.kname}}</a></li>
+                    {% endfor %}
+                  {% else %}
+                  <li><a class="dropdown-item lightest-color" href="{% url 'all-groups' %}">{% trans 'My Clubs' %}</a></li>
+                  {% endif %}
+                  <li><a class="dropdown-item lightest-color" href="{% url 'add-group' %}"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add Club' %}</a></li>
+              </ul>
+          </li>
+        <!-- Books-->
+          <li class="subnav">
+            <a href="#" class="nav-link lightest-color" >
+              <i class="fa-solid fa-book"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Books' %}</span>
+            </a>
+            <ul class="subnav-content">
+            <li><a class="dropdown-item lightest-color ps-2" href="{% url 'new-book-search' %}"><i class="fa-solid fa-plus pe-1"></i>{% trans 'Add Book' %}</a></li>
+            {% if groups.count == 1%}
+                    {% for group in groups%}
+                    
+                        <li><a class="dropdown-item lightest-color" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
+                        <li><a class="dropdown-item lightest-color" href="{% url 'group-books' group.slug %}">{% trans 'Books of' %} {{group.kname}}</a></li>
+                    {% endfor %}
+                {% elif groups.count > 1 %}
+                    <li><a class="dropdown-item lightest-color ps-2" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
+                    <li class="subnav2">
+                      <a class="second-level lightest-color ps-3 " tabindex="-1" href="#">{% trans 'Books of' %}<i class="ps-2 fas fa-angle-right"></i></a>
+                      <ul class="subnav-content2">
+                        {% for group in groups %}
+                        <li><a tabindex="-1" class="lightest-color" href="{% url 'group-books' group.slug %}"><small>{{group.kname}}</small></a></li>
+                        <hr class="dropdown-divider">
+                        {% endfor %}
+                      </ul>
+                    </li>
+                {% else %}
+                <li><a class="dropdown-item lightest-color ps-2" href="{% url 'all-books' %}">{% trans 'All Books' %}</a></li>
+              {% endif %}
+            </ul>
+        </li>
+        <!-- Library -->
+          <li class="subnav">
+            {% for library in libraries %}
+            <a href="{% url 'group-books' library.slug %}" class="nav-link lightest-color" >
+            
+              <i class="fa-solid fa-lines-leaning"></i><span class="ms-1 d-none d-sm-inline">{{library.kname}}</span>
+              {% endfor %}
+            </a>
+          </li>
+
+        <!-- Wishlist-->
+          <li class="subnav">
+            
+            {% for wishlist in wishlists %}
+            <a href="{% url 'group-books' wishlist.slug %}" class="nav-link lightest-color" >
+              <i class="fa-solid fa-bookmark"></i><span class="ms-1 d-none d-sm-inline">{{wishlist.kname}}</span>
+            {% endfor %}
+            </a>
+          </li>
+        
+         
+          
+          
+         
+      </ul>
+      
+      </div>
+      <div class="order-4 display-sm-none">
+      
+      </div> 
+  </div>
+</div>
+        
+        
+    

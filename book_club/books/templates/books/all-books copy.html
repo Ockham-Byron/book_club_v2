@@ -1,0 +1,223 @@
+{% extends 'dashboard/base.html' %}
+{% load static i18n avatar %}
+{% block title %}{% trans 'Books' %}{% endblock %}
+{% block content %}
+
+{% if group %}
+{% if group.group_pic %}
+<section class="hero-wrap d-flex flex-column justify-content-end mb-5"
+style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url({{group.group_pic.url}}); background-size: cover; background-position: center;" 
+    >
+{% else %}
+<section class="hero-wrap d-flex flex-column justify-content-end mb-5"
+    style="background:linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url('{% static 'assets/img/illustrations/group_default.jpeg' %}') ; background-blend-mode: multiply; background-size:cover; background-position:center;">
+{% endif %}
+    <div class="overlay"></div>
+    <div class="container">
+        <h1 class="mb-2">{{group.kname}}</h1>
+        {% if group.description %}
+            <p class="mb-4">{{group.description}}</p>
+        {% endif %}
+        {% if group.leader == request.user %}
+            <a href="{% url 'update-group' group.slug %}"><i class="fa fa-cog fa-5x"></i></a>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+<h1 class="text-center">
+{% if group %}
+    {% trans 'Books of' %} {{group.kname}}
+{% else %}
+    {% trans 'All Books' %}
+{% endif %}
+ </h1>
+
+
+<!-- Filter form -->
+<form class="px-4 d-flex justify-content-start justify-content-sm-center align-items-center flex-wrap" method="POST">
+{% csrf_token%}
+    <!-- Filter by reading status -->
+    <div class="mt-2 ms-1">
+        <select id="reading-status" name="reading-status" >
+            <option value={{reading_status}} selected>{{reading_status_description}}</option>
+            {% if reading_status != "is_read" %}
+            <option value="is_read">{% trans "Read" %}</option>
+            {% endif %}
+            {% if reading_status != "is_reading" %}
+            <option value="is_reading">{% trans "Reading it" %}</option>
+            {% endif %}
+            {% if reading_status != "in_wish" %}
+            <option value="in_wish">{% trans "Want to read" %}</option>
+            {% endif %}
+            {% if reading_status != "no_read" %}
+            <option value="no_read">{% trans "Not read yet" %}</option>
+            {% endif %}
+            {% if reading_status != "wont_read" %}
+            <option value="wont_read">{% trans "No intention to read it" %}</option>
+            {% endif %}
+            {% if reading_status != "give_up" %}
+            <option value="give_up">{% trans "Given up" %}</option>
+            {% endif %}
+            {% if reading_status != "all_status" %}
+            <option value="all_status">{% trans "All Reading Status" %}</option>
+            {% endif %}
+        </select>
+    </div>
+
+    <!-- Filter by borrowing status -->
+    <div class="mt-2 ms-1">
+        <select id="borrow-status" name="borrow-status">
+            <option value={{borrow_status}} selected>{{borrow_status_description}}</option>
+            {% if borrow_status != "is_borrowed_by_user" %}
+            <option value="is_borrowed_by_user">{% trans "Actually borrowed by me" %}</option>
+            {% endif %}
+            {% if borrow_status != "reserved_by_me" %}
+            <option value="reserved_by_me">{% trans "Reserved by me" %}</option>
+            {% endif %}
+            {% if borrow_status != "borrowable" %}
+            <option value="borrowable">{% trans "Borrowable" %}</option>
+            {% endif %}
+            {% if borrow_status != "is_on_loan" %}
+            <option value="is_on_loan">{% trans "Actually loaned by me" %}</option>
+            {% endif %}
+            {% if borrow_status != "with_reservations" %}
+            <option value="with_reservations">{% trans "Reservations asked to me" %}</option>
+            {% endif %}
+            {% if borrow_status != "all_borrow_status" %}
+            <option value="all_borrow_status">{% trans 'All Borrow Status' %}</option>
+            {% endif %}
+        </select>
+
+        <button class="btn btn-brand-color ms-1" type="submit" name="filter">{% trans 'Filter' %}</button>
+
+    </div>
+
+    <button class="btn btn-dark-color ms-1 mt-2" type="submit" name="reset">{% trans 'Reset' %}</button>
+
+</form>
+
+
+
+{% if unique_kbooks %}
+    
+<div class="d-flex flex-column align-items-center mt-3">
+    {% for book in unique_kbooks %}
+        <a href="{% url 'book-detail' book.slug %}" class="book-card-link">
+            <div class="book-small-horizontal-card d-flex shadow align-items-center justify-content-between mx-auto">
+                <div class="d-flex">
+                    <div class="d-flex flex-column justify-content-center"> 
+                    {% if book.picture %}
+                        <img class="mx-auto" src="{{book.picture.url}}" alt="{{book.title}}" />
+                    {% elif book.cover %}
+                        <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+                    {% else %}
+                        <img class="mx-auto" src={% static 'assets/img/illustrations/book-default.png'%} alt="{{book.title}}" />
+                    {% endif %}
+                    </div>
+                    <div class="ms-2">
+                        <p class="title">{{ book.title }}</p>
+                        <p class="author">{{ book.author }}</p> 
+                        <!-- Owner and borrow status -->
+                        {% if book.owner %}
+                            <div class="d-flex align-items-center">
+                            {% if book.owner == request.user %}
+                                <div class="group-icon-xsmall bg-brand-color d-flex justify-content-center align-items-center">
+                                    <i class="fa fa-lines-leaning lightest-color m-0"></i>
+                                </div>
+                            {% else %}
+                                <div class="icon-wrap">
+                                    {% if book.owner.profile_pic %}
+                                        <div class="icon-xsmall d-flex align-items-center justify-content-center" style="background:url('{{book.owner.profile_pic.url}}') rgba(255, 255, 255, 0.8) ; background-blend-mode: multiply;background-size:cover;"></div>
+                                    {% else %}
+                                        <div class="icon-xsmall">{{ book.owner|avatar }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {% for borrow in book.borrowing.all %}
+                                {% if borrow.status == "on_going" and borrow.borrower == request.user%}
+                                    <p class="darkest-color ps-2"><i class="fa-solid fa-people-arrows me-1"></i>{{book.owner}}</p>
+                                {% elif borrow.status == "on_going" and book.owner == request.user %}
+                                    <p class="darkest-color ps-2"><i class="fa-solid fa-arrow-right-from-bracket me-1"></i>
+                                    {% if borrow.borrower %}
+                                        {{borrow.borrower}}
+                                    {% else %}
+                                        {{borrow.custom_borrower}}
+                                    {% endif %}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if book.is_disponible %}
+                                <i class="fa-solid fa-arrows-spin ps-2 darkest-color"></i>
+                                    
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% if book.kbook_tags %}
+                            <div class="mt-1 d-flex justify-content-start">
+                            {% for tag in book.kbook_tags.all %}
+                                <p class="reading-status small" style="background-color:{{tag.color}}; color:white;">{{tag.name}}</p>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+                <div class="d-flex align-items-center">
+                <!-- Groups -->
+                <div class="d-flex flex-column me-1">
+                    {% for group in book.book.groups.all %}
+                        {% if group.group_type == "one_book" or group.group_type == "several_books" %}
+                         {% if request.user in group.members.all %}
+                                {% if group.group_pic%}
+                                    <img class="group-img-small" src="{{group.group_pic.url}}" />
+                                {% else %}
+                                    <img class="group-img-small" src="{% static 'assets/img/illustrations/group_default.jpeg' %}" />
+                                {% endif %}
+                            
+                         {% endif %}
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+                <!-- Reading status -->
+                <a href="{% url "edit-reading-status" book.book.slug book.id %}" class="reading-status mx-auto
+                    {% if request.user in book.book.readers.all %}
+                        darkest-color bg-joy-color"><i class="fa-solid fa-check me-0"></i>
+                    {% elif request.user in book.book.readings.all %}
+                        light-color bg-brand-color"><i class="fa-solid fa-book-open-reader me-0"></i>
+                    {% elif request.user in book.book.in_wishlist.all %}
+                        darkest-color bg-dark-color"><i class="fa-solid fa-bookmark me-0"></i>
+                    {% elif request.user in book.book.no_read.all %}
+                        light-color bg-darkest-color"><i class="fa-solid fa-clock me-0"></i>
+                    {% elif request.user in book.book.wont_read.all %}
+                        darkest-color bg-mid-color"><i class="fa-solid fa-xmark me-0"></i>
+                    {% elif request.user in book.book.give_up.all %}
+                        darkest-color bg-light-color"><i class="fa-regular fa-circle-stop me-0"></i>
+                    {% else %}
+                        darkest-color bg-light-color"><i class="fa-solid fa-plus me-0"></i>
+        {% endif %}
+
+      </a>
+                
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+ </div>   
+
+
+{% else %}
+    <img class="form-img" src={% static 'assets/img/illustrations/book-search.svg' %}  />
+{% endif %}
+
+<!-- Floating button -->
+<a href="{% url 'new-book-search' %}">
+<div class="kfloat" data-bs-toggle="tooltip" title="{% trans 'Add Book' %}">
+<div class="my-float">+</div>
+</div>
+</a>
+
+{% endblock %}

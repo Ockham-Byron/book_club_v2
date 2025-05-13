@@ -1,0 +1,198 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Profile Update' %}{% endblock title %}
+{% block content %}
+
+
+<!-- New Form -->
+<div class="d-flex align-items-center justify-content-center">
+  <form class="kform" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if user_form.errors %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+          <div id="form_errors">
+              {% for key, value in circle_form.errors.items %}
+              <strong>{{ value }}</strong>
+              {% endfor %}
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+    {% endif %}
+
+    <p class="title">
+      {% if user.is_guest == True  %}
+        {% trans 'Create Account' %}
+      {% else %}
+        {% trans 'Update Profile' %}
+      {% endif %}
+      </p>
+    
+    <input
+      type="file"
+      id="fileElem"
+      multiple
+      accept="image/*"
+      name="profile_pic"
+      style="display:none" 
+      />
+      <div class="avatar-wrapper text-center mx-auto">
+      {% if user.profile_pic %}
+        <a href="#" id="fileSelect">
+          <img id="change-image" class="avatar-upload" src="{{ user.profile_pic.url }} " style="cursor: pointer;"/>
+          <div class="avatar-overlay"><i class="fa fa-camera-retro icon"></i></div>
+        </a>
+      {% else %}
+        <a href="#" id="fileSelect" class="avatar-upload">
+          {{ user|avatar }}
+          <img id="add-image" class="avatar-upload d-none" src="{% static 'assets/img/illustrations/in_thought.svg' %}" style="cursor: pointer;"/>
+          <div class="avatar-overlay"><i class="fa fa-camera-retro icon"></i></div>
+        </a>
+      
+      {% endif %}
+      </div>
+      <div id="fileList" class="mt-3 color-light">
+        <p></p>
+      </div>
+
+      <div >
+        {% if user.profile_pic%}
+          <a type="button" class="mid-color" data-bs-toggle="modal" data-bs-target="#deletePicModal">{% trans 'Delete your profile picture ?' %}</a>
+        {% else %}
+          {% if user.is_guest == False %}
+          <a href="{% url 'change-avatar' user.slug %}" class="mid-color">{% trans 'Change your avatar color ?' %}</a>
+          {% endif %}
+        {% endif %}
+      </div>
+
+
+        <div class="d-flex mid-inputs justify-content-between">
+          {{form.first_name}}
+          {{form.last_name}}  
+        </div>  
+        {{form.pseudo}}
+        <p>{% trans 'Email' %} :</p>
+        <p class="mid-color"><i class="fa-solid fa-triangle-exclamation"></i> {% trans "Keep your email updated because it's your connection id" %}</p>
+        {{form.email}}
+        {{form.bio}}
+
+      {% if user.is_guest == False %}
+      <a class="mid-color" href={% url "password-reset"  %} >{% trans 'Change password' %}</a>
+      {% endif %}
+      
+      <button class="submit" type="submit ">{% trans 'Submit' %}</button>
+      <div class="text-center">
+        <a href="{% url 'profile' user.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+        {% if user.is_guest == False %}
+        <hr class="dashed">
+        <a href="{% url 'profile' user.slug %}" type="button" class="joy-color" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"><i class="fa-solid fa-trash pe-2"></i>{% trans 'Delete Account' %}</a>
+        {% endif %}
+      </div>
+  </form>
+</div>
+
+<!-- Modals -->
+<!-- Button trigger modal -->
+
+
+<!-- Modals -->
+<!-- Modal delete pic -->
+<div class="modal fade" id="deletePicModal" tabindex="-1" aria-labelledby="deletePicModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="text-center">
+        <img src="{% static 'assets/img/icons/error-100.png' %}" alt="error icon" />
+        <br/>
+        <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete Profile Pic ?' %}</h5>
+      </div>
+      <div class="text-center">
+        <p class="darkest-color p-4">{% trans "We think you look good on this pic, but your face, your choice !" %}</p>
+      </div>
+      <div class="d-flex justify-content-evenly pb-2">
+        <a href="{% url 'profile-pic-delete' request.user.slug %}"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
+        <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+ <!-- Modal delete Account-->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="text-center">
+        <img src="{% static 'assets/img/icons/llorando-100.png' %}" alt="error icon" />
+        <br/>
+        <h5 class="modal-title mid-color" id="exampleModalLabel">{% trans 'Delete your Account ?' %}</h5>
+      </div>
+      <div class="text-center">
+        <p class="darkest-color p-4">{% trans "We'll miss you, but no emotional blackmail here !" %}</p>
+      </div>
+      <div class="d-flex justify-content-evenly pb-2">
+        <a href="#"  class="btn btn-mid-color btn-modal" >{% trans "Yes, no regret" %}</a>
+        <a type="button" class="btn btn-outlined btn-modal outline-mid-color" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extrajs %}
+<script>
+const fileSelect = document.getElementById("fileSelect"),
+  fileElem = document.getElementById("fileElem"),
+  fileList = document.getElementById("fileList");
+
+fileSelect.addEventListener(
+  "click",
+  (e) => {
+    if (fileElem) {
+      fileElem.click();
+    }
+    e.preventDefault(); // prevent navigation to "#"
+  },
+  false
+);
+
+fileElem.addEventListener("change", handleFiles, false);
+
+function handleFiles() {
+  if (!this.files.length) {
+    fileList.innerHTML = "<p>No files selected!'</p>";
+  } else {
+    fileList.innerHTML = "";
+    const list = document.createElement("ul");
+    fileList.appendChild(list);
+    for (let i = 0; i < this.files.length; i++) {
+      const li = document.createElement("li");
+      list.appendChild(li);
+
+      //if updating a previous profile pic
+      const img = document.getElementById("change-image");
+      if (img) {
+      img.src = URL.createObjectURL(this.files[i]);
+      img.height = 100;
+      img.width = 100;
+      img.className = "mx-auto avatar-upload rounded-circle";
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+      };
+      }
+      
+      //if add profile pic
+      const newImg = document.getElementById("add-image");
+      const avatar = document.getElementsByClassName("avatar")[1];
+      if (newImg) {
+      newImg.src = URL.createObjectURL(this.files[i]);
+      newImg.height = 100;
+      newImg.width = 100;
+      newImg.className = "mx-auto avatar-upload rounded-circle";
+      newImg.classList.remove("d-none");
+      avatar.classList.add("d-none");
+      
+      }
+    }
+  }
+}
+</script>
+{% endblock extrajs%}

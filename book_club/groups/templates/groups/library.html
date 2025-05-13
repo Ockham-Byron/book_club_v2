@@ -1,0 +1,223 @@
+{% extends "dashboard/base.html" %}
+{% load static i18n avatar %}
+{% block title %}{{object.kname}}{% endblock %}
+
+{% block content %}
+{% if object.group_pic %}
+<section class="hero-wrap d-flex flex-column justify-content-end"
+style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url({{object.group_pic.url}}); background-size: cover; background-position: center;" 
+    >
+{% else %}
+<section class="hero-wrap d-flex flex-column justify-content-end"
+    style="background:linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url('{% static 'assets/img/illustrations/group_default.jpeg' %}') ; background-blend-mode: multiply; background-size:cover; background-position:center;">
+{% endif %}
+    <div class="overlay"></div>
+    <div class="container">
+        <h1 class="mb-2">{{object.kname}}</h1>
+        {% if object.description %}
+            <p class="mb-4">{{object.description}}</p>
+        {% endif %}
+        {% if object.leader == request.user %}
+            <a href="{% url 'update-group' object.uuid object.slug %}"><i class="fa fa-cog fa-5x"></i></a>
+        {% endif %}
+    </div>
+</section>
+
+
+
+<!-- Books container start -->
+
+<div class="container mt-5">
+
+ <h1 class="text-center mb-5 darkest-color">{{nb_of_books}} {% trans "Books" %}</h1>
+
+{% if nb_of_books == 0 %}
+   
+<div class="d-flex p-2 justify-content-center">
+    <a class="btn" href="{% url 'new-book-search' %}"
+        <div class="sketch-box">
+            <div class="card-cta border-0 sketch-box">
+                <img class="card-icon mx-auto" src="{% static 'assets/img/icons/add-100.png' %}" alt="Card image cap" width="100px" >
+                <div class="card-body">
+                {% trans 'ADD FIRST BOOK' %}
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+{% else %}
+<form class="px-4 d-flex justify-content-start justify-content-sm-center align-items-center flex-wrap" method="POST">
+{% csrf_token%}
+
+<div class="mt-2 ms-1">
+
+<select id="reading-status" name="reading-status" >
+  <option value={{reading_status}} selected>{{reading_status_description}}</option>
+  {% if reading_status != "is_read" %}
+  <option value="is_read">{% trans "Read" %}</option>
+  {% endif %}
+  {% if reading_status != "is_reading" %}
+  <option value="is_reading">{% trans "Reading it" %}</option>
+  {% endif %}
+  {% if reading_status != "in_wish" %}
+  <option value="in_wish">{% trans "Want to read" %}</option>
+  {% endif %}
+  {% if reading_status != "no_read" %}
+  <option value="no_read">{% trans "Not read yet" %}</option>
+  {% endif %}
+  {% if reading_status != "wont_read" %}
+  <option value="wont_read">{% trans "No intention to read it" %}</option>
+  {% endif %}
+  {% if reading_status != "give_up" %}
+  <option value="give_up">{% trans "Given up" %}</option>
+  {% endif %}
+  {% if reading_status != "all_status" %}
+  <option value="all_status">{% trans "All Reading Status" %}</option>
+  {% endif %}
+</select>
+
+
+
+</div>
+
+<div class="mt-2 ms-1">
+<select id="borrow-status" name="borrow-status">
+  <option value={{borrow_status}} selected>{{borrow_status_description}}</option>
+  {% if borrow_status != "is_borrowed_by_user" %}
+  <option value="is_borrowed_by_user">{% trans "Actually Borrowed" %}</option>
+  {% endif %}
+  {% if borrow_status != "reserved_by_me" %}
+  <option value="reserved_by_me">{% trans "Reserved by me" %}</option>
+  {% endif %}
+  {% if borrow_status != "borrowable" %}
+  <option value="borrowable">{% trans "Borrowable" %}</option>
+  {% endif %}
+  {% if borrow_status != "is_on_loan" %}
+  <option value="is_on_loan">{% trans "On Loan" %}</option>
+  {% endif %}
+  {% if borrow_status != "with_reservations" %}
+  <option value="with_reservations">{% trans "Reservations asked to me" %}</option>
+  {% endif %}
+  {% if borrow_status != "all_borrow_status" %}
+  <option value="all_borrow_status">{% trans 'All Borrow Status' %}</option>
+  {% endif %}
+</select>
+ 
+ <button class="btn btn-brand-color ms-1" type="submit" name="filter">{% trans 'Filter' %}</button>
+
+</div>
+
+ <button class="btn btn-dark-color ms-1 mt-2" type="submit" name="reset">{% trans 'Reset' %}</button>
+
+ 
+
+</form>
+<div class="d-flex flex-column align-items-center mt-3">
+        {% for book in books %}
+            <a href="{% url 'book-detail' book.slug %}" class="book-card-link">
+            <div class="book-small-horizontal-card d-flex shadow align-items-center mx-auto">
+                <div>
+                    {% if book.picture %}
+      <img class="mx-auto" src="{{book.picture.url}}" alt="{{book.title}}" />
+      {% elif book.cover %}
+      <img class="mx-auto" src="{{book.cover}}" alt="{{book.title}}" />
+      {% else %}
+      <img class="mx-auto" src={% static 'assets/img/illustrations/book-default.png'%} alt="{{book.title}}" />
+      {% endif %}
+                </div>
+                <div class="ms-2">
+                    <p class="title">{{ book.title }}</p>
+                    <p class="author">{{ book.author }}</p>
+                    
+                </div>
+            </div>
+            </a>
+        {% endfor %}
+ </div>   
+
+<!-- Books container End -->
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Floating button -->
+<a href="{% url 'new-book-search' %}">
+<div class="kfloat" data-bs-toggle="tooltip" title="{% trans 'Add Book' %}">
+<div class="my-float">+</div>
+</div>
+</a>
+
+
+
+{% endblock %}
+{% block extrajs %}
+<script>
+  const copyBtn = document.getElementById('copy-btn')
+  const url = document.location.href
+  
+  console.log(copyBtn)
+  copyBtn.addEventListener('click', () => {
+    
+    const code= copyBtn.getAttribute('data')
+    
+    invitation = "I suggest you to join the group I have created on \n"
+    line = "\n ********************* \n" 
+    code_invit = "\n The code to join the group is:\n " + code
+    navigator.clipboard.writeText(invitation + url + line + code_invit)
+    
+   
+   
+    copyBtn.textContent = "Copied !"
+  })
+</script>
+
+
+<script>
+$(function() {
+
+        var $myGroup = $('#filterGroup');
+        $myGroup.on('show.bs.collapse','.collapse', function() {
+        $myGroup.find('.show').collapse('hide');
+        });
+        $('.material-card > .mc-btn-action').click(function () {
+            var card = $(this).parent('.material-card');
+            var icon = $(this).children('i');
+            icon.addClass('fa-spin-fast');
+
+            if (card.hasClass('mc-active')) {
+                card.removeClass('mc-active');
+
+                window.setTimeout(function() {
+                    icon
+                        .removeClass('fa-arrow-left')
+                        .removeClass('fa-spin-fast')
+                        .addClass('fa-bars');
+
+                }, 800);
+            } else {
+                card.addClass('mc-active');
+
+                window.setTimeout(function() {
+                    icon
+                        .removeClass('fa-bars')
+                        .removeClass('fa-spin-fast')
+                        .addClass('fa-arrow-left');
+
+                }, 800);
+            }
+        });
+    });
+</script>
+
+
+
+{% endblock extrajs %}

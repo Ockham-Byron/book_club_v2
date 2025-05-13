@@ -1,0 +1,73 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Reading Status' %}{% endblock title %}
+{% block content %}
+
+
+<!-- New Form -->
+<div class="d-flex align-items-center justify-content-center">
+  <form class="kform" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.errors %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+          <div id="form_errors">
+              {% for key, value in form.errors.items %}
+              <strong>{{ value }}</strong>
+              {% endfor %}
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+    {% endif %}
+    
+    <p class="title">
+   
+
+      {% trans 'Update Reading Status of' %} 
+    
+    {{book}}</p>
+    <div>
+    <p>{% trans 'Actual Reading Status' %}
+    <span class="mt-4 reading-status 
+        {% if is_read %}
+          darkest-color bg-joy-color">{% trans "Read" %}
+        {% elif is_reading %}
+          light-color bg-brand-color">{% trans "Reading Now" %}
+        {% elif in_wish %}
+          darkest-color bg-dark-color">{% trans "Want to read" %}
+        {% elif no_read %}
+          light-color bg-darkest-color">{% trans "Not read" %}
+        {% elif wont_read %}
+          darkest-color bg-mid-color">{% trans "Dont'want to read" %}
+        {% elif give_up %}
+          darkest-color bg-light-color">{% trans "Given up" %}
+        {% else %}
+          darkest-color bg-light-color">{% trans "Add Reading Status" %}
+        {% endif %}
+
+      </span> </p>
+      </div>
+    
+       <label for="reading-status">{% trans 'Update' %}</label>
+<select id="reading-status" name="reading-status">
+  <option value="is_read">{% trans "Read" %}</option>
+  <option value="is_reading">{% trans "Reading it" %}</option>
+  <option value="in_wish">{% trans "Want to read" %}</option>
+  <option value="no_read">{% trans "Not read yet" %}</option>
+  <option value="wont_read">{% trans "No intention to read it" %}</option>
+  <option value="give_up">{% trans "Given up" %}</option>
+</select>
+      
+      <button class="submit" type="submit ">{% trans 'Submit' %}</button>
+      <div class="text-center d-flex flex-column">
+        <a href="{% url 'book-detail' kbook.slug %}" class="mid-color">{% trans 'Cancel' %}</a>
+      </div>
+  </form>
+</div>
+
+
+
+
+
+{% endblock content %}
