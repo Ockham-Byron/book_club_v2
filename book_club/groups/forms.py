@@ -28,7 +28,7 @@ class UpdateGroupForm(forms.ModelForm):
                                 widget=forms.TextInput(attrs={'placeholder': _("Club's Name"),
                                                             
                                     }))
-    group_pic = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    group_pic = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}), required=False)
 
     leader = forms.ModelChoiceField(queryset=User.objects.none())
     

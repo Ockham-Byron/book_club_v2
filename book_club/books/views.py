@@ -756,11 +756,6 @@ def edit_book(request, slug):
                 picture = request.FILES.get('picture')
                 book.picture = picture
                 book.save()
-                
-                    
-
-               
-                
                 return redirect('book-detail', book.slug)
             
         else:
