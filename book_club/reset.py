@@ -6,13 +6,13 @@ and run it by type "python reset.py"
 import os
 import shutil
 import glob
-# Stopping paramter
+# Stopping parameter
 check = True
 delete_media = False
-# loop for input corection
+# loop for input correction
 while check:
     # check whether user want to continue or not
-    print('This will delete all migraions include your database.')
+    print('This will delete all migrations include your database.')
     con = input('Do you want to continue [y/n]:')
     # alaysis the answer
     if con == 'n':

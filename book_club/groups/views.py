@@ -199,7 +199,6 @@ class GroupUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomGroup
     
     slug_url_kwarg = 'slug'
-    # pk_url_kwarg = 'uuid'
     template_name = 'groups/update_group.html'
 
     def get_form_kwargs(self):

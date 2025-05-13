@@ -28,9 +28,9 @@ class UpdateGroupForm(forms.ModelForm):
                                 widget=forms.TextInput(attrs={'placeholder': _("Club's Name"),
                                                             
                                     }))
-    group_pic = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    group_pic = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}), required=False)
 
-    leader = forms.ModelChoiceField(queryset=User.objects.none())
+    leader = forms.ModelChoiceField(queryset=User.objects.none(), required=False)
     
     class Meta:
         model = CustomGroup
@@ -38,6 +38,6 @@ class UpdateGroupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         group = kwargs.pop('group')
-       
+        
         super(UpdateGroupForm, self).__init__(*args, **kwargs)
         self.fields['leader'].queryset=User.objects.filter(group_members__uuid = group.uuid)

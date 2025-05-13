@@ -787,7 +787,7 @@ msgstr ""
 #: dashboard/templates/dashboard/includes/sidebar.html:119
 #: users/templates/users/includes/header.html:33
 msgid "Sign out"
-msgstr ""
+msgstr "Salir"
 
 #: ⁨dashboard/templates/dashboard/includes/sidebar copy.html⁩:38
 #: dashboard/templates/dashboard/includes/sidebar.html:11
@@ -901,7 +901,7 @@ msgstr ""
 
 #: groups/templates/groups/group_detail.html:183
 msgid "See all books"
-msgstr ""
+msgstr "Ver todos los libros"
 
 #: groups/templates/groups/group_detail.html:193
 msgid "Members"
@@ -1345,7 +1345,7 @@ msgstr ""
 msgid ""
 "The ultimate app for managing book clubs, book exchange groups, your "
 "personal library, and wishlist all in one place."
-msgstr ""
+msgstr "La aplicación definitiva para gestionar clubes de lectura, grupos de intercambio de libros, tu biblioteca personal y tu lista de deseos en un solo lugar."
 
 #: users/templates/users/home.html:10
 msgid ""
@@ -1353,58 +1353,58 @@ msgid ""
 "with Books Party. Whether you're an avid reader, a book club enthusiast, or "
 "simply looking to expand your literary horizons, our app is your one-stop "
 "destination for all things books."
-msgstr ""
+msgstr "Únete a la revolución literaria y convierte cada experiencia de lectura en una celebración con Books Party. Tanto si eres un ávido lector, un entusiasta de los clubes de lectura o simplemente quieres ampliar tus horizontes literarios, nuestra aplicación es tu único destino para todo lo relacionado con los libros."
 
 #: users/templates/users/home.html:14 users/templates/users/home.html:16
 msgid "Enter"
-msgstr ""
+msgstr "Empezar"
 
 #: users/templates/users/home.html:17
 msgid "Join for first time"
-msgstr ""
+msgstr "unirse por primera vez"
 
 #: users/templates/users/home.html:32
 msgid "Organize Reading Groups"
-msgstr ""
+msgstr "Organizar grupos de lectura"
 
 #: users/templates/users/home.html:34
 msgid ""
 "Easily manage your book clubs and reading circles. Schedule meetings, "
 "discuss books, and engage with fellow members in vibrant literary "
 "discussions."
-msgstr ""
+msgstr "Gestiona fácilmente tus clubes de lectura y círculos de lectores. Programa reuniones, comenta libros y participa con tus compañeros en vibrantes debates literarios."
 
 #: users/templates/users/home.html:39
 msgid "Book Exchange Made Easy"
-msgstr ""
+msgstr "Intercambio de libros más fácil"
 
 #: users/templates/users/home.html:42
 msgid ""
 "Connect with other book lovers in your community and exchange books "
 "seamlessly. Discover new reads while sharing your favorites with like-minded "
 "individuals."
-msgstr ""
+msgstr "Conéctate con otros amantes de la lectura de tu comunidad e intercambia libros sin problemas. Descubre nuevas lecturas mientras compartes tus favoritas con personas afines."
 
 #: users/templates/users/home.html:48
 msgid "Personal Library"
-msgstr ""
+msgstr "Biblioteca personal"
 
 #: users/templates/users/home.html:51
 msgid ""
 "Keep track of your entire book collection right at your fingertips. From "
 "classics to contemporary bestsellers, your virtual library is just a tap "
 "away."
-msgstr ""
+msgstr "Tenga toda su colección de libros al alcance de la mano. Desde clásicos a bestsellers contemporáneos, tu biblioteca virtual está al alcance de un toque."
 
 #: users/templates/users/home.html:57
 msgid "Wishlist Management"
-msgstr ""
+msgstr "Gestión de listas de deseos"
 
 #: users/templates/users/home.html:60
 msgid ""
 "Never forget a book you want to read again. Create and manage your wishlist, "
 "making it easier to keep track of books you're eager to explore next."
-msgstr ""
+msgstr "No vuelvas a olvidar un libro que quieres leer. Crea y gestiona tu lista de deseos, para que te resulte más fácil hacer un seguimiento de los libros que estás deseando explorar a continuación."
 
 #: users/templates/users/includes/footer.html:11
 msgid "Legal Information"
