@@ -2,6 +2,8 @@ import json
 import environ
 import ssl
 import os
+from urllib.request import urlopen
+from urllib.parse import quote_plus
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -31,31 +33,38 @@ MESSAGE_BOOK_REGISTERED = _(
 )
 
 # Functions
-def book_search(search):
-    api = "https://www.googleapis.com/books/v1/volumes?q=search:"
-  
-    search = search
-    
+def book_search(search, api_key):
     if (search == False) or (search == ""):
             return redirect('book-search')
 
-    search = search.replace(' ', '+')
-    print(search)
-    for c in search:
-        if c == 'é' or c == 'è' or c == 'ë' or c == 'ê':
-            search = search.replace(c,'e')
-        if c == 'ç':
-            search = search.replace(c,'c')
-        if c == 'à' or c == 'á' or c == 'ä' or c == 'â':
-            search = search.replace(c,'a')
-        if c == 'ò' or c == 'ó' or c == 'ô':
-            search = search.replace(c,'o')
     
-    print(search)
     
-    r = urlopen(api + search, context=ctx)
+    base_api_url = "https://www.googleapis.com/books/v1/volumes?q="
+    query_params = ""
+    #api = f"https://www.googleapis.com/books/v1/volumes?q={quote_plus(search)}&key={api_key}"
+    #api = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{search}&key={api_key}"
+  
+    # Vérifier si le terme de recherche ressemble à un ISBN (10 ou 13 chiffres)
+    if search.isdigit() and (len(search) == 10 or len(search) == 13):
+        query_params = f"isbn:{quote_plus(search)}"
+        print(f"Recherche par ISBN: {search}")
+    else:
+        query_params = f"{quote_plus(search)}"  # Recherche par titre
+        print(f"Recherche par Texte: {search}")
+
+    api_url = f"{base_api_url}{query_params}&key={api_key}"
+    print(f"URL de la requête: {api_url}")
     
-    data = json.load(r)
+    
+    
+    try:
+        full_url = api_url.format(search=search)
+        print(f"URL de la requête: {full_url}") 
+        r = urlopen(api_url, context=ctx)
+        data = json.load(r)
+    except Exception as e:
+        print(f"Error fetching data from Google Books API: {e}")
+        return []
     
    
     books=[]
@@ -336,6 +345,8 @@ def define_owner(request, id):
 
 @login_required
 def new_book_search(request):
+    
+    
     if request.method == 'GET':
         form = BookSearch()
         return render(request, 'books/search.html', {'form': form})
@@ -345,7 +356,8 @@ def new_book_search(request):
             search = request.POST.get('search', False)
             
             try:
-                books=book_search(search)
+                books=book_search(search, key)
+                
                 if len(books) == 0:
                     messages.error(request, _('There was an error in the interpretation of result : please add the book yourself.'))
                     return redirect('add-book-custom')
@@ -369,7 +381,7 @@ def search_book_for_meeting(request, id):
         form = BookSearch(request.POST)
         if form.is_valid():
             search = request.POST.get('search', False)
-            books = book_search(search)
+            books = book_search(search, key)
             return render(request, 'books/search.html', {'form': form, 'books': books, 'meeting':meeting})
         
 @login_required
@@ -756,6 +768,11 @@ def edit_book(request, slug):
                 picture = request.FILES.get('picture')
                 book.picture = picture
                 book.save()
+                
+                    
+
+               
+                
                 return redirect('book-detail', book.slug)
             
         else:
