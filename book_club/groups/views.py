@@ -197,44 +197,14 @@ class WishlistView(LoginRequiredMixin, DetailView):
 class GroupUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UpdateGroupForm
     model = CustomGroup
-
     
     slug_url_kwarg = 'slug'
-    # pk_url_kwarg = 'uuid'
     template_name = 'groups/update_group.html'
 
-
-
     def get_form_kwargs(self):
-
         kwargs = super(GroupUpdateView, self).get_form_kwargs()
         kwargs['group'] = CustomGroup.objects.get(slug=self.object.slug)
-        print("Form kwargs")
-        print(kwargs)
         return kwargs
-
-    def form_valid(self, form):
-        # Cette méthode est appelée lorsque le formulaire est valide.
-        # 'form' est l'instance du formulaire validé.
-        print("Formulaire valide !")
-        # Tu peux accéder aux données du formulaire via form.cleaned_data
-        kname = form.cleaned_data['kname']
-        group_pic = form.cleaned_data['group_pic']
-        leader = form.cleaned_data['leader']
-
-        # Ici, tu peux ajouter ta logique personnalisée avant de sauvegarder l'objet.
-        # Par exemple, tu pourrais vouloir enregistrer des informations supplémentaires,
-        # envoyer des notifications, etc.
-
-        # La ligne suivante sauvegarde l'objet en base de données.
-        # 'self.object' est l'instance du CustomGroup que la vue est en train de modifier.
-        self.object = form.save()
-
-        # Envoie un message de succès à l'utilisateur (facultatif)
-        messages.success(self.request, f"Le groupe '{self.object.kname}' a été mis à jour avec succès.")
-
-        # Redirige l'utilisateur vers l'URL de succès (définie par get_success_url)
-        return super().form_valid(form)
     
     def get_success_url(self):
         return reverse('group-detail', kwargs={'slug':self.object.slug})
