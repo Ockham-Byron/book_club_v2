@@ -42,7 +42,7 @@ while check:
             try:
                 shutil.rmtree(f'{dir}/migrations/__pycache__')
                 print(f'Folder __pycache__ in \
-                        {dir} /migations has been removed!')
+                        {dir} /migrations has been removed!')
             except Exception:
                 pass
             # delete all migrations files except __init__.py

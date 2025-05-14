@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-30 15:51+0200\n"
+"POT-Creation-Date: 2025-05-13 14:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,7 +66,7 @@ msgstr ""
 #: books/templates/books/add-edit-book.html:150
 #: books/templates/books/add-edit-tags.html:45
 #: books/templates/books/book-search-detail.html:57
-#: books/templates/books/borrow/borrow-within-group.html:103
+#: books/templates/books/borrow/borrow-within-group.html:105
 #: books/templates/books/borrow/reserve-within-group.html:26
 #: books/templates/books/borrow/reserve-within-group.html:46
 #: books/templates/books/define-owner.html:49
@@ -78,7 +78,7 @@ msgstr ""
 #: books/templates/books/pass-book-to-sharing-club.html:43
 #: groups/templates/groups/add_group.html:67
 #: groups/templates/groups/group_detail.html:289
-#: groups/templates/groups/update_group.html:57
+#: groups/templates/groups/update_group.html:61
 #: users/templates/users/authentication/change_email.html:43
 #: users/templates/users/authentication/password_reset.html:47
 #: users/templates/users/authentication/password_reset_confirm.html:60
@@ -191,7 +191,7 @@ msgstr ""
 #: books/templates/books/book-search-detail.html:10
 #: books/templates/books/book-search-detail.html:12
 #: books/templates/books/define-owner.html:41
-#: groups/templates/groups/update_group.html:53
+#: groups/templates/groups/update_group.html:57
 msgid "Save"
 msgstr ""
 
@@ -247,15 +247,15 @@ msgstr ""
 #: books/templates/books/book-detail.html:35
 #: books/templates/books/book-detail.html:95
 #: books/templates/books/edit-reading-status.html:34
-#: books/templates/books/edit-reading-status.html:54 books/views.py:862
-#: books/views.py:1003 groups/templates/groups/library.html:57
+#: books/templates/books/edit-reading-status.html:54 books/views.py:874
+#: books/views.py:1015 groups/templates/groups/library.html:57
 msgid "Read"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:48
 #: books/templates/books/all-books.html:62
-#: books/templates/books/edit-reading-status.html:55 books/views.py:866
-#: books/views.py:1007 groups/templates/groups/library.html:60
+#: books/templates/books/edit-reading-status.html:55 books/views.py:878
+#: books/views.py:1019 groups/templates/groups/library.html:60
 msgid "Reading it"
 msgstr ""
 
@@ -264,22 +264,22 @@ msgstr ""
 #: books/templates/books/book-detail.html:39
 #: books/templates/books/book-detail.html:99
 #: books/templates/books/edit-reading-status.html:38
-#: books/templates/books/edit-reading-status.html:56 books/views.py:870
-#: books/views.py:1011 groups/templates/groups/library.html:63
+#: books/templates/books/edit-reading-status.html:56 books/views.py:882
+#: books/views.py:1023 groups/templates/groups/library.html:63
 msgid "Want to read"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:54
 #: books/templates/books/all-books.html:68
-#: books/templates/books/edit-reading-status.html:57 books/views.py:874
-#: books/views.py:1015 groups/templates/groups/library.html:66
+#: books/templates/books/edit-reading-status.html:57 books/views.py:886
+#: books/views.py:1027 groups/templates/groups/library.html:66
 msgid "Not read yet"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:57
 #: books/templates/books/all-books.html:71
-#: books/templates/books/edit-reading-status.html:58 books/views.py:878
-#: books/views.py:1019 groups/templates/groups/library.html:69
+#: books/templates/books/edit-reading-status.html:58 books/views.py:890
+#: books/views.py:1031 groups/templates/groups/library.html:69
 msgid "No intention to read it"
 msgstr ""
 
@@ -288,33 +288,33 @@ msgstr ""
 #: books/templates/books/book-detail.html:45
 #: books/templates/books/book-detail.html:105
 #: books/templates/books/edit-reading-status.html:44
-#: books/templates/books/edit-reading-status.html:59 books/views.py:882
-#: books/views.py:1023 groups/templates/groups/library.html:72
+#: books/templates/books/edit-reading-status.html:59 books/views.py:894
+#: books/views.py:1035 groups/templates/groups/library.html:72
 msgid "Given up"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:63
-#: books/templates/books/all-books.html:77 books/views.py:832
-#: books/views.py:860 books/views.py:926 books/views.py:976 books/views.py:1001
-#: books/views.py:1067 groups/templates/groups/library.html:75
+#: books/templates/books/all-books.html:77 books/views.py:844
+#: books/views.py:872 books/views.py:938 books/views.py:988 books/views.py:1013
+#: books/views.py:1079 groups/templates/groups/library.html:75
 msgid "All Reading Status"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:73
-#: books/templates/books/all-books.html:87 books/views.py:894
-#: books/views.py:1036
+#: books/templates/books/all-books.html:87 books/views.py:906
+#: books/views.py:1048
 msgid "Actually borrowed by me"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:76
-#: books/templates/books/all-books.html:90 books/views.py:898
-#: books/views.py:1040 groups/templates/groups/library.html:90
+#: books/templates/books/all-books.html:90 books/views.py:910
+#: books/views.py:1052 groups/templates/groups/library.html:90
 msgid "Reserved by me"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:79
-#: books/templates/books/all-books.html:93 books/views.py:902
-#: books/views.py:1044 groups/templates/groups/library.html:93
+#: books/templates/books/all-books.html:93 books/views.py:914
+#: books/views.py:1056 groups/templates/groups/library.html:93
 msgid "Borrowable"
 msgstr ""
 
@@ -324,14 +324,14 @@ msgid "Actually loaned by me"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:85
-#: books/templates/books/all-books.html:99 books/views.py:910
-#: books/views.py:1052 groups/templates/groups/library.html:99
+#: books/templates/books/all-books.html:99 books/views.py:922
+#: books/views.py:1064 groups/templates/groups/library.html:99
 msgid "Reservations asked to me"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:88
-#: books/templates/books/all-books.html:102 books/views.py:830
-#: books/views.py:924 books/views.py:974 books/views.py:1065
+#: books/templates/books/all-books.html:102 books/views.py:842
+#: books/views.py:936 books/views.py:986 books/views.py:1077
 #: groups/templates/groups/library.html:102
 msgid "All Borrow Status"
 msgstr ""
@@ -437,7 +437,7 @@ msgid "Borrowed by me. Mark as given back"
 msgstr ""
 
 #: books/templates/books/book-detail.html:252
-#: books/templates/books/borrow/borrow-within-group.html:75
+#: books/templates/books/borrow/borrow-within-group.html:77
 msgid "to"
 msgstr ""
 
@@ -568,11 +568,11 @@ msgstr ""
 msgid "Loan"
 msgstr ""
 
-#: books/templates/books/borrow/borrow-within-group.html:85
+#: books/templates/books/borrow/borrow-within-group.html:87
 msgid "Loan to someone without account ?"
 msgstr ""
 
-#: books/templates/books/borrow/borrow-within-group.html:96
+#: books/templates/books/borrow/borrow-within-group.html:98
 #: books/templates/books/borrow/reserve-within-group.html:24
 msgid "Yes"
 msgstr ""
@@ -715,46 +715,46 @@ msgstr ""
 msgid "Or Add Manually"
 msgstr ""
 
-#: books/views.py:30
+#: books/views.py:32
 msgid "The book is already registered here."
 msgstr ""
 
-#: books/views.py:107
+#: books/views.py:116
 msgid "Unknown Authors"
 msgstr ""
 
-#: books/views.py:215 books/views.py:350
+#: books/views.py:224 books/views.py:362
 msgid ""
 "There was an error in the interpretation of result : please add the book "
 "yourself."
 msgstr ""
 
-#: books/views.py:239 books/views.py:274 books/views.py:1092
+#: books/views.py:248 books/views.py:283 books/views.py:1104
 msgid "You have to choose where to register this book."
 msgstr ""
 
-#: books/views.py:356
+#: books/views.py:368
 msgid "Invalid search. Try without any accent."
 msgstr ""
 
-#: books/views.py:395
+#: books/views.py:407
 msgid "Book already in group"
 msgstr ""
 
-#: books/views.py:890 books/views.py:1032
+#: books/views.py:902 books/views.py:1044
 msgid "All borrow status"
 msgstr ""
 
-#: books/views.py:906 books/views.py:1048
+#: books/views.py:918 books/views.py:1060
 #: groups/templates/groups/library.html:96
 msgid "On Loan"
 msgstr ""
 
-#: books/views.py:1130
+#: books/views.py:1142
 msgid "You have to choose where to share this book."
 msgstr ""
 
-#: books/views.py:1552
+#: books/views.py:1567
 msgid "Reservation cancelled !"
 msgstr ""
 
@@ -764,6 +764,10 @@ msgstr ""
 
 #: core/settings.py:130
 msgid "French"
+msgstr ""
+
+#: core/settings.py:131
+msgid "Spanish"
 msgstr ""
 
 #: dashboard/templates/dashboard/dashboard.html:6
@@ -1345,7 +1349,10 @@ msgstr ""
 msgid ""
 "The ultimate app for managing book clubs, book exchange groups, your "
 "personal library, and wishlist all in one place."
-msgstr "La aplicación definitiva para gestionar clubes de lectura, grupos de intercambio de libros, tu biblioteca personal y tu lista de deseos en un solo lugar."
+msgstr ""
+"La aplicación definitiva para gestionar clubes de lectura, grupos de "
+"intercambio de libros, tu biblioteca personal y tu lista de deseos en un "
+"solo lugar."
 
 #: users/templates/users/home.html:10
 msgid ""
@@ -1353,7 +1360,12 @@ msgid ""
 "with Books Party. Whether you're an avid reader, a book club enthusiast, or "
 "simply looking to expand your literary horizons, our app is your one-stop "
 "destination for all things books."
-msgstr "Únete a la revolución literaria y convierte cada experiencia de lectura en una celebración con Books Party. Tanto si eres un ávido lector, un entusiasta de los clubes de lectura o simplemente quieres ampliar tus horizontes literarios, nuestra aplicación es tu único destino para todo lo relacionado con los libros."
+msgstr ""
+"Únete a la revolución literaria y convierte cada experiencia de lectura en "
+"una celebración con Books Party. Tanto si eres un ávido lector, un "
+"entusiasta de los clubes de lectura o simplemente quieres ampliar tus "
+"horizontes literarios, nuestra aplicación es tu único destino para todo lo "
+"relacionado con los libros."
 
 #: users/templates/users/home.html:14 users/templates/users/home.html:16
 msgid "Enter"
@@ -1372,7 +1384,10 @@ msgid ""
 "Easily manage your book clubs and reading circles. Schedule meetings, "
 "discuss books, and engage with fellow members in vibrant literary "
 "discussions."
-msgstr "Gestiona fácilmente tus clubes de lectura y círculos de lectores. Programa reuniones, comenta libros y participa con tus compañeros en vibrantes debates literarios."
+msgstr ""
+"Gestiona fácilmente tus clubes de lectura y círculos de lectores. Programa "
+"reuniones, comenta libros y participa con tus compañeros en vibrantes "
+"debates literarios."
 
 #: users/templates/users/home.html:39
 msgid "Book Exchange Made Easy"
@@ -1383,7 +1398,10 @@ msgid ""
 "Connect with other book lovers in your community and exchange books "
 "seamlessly. Discover new reads while sharing your favorites with like-minded "
 "individuals."
-msgstr "Conéctate con otros amantes de la lectura de tu comunidad e intercambia libros sin problemas. Descubre nuevas lecturas mientras compartes tus favoritas con personas afines."
+msgstr ""
+"Conéctate con otros amantes de la lectura de tu comunidad e intercambia "
+"libros sin problemas. Descubre nuevas lecturas mientras compartes tus "
+"favoritas con personas afines."
 
 #: users/templates/users/home.html:48
 msgid "Personal Library"
@@ -1394,7 +1412,10 @@ msgid ""
 "Keep track of your entire book collection right at your fingertips. From "
 "classics to contemporary bestsellers, your virtual library is just a tap "
 "away."
-msgstr "Tenga toda su colección de libros al alcance de la mano. Desde clásicos a bestsellers contemporáneos, tu biblioteca virtual está al alcance de un toque."
+msgstr ""
+"Tenga toda su colección de libros al alcance de la mano. Desde clásicos a "
+"bestsellers contemporáneos, tu biblioteca virtual está al alcance de un "
+"toque."
 
 #: users/templates/users/home.html:57
 msgid "Wishlist Management"
@@ -1404,7 +1425,10 @@ msgstr "Gestión de listas de deseos"
 msgid ""
 "Never forget a book you want to read again. Create and manage your wishlist, "
 "making it easier to keep track of books you're eager to explore next."
-msgstr "No vuelvas a olvidar un libro que quieres leer. Crea y gestiona tu lista de deseos, para que te resulte más fácil hacer un seguimiento de los libros que estás deseando explorar a continuación."
+msgstr ""
+"No vuelvas a olvidar un libro que quieres leer. Crea y gestiona tu lista de "
+"deseos, para que te resulte más fácil hacer un seguimiento de los libros que "
+"estás deseando explorar a continuación."
 
 #: users/templates/users/includes/footer.html:11
 msgid "Legal Information"
