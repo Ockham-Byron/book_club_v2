@@ -28,6 +28,7 @@ class UserRegistrationForm(UserCreationForm):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control border-right-0', 'placeholder': _('Password'), 'autocomplete': "new-password"}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control border-right-0', 'placeholder': _('Repeat Password'), 'autocomplete': 'new-password'}))
     is_rgpd = forms.BooleanField(required=True)
+    group_uuid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control border-right-0', 'placeholder': _("Club's Code")}))
 
     class Meta:
         model = User

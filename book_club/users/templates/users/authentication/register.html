@@ -62,7 +62,16 @@
                         <li id="password-same">{% trans 'Same passwords' %}</li>
                     </ul>
                 </div>
+
+                <p>{% trans "If you have received a Club's code, you can paste it here. If not, you can create o join a club later." %}</p>
                
+               <div class="input-group">
+                    
+                    {{register_form.group_uuid}}
+                    <span class="input-group-text bg-transparent">
+                        <i class="fa-solid fa-people-group"></i>
+                    </span>
+               </div>
 
                 <div class="text-left small">{{register_form.is_rgpd}}<span class="ps-2">{% trans 'By creating an account you agree to our'%} <a href="#" class="brand-color">{% trans 'Terms and Conditions'%}</a> {% trans 'and our ' %} <a href="#" class="brand-color">{% trans 'Privacy Policy'%}</a>.</div>
                     

@@ -303,7 +303,7 @@ msgstr "Tous les statuts de lecture"
 #: ⁨books/templates/books/all-books copy.html⁩:73
 #: books/templates/books/all-books.html:87 books/views.py:906
 #: books/views.py:1048
-msgid "Actually borrowed by me"
+msgid "Currently borrowed by me"
 msgstr "Mes emprunts actuels"
 
 #: ⁨books/templates/books/all-books copy.html⁩:76
@@ -320,7 +320,7 @@ msgstr "Empruntable"
 
 #: ⁨books/templates/books/all-books copy.html⁩:82
 #: books/templates/books/all-books.html:96
-msgid "Actually loaned by me"
+msgid "Currently loaned by me"
 msgstr "Mes prêts actuels"
 
 #: ⁨books/templates/books/all-books copy.html⁩:85
@@ -960,7 +960,7 @@ msgid "ADD FIRST BOOK"
 msgstr "AJOUTER LE PREMIER LIVRE"
 
 #: groups/templates/groups/library.html:87
-msgid "Actually Borrowed"
+msgid "Currently Borrowed"
 msgstr "Actuellement emprunté"
 
 #: groups/templates/groups/member_groups.html:25

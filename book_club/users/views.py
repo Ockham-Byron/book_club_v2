@@ -158,7 +158,40 @@ def register_view(request):
             password = register_form.cleaned_data['password2']
             user.set_password(password)
             user.username = user.email
+            group_code=request.POST.get('group_uuid')
             user.save()
+
+            def is_valid_uuid(value):
+                try:
+                    uuid.UUID(str(value))
+                    return True
+                except ValueError:
+                    return False
+        
+            def group_exists(value):
+                try:
+                    CustomGroup.objects.get(uuid=value)
+                    return True
+                except CustomGroup.DoesNotExist:
+                    return False
+
+            if is_valid_uuid(group_code):
+                if group_exists(group_code):
+                    group = CustomGroup.objects.get(uuid=group_code)
+                    if user in group.members.all():
+                        messages.error(request, f'Vous faites partie de ce groupe')
+                    else:
+                        group.members.add(user)    
+                        group.save()
+                
+                else:
+                    messages.error(request, f'There is no group with this code')
+                    
+
+            else:
+                messages.error(request, f'Invalide')
+            
+
             library = CustomGroup(kname=_('My Library'), leader=user, group_type='library')
             library.save()
             library.members.add(user)

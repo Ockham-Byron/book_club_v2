@@ -8,9 +8,9 @@ from django.contrib.auth.views import (
 
 urlpatterns = [
     path('', home_view, name='home'),
-    path('login/', login_view, name='login'),
+    path('accounts/login/', login_view, name='login'),
     path('register/', register_view, name='register'),
-    path('logout/', custom_logout, name='logout'),
+    path('accounts/logout/', custom_logout, name='logout'),
 
     #verify email urls
     path('verify-email/', verify_email, name='verify-email'),

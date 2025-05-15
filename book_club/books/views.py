@@ -155,13 +155,18 @@ def book_save(request, google_id):
 
 def book_add(request, book_in_db, groups, borrowing, picture):
     new_kbook = CustomBook(book=book_in_db)
-    print("new book")
+    only_several_books = True
+
     if len(groups) > 0:
         print("groups")
         print(groups)
+        
         for i in groups:
             group = CustomGroup.objects.get(uuid=i)
             print(group)
+            if group.group_type == "library":
+                only_several_books = False
+                print(only_several_books)
             if group in book_in_db.groups.all() and group.group_type == 'one_book':
                 messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
             elif group in book_in_db.groups.all() and group.group_type == 'library':
@@ -182,6 +187,7 @@ def book_add(request, book_in_db, groups, borrowing, picture):
                     new_kbook.owner = request.user
                     new_kbook.save()
                     book_in_db.in_library.add(request.user)
+
                     if CustomBook.objects.filter(book = book_in_db, admin = request.user, group__group_type = 'wishlist').exists():
                         old_whislist = CustomBook.objects.get(book = book_in_db, admin = request.user, group__group_type = 'wishlist')
                         book_in_db.groups.remove(old_whislist.group)
@@ -198,14 +204,18 @@ def book_add(request, book_in_db, groups, borrowing, picture):
                     else:
                         new_kbook.save()
                         new_kbook.sharing_groups.add(group)
-                        # library=get_object_or_404(CustomGroup, group_type="library", leader=request.user)
-                        # new_kbook.owner = request.user
-                        # new_kbook.group = library
                         new_kbook.is_borrowable = True
                         new_kbook.is_disponible = True
                         new_kbook.admin = request.user
-                        # book_in_db.in_library.add(request.user)
-                        # book_in_db.groups.add(library)
+                        # if only_several_books == True:
+                        #     if CustomBook.objects.filter(book = book_in_db, owner = new_kbook.owner, group__group_type = 'library').exists():
+                        #         None
+                        #     else:
+                        #         library=get_object_or_404(CustomGroup, group_type="library", leader=new_kbook.owner)
+                        #         new_kbook.owner = request.owner
+                        #         new_kbook.group = library
+                        #         book_in_db.in_library.add(request.user)
+                        #         book_in_db.groups.add(library)
                         new_kbook.save()
                 else:
                     new_kbook.admin = request.user
@@ -238,17 +248,17 @@ def book_add(request, book_in_db, groups, borrowing, picture):
 
 # BOOK VIEWS
 @login_required
-def add_book(request, id, google_id):
+def add_book(request, google_id):
     book_in_db = None
     kgroups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     kgroups = kgroups.exclude(group_type = "borrowing")
     borrowing = CustomGroup.objects.filter(leader = request.user, group_type = "borrowing")
 
     try:
-        if google_id != 0:
+        if google_id:
             book=book_save(request, google_id)
         else:
-            book=book_save(request, id)
+            book=book_save(request, google_id==0)
     except:
         messages.error(request, _('There was an error in the interpretation of result : please add the book yourself.'))
         return redirect('add-book-custom')
@@ -260,11 +270,20 @@ def add_book(request, id, google_id):
         'borrowing':borrowing
     }
 
-    if Book.objects.filter(google_id=google_id).exists():
-        book_in_db = Book.objects.get(google_id=google_id)
+    if google_id:
+        if Book.objects.filter(google_id=google_id).exists():
+            book_in_db = Book.objects.get(google_id=google_id)
+        else:
+            book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=book.get('google_id'))
+            book_in_db.save()
+            print("save with google_id")
     else:
-        book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=book.get(google_id))
-        book_in_db.save()
+        if Book.objects.filter(isbn=book.isbn).exists():
+            book_in_db = Book.objects.get(google_id=google_id)
+        else:
+            book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=0)
+            book_in_db.save()
+            print("save without google_id")
     
     
 
@@ -921,7 +940,7 @@ def all_books(request):
             else:
                 for kbook in queryset:           
                     if borrow_status == "is_borrowed_by_user":
-                        borrow_status_description=_("Actually borrowed by me")
+                        borrow_status_description=_("Currently borrowed by me")
                         if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "on_going").exists():
                             queryset_2.append(kbook)
                     elif borrow_status == "reserved_by_me":
@@ -1063,7 +1082,7 @@ def group_books(request, slug):
             else:
                 for kbook in queryset:           
                     if borrow_status == "is_borrowed_by_user":
-                        borrow_status_description=_("Actually borrowed by me")
+                        borrow_status_description=_("Currently borrowed by me")
                         if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "on_going").exists():
                             queryset_2.append(kbook)
                     elif borrow_status == "reserved_by_me":

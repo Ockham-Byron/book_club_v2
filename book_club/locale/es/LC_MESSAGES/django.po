@@ -303,7 +303,7 @@ msgstr ""
 #: ⁨books/templates/books/all-books copy.html⁩:73
 #: books/templates/books/all-books.html:87 books/views.py:906
 #: books/views.py:1048
-msgid "Actually borrowed by me"
+msgid "Currently borrowed by me"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:76
@@ -320,7 +320,7 @@ msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:82
 #: books/templates/books/all-books.html:96
-msgid "Actually loaned by me"
+msgid "Currently loaned by me"
 msgstr ""
 
 #: ⁨books/templates/books/all-books copy.html⁩:85
@@ -845,63 +845,63 @@ msgstr ""
 
 #: groups/forms.py:14 groups/forms.py:28
 msgid "Club's Name"
-msgstr ""
+msgstr "Nombre del Club"
 
 #: groups/templates/groups/add_group.html:3
 msgid "Create a group"
-msgstr ""
+msgstr "Crear un club"
 
 #: groups/templates/groups/add_group.html:22
 msgid "Create Club"
-msgstr ""
+msgstr "Crear Club"
 
 #: groups/templates/groups/add_group.html:24
 msgid "If you want to join an existing club, click here"
-msgstr ""
+msgstr "Si deseas afiliarse a un club ya existente, pulse aquí"
 
 #: groups/templates/groups/add_group.html:25
 msgid "Join existing club"
-msgstr ""
+msgstr "Únete a un club existente"
 
 #: groups/templates/groups/add_group.html:30
 msgid "Type of Club"
-msgstr ""
+msgstr "Tipo de Club"
 
 #: groups/templates/groups/add_group.html:33
 msgid "Everyone read the same book"
-msgstr ""
+msgstr "Todo el mundo lee el mismo libro"
 
 #: groups/templates/groups/add_group.html:41
 msgid "Book exchanges"
-msgstr ""
+msgstr "Intercambio de libros"
 
 #: groups/templates/groups/add_group.html:58
 msgid "Upload Picture of the Club"
-msgstr ""
+msgstr "Subir foto del club"
 
 #: groups/templates/groups/group_detail.html:76
 msgid "Next Meeting"
-msgstr ""
+msgstr "Próxima reunión"
 
 #: groups/templates/groups/group_detail.html:100
 msgid "Read by"
-msgstr ""
+msgstr "Leído por"
 
 #: groups/templates/groups/group_detail.html:116
 msgid "Next meeting"
-msgstr ""
+msgstr "Próxima reunión"
 
 #: groups/templates/groups/group_detail.html:137
 msgid "ADD FIRST BOOK TO THIS GROUP"
-msgstr ""
+msgstr "AÑADIR EL PRIMER LIBRO A ESTE GRUPO"
 
 #: groups/templates/groups/group_detail.html:165
 msgid "Borrowed"
-msgstr ""
+msgstr "Prestado"
 
 #: groups/templates/groups/group_detail.html:168
 msgid "With reservations"
-msgstr ""
+msgstr "Con reservas"
 
 #: groups/templates/groups/group_detail.html:183
 msgid "See all books"
@@ -909,47 +909,47 @@ msgstr "Ver todos los libros"
 
 #: groups/templates/groups/group_detail.html:193
 msgid "Members"
-msgstr ""
+msgstr "Miembros"
 
 #: groups/templates/groups/group_detail.html:199
 #: groups/templates/groups/group_detail.html:281
 msgid "Invite other people to join your group"
-msgstr ""
+msgstr "Invita a otras personas a unirse al club"
 
 #: groups/templates/groups/group_detail.html:200
 msgid "Group's code"
-msgstr ""
+msgstr "Código del Club"
 
 #: groups/templates/groups/group_detail.html:202
 #: groups/templates/groups/group_detail.html:286
 msgid "Copy the invitation"
-msgstr ""
+msgstr "Copiar invitación"
 
 #: groups/templates/groups/group_detail.html:284
 msgid "Code of the group :"
-msgstr ""
+msgstr "Código del Club"
 
 #: groups/templates/groups/join_group.html:3
 #: groups/templates/groups/join_group.html:6
 #: groups/templates/groups/member_groups.html:46
 msgid "Join a Club"
-msgstr ""
+msgstr "Únete a un club"
 
 #: groups/templates/groups/join_group.html:11
 msgid "Club's Code"
-msgstr ""
+msgstr "Código del Club"
 
 #: groups/templates/groups/join_group.html:13
 msgid "Join"
-msgstr ""
+msgstr "Unirse"
 
 #: groups/templates/groups/library.html:42
 msgid "ADD FIRST BOOK"
-msgstr ""
+msgstr "AÑADIR PRIMER LIBRO"
 
 #: groups/templates/groups/library.html:87
-msgid "Actually Borrowed"
-msgstr ""
+msgid "Currently Borrowed"
+msgstr "Actualmente en préstamo"
 
 #: groups/templates/groups/member_groups.html:25
 msgid "Everything begins with a Club to share good books and good moments !"
