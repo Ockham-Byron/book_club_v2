@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     #plugins
     'bootstrap_datepicker_plus',
     'taggit',
+    'pwa',
 ]
 
 MIDDLEWARE = [

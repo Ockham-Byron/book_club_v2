@@ -4,7 +4,7 @@ from .views import *
 
 
 urlpatterns = [
-  path('book-save/<id>', add_book, name="save-book"),
+  path('book-save/<str:google_id>', add_book, name="save-book"),
   path('search', new_book_search, name="new-book-search"),
 
   path('all-books', all_books, name="all-books"),
@@ -17,7 +17,7 @@ urlpatterns = [
   #meetings
   path('add-meeting/<slug>', add_meeting, name="add-meeting"),
   path('search-book-for-meeting/<id>', search_book_for_meeting, name="search-book-for-meeting"),
-  path('add-new-book-to-meeting/<id>/<str:isbn>', add_new_book_to_meeting, name="add-new-book-to-meeting"),
+  path('add-new-book-to-meeting/<id>/<str:google_id>', add_new_book_to_meeting, name="add-new-book-to-meeting"),
   path('edit-meeting/<id>', edit_meeting, name="edit-meeting"),
   path('delete-meeting/<id>', delete_meeting, name="delete-meeting"),
 

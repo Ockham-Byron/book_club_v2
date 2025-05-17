@@ -33,6 +33,7 @@ class Genre(models.Model):
     
 class Book(models.Model):
     id = models.UUIDField(default = uuid4, editable = False, primary_key=True)
+    google_id = models.CharField(max_length=150, blank=True, null=True)
     title = models.CharField(max_length=150, blank=False, null=False)
     author = models.CharField(max_length=150, blank=False, null=False)
     isbn = models.CharField(max_length=30, blank=True, null=True)

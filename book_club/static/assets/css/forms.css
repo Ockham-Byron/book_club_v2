@@ -104,7 +104,7 @@ select {
   }
   .auth-wrapper{
     max-width:400px;
-    height:750px;
+    height:950px;
     padding:30px;
     border:1px solid #ccc;
     border-radius:40px;
@@ -360,6 +360,8 @@ input.input-date {
 
 /* Img checkbox */
 
+
+
 .choice-container {
   height: 180px;
   width: 150px;
@@ -441,6 +443,7 @@ input.input-date {
   right: 0px;
   left:0px !important;
   border:none !important;
+  cursor:pointer;
 }
 
 @media only screen and (min-width: 768px) {

@@ -1,9 +1,11 @@
 
 Général:
   ☐ traduction
-  ☐ ajouter pwa
-  ☐ ajouter page qui explique comment télécharger
-  ☐ menu texte au milieu on scrolling
+  ✔ ajouter pwa @done(25-05-15 15:45)
+  ✔ ajouter page qui explique comment télécharger @done(25-05-15 15:45)
+  ✔ menu texte au milieu on scrolling @done(25-05-15 15:45)
+  ☐ prévoir inscription avec numero de groupe
+  ☐ verifier probleme url account
 
 Borrow:
   ☐ annuler quand "attente de confirmation"
@@ -23,6 +25,11 @@ Groups:
 Book:
   ☐ dans delete, donner option d'enlever juste "ok pour prêter"
   ☐ edit livre : edit ownership
+  ✔ sauvegarder livre: verifier tous les book_in_db @done(25-05-15 11:22)
+  ☐  vérifier la version mobile edit livre
+  ☐ logique si ajouté dans un sharing group alors qu'il existe déjà dans la bibliothèque de l'owner
+  ☐ ajouter owner autre que request.user
+
 
 All-Books:
   ☐ filter dans les all-Books by group

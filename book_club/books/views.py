@@ -76,6 +76,7 @@ def book_search(search, api_key):
         
         for book in fetched_books:
             book_dict = {
+                'google_id':book['id'],
                 'title': book['volumeInfo']['title'],
                 'image': book['volumeInfo']['imageLinks']['thumbnail'] if 'imageLinks' in book['volumeInfo'] else "/static/assets/img/illustrations/book-placeholder.jpeg",
                 'authors': ", ".join(book['volumeInfo']['authors']) if 'authors' in book['volumeInfo'] else "",
@@ -91,12 +92,14 @@ def book_search(search, api_key):
 
     return books
 
-def book_save(request, id):
-    api = "https://www.googleapis.com/books/v1/volumes?q=isbn:"
+def book_save(request, google_id):
+    api = f"https://www.googleapis.com/books/v1/volumes/{google_id}"
+
+    print(f'Url pour sauvegarder livre: {api}')
   
-    isbn = id
+    
   
-    r = urlopen(api + isbn, context=ctx)
+    r = urlopen(api, context=ctx)
     
     book_data = json.load(r)
   # if r.status_code != 200:
@@ -104,38 +107,66 @@ def book_save(request, id):
 
   # data = r.json()
     
-    volume_info = book_data["items"][0]["volumeInfo"]
-    
+    #volume_info = book_data["items"][0]["volumeInfo"]
+    #book_id = book_data["items"][0]["id"]
 
   
-    book={}
+    # book={}
  
-    book = {
-        'title': volume_info['title'],
-        'cover': volume_info['imageLinks']['thumbnail'] if 'imageLinks' in volume_info else "/static/assets/img/illustrations/book-placeholder.jpeg",
-        'authors': ", ".join(volume_info['authors']) if 'authors' in volume_info else _("Unknown Authors"),
-        'pages': volume_info['pageCount'] if 'pageCount' in volume_info else 0,
-        'main_category': volume_info['mainCategory'] if 'mainCategory' in volume_info else None,
-        'categories': volume_info['categories'][0] if 'categories' in volume_info else None,
-        'language': volume_info['language'] if 'language' in volume_info else None,
-        'publisher': volume_info['publisher'] if 'publisher' in volume_info else None,
-        'publishDate': volume_info['publishedDate'] if 'publishedDate' in volume_info else None,
-        'description': volume_info['description'] if 'description' in volume_info else None,
-        'isbn': volume_info['industryIdentifiers'][0]['identifier'] if 'industryIdentifiers' in volume_info else volume_info['isbn'],
+    # book = {
         
-    }
+    #     'title': volume_info['title'],
+    #     'cover': volume_info['imageLinks']['thumbnail'] if 'imageLinks' in volume_info else "/static/assets/img/illustrations/book-placeholder.jpeg",
+    #     'authors': ", ".join(volume_info['authors']) if 'authors' in volume_info else _("Unknown Authors"),
+    #     'pages': volume_info['pageCount'] if 'pageCount' in volume_info else 0,
+    #     'main_category': volume_info['mainCategory'] if 'mainCategory' in volume_info else None,
+    #     'categories': volume_info['categories'][0] if 'categories' in volume_info else None,
+    #     'language': volume_info['language'] if 'language' in volume_info else None,
+    #     'publisher': volume_info['publisher'] if 'publisher' in volume_info else None,
+    #     'publishDate': volume_info['publishedDate'] if 'publishedDate' in volume_info else None,
+    #     'description': volume_info['description'] if 'description' in volume_info else None,
+    #     'isbn': volume_info['industryIdentifiers'][0]['identifier'] if 'industryIdentifiers' in volume_info else volume_info['isbn'],
+        
+    # }
 
-    return book
+    volume_info = book_data.get("volumeInfo", {})
+    industry_identifiers = volume_info.get("industryIdentifiers", [])
+    isbn = None
+    for identifier in industry_identifiers:
+        if identifier.get("type") == "ISBN_13":
+            isbn = identifier.get("identifier")
+            break
+        elif identifier.get("type") == "ISBN_10":
+            isbn = identifier.get("identifier")
+            # On préfère l'ISBN_13 si disponible
+
+    image_links = volume_info.get("imageLinks", {})
+
+    book_info = {
+        'title': volume_info.get("title"),
+        'authors': volume_info.get("authors") if 'authors' in volume_info else _("Unknown Authors"),
+        'cover': image_links.get("thumbnail"),
+        'isbn': isbn,
+        'description': volume_info.get("description"),
+        'pages': volume_info.get("pageCount"),
+        'google_id': book_data.get("id"),
+    }
+    return book_info
 
 def book_add(request, book_in_db, groups, borrowing, picture):
     new_kbook = CustomBook(book=book_in_db)
-    print("new book")
+    only_several_books = True
+
     if len(groups) > 0:
         print("groups")
         print(groups)
+        
         for i in groups:
             group = CustomGroup.objects.get(uuid=i)
             print(group)
+            if group.group_type == "library":
+                only_several_books = False
+                print(only_several_books)
             if group in book_in_db.groups.all() and group.group_type == 'one_book':
                 messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
             elif group in book_in_db.groups.all() and group.group_type == 'library':
@@ -156,6 +187,7 @@ def book_add(request, book_in_db, groups, borrowing, picture):
                     new_kbook.owner = request.user
                     new_kbook.save()
                     book_in_db.in_library.add(request.user)
+
                     if CustomBook.objects.filter(book = book_in_db, admin = request.user, group__group_type = 'wishlist').exists():
                         old_whislist = CustomBook.objects.get(book = book_in_db, admin = request.user, group__group_type = 'wishlist')
                         book_in_db.groups.remove(old_whislist.group)
@@ -172,14 +204,18 @@ def book_add(request, book_in_db, groups, borrowing, picture):
                     else:
                         new_kbook.save()
                         new_kbook.sharing_groups.add(group)
-                        # library=get_object_or_404(CustomGroup, group_type="library", leader=request.user)
-                        # new_kbook.owner = request.user
-                        # new_kbook.group = library
                         new_kbook.is_borrowable = True
                         new_kbook.is_disponible = True
                         new_kbook.admin = request.user
-                        # book_in_db.in_library.add(request.user)
-                        # book_in_db.groups.add(library)
+                        # if only_several_books == True:
+                        #     if CustomBook.objects.filter(book = book_in_db, owner = new_kbook.owner, group__group_type = 'library').exists():
+                        #         None
+                        #     else:
+                        #         library=get_object_or_404(CustomGroup, group_type="library", leader=new_kbook.owner)
+                        #         new_kbook.owner = request.owner
+                        #         new_kbook.group = library
+                        #         book_in_db.in_library.add(request.user)
+                        #         book_in_db.groups.add(library)
                         new_kbook.save()
                 else:
                     new_kbook.admin = request.user
@@ -212,14 +248,17 @@ def book_add(request, book_in_db, groups, borrowing, picture):
 
 # BOOK VIEWS
 @login_required
-def add_book(request, id):
+def add_book(request, google_id):
     book_in_db = None
     kgroups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     kgroups = kgroups.exclude(group_type = "borrowing")
     borrowing = CustomGroup.objects.filter(leader = request.user, group_type = "borrowing")
 
     try:
-        book=book_save(request, id)
+        if google_id:
+            book=book_save(request, google_id)
+        else:
+            book=book_save(request, google_id==0)
     except:
         messages.error(request, _('There was an error in the interpretation of result : please add the book yourself.'))
         return redirect('add-book-custom')
@@ -231,11 +270,20 @@ def add_book(request, id):
         'borrowing':borrowing
     }
 
-    if Book.objects.filter(isbn=id).exists():
-        book_in_db = Book.objects.get(isbn=id)
+    if google_id:
+        if Book.objects.filter(google_id=google_id).exists():
+            book_in_db = Book.objects.get(google_id=google_id)
+        else:
+            book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=book.get('google_id'))
+            book_in_db.save()
+            print("save with google_id")
     else:
-        book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
-        book_in_db.save()
+        if Book.objects.filter(isbn=book.isbn).exists():
+            book_in_db = Book.objects.get(google_id=google_id)
+        else:
+            book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=0)
+            book_in_db.save()
+            print("save without google_id")
     
     
 
@@ -385,19 +433,19 @@ def search_book_for_meeting(request, id):
             return render(request, 'books/search.html', {'form': form, 'books': books, 'meeting':meeting})
         
 @login_required
-def add_new_book_to_group(request,slug, isbn):
+def add_new_book_to_group(request,slug, google_id):
     group = CustomGroup.objects.get(slug=slug)
     book_in_db = None
     book_in_group = False
-    book=book_save(request, isbn)
+    book=book_save(request, google_id)
     
     context = {
         'group': group,
         'book':book,
     }
 
-    if Book.objects.filter(isbn=isbn).exists():
-        book_in_db = Book.objects.get(isbn=isbn)
+    if Book.objects.filter(google_id=google_id).exists():
+        book_in_db = Book.objects.get(google_id=google_id)
         if book_in_db in group.books:
             book_in_group = True
 
@@ -412,7 +460,7 @@ def add_new_book_to_group(request,slug, isbn):
                 new_kbook.save()
            
         else:
-            new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
+            new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'), google_id=book.get('google_id'))
             new_book_in_db.save()
             new_book_in_db.groups.add(group)
             new_book_in_db.save()
@@ -425,21 +473,21 @@ def add_new_book_to_group(request,slug, isbn):
     return render(request, 'books/book-search-detail.html', context)
 
 @login_required
-def add_new_book_to_meeting(request,id, isbn):
+def add_new_book_to_meeting(request,id, google_id):
     meeting = Meeting.objects.get(id=id)
     group = meeting.group
     book_in_db = None
-    book=book_save(request,isbn)
+    book=book_save(request,google_id)
     
     context = {
         'meeting': meeting,
         'book':book,
     }
 
-    if Book.objects.filter(isbn=isbn).exists():
-        book_in_db = Book.objects.get(isbn=isbn)
+    if Book.objects.filter(google_id=google_id).exists():
+        book_in_db = Book.objects.get(google_id=google_id)
     else:
-        book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
+        book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'), google_id=book.get('google_id'))
         book_in_db.save()
 
     if request.method=='POST':
@@ -454,19 +502,8 @@ def add_new_book_to_meeting(request,id, isbn):
                 new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)
                 new_kbook.save()
                 meeting.book=new_kbook
-           
 
-        # else:
-            
-        #     new_book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'))
-        #     new_book_in_db.save()
-        #     new_book_in_db.groups.add(group)
-        #     new_book_in_db.save()
-        #     new_kbook = CustomBook(book=new_book_in_db, group=group, admin=request.user)
-        #     new_kbook.save()
-        #     meeting.book = new_kbook
         
-
             meeting.save()
             return redirect('group-detail', group.slug)
     
@@ -903,7 +940,7 @@ def all_books(request):
             else:
                 for kbook in queryset:           
                     if borrow_status == "is_borrowed_by_user":
-                        borrow_status_description=_("Actually borrowed by me")
+                        borrow_status_description=_("Currently borrowed by me")
                         if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "on_going").exists():
                             queryset_2.append(kbook)
                     elif borrow_status == "reserved_by_me":
@@ -1045,7 +1082,7 @@ def group_books(request, slug):
             else:
                 for kbook in queryset:           
                     if borrow_status == "is_borrowed_by_user":
-                        borrow_status_description=_("Actually borrowed by me")
+                        borrow_status_description=_("Currently borrowed by me")
                         if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "on_going").exists():
                             queryset_2.append(kbook)
                     elif borrow_status == "reserved_by_me":
