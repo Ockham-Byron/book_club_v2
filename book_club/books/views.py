@@ -144,7 +144,7 @@ def book_save(request, google_id):
 
     book_info = {
         'title': volume_info.get("title"),
-        'authors': volume_info.get("authors") if 'authors' in volume_info else _("Unknown Authors"),
+        'authors': ", ".join(volume_info.get("authors")) if 'authors' in volume_info else _("Unknown Authors"),
         'cover': image_links.get("thumbnail"),
         'isbn': isbn,
         'description': volume_info.get("description"),
@@ -177,7 +177,17 @@ def book_add(request, book_in_db, groups, borrowing, picture):
                 messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
             else:
                 book_in_db.groups.add(group)
-                new_kbook.group = group
+                if new_kbook.group:
+                    if new_kbook.group.group_type == 'library':
+                        new_kbook.sharing_groups.add(group)
+                    else:
+                        if group.group_type != 'library' :
+                            new_kbook.sharing_groups.add(group)
+                        else:
+                            new_kbook.sharing_groups.add(new_kbook.group)
+                            new_kbook.group = group
+                else:
+                    new_kbook.group = group
                 new_kbook.save()
                 print("new book")
                 print(new_kbook)
@@ -1004,7 +1014,7 @@ def group_books(request, slug):
 
     print(group)
     
-    kbooks = CustomBook.objects.filter(owner__in=common_members) | CustomBook.objects.filter(admin__in=common_members)
+    kbooks = CustomBook.objects.filter(Q(group=group) | Q(sharing_groups=group))
     unique_kbooks = []
     if group.group_type == 'several_books':
         
@@ -1116,6 +1126,7 @@ def group_books(request, slug):
             reading_status_description = _("All Reading Status")
     
     context = {'unique_kbooks': unique_kbooks,
+               'kbooks': kbooks,
                'group': group,
                'reading_status': reading_status,
                 'borrow_status': borrow_status,

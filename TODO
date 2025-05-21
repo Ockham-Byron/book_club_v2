@@ -9,6 +9,7 @@ Général:
 
 Borrow:
   ☐ annuler quand "attente de confirmation"
+  ☐ verifier état de borrowable dans le filtrage
 
 
 Borrow outside:
@@ -27,8 +28,11 @@ Book:
   ☐ edit livre : edit ownership
   ✔ sauvegarder livre: verifier tous les book_in_db @done(25-05-15 11:22)
   ☐  vérifier la version mobile edit livre
-  ☐ logique si ajouté dans un sharing group alors qu'il existe déjà dans la bibliothèque de l'owner
+  ✔ logique si ajouté dans un sharing group alors qu'il existe déjà dans la bibliothèque de l'owner @done(25-05-16 17:24)
   ☐ ajouter owner autre que request.user
+  ☐ enlever les marques html de la description
+  ☐ quand on supprimer verifier pourquoi il propose la suppression double
+
 
 
 All-Books:
