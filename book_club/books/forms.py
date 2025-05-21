@@ -43,3 +43,5 @@ class AddCustomBookForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super(AddCustomBookForm, self).__init__(*args, **kwargs)
         
+class ImageUploadForm(forms.Form):
+    image_upload = forms.ImageField(required=True)
