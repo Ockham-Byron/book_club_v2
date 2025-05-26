@@ -4,12 +4,14 @@ Général:
   ✔ ajouter pwa @done(25-05-15 15:45)
   ✔ ajouter page qui explique comment télécharger @done(25-05-15 15:45)
   ✔ menu texte au milieu on scrolling @done(25-05-15 15:45)
-  ☐ prévoir inscription avec numero de groupe
-  ☐ verifier probleme url account
+  prévoir inscription avec numero de groupe
+  ✔ verifier probleme url account @done(25-05-22 11:39)
 
 Borrow:
   ☐ annuler quand "attente de confirmation"
   ☐ verifier état de borrowable dans le filtrage
+  ☐ vérifier le processus de réservation
+  ☐ afficher les réservations dans le book_Detail
 
 
 Borrow outside:
@@ -25,6 +27,7 @@ Groups:
 
 Book:
   ☐ dans delete, donner option d'enlever juste "ok pour prêter"
+  ☐ vérifier que les gens sont d'accord pour que le livre soit vu par les autres si in library
   ☐ edit livre : edit ownership
   ✔ sauvegarder livre: verifier tous les book_in_db @done(25-05-15 11:22)
   ☐  vérifier la version mobile edit livre
