@@ -1,0 +1,144 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Scan ISBN' %}{% endblock title %}
+{% block content %}
+
+
+<!-- New Form -->
+<div class="d-flex align-items-center justify-content-center">
+  <form class="kform" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.errors %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+          <div id="form_errors">
+              {% for key, value in form.errors.items %}
+              <strong>{{ value }}</strong>
+              {% endfor %}
+          </div>
+          
+      </div>
+    {% endif %}
+    
+    {{form.image_upload}}
+    {% for error in form.isbn.errors %}
+            <p class="error bg-brand-color ps-2 text-white">{{ error }}</p>
+        {% endfor %}
+    
+    <input
+      type="file"
+      id="fileElem"
+      multiple
+      accept="image/*"
+      name="picture"
+      style="display:none" 
+      />
+      <div class="text-center mx-auto">
+      
+        <a href="#" id="fileSelect" class="avatar-upload">
+          {% if book %}
+          <img id="add-image" class="" src="{{book.cover}}" style="cursor: pointer;"/>
+          {% else %}
+          <img id="add-image" class="" src="{% static 'assets/img/illustrations/book-placeholder.jpeg' %}" style="cursor: pointer; height:150px;"/>
+          {% endif %}
+
+          
+        </a>
+      
+      
+      </div>
+      
+
+        
+        
+
+       
+
+        
+
+    
+      
+
+       
+
+
+      
+       
+        
+        
+        
+      
+      
+      <button class="submit mt-4" type="submit" name="create-meal">{% trans 'Submit' %}</button>
+      <div class="text-center d-flex flex-column">
+        <a href="{% url 'new-book-search' %}" class="mid-color">{% trans 'Cancel' %}</a>
+        
+      </div>
+      
+
+  </form>
+</div>
+
+
+
+ 
+{% endblock content %}
+
+{% block extrajs %}
+<script>
+const fileSelect = document.getElementById("fileSelect"),
+  fileElem = document.getElementById("fileElem"),
+  fileList = document.getElementById("fileList");
+
+fileSelect.addEventListener(
+  "click",
+  (e) => {
+    if (fileElem) {
+      fileElem.click();
+    }
+    e.preventDefault(); // prevent navigation to "#"
+  },
+  false
+);
+
+fileElem.addEventListener("change", handleFiles, false);
+
+function handleFiles() {
+  if (!this.files.length) {
+    fileList.innerHTML = "<p>No files selected!'</p>";
+  } else {
+    fileList.innerHTML = "";
+    const list = document.createElement("ul");
+    fileList.appendChild(list);
+    for (let i = 0; i < this.files.length; i++) {
+      const li = document.createElement("li");
+      list.appendChild(li);
+
+      //if updating a previous profile pic
+      const img = document.getElementById("change-image");
+      if (img) {
+      img.src = URL.createObjectURL(this.files[i]);
+      img.height = 150;
+      img.width = 100;
+      img.className = "mx-auto";
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+      };
+      }
+      
+      //if add profile pic
+      const newImg = document.getElementById("add-image");
+      const avatar = document.getElementsByClassName("avatar")[1];
+      if (newImg) {
+      newImg.src = URL.createObjectURL(this.files[i]);
+      newImg.height = 150;
+      newImg.width = 100;
+      newImg.className = "mx-auto";
+      newImg.classList.remove("d-none");
+      avatar.classList.add("d-none");
+      
+      }
+    }
+  }
+}
+</script>
+{% endblock extrajs%}

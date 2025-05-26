@@ -1,0 +1,25 @@
+{% extends "dashboard/base.html" %}
+{% load avatar i18n static %}
+{% block title %}{% trans 'Add/Edit Book' %}{% endblock title %}
+{% block content %}
+
+
+<div class="container">
+        <h1>Barcode Scan Results</h1>
+
+        {% if data %}
+            <p>Decoded barcode(s):</p>
+            <ul>
+                {% for item in data %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-data">No barcodes were detected in the uploaded image.</p>
+        {% endif %}
+
+        <a href="{% url 'scan-isbn' %}" class="back-link">Scan Another Image</a>
+    </div>
+
+ 
+{% endblock %}

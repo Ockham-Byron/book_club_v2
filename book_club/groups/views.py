@@ -1,4 +1,5 @@
 import uuid
+from django.db.models import Q
 from django.shortcuts import render, redirect, reverse
 from django.utils.timezone import datetime
 from django.contrib.auth.decorators import login_required
@@ -131,11 +132,12 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
             if next_book:
                 nb_of_readers = next_book.book.readers.filter(group_members = group).count()
         print(group.group_type)
-        if group.group_type == 'several_books':
-            books = CustomBook.objects.filter(sharing_groups__id__contains = group.id)
+        # if group.group_type == 'several_books':
+        #     books = CustomBook.objects.filter(sharing_groups__id__contains = group.id)
            
-        else:
-            books = group.kbook_group.all().order_by('-created_at')[:10]
+        # else:
+        #     books = group.kbook_group.all().order_by('-created_at')[:10]
+        books = CustomBook.objects.filter(Q(group=group) | Q(sharing_groups=group))
         borrows = []
         for book in books:
             if Borrow.objects.filter(custom_book = book, status = 'on_going').exists():

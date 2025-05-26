@@ -113,10 +113,10 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 
 
 
-{% if unique_kbooks %}
+{% if kbooks %}
     
 <div class="d-flex flex-column align-items-center mt-3">
-    {% for book in unique_kbooks %}
+    {% for book in kbooks %}
         <a href="{% url 'book-detail' book.slug %}" class="book-card-link">
             <div class="book-small-horizontal-card d-flex shadow align-items-center justify-content-between mx-auto">
                 <div class="d-flex">
