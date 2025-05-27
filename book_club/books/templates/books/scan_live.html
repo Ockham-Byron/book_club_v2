@@ -88,6 +88,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Live ISBN Scanner</h1>
@@ -115,17 +116,31 @@
                     type: "LiveStream",
                     target: document.querySelector('#interactive'),
                     constraints: {
-                        facingMode: "environment" // "user" for front camera, "environment" for back camera
+                        facingMode: "user" // "user" for front camera, "environment" for back camera
                     },
                 },
                 decoder: {
-                    readers: ["ean_reader", "ean_8_reader", "upc_reader", "upc_e_reader"], // Readers for ISBN (EAN-13)
+                    //readers: [
+                        //"ean_reader",  // Readers for ISBN (EAN-13)
+                        //"ean_8_reader",
+                        // "upc_reader",
+                        // "upc_e_reader" //
+                  //       ],
+                    config: {
+                        ean_reader:{
+                            min_length:12,
+                            max_length:13,
+                            enable_checksum: true,
+
+                        }
+                    },
                     debug: {
                         showCanvas: true,
                         showPatches: true,
                         showFoundPatches: true,
                         showSkeleton: true,
                         showLabels: true,
+                        showLine: true,
                         showPatchLabels: true,
                         showRemainingPatchLabels: true,
                         boxFromPatches: {
@@ -135,7 +150,14 @@
                         }
                     }
                 },
+                locator: {
+                    patchSize: "small",
+                    halfSample: true,
+                    throttle:80
+                },
+                numOfWorkers:0,
                 locate: true, // Enable detection of the barcode location
+                src:null
             }, function(err) {
                 loadingMessage.style.display = 'none';
                 if (err) {
@@ -151,6 +173,7 @@
             });
 
             Quagga.onDetected(function(data) {
+                console.log("Code détecté raw: ", data.codeResult.code);
                 // Débouncer les scans pour éviter les envois multiples du même code
                 if (data.codeResult.code && data.codeResult.code !== lastDecodedCode) {
                     if (debounceTimeout) {

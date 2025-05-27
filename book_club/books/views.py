@@ -5,7 +5,7 @@ import ssl
 import cv2
 import os
 import logging
-from pyzbar.pyzbar import decode
+#from pyzbar.pyzbar import decode
 from urllib.request import urlopen
 from urllib.parse import quote_plus
 from django.utils import timezone
@@ -60,37 +60,37 @@ def process_scanned_isbn(request):
     else:
         return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=405)
 
-def scan_isbn(request):
-    if request.method == 'POST':
-        form = ImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            image_file = form.cleaned_data['image_upload']
-
-            # --- NEW CODE START ---
-            # Define the directory where images will be temporarily stored
-            temp_dir = 'tmp'
-            # Create the directory if it doesn't exist
-            if not os.path.exists(temp_dir):
-                os.makedirs(temp_dir)
-            # --- NEW CODE END ---
-            image_path = os.path.join(temp_dir, image_file.name)
-            with open(image_path, 'wb+') as destination:
-                for chunk in image_file.chunks():
-                    destination.write(chunk)
-
-            # Détection de codes-barres
-            img = cv2.imread(image_path)
-            decoded_objects = decode(img)
-            data = []
-            for obj in decoded_objects:
-                data.append(obj.data.decode("utf-8"))
-            # Effacez l'image une fois traitée
-            os.remove(image_path)
-
-            return render(request, 'books/scan_result.html', {'data': data})
-    else:
-        form = ImageUploadForm()
-    return render(request, 'books/scan_form.html', {'form': form})
+# def scan_isbn(request):
+#     if request.method == 'POST':
+#         form = ImageUploadForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             image_file = form.cleaned_data['image_upload']
+#
+#             # --- NEW CODE START ---
+#             # Define the directory where images will be temporarily stored
+#             temp_dir = 'tmp'
+#             # Create the directory if it doesn't exist
+#             if not os.path.exists(temp_dir):
+#                 os.makedirs(temp_dir)
+#             # --- NEW CODE END ---
+#             image_path = os.path.join(temp_dir, image_file.name)
+#             with open(image_path, 'wb+') as destination:
+#                 for chunk in image_file.chunks():
+#                     destination.write(chunk)
+#
+#             # Détection de codes-barres
+#             img = cv2.imread(image_path)
+#             decoded_objects = decode(img)
+#             data = []
+#             for obj in decoded_objects:
+#                 data.append(obj.data.decode("utf-8"))
+#             # Effacez l'image une fois traitée
+#             os.remove(image_path)
+#
+#             return render(request, 'books/scan_result.html', {'data': data})
+#     else:
+#         form = ImageUploadForm()
+#     return render(request, 'books/scan_form.html', {'form': form})
 
 # Functions
 def book_search(search, api_key):

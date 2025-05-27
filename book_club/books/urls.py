@@ -6,7 +6,7 @@ from .views import *
 urlpatterns = [
   path('book-save/<str:google_id>', add_book, name="save-book"),
   path('search', new_book_search, name="new-book-search"),
-  path('scan-isbn', scan_isbn, name="scan-isbn"),
+  #path('scan-isbn', scan_isbn, name="scan-isbn"),
   # URL pour afficher la page du scanner en direct
   path('live_scan/', live_scan_view, name='live_scan'),
 
