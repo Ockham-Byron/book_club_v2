@@ -1,8 +1,10 @@
 import json
+from django.http import JsonResponse
 import environ
 import ssl
 import cv2
 import os
+import logging
 from pyzbar.pyzbar import decode
 from urllib.request import urlopen
 from urllib.parse import quote_plus
@@ -33,6 +35,30 @@ key = env.str('API_KEY')
 MESSAGE_BOOK_REGISTERED = _(
     "The book is already registered here."
 )
+
+# Vue pour lancer le scanner en temps réel (affiche le template HTML)
+def live_scan_view(request):
+    return render(request, 'books/scan_live.html') # Le nouveau template pour le scan en direct
+
+# Vue pour recevoir l'ISBN décodé par le client
+def process_scanned_isbn(request):
+    if request.method == 'POST':
+        try:
+            logging.debug(f"Received raw request body: {request.body}")
+            # Récupérer les données JSON du corps de la requête
+            data = json.loads(request.body)
+            isbn = data.get('isbn')
+
+            if isbn:
+                print(f"ISBN reçu du client : {isbn}")
+                book_search(isbn, key)
+                return JsonResponse({'status': 'success', 'message': f'ISBN {isbn} reçu et traité !'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Aucun ISBN fourni.'}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'Requête JSON invalide.'}, status=400)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=405)
 
 def scan_isbn(request):
     if request.method == 'POST':
@@ -81,23 +107,23 @@ def book_search(search, api_key):
     # Vérifier si le terme de recherche ressemble à un ISBN (10 ou 13 chiffres)
     if search.isdigit() and (len(search) == 10 or len(search) == 13):
         query_params = f"isbn:{quote_plus(search)}"
-        print(f"Recherche par ISBN: {search}")
+        
     else:
         query_params = f"{quote_plus(search)}"  # Recherche par titre
-        print(f"Recherche par Texte: {search}")
+        
 
     api_url = f"{base_api_url}{query_params}&key={api_key}"
-    print(f"URL de la requête: {api_url}")
+    
     
     
     
     try:
         full_url = api_url.format(search=search)
-        print(f"URL de la requête: {full_url}") 
+        
         r = urlopen(api_url, context=ctx)
         data = json.load(r)
     except Exception as e:
-        print(f"Error fetching data from Google Books API: {e}")
+        logging.print(f"Error fetching data from Google Books API: {e}")
         return []
     
    
@@ -122,14 +148,14 @@ def book_search(search, api_key):
             books.append(book_dict)
     
     else:
-        print("no items")
+        logging.print("no items")
 
     return books
 
 def book_save(request, google_id):
     api = f"https://www.googleapis.com/books/v1/volumes/{google_id}"
 
-    print(f'Url pour sauvegarder livre: {api}')
+    
   
     
   
@@ -192,15 +218,13 @@ def book_add(request, book_in_db, groups, borrowing, picture):
     only_several_books = True
 
     if len(groups) > 0:
-        print("groups")
-        print(groups)
         
         for i in groups:
             group = CustomGroup.objects.get(uuid=i)
-            print(group)
+            
             if group.group_type == "library":
                 only_several_books = False
-                print(only_several_books)
+                
             if group in book_in_db.groups.all() and group.group_type == 'one_book':
                 messages.error(request, MESSAGE_BOOK_REGISTERED, group.kname)
             elif group in book_in_db.groups.all() and group.group_type == 'library':
@@ -223,8 +247,7 @@ def book_add(request, book_in_db, groups, borrowing, picture):
                 else:
                     new_kbook.group = group
                 new_kbook.save()
-                print("new book")
-                print(new_kbook)
+                
                 if picture:
                     new_kbook.picture = picture
                 if group.group_type == 'library':
@@ -320,14 +343,14 @@ def add_book(request, google_id):
         else:
             book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=book.get('google_id'))
             book_in_db.save()
-            print("save with google_id")
+            
     else:
         if Book.objects.filter(isbn=book.isbn).exists():
             book_in_db = Book.objects.get(google_id=google_id)
         else:
             book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=0)
             book_in_db.save()
-            print("save without google_id")
+            
     
     
 
@@ -349,8 +372,7 @@ def add_book(request, google_id):
                 kbook.save()
                 return redirect('borrow-no-group', kbook.id)
             elif kbook.owner is None and kbook.sharing_groups.count() > 0:
-                    print("sharing groups")
-                    print(kbook.sharing_groups)
+                    
                     return redirect ('define-owner', kbook.id)
             else:
                 return redirect('all-books')
@@ -389,15 +411,14 @@ def add_custom_book(request):
                         kbook.save()
                         return redirect('borrow-no-group', kbook.id)
                     elif kbook.owner is None and kbook.sharing_groups.count() > 0:
-                        print("sharing groups")
-                        print(kbook.sharing_groups)
+                        
                         return redirect ('define-owner', kbook.id)
                     else:
                         return redirect('all-books')
                 
             
         else:
-            print(form.errors)
+            logging.print(form.errors)
      
 
     return render(request, 'books/add-edit-book.html', {'form': form, 'kgroups': kgroups, 'borrowing': borrowing})
@@ -425,7 +446,6 @@ def define_owner(request, id):
         owner = get_object_or_404(CustomUser, id=owner)
         if kowner == 'None':
             kbook.owner = owner
-            print(owner)
         else:
             kbook.kowner = kowner
         kbook.save()
@@ -456,7 +476,7 @@ def new_book_search(request):
                 else:
                     return render(request, 'books/search.html', {'form': form, 'books': books})
             except Exception as e:
-                print(e)
+                logging.print(e)
                 messages.error(request, _('Invalid search. Try without any accent.'))
                 return render(request, 'books/search.html', {'form': form})
          
@@ -540,7 +560,7 @@ def add_new_book_to_meeting(request,id, google_id):
                 kbook = CustomBook.objects.get(book=book_in_db, group=group)
                 meeting.book = kbook
             else:
-                print("pas dans la db")
+                
                 book_in_db.groups.add(group)
                 book_in_db.save()
                 new_kbook = CustomBook(book=book_in_db, group=group, admin=request.user)
@@ -562,7 +582,7 @@ def book_detail(request, slug):
     
     groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
     groups_of_book = book.groups.filter(members__id__contains=request.user.id)
-    print(groups_of_book)
+    
 
     all_reviews = Comment.objects.filter(book=book)
     #filter by groups
@@ -748,7 +768,7 @@ def edit_reading_status(request, slug, id):
 
     if request.method=="POST":
         reading_status = request.POST.get('reading-status')
-        print(reading_status)
+        
         if reading_status == "is_read":
             if is_read == False:
                 book.readers.add(user)
@@ -857,7 +877,7 @@ def edit_book(request, slug):
                 return redirect('book-detail', book.slug)
             
         else:
-            print(form.errors)
+            logging.print(form.errors)
      
 
     return render(request, 'books/add-edit-book.html', {'form': form, 'book': book})
@@ -870,7 +890,7 @@ def all_books(request):
         for member in group.members.all():
             common_members_set.add(member) 
 
-    print(common_members_set)
+    
      
     kbooks = CustomBook.objects.filter(owner__in=common_members_set) | CustomBook.objects.filter(admin__in=common_members_set)
 
@@ -1026,7 +1046,7 @@ def all_books(request):
     if request.method == "POST":
 
         if "filter" in request.POST:
-            print(unique_kbooks)
+            
             reading_status = request.POST.get('reading-status')
             borrow_status = request.POST.get('borrow-status')   
             search_query = request.POST["search_query"].lower()
@@ -1040,7 +1060,7 @@ def all_books(request):
                     search_queryset.append(kbook)
             
             unique_kbooks = search_queryset
-            print(unique_kbooks)
+            
             queryset = []
                 
             for kbook in unique_kbooks:
@@ -1059,7 +1079,7 @@ def all_books(request):
                     
                     reading_status_description = _("Want to read")
                     if request.user in kbook.book.in_wishlist.all():
-                        print("Envie de lire" + str(kbook.title))
+                        
                         queryset.append(kbook)
                 elif reading_status == "no_read":
                     reading_status_description = _("Not read yet")
@@ -1118,7 +1138,7 @@ def all_books(request):
             
     
     unique_kbooks = unique_kbooks
-    print(unique_kbooks)
+    
     
     context = {
         
@@ -1145,7 +1165,7 @@ def group_books(request, slug):
             common_members.append(member)
     common_members = set(common_members)
 
-    print(group)
+    
     
     kbooks = CustomBook.objects.filter(Q(group=group) | Q(sharing_groups=group))
     unique_kbooks = []
@@ -1423,7 +1443,7 @@ def add_book_tags(request, slug):
 
         if "select-tags" in request.POST:
             tags = request.POST.getlist(('tag'))
-            print(tags)
+            
             #remove tags
         
             for tag in kbook_tags:
@@ -1513,7 +1533,7 @@ def add_meeting(request, slug):
         form = AddMeetingForm(request.POST)
         meeting_at = request.POST.get('meeting_at')
         if form.is_valid():
-            print("form validation successful")
+            
             if "search-book" in request.POST:
                 meeting = form.save()
                 if meeting_at:
@@ -1524,7 +1544,7 @@ def add_meeting(request, slug):
                 meeting.save()
                 return redirect('search-book-for-meeting', meeting.id)
             elif "add-meeting" in request.POST:
-                print("add meeting")
+                
                 meeting = form.save()
                 if meeting_at:
                     meeting.meeting_at = meeting_at
@@ -1534,7 +1554,7 @@ def add_meeting(request, slug):
                 meeting.save()
                 return redirect('group-detail', group.slug)
         else:
-            print(form.errors)
+            logging.print(form.errors)
 
     context = {'form': form,
                'group': group,
@@ -1563,7 +1583,7 @@ def edit_meeting(request, id):
                 meeting.save()
                 return redirect('search-book-for-meeting', meeting.id)
             elif "add-meeting" in request.POST:
-                print("add meeting")
+                
                 meeting = form.save()
                 if meeting_at:
                     meeting.meeting_at = meeting_at
@@ -1574,7 +1594,7 @@ def edit_meeting(request, id):
                 return redirect('group-detail', group.slug)
             
         else:
-            print(form.errors)
+            logging.print(form.errors)
 
     context = {'form': form,
                'meeting': meeting,

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Barcode Scanner</title>
+    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        #interactive.viewport {
+            position: relative;
+            width: 100%;
+            height: auto; /* Adjust height based on video stream */
+            overflow: hidden;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #000;
+        }
+        #interactive.viewport canvas,
+        #interactive.viewport video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .drawingBuffer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #result-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            background-color: #e6ffed;
+            color: #28a745;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+            max-width: 600px;
+            width: 100%;
+        }
+        #result-container.error {
+            border-color: #dc3545;
+            background-color: #ffe6e6;
+            color: #dc3544;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .loading-message {
+            font-style: italic;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Live ISBN Scanner</h1>
+        <p>Positionnez le code-barres ISBN devant votre caméra.</p>
+        <div id="interactive" class="viewport"></div>
+        <div id="result-container">
+            <span id="barcode-result"></span>
+        </div>
+        <p class="loading-message" id="loading-message">Chargement de la caméra...</p>
+    </div>
+
+    <script>
+        const resultContainer = document.getElementById('result-container');
+        const barcodeResult = document.getElementById('barcode-result');
+        const loadingMessage = document.getElementById('loading-message');
+        let scannerActive = false;
+        let lastDecodedCode = null; // Store the last successfully decoded code
+        let debounceTimeout = null; // For debouncing successful scans
+
+        function startScanner() {
+            loadingMessage.style.display = 'block';
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector('#interactive'),
+                    constraints: {
+                        facingMode: "environment" // "user" for front camera, "environment" for back camera
+                    },
+                },
+                decoder: {
+                    readers: ["ean_reader", "ean_8_reader", "upc_reader", "upc_e_reader"], // Readers for ISBN (EAN-13)
+                    debug: {
+                        showCanvas: true,
+                        showPatches: true,
+                        showFoundPatches: true,
+                        showSkeleton: true,
+                        showLabels: true,
+                        showPatchLabels: true,
+                        showRemainingPatchLabels: true,
+                        boxFromPatches: {
+                            showTransformed: true,
+                            showTransformedBox: true,
+                            showBoundingBox: true
+                        }
+                    }
+                },
+                locate: true, // Enable detection of the barcode location
+            }, function(err) {
+                loadingMessage.style.display = 'none';
+                if (err) {
+                    console.error("Erreur lors de l'initialisation de Quagga:", err);
+                    resultContainer.classList.add('error');
+                    barcodeResult.textContent = `Erreur: ${err.message || err}. Vérifiez les permissions de la caméra.`;
+                    resultContainer.style.display = 'block';
+                    return;
+                }
+                console.log("QuaggaJS initialisé. Démarrage du scanner...");
+                Quagga.start();
+                scannerActive = true;
+            });
+
+            Quagga.onDetected(function(data) {
+                // Débouncer les scans pour éviter les envois multiples du même code
+                if (data.codeResult.code && data.codeResult.code !== lastDecodedCode) {
+                    if (debounceTimeout) {
+                        clearTimeout(debounceTimeout);
+                    }
+
+                    lastDecodedCode = data.codeResult.code;
+                    barcodeResult.textContent = `ISBN détecté: ${data.codeResult.code}`;
+                    resultContainer.classList.remove('error');
+                    resultContainer.style.display = 'block';
+                    console.log("Code-barres détecté:", data.codeResult.code);
+
+                    // Envoyer le code-barres au serveur Django
+                    sendBarcodeToServer(data.codeResult.code);
+
+                    // Stop scanning after a successful read to avoid multiple reads and save resources
+                    // You might want to remove this if you want continuous scanning
+                    Quagga.stop();
+                    scannerActive = false;
+
+                    // Re-enable scanning after a short delay
+                    debounceTimeout = setTimeout(() => {
+                        console.log("Redémarrage du scanner après un délai.");
+                        if (!scannerActive) { // Only restart if not already active
+                            startScanner();
+                        }
+                        lastDecodedCode = null; // Reset for next scan
+                    }, 3000); // Wait 3 seconds before allowing another scan of a *new* code
+                }
+            });
+
+            Quagga.onProcessed(function(result) {
+                var drawingCtx = Quagga.canvas.ctx.overlay,
+                    drawingCanvas = Quagga.canvas.dom.overlay;
+
+                if (result) {
+                    if (result.boxes) {
+                        drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.width), parseInt(drawingCanvas.height));
+                        result.boxes.filter(function (box) {
+                            return box !== result.box;
+                        }).forEach(function (box) {
+                            Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
+                        });
+                    }
+
+                    if (result.box) {
+                        Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
+                    }
+
+                    if (result.codeResult && result.codeResult.code) {
+                        Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
+                    }
+                }
+            });
+        }
+
+        function sendBarcodeToServer(barcode) {
+            // Remplacez '/scan/result/' par l'URL de votre vue Django qui traitera l'ISBN
+            fetch('process_isbn/', { // Assurez-vous que cette URL existe dans votre urls.py
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Fonction pour obtenir le token CSRF
+                },
+                body: JSON.stringify({ 'isbn': barcode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Réponse du serveur:', data);
+                // Vous pouvez mettre à jour l'interface utilisateur avec la réponse du serveur
+                // if (data.status === 'success') {
+                //     barcodeResult.textContent = `ISBN ${barcode} traité avec succès !`;
+                //     resultContainer.classList.remove('error');
+                // } else {
+                //     barcodeResult.textContent = `Erreur serveur: ${data.message}`;
+                //     resultContainer.classList.add('error');
+                // }
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'envoi au serveur:', error);
+                barcodeResult.textContent = `Erreur réseau lors de l'envoi de l'ISBN.`;
+                resultContainer.classList.add('error');
+            });
+        }
+
+        // Fonction pour obtenir le token CSRF de Django (nécessaire pour les requêtes POST)
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Démarrer le scanner quand la page est chargée
+        window.addEventListener('load', startScanner);
+
+        // Assurez-vous d'arrêter Quagga quand l'utilisateur quitte la page
+        window.addEventListener('beforeunload', function() {
+            if (scannerActive) {
+                Quagga.stop();
+            }
+        });
+    </script>
+</body>
+</html>

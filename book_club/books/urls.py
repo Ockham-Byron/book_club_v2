@@ -7,6 +7,11 @@ urlpatterns = [
   path('book-save/<str:google_id>', add_book, name="save-book"),
   path('search', new_book_search, name="new-book-search"),
   path('scan-isbn', scan_isbn, name="scan-isbn"),
+  # URL pour afficher la page du scanner en direct
+  path('live_scan/', live_scan_view, name='live_scan'),
+
+  # URL pour recevoir l'ISBN scanné par le client (via AJAX)
+  path('live_scan/process_isbn/', process_scanned_isbn, name='process_scanned_isbn'),
 
   path('all-books', all_books, name="all-books"),
   path('group-books/<slug:slug>', group_books, name="group-books"),

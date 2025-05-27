@@ -188,8 +188,7 @@ def register_view(request):
                     messages.error(request, f'There is no group with this code')
                     
 
-            else:
-                messages.error(request, f'Invalide')
+            
             
 
             library = CustomGroup(kname=_('My Library'), leader=user, group_type='library')
