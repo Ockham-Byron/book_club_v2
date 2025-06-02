@@ -1,8 +1,9 @@
 import json
 from django.http import JsonResponse
+from django.urls import reverse
 import environ
 import ssl
-import cv2
+#import cv2
 import os
 import logging
 #from pyzbar.pyzbar import decode
@@ -21,6 +22,11 @@ from groups.models import CustomGroup
 from .models import Book, Meeting, CustomBook, Comment, Borrow, BookTag
 from users.models import CustomUser
 
+# Get an instance of a logger
+# Utilisez le nom de votre application ou de votre module pour le logger
+logger = logging.getLogger(__name__) # __name__ donne le nom du module courant (ex: myapp.views)
+
+
 tz= timezone.get_current_timezone()
 
 ctx = ssl.create_default_context()
@@ -38,27 +44,104 @@ MESSAGE_BOOK_REGISTERED = _(
 
 # Vue pour lancer le scanner en temps réel (affiche le template HTML)
 def live_scan_view(request):
+    logger.info("Présent sur la page de scan")
     return render(request, 'books/scan_live.html') # Le nouveau template pour le scan en direct
 
 # Vue pour recevoir l'ISBN décodé par le client
 def process_scanned_isbn(request):
+    logger.debug("--- Entering process_scanned_isbn view ---")
+
     if request.method == 'POST':
         try:
-            logging.debug(f"Received raw request body: {request.body}")
-            # Récupérer les données JSON du corps de la requête
-            data = json.loads(request.body)
-            isbn = data.get('isbn')
+            logger.debug(f"Request method is POST.")
 
-            if isbn:
-                print(f"ISBN reçu du client : {isbn}")
-                book_search(isbn, key)
-                return JsonResponse({'status': 'success', 'message': f'ISBN {isbn} reçu et traité !'})
+            # Test 1: Just log the raw request.body bytes
+            raw_body = request.body
+            logger.debug(f"Raw request.body (bytes): {raw_body}")
+            logger.debug(f"Type of raw_body: {type(raw_body)}")
+            logger.debug(f"Length of raw_body: {len(raw_body)} bytes")
+
+            # Test 2: Try to decode request.body
+            decoded_body = None
+            try:
+                decoded_body = raw_body.decode('utf-8')
+                logger.debug(f"Decoded request.body (str): {decoded_body}")
+            except UnicodeDecodeError as decode_err:
+                logger.error(f"Failed to decode request.body with UTF-8: {decode_err}", exc_info=True)
+                # If decoding fails, return a specific error
+                return JsonResponse({'status': 'error', 'message': 'Request body encoding error.'}, status=400)
+
+            # Test 3: Try to parse the decoded JSON
+            if decoded_body:
+                data = json.loads(decoded_body) # This is the line we suspect
+                logger.debug(f"Parsed JSON data: {data}")
+                isbn = data.get('isbn')
+
+                if isbn:
+            
+                    logger.info(f"ISBN received from client: {isbn}")
+                    if not isinstance(isbn, str) or not isbn.isdigit() or not (len(isbn) == 10 or len(isbn) == 13):
+                        logger.warning(f"Invalid ISBN format received: {isbn}")
+                        messages.error(request, _('Error when trying to read the ISBN. Yo can write it in the search field.'))
+                        return redirect('new-book-search')
+                    
+                    else:
+                        results= book_search(isbn, key)
+                        if results: # Vérifie si la liste n'est pas vide
+                            new_book = results[0] # Récupère le premier élément de la liste
+                            # Continuez votre logique ici avec 'new_book' qui est maintenant le premier résultat
+                            logger.info(f"Premier livre trouvé : {new_book}")
+                            google_id = new_book['google_id']
+                            redirect_url = reverse('save-book', kwargs={'google_id': google_id}) # Use kwargs for URL parameters
+
+                            logger.info(f"Success ! Redirecting client to URL: {redirect_url}")
+                            # Return a JSON response with the URL
+                            return JsonResponse({'status': 'success', 'redirect_url': redirect_url})
+                            
+                        else:
+                           # CAS D'ERREUR : Aucun livre trouvé
+                            logger.warning(f"No book found by book_search for ISBN: {isbn}")
+                            
+                            # Construire l'URL absolue pour la page de recherche avec les paramètres
+                            relative_search_path = reverse('new-book-search')
+                            
+                            # Utilisez quote_plus pour encoder les messages et ISBN
+                            encoded_message = quote_plus('Error when trying to read the ISBN. You can write it in the search field.')
+                            encoded_isbn = quote_plus(isbn) # isbn est déjà une chaîne ici
+
+                            search_url_with_params = f"{relative_search_path}?error_message={encoded_message}&isbn_value={encoded_isbn}"
+                            absolute_search_url = request.build_absolute_uri(search_url_with_params)
+
+                            logger.info(f"Error! Redirecting client to search page URL: {absolute_search_url}")
+                            return JsonResponse({
+                                'status': 'error',
+                                'message': 'Error when trying to read the ISBN. You can write it in the search field.', # Ce message est pour le debug JS
+                                'error_type': 'book_not_found',
+                                'isbn': isbn,
+                                'redirect_url': absolute_search_url # Renvoyer l'URL absolue pour la redirection d'erreur
+                            }, status=200)
+                                       
+                
+                    
+
+
             else:
-                return JsonResponse({'status': 'error', 'message': 'Aucun ISBN fourni.'}, status=400)
-        except json.JSONDecodeError:
-            return JsonResponse({'status': 'error', 'message': 'Requête JSON invalide.'}, status=400)
+                logger.warning("Decoded body was empty or None.")
+                return JsonResponse({'status': 'error', 'message': 'Empty request body after decoding.'}, status=400)
+
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON Decode Error in process_scanned_isbn: {e}. Raw body (if available): {raw_body if 'raw_body' in locals() else 'N/A'}", exc_info=True)
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON request.'}, status=400)
+        except Exception as e:
+            logger.exception(f"An unexpected error occurred in process_scanned_isbn: {e}")
+            return JsonResponse({'status': 'error', 'message': 'Internal server error. Please check server logs.'}, status=500)
     else:
-        return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=405)
+        logger.warning(f"Unsupported method {request.method} for process_scanned_isbn.")
+        return JsonResponse({'status': 'error', 'message': 'Method not allowed.'}, status=405)
+
+    logger.debug("--- Exiting process_scanned_isbn view ---") # Should not be reached on success/error
+
+                
 
 # def scan_isbn(request):
 #     if request.method == 'POST':
@@ -95,15 +178,13 @@ def process_scanned_isbn(request):
 # Functions
 def book_search(search, api_key):
     if (search == False) or (search == ""):
-            return redirect('book-search')
+        return redirect('book-search')
 
     
     
     base_api_url = "https://www.googleapis.com/books/v1/volumes?q="
     query_params = ""
-    #api = f"https://www.googleapis.com/books/v1/volumes?q={quote_plus(search)}&key={api_key}"
-    #api = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{search}&key={api_key}"
-  
+    
     # Vérifier si le terme de recherche ressemble à un ISBN (10 ou 13 chiffres)
     if search.isdigit() and (len(search) == 10 or len(search) == 13):
         query_params = f"isbn:{quote_plus(search)}"
@@ -118,22 +199,16 @@ def book_search(search, api_key):
     
     
     try:
-        full_url = api_url.format(search=search)
-        
         r = urlopen(api_url, context=ctx)
         data = json.load(r)
     except Exception as e:
-        logging.print(f"Error fetching data from Google Books API: {e}")
+        logger.error(f"Error fetching data from Google Books API: {e}")
         return []
     
-   
     books=[]
     if data["totalItems"] > 0:
-        
         fetched_books = data['items']
     
-
-        
         for book in fetched_books:
             book_dict = {
                 'google_id':book['id'],
@@ -148,11 +223,12 @@ def book_search(search, api_key):
             books.append(book_dict)
     
     else:
-        logging.print("no items")
+        logger.error("no items")
 
     return books
 
 def book_save(request, google_id):
+    logger.debug("--- Debug book_save ---")
     api = f"https://www.googleapis.com/books/v1/volumes/{google_id}"
 
     
@@ -316,8 +392,10 @@ def book_add(request, book_in_db, groups, borrowing, picture):
 # BOOK VIEWS
 @login_required
 def add_book(request, google_id):
+    logger.debug("--- Debug add book --- ")
     book_in_db = None
     kgroups = CustomGroup.objects.filter(members__id__contains=request.user.id)
+    logger.info(kgroups)
     kgroups = kgroups.exclude(group_type = "borrowing")
     borrowing = CustomGroup.objects.filter(leader = request.user, group_type = "borrowing")
 
@@ -325,8 +403,10 @@ def add_book(request, google_id):
         if google_id:
             book=book_save(request, google_id)
         else:
-            book=book_save(request, google_id==0)
+            book=book_save(request, None)
+        logger.info(f'Book: {book}')
     except:
+        logger.debug('on trouve pas le livre')
         messages.error(request, _('There was an error in the interpretation of result : please add the book yourself.'))
         return redirect('add-book-custom')
    
@@ -338,24 +418,29 @@ def add_book(request, google_id):
     }
 
     if google_id:
+        logger.info("Y a un google id")
         if Book.objects.filter(google_id=google_id).exists():
             book_in_db = Book.objects.get(google_id=google_id)
         else:
             book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=book.get('google_id'))
             book_in_db.save()
+        logger.info(f'book in db: {book_in_db}')
             
     else:
+        logger.info("Y a pas de google id")
         if Book.objects.filter(isbn=book.isbn).exists():
             book_in_db = Book.objects.get(google_id=google_id)
         else:
             book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=0)
             book_in_db.save()
+        logger.info(f'book in db: {book_in_db}')
             
     
     
 
 
     if request.method=='POST':
+        logger.info("Request method: POST")
         groups = request.POST.getlist('group')
         borrowing = request.POST.get('borrowing')
 
@@ -418,7 +503,7 @@ def add_custom_book(request):
                 
             
         else:
-            logging.print(form.errors)
+            logger.error(form.errors)
      
 
     return render(request, 'books/add-edit-book.html', {'form': form, 'kgroups': kgroups, 'borrowing': borrowing})
@@ -476,7 +561,7 @@ def new_book_search(request):
                 else:
                     return render(request, 'books/search.html', {'form': form, 'books': books})
             except Exception as e:
-                logging.print(e)
+                logger.debug(e)
                 messages.error(request, _('Invalid search. Try without any accent.'))
                 return render(request, 'books/search.html', {'form': form})
          
@@ -877,7 +962,7 @@ def edit_book(request, slug):
                 return redirect('book-detail', book.slug)
             
         else:
-            logging.print(form.errors)
+            logging.debug(form.errors)
      
 
     return render(request, 'books/add-edit-book.html', {'form': form, 'book': book})
@@ -1554,7 +1639,7 @@ def add_meeting(request, slug):
                 meeting.save()
                 return redirect('group-detail', group.slug)
         else:
-            logging.print(form.errors)
+            logging.error(form.errors)
 
     context = {'form': form,
                'group': group,
@@ -1594,7 +1679,7 @@ def edit_meeting(request, id):
                 return redirect('group-detail', group.slug)
             
         else:
-            logging.print(form.errors)
+            logging.error(form.errors)
 
     context = {'form': form,
                'meeting': meeting,

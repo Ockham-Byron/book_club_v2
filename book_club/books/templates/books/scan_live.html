@@ -31,7 +31,7 @@
         #interactive.viewport {
             position: relative;
             width: 100%;
-            height: auto; /* Adjust height based on video stream */
+            height: auto; 
             overflow: hidden;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -39,7 +39,7 @@
         }
         #interactive.viewport canvas,
         #interactive.viewport video {
-            max-width: 100%;
+            width: 100%;
             height: auto;
             display: block;
             margin: 0 auto;
@@ -116,16 +116,16 @@
                     type: "LiveStream",
                     target: document.querySelector('#interactive'),
                     constraints: {
-                        facingMode: "user" // "user" for front camera, "environment" for back camera
+                        facingMode: "environment" // "user" for front camera, "environment" for back camera
                     },
                 },
                 decoder: {
-                    //readers: [
-                        //"ean_reader",  // Readers for ISBN (EAN-13)
+                    readers: [
+                        "ean_reader",  // Readers for ISBN (EAN-13)
                         //"ean_8_reader",
                         // "upc_reader",
                         // "upc_e_reader" //
-                  //       ],
+                         ],
                     config: {
                         ean_reader:{
                             min_length:12,
@@ -151,7 +151,7 @@
                     }
                 },
                 locator: {
-                    patchSize: "small",
+                    patchSize: "medium",
                     halfSample: true,
                     throttle:80
                 },
@@ -188,7 +188,7 @@
 
                     // Envoyer le code-barres au serveur Django
                     sendBarcodeToServer(data.codeResult.code);
-
+                    
                     // Stop scanning after a successful read to avoid multiple reads and save resources
                     // You might want to remove this if you want continuous scanning
                     Quagga.stop();
@@ -231,31 +231,58 @@
         }
 
         function sendBarcodeToServer(barcode) {
-            // Remplacez '/scan/result/' par l'URL de votre vue Django qui traitera l'ISBN
-            fetch('process_isbn/', { // Assurez-vous que cette URL existe dans votre urls.py
+            console.log("Barcode value to send:", barcode); // Check this!
+            const requestBody = JSON.stringify({ 'isbn': barcode });
+            console.log("Request body JSON:", requestBody); // Check this!
+            
+            // In your scan_live.html JavaScript
+            fetch('process_isbn/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken') // Fonction pour obtenir le token CSRF
+                    'X-CSRFToken': getCookie('csrftoken')
                 },
                 body: JSON.stringify({ 'isbn': barcode })
             })
-            .then(response => response.json())
+            .then(response => {
+                // Check if the response itself indicates an error status (e.g., 400, 404, 500)
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || `Server error: ${response.status}`);
+                    });
+                }
+                return response.json(); // Always parse JSON
+            })
             .then(data => {
-                console.log('Réponse du serveur:', data);
-                // Vous pouvez mettre à jour l'interface utilisateur avec la réponse du serveur
-                // if (data.status === 'success') {
-                //     barcodeResult.textContent = `ISBN ${barcode} traité avec succès !`;
-                //     resultContainer.classList.remove('error');
-                // } else {
-                //     barcodeResult.textContent = `Erreur serveur: ${data.message}`;
-                //     resultContainer.classList.add('error');
-                // }
+                console.log('Server response data:', data); // IMPORTANT: Check this console log
+                if (data.status === 'success' && data.redirect_url) {
+                    // THIS IS THE LINE YOU NEED TO ENSURE IS EXECUTED
+                    window.location.href = data.redirect_url; // This forces the browser to navigate
+                } else if (data.status === 'error') {
+                    // Cas d'erreur spécifique : livre non trouvé
+                     window.location.href = data.redirect_url;
+                } else {
+                    barcodeResult.textContent = `Succès inattendu: ${JSON.stringify(data)}`;
+                    resultContainer.classList.remove('error');
+                    resultContainer.style.display = 'block';
+                }
             })
             .catch(error => {
-                console.error('Erreur lors de l\'envoi au serveur:', error);
-                barcodeResult.textContent = `Erreur réseau lors de l'envoi de l'ISBN.`;
+                console.error('Fetch error:', error);
+                barcodeResult.textContent = `Erreur réseau ou du scanner: ${error.message}`;
                 resultContainer.classList.add('error');
+                resultContainer.style.display = 'block';
+            })
+            .finally(() => {
+                // Adjust scanner stopping/restarting logic carefully here if you only want it to scan once then navigate
+                // For now, if navigation occurs, you likely don't want to restart the scanner.
+                // The `window.location.href` change will effectively stop the current page and load the new one.
+                if (debounceTimeout) {
+                    clearTimeout(debounceTimeout);
+                    debounceTimeout = null;
+                }
+                // You might also want to stop QuaggaJS immediately before redirecting
+                // Quagga.stop();
             });
         }
 
