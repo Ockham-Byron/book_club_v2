@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 import environ
 import ssl
+import operator
 #import cv2
 import os
 import logging
@@ -985,66 +986,64 @@ def all_books(request):
     # Récupérer les objets Book et s'assurer qu'ils sont uniques
     books = Book.objects.filter(id__in=book_ids).distinct()
 
-    # Récupérer pour chaque livre les différents proprios et les liens vers les kbooks correspondant
-    # for book in books:
-    #     # Convertir le QuerySet in_library en un set pour l'intersection
-    #     in_library_users_set = set(book.in_library.all())
-    #     # Calculer l'intersection
-    #     book.common_in_library_members = in_library_users_set.intersection(common_members_set)
+    # Prepare data for each book and collect sorting keys
+    books_with_sort_keys = []
 
-
-    # for book in books:
-    #     in_library_users_set = set(book.in_library.all())
-    #     book.common_in_library_members = [] # Initialisez une liste pour stocker les utilisateurs avec leur CustomBook
-
-    #     for user in in_library_users_set.intersection(common_members_set):
-    #         # Tentez de trouver un CustomBook où cet utilisateur est l'owner et qui est lié à ce Book
-    #         # Il peut y avoir plusieurs CustomBooks pour un même Book et un même owner,
-    #         # vous devrez donc décider lequel afficher (par exemple, le premier trouvé).
-    #         # Si un user est l'owner de plusieurs CustomBook pour le même Book,
-    #         # vous pourriez vouloir ajouter une logique plus complexe ici.
-    #         try:
-    #             # On recherche un CustomBook dont 'book' est le livre actuel et 'owner' est l'utilisateur
-    #             # C'est une hypothèse que chaque owner a un CustomBook unique pour chaque Book.
-    #             # Si un owner peut avoir plusieurs CustomBook pour le même Book,
-    #             # vous devrez affiner cette requête (par exemple, .first() ou un tri).
-    #             user_kbook = CustomBook.objects.filter(book=book, owner=user).first()
-    #             book.common_in_library_members.append({
-    #                 'user': user,
-    #                 'kbook_slug': user_kbook.slug if user_kbook else None # Stockez le slug pour l'URL
-    #             })
-    #         except CustomBook.DoesNotExist:
-    #             # L'utilisateur est dans in_library et common_members, mais n'est pas owner d'un CustomBook pour ce livre
-    #             book.common_in_library_members.append({
-    #                 'user': user,
-    #                 'kbook_slug': None # Indiquez qu'il n'y a pas de CustomBook owner pour cet utilisateur
-    #             })
-
-    # for book in books:
-    #     in_library_users_set = set(book.in_library.all())
-    #     book.common_in_library_members = []
-    #     book.request_user_kbook_slug = None # Initialise le slug pour l'utilisateur actuel
-
-    #     # Vérifie si request.user est dans in_library et owner d'un CustomBook pour ce livre
-    #     if request.user in in_library_users_set:
-    #         user_kbook_for_request_user = CustomBook.objects.filter(book=book, owner=request.user).first()
-    #         if user_kbook_for_request_user:
-    #             book.request_user_kbook_slug = user_kbook_for_request_user.slug
-
-    #     for user in in_library_users_set.intersection(common_members_set):
-            
-    #         user_kbook = CustomBook.objects.filter(book=book, owner=user).first()
-    #         book.common_in_library_members.append({
-    #             'user': user,
-    #             'kbook_slug': user_kbook.slug if user_kbook else None,
-    #             'kbook_borrowing': user_kbook.borrowing if user_kbook.borrowing.status == "on_going" else None
-    #         })
+   
 
     for book in books:
         in_library_users_set = set(book.in_library.all())
         book.common_in_library_members = []
         book.request_user_kbook_slug = None
         book.request_user_on_going_borrow = None # New: To store the on_going borrow for request.user's kbook
+
+        # --- Determine Sorting Key for the Book ---
+        # Initialize sort key with a very high (or low for ascending) default value
+        # This will be overridden if a more specific CustomBook is found
+        sort_key = None 
+
+        # Priority 1: CustomBook where request.user is owner
+        user_kbook_for_request_user_owner = CustomBook.objects.filter(book=book, owner=request.user).first()
+        if user_kbook_for_request_user_owner:
+            sort_key = user_kbook_for_request_user_owner.created_at
+            book.request_user_kbook_slug = user_kbook_for_request_user_owner.slug
+            on_going_borrow = user_kbook_for_request_user_owner.borrowing.filter(status=Borrow.ON_GOING).first()
+            if on_going_borrow:
+                book.request_user_on_going_borrow = on_going_borrow
+        else:
+            # Priority 2: CustomBook where request.user is admin
+            user_kbook_for_request_user_admin = CustomBook.objects.filter(book=book, admin=request.user).first()
+            if user_kbook_for_request_user_admin:
+                sort_key = user_kbook_for_request_user_admin.created_at
+                book.request_user_kbook_slug = user_kbook_for_request_user_admin.slug # Still link to this admin kbook
+                on_going_borrow = user_kbook_for_request_user_admin.borrowing.filter(status=Borrow.ON_GOING).first()
+                if on_going_borrow:
+                    book.request_user_on_going_borrow = on_going_borrow
+            else:
+                # Priority 3: CustomBook from a common group member (either owner or admin)
+                # Find the earliest created_at from any kbook owned/admin'd by a common_member for this book
+                earliest_common_kbook_created_at = None
+                
+                # Fetch all relevant CustomBooks for this 'Book' that are owned/admin'd by common_members
+                relevant_kbooks_for_sorting = CustomBook.objects.filter(
+                    book=book
+                ).filter(
+                    # Members who are either owner OR admin AND are in common_members_set
+                    Q(owner__in=common_members_set) | Q(admin__in=common_members_set)
+                ).order_by('created_at').first() # Get the one with the earliest created_at
+
+                if relevant_kbooks_for_sorting:
+                    earliest_common_kbook_created_at = relevant_kbooks_for_sorting.created_at
+                
+                if earliest_common_kbook_created_at:
+                    sort_key = earliest_common_kbook_created_at
+                else:
+                    # Fallback if no specific CustomBook fits the criteria (e.g., Book without any CustomBook)
+                    # You might want to assign a default created_at from the Book itself, or a very old date
+                    sort_key = book.created_at # Fallback to Book's own created_at
+
+        book._sort_key = sort_key # Store the sort key on the book object for sorting later
+        # --- End Sort Key Determination ---
 
         # Check if request.user is in_library and owner of a CustomBook for this book
         if request.user in in_library_users_set:
@@ -1059,9 +1058,6 @@ def all_books(request):
 
 
         for user in in_library_users_set.intersection(common_members_set):
-            # No need to skip request.user here, as we already handled it for the main book data
-            # and it might still be part of common_in_library_members for other purposes.
-            # Just ensure you don't display redundant info if it's already handled.
 
             user_kbook = CustomBook.objects.filter(book=book, owner=user).first()
             
@@ -1076,49 +1072,14 @@ def all_books(request):
                 'on_going_borrow': on_going_borrow_for_user_kbook,
                 'is_disponible': user_kbook.is_disponible,
             })
+
+
+        books_with_sort_keys.append(book)
     
-    members_kbooks = []
-    owned_kbooks_isbn = []
-    non_sharable_kbooks_isbn = []
-    unique_kbooks = []
+    #Trier les livres par ordre inversé d'ajout
+    books = sorted(books_with_sort_keys, key=operator.attrgetter('_sort_key'), reverse=True) # Sort by latest created_at first
     
-
-    
-    for kbook in kbooks:
-        if kbook.isbn != None:
-            if kbook.owner == None and kbook.kowner == None and kbook.admin in common_members_set:
-                non_sharable_kbooks_isbn.append(kbook.isbn)
-                members_kbooks.append(kbook)
-            elif kbook.owner != None and kbook.owner in common_members_set:
-                owned_kbooks_isbn.append(kbook.isbn)
-                members_kbooks.append(kbook)
-            elif kbook.kowner != None and kbook.admin in common_members_set:
-                owned_kbooks_isbn.append(kbook.isbn)
-                members_kbooks.append(kbook)
-        else:
-            if kbook.owner == None and kbook.admin in common_members_set:
-                non_sharable_kbooks_isbn.append(kbook.title)
-                members_kbooks.append(kbook)
-            elif kbook.owner != None and kbook.owner in common_members_set:
-                owned_kbooks_isbn.append(kbook.title)
-                members_kbooks.append(kbook)
-            elif kbook.kowner != None and kbook.admin in common_members_set:
-                owned_kbooks_isbn.append(kbook.title)
-                members_kbooks.append(kbook)
-
-        
-
-    for kbook in members_kbooks:
-        if (kbook.isbn in owned_kbooks_isbn and kbook.isbn in non_sharable_kbooks_isbn) or (kbook.title in owned_kbooks_isbn and kbook.title in non_sharable_kbooks_isbn):
-            if kbook.owner != None:
-                unique_kbooks.append(kbook)
-        elif (kbook.isbn in owned_kbooks_isbn and kbook.isbn not in non_sharable_kbooks_isbn) or (kbook.title in owned_kbooks_isbn and kbook.title not in non_sharable_kbooks_isbn) :
-            if kbook.owner == request.user or (kbook.owner != request.user and kbook.is_borrowable == True):
-                unique_kbooks.append(kbook)
-        elif (kbook.isbn in non_sharable_kbooks_isbn and kbook.isbn not in owned_kbooks_isbn) or (kbook.title in non_sharable_kbooks_isbn and kbook.title not in owned_kbooks_isbn) :
-            unique_kbooks.append(kbook)
-
-    unique_kbooks_reset = unique_kbooks
+    books_reset = books
     
     borrow_status = "all_borrow_status"
     borrow_status_description = _("All Borrow Status")
@@ -1137,49 +1098,49 @@ def all_books(request):
             search_query = request.POST["search_query"].lower()
             
             search_queryset = []
+
+            for book in books:
+                if search_query in book.title.lower():
+                    search_queryset.append(book)
+                elif search_query in book.author.lower():
+                    search_queryset.append(book)
             
-            for kbook in unique_kbooks:
-                if search_query in kbook.title.lower():
-                    search_queryset.append(kbook)
-                elif search_query in kbook.author.lower():
-                    search_queryset.append(kbook)
-            
-            unique_kbooks = search_queryset
+            books = search_queryset
             
             queryset = []
                 
-            for kbook in unique_kbooks:
+            for book in books:
                 if reading_status == "all_status":
-                    queryset = unique_kbooks
+                    queryset = books
                     reading_status_description = _("All Reading Status")
                 elif reading_status == "is_read":
                     reading_status_description = _("Read")
-                    if request.user in kbook.book.readers.all():
-                        queryset.append(kbook)
+                    if request.user in book.readers.all():
+                        queryset.append(book)
                 elif reading_status == "is_reading":
                     reading_status_description = _("Reading it")
-                    if request.user in kbook.book.readings.all():
-                        queryset.append(kbook)
+                    if request.user in book.readings.all():
+                        queryset.append(book)
                 elif reading_status == "in_wish":
                     
                     reading_status_description = _("Want to read")
-                    if request.user in kbook.book.in_wishlist.all():
-                        
-                        queryset.append(kbook)
+                    if request.user in book.in_whishlist.all():
+                        queryset.append(book)
                 elif reading_status == "no_read":
                     reading_status_description = _("Not read yet")
-                    if request.user in kbook.book.no_read.all():
-                        queryset.append(kbook)
+                    if request.user in book.no_read.all():
+                        queryset.append(book)
                 elif reading_status == "wont_read":
                     reading_status_description = _("No intention to read it")
-                    if request.user in kbook.book.wont_read.all():
-                        queryset.append(kbook)
+                    if request.user in book.wont_read.all():
+                        queryset.append(book)
                 elif reading_status == "give_up":
                     reading_status_description = _("Given up")
-                    if request.user in kbook.book.give_up.all():
-                        queryset.append(kbook)
+                    if request.user in book.give_up.all():
+                        queryset.append(book)
 
-            unique_kbooks = queryset
+            
+            books = queryset
             queryset_2 = []
             if borrow_status == "all_borrow_status":
                     queryset_2 = queryset
@@ -1208,27 +1169,30 @@ def all_books(request):
                             queryset_2.append(kbook)
             
 
-            unique_kbooks = queryset_2
+            #unique_kbooks = queryset_2
+            books = queryset_2
 
         
             
                 
         if "reset" in request.POST:
-
-            unique_kbooks = unique_kbooks_reset
+            books = books_reset
             borrow_status = "all_borrow_status"
             borrow_status_description = _("All Borrow Status")
             reading_status = "all_status"
             reading_status_description = _("All Reading Status")
             
     
-    unique_kbooks = unique_kbooks
+    
+    books = books
+
+    
+
     
     
     context = {
         
         'kbooks': kbooks,
-        'unique_kbooks': unique_kbooks,
         'books': books,
         'reading_status': reading_status,
         'borrow_status': borrow_status,
