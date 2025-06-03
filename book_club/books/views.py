@@ -283,8 +283,8 @@ def book_save(request, google_id):
         'isbn': isbn,
         'description': cleaned_description,
         'pages': volume_info.get("pageCount"),
-        #'published_date': parsed_published_date,
-        #'language': volume_info.get("language"),
+        'published_date': parsed_published_date,
+        'language': volume_info.get("language"),
         'google_id': book_data.get("id"),
     }
 
@@ -292,57 +292,10 @@ def book_save(request, google_id):
     return book_info
 
 def book_add(request, book_in_db, groups, borrowing, picture):
-    #new_kbook = CustomBook(book=book_in_db)
+    new_kbook = CustomBook(book=book_in_db)
         
         
     only_several_books = True
-
-    for i in groups: # i est l'UUID du CustomGroup sélectionné
-        try:
-            group_obj = CustomGroup.objects.get(uuid=i) # Assurez-vous que group_obj est l'instance
-            
-            # --- DEBUG CRITIQUE ICI ---
-            print(f"DEBUG: book_in_db.id = {book_in_db.id}")
-            print(f"DEBUG: group_obj.id = {group_obj.id}") # C'est l'ID du Group parent, doit exister
-            print(f"DEBUG: group_obj.uuid = {group_obj.uuid}") # Votre PK CustomGroup
-            print(f"DEBUG: request.user.id = {request.user.id}") # ID de l'utilisateur connecté
-            print(f"DEBUG: request.user est authentifié: {request.user.is_authenticated}")
-            
-            # S'assurer que les objets User sont bien sauvegardés
-            # Normalement request.user est toujours sauvegardé si authentifié.
-            # Mais si vous utilisez un autre User non sauvegardé, ce serait un problème.
-            
-            # --- Création de CustomBook ---
-            new_kbook = CustomBook(
-                book=book_in_db,
-                group=group_obj,      # Assurez-vous que group_obj est passé ici
-                owner=request.user,   # Assurez-vous que request.user est passé ici
-                admin=request.user    # Assurez-vous que request.user est passé ici
-                # N'ajoutez PAS d'autres champs ici si vous comptez sur le `save()` de CustomBook pour les remplir
-            )
-
-            
-            
-            print("DEBUG: Instance CustomBook créée. Tentative de sauvegarde...")
-            new_kbook.save() # L'erreur se produit ici, dans le super().save() de CustomBook
-            print("DEBUG: CustomBook sauvegardé avec succès.")
-
-            # ... (votre logique pour book_in_db.groups.add(group_obj) et messages) ...
-
-        except CustomGroup.DoesNotExist:
-            messages.error(request, f"Group with UUID {i} not found.")
-        except IntegrityError as e:
-            messages.error(request, f"Erreur de base de données lors de l'ajout du livre au groupe {group_obj.kname if 'group_obj' in locals() else 'Inconnu'}: {e}")
-            print(f"Erreur d'intégrité détaillée: {e}")
-            import traceback
-            traceback.print_exc() # Pour obtenir la trace complète de l'erreur
-            raise # Rélancer l'exception pour voir la page d'erreur de Django
-        except Exception as e:
-            messages.error(request, f"Une erreur inattendue s'est produite: {e}")
-            print(f"Erreur générale: {e}")
-            import traceback
-            traceback.print_exc()
-            raise
 
     if len(groups) > 0:
         
@@ -480,9 +433,9 @@ def add_book(request, google_id):
             book_in_db = Book.objects.get(google_id=google_id)
         else:
             print("Sauvegarder Book in db")
-            book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=book.get('google_id')
-                              #published_date= book.get('published_date'), 
-                              #language=book.get('language')
+            book_in_db = Book(title=book.get('title'), author=book.get('authors'), cover=book.get('cover'), isbn=book.get('isbn'), description=book.get('description'), pages=book.get('pages'),google_id=book.get('google_id'),
+                              published_date= book.get('published_date'), 
+                              language=book.get('language'),
                                                 )
             book_in_db.save()
             

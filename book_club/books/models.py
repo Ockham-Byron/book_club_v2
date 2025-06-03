@@ -48,6 +48,8 @@ class Book(models.Model):
     give_up = models.ManyToManyField(User, related_name="give_up", blank=True)
     cover=models.CharField(max_length=500, blank=True, null=True)
     picture=models.ImageField(upload_to=path_and_rename, blank=True, null=True)
+    published_date = models.DateField(blank=True, null=True)
+    language = models.CharField(max_length=100, blank=True, null=True)
     genres = models.ManyToManyField(Genre, blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
