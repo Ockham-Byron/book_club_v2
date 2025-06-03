@@ -21,7 +21,7 @@ class AddMeetingForm(forms.ModelForm):
 
 class AddCommentForm(forms.ModelForm):
     CHOICES = [(i,i) for i in range(6)]
-    message=forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'placeholder': _("Comment")}))
+    message=forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'placeholder': _("Comment")}), required=False)
     rating=forms.TypedChoiceField(coerce=int, choices=CHOICES)
 
     class Meta:

@@ -107,7 +107,9 @@ class CustomBook(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
+        print("Livre associé: " + self.book.title)
         super().save()
+        
         if not self.title:
             self.title = self.book.title
         if not self.author:

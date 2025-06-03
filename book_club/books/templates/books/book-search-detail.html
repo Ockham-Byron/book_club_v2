@@ -69,14 +69,10 @@
     <p class="title mt-4 mb-0">{{book.title}}</p>
     <p class="author">{{book.authors}}</p>
     <div class="d-flex book-data-box">
-    <div class="book-data text-center">
-        <p class="book-data-title mb-0 text-center">{% trans 'Genre' %}</p>
-        <p class="book-data-data mb-0 text-center">{{book.categories }}</p>
-        
-      </div>
+      
       <div class="book-data text-center">
         <p class="book-data-title mb-0 text-center">{% trans 'Year' %}</p>
-        <p class="book-data-data mb-0 text-center">{{book.publishDate|slice:':4' }}</p>
+        <p class="book-data-data mb-0 text-center">{{book.published_date|slice:':4' }}</p>
         
       </div>
       <div class="book-data  text-center">
@@ -89,6 +85,8 @@
       </div>
 
     </div>
+    
+    
     <p class="book-description text-justify p-5">{{book.description}}</p>
 
   </div>

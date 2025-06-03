@@ -28,6 +28,7 @@ def add_group_view(request):
             group_type = request.POST.get('type')
             form.instance.leader = user
             group = form.save()
+            print(group.id)
             group.group_pic = group_pic
             group.group_type = group_type
             group.members.add(user)
