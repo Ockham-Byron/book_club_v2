@@ -111,7 +111,8 @@ def login_view(request):
     
     login_form = UserLoginForm(request.POST)
     
-
+    next_url = request.GET.get('next') or request.POST.get('next')
+    
     if request.method == 'POST':
             login_form = UserLoginForm(request=request, data=request.POST)
             if login_form.is_valid():
@@ -127,10 +128,13 @@ def login_view(request):
                         request.session.set_expiry(0)
                     # Set session as modified to force data updates/cookie to be saved.
                     request.session.modified = True
-                    if user.email_is_verified:
-                        return redirect('all-books')
+                    if next_url:
+                        return redirect(next_url)
                     else:
-                        return redirect('verify-email')
+                        if user.email_is_verified:
+                            return redirect('all-books')
+                        else:
+                            return redirect('verify-email')
 
                 else:
                     for error in list(login_form.errors.values()):
@@ -138,6 +142,7 @@ def login_view(request):
             
     context = {
         'login_form': login_form,
+        'next_url': next_url,
        
     }
 
@@ -150,6 +155,8 @@ def register_view(request):
         return redirect("/")
     
     register_form = UserRegistrationForm(request.POST)
+    next_url = request.GET.get('next') or request.POST.get('next')
+    print(next_url)
     
     if request.method == 'POST':
         register_form = UserRegistrationForm(request.POST)
@@ -158,38 +165,9 @@ def register_view(request):
             password = register_form.cleaned_data['password2']
             user.set_password(password)
             user.username = user.email
-            group_code=request.POST.get('group_uuid')
+            
             user.save()
 
-            def is_valid_uuid(value):
-                try:
-                    uuid.UUID(str(value))
-                    return True
-                except ValueError:
-                    return False
-        
-            def group_exists(value):
-                try:
-                    CustomGroup.objects.get(uuid=value)
-                    return True
-                except CustomGroup.DoesNotExist:
-                    return False
-
-            if is_valid_uuid(group_code):
-                if group_exists(group_code):
-                    group = CustomGroup.objects.get(uuid=group_code)
-                    if user in group.members.all():
-                        messages.error(request, f'Vous faites partie de ce groupe')
-                    else:
-                        group.members.add(user)    
-                        group.save()
-                
-                else:
-                    messages.error(request, f'There is no group with this code')
-                    
-
-            
-            
 
             library = CustomGroup(kname=_('My Library'), leader=user, group_type='library')
             library.save()
@@ -205,7 +183,10 @@ def register_view(request):
             borrowing.save()
             new_user = authenticate(username=user.email, password=password)
             login(request, new_user)
-            return redirect('verify-email')
+            if next_url:
+                return redirect(next_url)
+            else:
+                return redirect('verify-email')
         else:
             for error in list(register_form.errors.values()):
                 print(request, error)
@@ -429,3 +410,93 @@ def register_view_from_guest(request, slug):
         
 
     return render(request, 'users/profile_update.html', {'form':form, 'user':user})
+
+@login_required 
+def connect_with_friend(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = InviteFriendForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data['profile_code'] # Get cleaned data from the form
+            
+            # 1. Try to find the friend by profile_code
+            try:
+                friend = User.objects.get(profile_code=code)
+            except User.DoesNotExist:
+                # Friend with this code does not exist
+                messages.error(request, "Le code de profil n'existe pas.")
+                return render(request, 'users/connect_with_friend.html', {'form': form, 'user': user})
+
+            # 2. Prevent adding self as a friend
+            if friend == user:
+                messages.warning(request, "Vous ne pouvez pas vous ajouter vous-même comme ami.")
+                return render(request, 'users/connect_with_friend.html', {'form': form, 'user': user})
+
+            # 3. Check if they are already friends
+            # For ManyToMany fields, use .filter().exists() or .contains()
+            if user.friends.filter(pk=friend.pk).exists(): # Or if friend in user.friends.all():
+                messages.info(request, f"{friend.pseudo} est déjà votre ami.")
+            else:
+                # Add friend to ManyToMany field
+                user.friends.add(friend)
+                # No need to call user.save() after add() for ManyToMany relations
+                messages.success(request, f"Vous êtes maintenant ami avec {friend.pseudo} !")
+            
+            # Optionally, redirect to avoid resubmission on refresh
+            #return redirect('connect_with_friend') # Replace with your URL name for this view
+        else:
+            # Form is not valid, display errors
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Erreur dans le champ '{field}': {error}")
+    else:
+        # GET request, initialize an empty form
+        form = InviteFriendForm()
+
+    return render(request, 'users/connect_with_friend.html', {'form': form, 'user': user})
+
+@login_required
+def connect_with_me(request, code):
+    user = request.user
+    #form = InviteFriendForm(request.POST)
+    try:
+        friend = User.objects.get(profile_code=code)
+        print(friend)
+    except User.DoesNotExist:
+        # Friend with this code does not exist
+        messages.error(request, "Le code de profil n'existe pas.")
+        return render(request, 'users/connect_with_friend.html', {'form': form, 'user': user})
+
+    # 2. Prevent adding self as a friend
+    if friend == user:
+        messages.warning(request, "Vous ne pouvez pas vous ajouter vous-même comme ami.")
+        return render(request, 'users/connect_with_friend.html', {'form': form, 'user': user})
+    
+    # 3. Check if they are already friends
+            # For ManyToMany fields, use .filter().exists() or .contains()
+    if user.friends.filter(pk=friend.pk).exists(): # Or if friend in user.friends.all():
+        messages.info(request, f"{friend.pseudo} est déjà votre ami.")
+    
+
+    if request.method == 'POST':
+        
+                # Add friend to ManyToMany field
+                user.friends.add(friend)
+                # No need to call user.save() after add() for ManyToMany relations
+                messages.success(request, f"Vous êtes maintenant ami avec {friend.pseudo} !")
+            
+            # Optionally, redirect to avoid resubmission on refresh
+            #return redirect('connect_with_friend') # Replace with your URL name for this view
+        
+
+    return render(request, 'users/connect_with_friend.html', {'user': user, 'friend':friend})
+
+
+@login_required
+def all_friends(request):
+    user=request.user
+
+    friends = user.friends.all()
+
+    return render(request, 'users/member_friends.html', {'friends':friends, 'user':user})

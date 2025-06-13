@@ -199,7 +199,8 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
                 <p>{% trans 'Invite other people to join your group' %}</p>
                 <p>{% trans "Group's code" %} : </p>
                 <p>{{object.uuid}}</p>
-                <button id="copy-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Copy the invitation" %}</button>
+                {% comment %} <button id="copy-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Copy the code" %}</button>  {% endcomment %}
+                <button id="share-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Share the invitation" %}</button>
             </div>
         
     </div>
@@ -283,7 +284,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
         <div class="text-center">
             <p class="darkest-color mt-4">{% trans "Code of the group :" %}</p>
             <p class="text-center darkest-color">{{object.uuid}}</p>
-            <button id="copy-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Copy the invitation" %}</button>
+            <button id="share-btn" class="btn-kdark btn-rounded" data={{object.uuid}}>{% trans "Share the invitation" %}</button>
         </div>
         <div class="text-center">
           <a type="button" class="btn btn-outlined btn-modal outline-mid-color my-2" data-bs-dismiss="modal">{% trans 'Cancel' %}</a>
@@ -296,7 +297,7 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
 
 {% endblock %}
 {% block extrajs %}
-<script>
+{% comment %} <script>
   const copyBtn = document.getElementById('copy-btn')
   const siteName = "Books-Party"
   const url = "https://books-party.top"
@@ -315,6 +316,50 @@ style="background: linear-gradient(rgb(148,163,184,0.8), rgb(51,65,85,0.8)), url
    
     copyBtn.textContent = "Copied !"
   })
+</script> {% endcomment %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const giveMyCodeLink = document.getElementById('share-btn');
+
+    // Récupération du code du profil de l'utilisateur depuis le contexte du template
+    // Django va remplacer {{ request.user.profile_code }} par la valeur réelle
+    const groupCode = giveMyCodeLink.getAttribute('data');
+    
+
+    // Vous pouvez également définir le texte à partager si vous le souhaitez
+    const shareText = "{% trans 'Join my Book club on Books Party ' %}";
+    const connectUrl = "http://127.0.0.1:8000/fr/groups/join-group/" + groupCode;
+    
+
+    if (giveMyCodeLink) {
+        giveMyCodeLink.addEventListener('click', async function(event) {
+            event.preventDefault();
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: shareText, // Titre qui apparaîtra dans la fenêtre de partage
+                        text: "{% trans 'Login or create an account if necessary' %}",
+                        url: connectUrl // L'URL de la page actuelle, ou une URL spécifique si vous en avez une
+                    });
+                    console.log('Contenu partagé avec succès !');
+                } catch (error) {
+                    console.error('Erreur lors du partage :', error);
+                }
+            } else {
+                // Fallback pour les navigateurs qui ne supportent pas l'API Web Share
+                alert("{% trans 'Votre navigateur ne supporte pas l\'API de partage. Vous pouvez copier le code manuellement :' %}" + userProfileCode);
+                // Optionnellement, copier dans le presse-papiers
+                // navigator.clipboard.writeText(shareText).then(() => {
+                //     alert("{% trans 'Code copié dans le presse-papiers !' %}");
+                // }).catch(err => {
+                //     console.error('Erreur de copie :', err);
+                // });
+            }
+        });
+    }
+});
 </script>
 
 

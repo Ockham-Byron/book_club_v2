@@ -320,7 +320,7 @@ input.input-date {
   display: block !important;
 }
 
-.kform .submit, #copy-btn {
+.kform .submit, #copy-btn, #share-btn {
   border: none;
   outline: none;
   background-color: var(--brand-color);

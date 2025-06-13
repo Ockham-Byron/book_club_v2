@@ -1267,67 +1267,7 @@ def group_books(request, slug):
             # If reset, the base_kbooks_queryset remains as initially defined
                 pass # No need to re-assign, it's already the default
                 
-            # for kbook in unique_kbooks:
-                
-            #     if reading_status == "all_status":
-            #         queryset = unique_kbooks
-            #         reading_status_description = _("All Reading Status")
-            #     elif reading_status == "is_read":
-            #         reading_status_description = _("Read")
-            #         if request.user in kbook.book.readers.all():
-            #             queryset.append(kbook)
-            #     elif reading_status == "is_reading":
-            #         reading_status_description = _("Reading it")
-            #         if request.user in kbook.book.readings.all():
-            #             queryset.append(kbook)
-            #     elif reading_status == "in_wish":
-            #         reading_status_description = _("Want to read")
-            #         if request.user in kbook.book.in_wishlist.all():
-            #             queryset.append(kbook)
-            #     elif reading_status == "no_read":
-            #         reading_status_description = _("Not read yet")
-            #         if request.user in kbook.book.no_read.all():
-            #             queryset.append(kbook)
-            #     elif reading_status == "wont_read":
-            #         reading_status_description = _("No intention to read it")
-            #         if request.user in kbook.book.wont_read.all():
-            #             queryset.append(kbook)
-            #     elif reading_status == "give_up":
-            #         reading_status_description = _("Given up")
-            #         if request.user in kbook.book.give_up.all():
-            #             queryset.append(kbook)
-
             
-
-            # queryset_2 = []
-            # if borrow_status == "all_borrow_status":
-            #         queryset_2 = queryset
-            #         borrow_status_description=_("All borrow status")
-            # else:
-            #     for kbook in queryset:           
-            #         if borrow_status == "is_borrowed_by_user":
-            #             borrow_status_description=_("Currently borrowed by me")
-            #             if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "on_going").exists():
-            #                 queryset_2.append(kbook)
-            #         elif borrow_status == "reserved_by_me":
-            #             borrow_status_description=_("Reserved by me")
-            #             if Borrow.objects.filter(custom_book = kbook, borrower = request.user, status = "pending").exists():
-            #                 queryset_2.append(kbook)
-            #         elif borrow_status == "borrowable":
-            #             borrow_status_description=_("Borrowable")
-            #             if kbook.is_disponible == True and kbook.owner != request.user: 
-            #                 queryset_2.append(kbook)
-            #         elif borrow_status == "is_on_loan":
-            #             borrow_status_description=_("On Loan")
-            #             if Borrow.objects.filter(custom_book = kbook, status="on_going").exists() and kbook.owner == request.user:
-            #                 queryset_2.append(kbook)
-            #         elif borrow_status == "with_reservations":
-            #             borrow_status_description=_("Reservations asked to me")
-            #             if Borrow.objects.filter(custom_book = kbook, status="pending").exists() and kbook.owner == request.user:
-            #                 queryset_2.append(kbook)
-            
-
-            # unique_kbooks = queryset_2
               
             
                 
@@ -1340,6 +1280,116 @@ def group_books(request, slug):
     context = {'unique_kbooks': unique_kbooks,
                'kbooks': sorted_kbooks,
                'group': group,
+               'reading_status': reading_status,
+                'borrow_status': borrow_status,
+                'reading_status_description':reading_status_description,
+                'borrow_status_description': borrow_status_description,
+               }
+    
+    return render(request, 'books/all-books.html', context)
+
+def friend_books(request, id):
+    friend = get_object_or_404(CustomUser, id=id)
+    base_kbooks_queryset = CustomBook.objects.filter(owner=friend, is_borrowable=True)
+    kbooks = base_kbooks_queryset
+    
+
+    
+    borrow_status = "all_borrow_status"
+    borrow_status_description = _("All Borrow Status")
+    reading_status = "all_status"
+    reading_status_description = _("All Reading Status")
+    search_query = ""
+    
+    
+    if request.method == 'POST':
+        if "filter" in request.POST:
+            reading_status = request.POST.get('reading-status')
+            borrow_status = request.POST.get('borrow-status')   
+            search_query = request.POST["search_query"].lower()
+
+            # --- Apply Search Filter (to related Book fields) ---
+            if search_query:
+                base_kbooks_queryset = base_kbooks_queryset.filter(
+                    Q(book__title__icontains=search_query) |
+                    Q(book__author__icontains=search_query)
+                )
+            
+            # --- Apply Reading Status Filter (to related Book fields) ---
+            
+            if reading_status != "all_status":
+                # Filter CustomBooks based on their related Book's reading status for the current user
+                if reading_status == "is_read":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(book__readers=request.user)
+                    reading_status_description = "Read"
+                elif reading_status == "is_reading":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(book__readings=request.user)
+                    reading_status_description = "Reading it"
+                elif reading_status == "in_wish":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(book__in_wishlist=request.user)
+                    reading_status_description = "Want to read"
+                elif reading_status == "no_read":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(book__no_read=request.user)
+                    reading_status_description = "Not read yet"
+                elif reading_status == "wont_read":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(book__wont_read=request.user)
+                    reading_status_description = "No intention to read it"
+                elif reading_status == "give_up":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(book__give_up=request.user)
+                    reading_status_description = "Given up"
+            
+            # --- Apply Borrow Status Filter (to CustomBook and related Borrow fields) ---
+            if borrow_status != "all_borrow_status":
+                if borrow_status == "is_borrowed_by_user":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(
+                        borrowing__borrower=request.user,
+                        borrowing__status=Borrow.ON_GOING
+                    )
+                    borrow_status_description = _("Currently borrowed by me")
+                elif borrow_status == "reserved_by_me":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(
+                        borrowing__borrower=request.user,
+                        borrowing__status=Borrow.PENDING
+                    )
+                    borrow_status_description = _("Reserved by me")
+                elif borrow_status == "borrowable":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(
+                        is_disponible=True
+                    ).exclude(owner=request.user) # Exclude own books
+                    # Ensure it's not currently on loan by anyone for 'borrowable'
+                    base_kbooks_queryset = base_kbooks_queryset.exclude(
+                        borrowing__status=Borrow.ON_GOING
+                    )
+                    borrow_status_description = _("Borrowable")
+                elif borrow_status == "is_on_loan":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(
+                        owner=request.user, # Only if I own it
+                        borrowing__status=Borrow.ON_GOING
+                    )
+                    borrow_status_description = _("On Loan")
+                elif borrow_status == "with_reservations":
+                    base_kbooks_queryset = base_kbooks_queryset.filter(
+                        owner=request.user, # Only if I own it
+                        borrowing__status=Borrow.PENDING
+                    )
+                    borrow_status_description = _("Reservations asked to me")
+
+            elif "reset" in request.POST:
+            # If reset, the base_kbooks_queryset remains as initially defined
+                pass # No need to re-assign, it's already the default
+                
+            
+              
+            
+                
+        
+    
+        
+        kbooks = base_kbooks_queryset.order_by('-created_at')
+        
+    
+    context = {
+               'kbooks': kbooks,
                'reading_status': reading_status,
                 'borrow_status': borrow_status,
                 'reading_status_description':reading_status_description,

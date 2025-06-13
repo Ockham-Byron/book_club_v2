@@ -730,3 +730,12 @@ div.showcase-right.bg-brand {
 }
 
 }
+
+/* Friends */
+.friend-card {
+  background-color: var(--light-color);
+  border-radius: 20px;
+  padding:20px;
+  margin:20px;
+  min-width:200px;
+}

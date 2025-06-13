@@ -22,6 +22,8 @@
         <h6 class="darkest-color text-start">{% trans 'Informations' %}</h6>
         {% endif %}
         {% if request.user == user %}
+          <p class="profile-card-subtitle text-start darkest-color small mb-0">{% trans 'Code to connect with friends' %}</p>
+          <p class="profile-card-info text-start small">{{user.profile_code}}</p>
           <p class="profile-card-subtitle text-start darkest-color small mb-0">{% trans 'Your name' %}</p>
           {% if user.first_name or user.last_name  %}
             <p class="profile-card-info text-start small">{{user.first_name}} {{user.last_name}}</p>

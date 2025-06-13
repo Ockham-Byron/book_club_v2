@@ -1,5 +1,7 @@
 from uuid import uuid4
 import os
+import random
+import string
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractUser
 from PIL import Image
@@ -44,6 +46,8 @@ class CustomUser(AbstractUser):
     email_is_verified = models.BooleanField(default=False)
     is_guest = models.BooleanField(default=False)
     slug = models.SlugField(max_length=255, unique= True, default=None, null=True)
+    friends = models.ManyToManyField("self", blank=True)
+    profile_code = models.CharField(max_length=50, null=False, blank=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -63,8 +67,15 @@ class CustomUser(AbstractUser):
                 img.save(self.profile_pic.path)
         else:
             pass
+
+        # create profile code
+        if not self.profile_code:
+            pseudo_4 = self.pseudo[0:3]
+            random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+            self.profile_code = pseudo_4 + random_string
         # create slug
         if not self.slug:
             self.slug = slugify(self.pseudo + '_' + str(self.id))
+
         super(CustomUser, self).save(*args, **kwargs)
     

@@ -3,13 +3,24 @@
 {% block title %}{% trans 'Join a Club' %}{% endblock title %}
 {% block content %}
 
-<h1 class="text-center mb-5">{% trans 'Join a Club' %}</h1>
+<h1 class="text-center mb-5">
+{% if group %}
+  {% trans 'Join ' %}{{group.kname}}</h1>
+{% else %}
+  {% trans 'Join a Club' %}</h1>
+{% endif %}
 <div class="d-flex justify-content-center">
   <div class="form-content">
       <form method="post" enctype="multipart/form-data" class="kform">
           {% csrf_token %}
+          {% if group %}
+            <div class="row justify-content-center">
+          {% else %}
           <input name="uuid" placeholder="{% trans "Club's Code" %}" />
+
+          
           <div class="row justify-content-center mt-5">
+          {% endif %}
           <button type="submit" class="submit">{% trans 'Join' %}</button>
           </div>
       </form>

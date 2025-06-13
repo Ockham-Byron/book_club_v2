@@ -130,3 +130,6 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email', 'profile_pic', 'bio', 'pseudo']
 
+class InviteFriendForm(forms.Form):
+    profile_code = forms.CharField(widget=forms.TextInput(attrs={'placeholder':_("Friend's Code")}), required=True)
+    

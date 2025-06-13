@@ -49,7 +49,7 @@ class WithinSixMonthsActivityFilter(admin.SimpleListFilter):
             )
         
 class CustomUserAdmin(admin.ModelAdmin):
-  list_display=('pseudo', 'first_name', 'last_name', 'email', 'created_at', 'updated_at', 'last_login')
+  list_display=('pseudo', 'first_name', 'last_name', 'email', 'created_at', 'updated_at', 'last_login', 'profile_code')
   list_filter = [WithinSixMonthsActivityFilter]
 
 admin.site.register(CustomUser, CustomUserAdmin)

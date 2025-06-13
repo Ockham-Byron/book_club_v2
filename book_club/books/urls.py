@@ -8,13 +8,14 @@ urlpatterns = [
   path('search', new_book_search, name="new-book-search"),
   #path('scan-isbn', scan_isbn, name="scan-isbn"),
   # URL pour afficher la page du scanner en direct
-  path('live_scan/', live_scan_view, name='live_scan'),
+  path('live-scan/', live_scan_view, name="live-scan"),
 
   # URL pour recevoir l'ISBN scanné par le client (via AJAX)
   path('live_scan/process_isbn/', process_scanned_isbn, name='process_scanned_isbn'),
 
   path('all-books', all_books, name="all-books"),
   path('group-books/<slug:slug>', group_books, name="group-books"),
+  path('friend-books/<id>', friend_books, name="friend-books"),
   path('edit-book/<slug:slug>', edit_book, name="edit-book"),
   path('delete-book-from-group/<slug:slug>', delete_book_from_group, name="delete-book-from-group"),
   path('delete-book/<slug:slug>', delete_book, name="delete-book"),

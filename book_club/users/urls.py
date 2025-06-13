@@ -32,6 +32,12 @@ urlpatterns = [
     path('profile/<slug:slug>/update', profile_update, name='profile-update'),
     path('profile/<slug:slug>)/update/delete-profile-pic', delete_profile_pic, name='profile-pic-delete'),
     path('profile/<slug:slug>/update/avatar-color', change_avatar, name='change-avatar'),
-    path('create-account-from-guest/<slug:slug>', register_view_from_guest, name='create-account-from-guest')
+    path('create-account-from-guest/<slug:slug>', register_view_from_guest, name='create-account-from-guest'),
     
+    
+    #friends
+    path('connect-with-friend', connect_with_friend, name='connect-with-friend'),
+    path('connect/<str:code>', connect_with_me, name='connect-with-me'),
+    path('my-friends', all_friends, name='all-friends')
+
 ] 

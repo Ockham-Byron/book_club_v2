@@ -1,0 +1,95 @@
+{% extends "dashboard/base.html" %}
+{% load avatar static i18n %}
+{% block title %}{% trans 'My Friends' %} {% endblock %}
+{% block content %}
+{% include 'users/includes/messages.html' %}
+<div class="d-flex justify-content-center">
+  <h1 class="text-center mb-5">{% trans 'Friends' %}</h1>
+  <div class="dropdown">
+        <button class="menu-btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-plus"></i></br><p>{% trans 'Add' %}</p>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a id="giveMyCodeShare" class="dropdown-item darkest-color " data={{request.user.profile_code}} style="cursor:pointer;"><i class="fa-solid fa-share-nodes"></i>{% trans 'Share my code' %}</a></li>
+          <hr class="mobile-hr">
+          <li><a class="dropdown-item darkest-color"  href="{% url 'connect-with-friend'%}"><i class="fa-solid fa-plug"></i>{% trans "Add friend's code" %}</a></li>
+        </ul>
+    </div>
+</div>
+{% if friends %}
+  
+    <div class="d-flex justify-content-center flex-wrap">
+        {% for user in friends %}
+          <!-- Friend card -->
+          <div class="friend-card d-flex flex-column justify-content-space align-items-center">
+            <div class="profile-card-avatar">
+            {% if user.profile_pic %}
+                    <span class="user-img"><img class="rounded-circle" src="{{user.profile_pic.url }} "width="45" alt="profile_pic"></span>
+                  {% else %}
+                      <span class="user-img">{{ user|avatar }}</span> 
+                  {% endif %} 
+            </div>
+            <h4>{{user.pseudo}}</h4>
+            <a href="{% url 'friend-books' user.id %}">{% trans "See books" %}</a>
+          </div>
+          
+        {% endfor %}
+    </div>
+
+{% else %}
+    <h3 class="text-center px-5">{% trans "Everything begins with friends to share good books and good moments !" %}</h3>
+  
+{% endif %}
+
+
+
+
+
+{% endblock %}
+
+{% block extrajs %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const giveMyCodeLink = document.getElementById('giveMyCodeShare');
+
+    // Récupération du code du profil de l'utilisateur depuis le contexte du template
+    // Django va remplacer {{ request.user.profile_code }} par la valeur réelle
+    const userProfileCode = giveMyCodeLink.getAttribute('data');
+    console.log(userProfileCode);
+
+    // Vous pouvez également définir le texte à partager si vous le souhaitez
+    const shareText = "{% trans 'Connect with me on Books Party ' %}";
+    const connectUrl = "http://127.0.0.1:8000/connect/" + userProfileCode;
+    
+
+    if (giveMyCodeLink) {
+        giveMyCodeLink.addEventListener('click', async function(event) {
+            event.preventDefault();
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: shareText, // Titre qui apparaîtra dans la fenêtre de partage
+                        text: "{% trans 'Login or create an account if necessary' %}",
+                        url: connectUrl // L'URL de la page actuelle, ou une URL spécifique si vous en avez une
+                    });
+                    console.log('Contenu partagé avec succès !');
+                } catch (error) {
+                    console.error('Erreur lors du partage :', error);
+                }
+            } else {
+                // Fallback pour les navigateurs qui ne supportent pas l'API Web Share
+                alert("{% trans 'Votre navigateur ne supporte pas l\'API de partage. Vous pouvez copier le code manuellement :' %}" + userProfileCode);
+                // Optionnellement, copier dans le presse-papiers
+                // navigator.clipboard.writeText(shareText).then(() => {
+                //     alert("{% trans 'Code copié dans le presse-papiers !' %}");
+                // }).catch(err => {
+                //     console.error('Erreur de copie :', err);
+                // });
+            }
+        });
+    }
+});
+</script>
+
+{% endblock%}

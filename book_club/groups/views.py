@@ -111,6 +111,25 @@ def join_group_view(request):
     return render(request, 'groups/join_group.html')
 
 @login_required
+def join_group_url_view(request, group_code):
+    user = request.user
+    if CustomGroup.objects.get(uuid=group_code):
+        group = CustomGroup.objects.get(uuid=group_code)
+        
+    else:
+        messages.error(request, f'No group with code')
+    if request.method == 'POST':
+        if user in group.members.all():
+            messages.error(request, f'Vous faites déjà partie de ce groupe')
+        else:
+            group.members.add(user)    
+            group.save()
+            return redirect('all-groups')
+            
+
+    return render(request, 'groups/join_group.html', {'group':group})
+
+@login_required
 def all_groups(request):
     return render(request, 'groups/member_groups.html')
 
