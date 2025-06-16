@@ -20,6 +20,17 @@
   </div>
   <!-- Clubs End -->
 
+  <!-- Friends -->
+  <div class="dropdown">
+    <a href={% url "all-friends" %}>
+      <button class="menu-btn " type="button">
+        <i class="fa-regular fa-face-smile"></i></br><p>{% trans 'Friends' %}</p>
+      </button>
+    </a>
+    
+  </div>
+  <!-- Clubs End -->
+
   <!-- Books -->
    <div class="dropdown">
     <button class="menu-btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,7 +70,7 @@
         <hr class="mobile-hr">
         <li><a class="dropdown-item darkest-color"  href="{% url 'add-book-custom'%}"><i class="fa-regular fa-rectangle-list"></i>{% trans 'Add Manually' %}</a></li>
         <hr class="mobile-hr">
-        <li><a class="dropdown-item darkest-color"  href="{% url 'live-scan'%}"><<i class="fa-solid fa-barcode"></i>{% trans 'Scan ISBN' %}</a></li>
+        <li class="no-display"><a class="dropdown-item darkest-color"  href="{% url 'live-scan'%}"><i class="fa-solid fa-barcode"></i>{% trans 'Scan ISBN' %}</a></li>
       </ul>
     </div>
     <!-- Add book End -->
@@ -189,6 +200,17 @@
               <i class="fa-solid fa-bookmark"></i><span class="ms-1 d-none d-sm-inline">{{wishlist.kname}}</span>
             </a>
             {% endfor %}
+           
+          </li>
+
+          <!-- Friends-->
+          <li class="subnav">
+            
+            
+            <a href="{% url 'all-friends'  %}" class="nav-link lightest-color" >
+              <i class="fa-regular fa-face-smile"></i><span class="ms-1 d-none d-sm-inline">{% trans 'Friends' %}</span>
+            </a>
+           
            
           </li>
         

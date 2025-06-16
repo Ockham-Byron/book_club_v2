@@ -38,6 +38,6 @@ urlpatterns = [
     #friends
     path('connect-with-friend', connect_with_friend, name='connect-with-friend'),
     path('connect/<str:code>', connect_with_me, name='connect-with-me'),
-    path('my-friends', all_friends, name='all-friends')
+    path('my-friends', all_friends, name='all-friends'),
 
 ] 

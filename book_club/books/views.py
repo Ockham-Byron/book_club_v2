@@ -1180,6 +1180,9 @@ def group_books(request, slug):
 
     else:
         unique_kbooks = CustomBook.objects.filter(group=group)
+        books = Book.objects.filter(groups__id__contains = group.id)
+        print(books)
+        
 
     base_kbooks_queryset = unique_kbooks
 
@@ -1390,6 +1393,7 @@ def friend_books(request, id):
     
     context = {
                'kbooks': kbooks,
+               'friend':friend,
                'reading_status': reading_status,
                 'borrow_status': borrow_status,
                 'reading_status_description':reading_status_description,
