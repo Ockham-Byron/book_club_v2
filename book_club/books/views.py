@@ -1158,35 +1158,23 @@ def all_books(request):
 @login_required
 def group_books(request, slug):
     group = get_object_or_404(CustomGroup, slug=slug)
+    
     user_groups = CustomGroup.objects.filter(members__id__contains=request.user.id)
-    common_members = []
-
+    common_members_set = set()
     for kgroup in user_groups:
         for member in kgroup.members.all():
-            common_members.append(member)
-    common_members = set(common_members)
-
+            common_members_set.add(member)
     
     
-    kbooks = CustomBook.objects.filter(Q(group=group) | Q(sharing_groups=group))
-    unique_kbooks = []
-    if group.group_type == 'several_books':
-        unique_kbooks = CustomBook.objects.filter(sharing_groups__id__contains = group.id)
-        
-    elif group.group_type == 'wishlist':
-        for kbook in kbooks:
-            if request.user in kbook.book.in_wishlist.all():
-                unique_kbooks.append(kbook)
 
-    else:
-        unique_kbooks = CustomBook.objects.filter(group=group)
-        books = Book.objects.filter(groups__id__contains = group.id)
-        print(books)
-        
+    books = Book.objects.filter(groups__id__contains = group.id)
+    books_ids = books.values_list('id', flat=True)
 
-    base_kbooks_queryset = unique_kbooks
+    kbooks = CustomBook.objects.filter(book_id__in =books_ids)
 
-    unique_kbooks_reset = unique_kbooks
+    base_kbooks_queryset = kbooks
+
+    
     borrow_status = "all_borrow_status"
     borrow_status_description = _("All Borrow Status")
     reading_status = "all_status"
@@ -1276,12 +1264,74 @@ def group_books(request, slug):
                 
         
     
-    kbook_ids = base_kbooks_queryset.values_list('id', flat=True).distinct()
-    kbooks = CustomBook.objects.filter(id__in=kbook_ids)
-    sorted_kbooks = sorted(kbooks, key=operator.attrgetter('created_at'), reverse=True)
+    # kbook_ids = base_kbooks_queryset.values_list('id', flat=True).distinct()
+    # kbooks = CustomBook.objects.filter(id__in=kbook_ids)
+    # sorted_kbooks = sorted(kbooks, key=operator.attrgetter('created_at'), reverse=True)
+
+    # Apply the complex sorting logic here, as discussed previously
+    books_with_sort_keys = []
+    for book in books:
+        in_library_users_set = set(book.in_library.all())
+        book.common_in_library_members = []
+        book.request_user_kbook_slug = None
+        book.request_user_on_going_borrow = None
+        
+        sort_key = None 
+
+        user_kbook_for_request_user_owner = CustomBook.objects.filter(book=book, owner=request.user).first()
+        if user_kbook_for_request_user_owner:
+            sort_key = user_kbook_for_request_user_owner.created_at
+            book.request_user_kbook_slug = user_kbook_for_request_user_owner.slug
+            on_going_borrow = user_kbook_for_request_user_owner.borrowing.filter(status=Borrow.ON_GOING).first()
+            if on_going_borrow:
+                book.request_user_on_going_borrow = on_going_borrow
+        else:
+            user_kbook_for_request_user_admin = CustomBook.objects.filter(book=book, admin=request.user).first()
+            if user_kbook_for_request_user_admin:
+                sort_key = user_kbook_for_request_user_admin.created_at
+                book.request_user_kbook_slug = user_kbook_for_request_user_admin.slug
+                on_going_borrow = user_kbook_for_request_user_admin.borrowing.filter(status=Borrow.ON_GOING).first()
+                if on_going_borrow:
+                    book.request_user_on_going_borrow = on_going_borrow
+            else:
+                earliest_common_kbook_created_at_obj = CustomBook.objects.filter(
+                    book=book
+                ).filter(
+                    Q(owner__in=common_members_set) | Q(admin__in=common_members_set)
+                ).order_by('created_at').first()
+
+                if earliest_common_kbook_created_at_obj:
+                    sort_key = earliest_common_kbook_created_at_obj.created_at
+                else:
+                    sort_key = book.created_at # Fallback to Book's own created_at
+
+        book._sort_key = sort_key
+        
+        for user in in_library_users_set.intersection(common_members_set):
+            user_kbook = CustomBook.objects.filter(book=book, owner=user).first() # Assuming owner is sufficient for this list
+            
+            on_going_borrow_for_user_kbook = None
+            is_disponible_for_user_kbook = False 
+            
+            if user_kbook:
+                on_going_borrow_for_user_kbook = user_kbook.borrowing.filter(status=Borrow.ON_GOING).first()
+                is_disponible_for_user_kbook = user_kbook.is_disponible
+
+            book.common_in_library_members.append({
+                'user': user,
+                'kbook_slug': user_kbook.slug if user_kbook else None,
+                'on_going_borrow': on_going_borrow_for_user_kbook,
+                'is_disponible': is_disponible_for_user_kbook,
+            })
+        
+        books_with_sort_keys.append(book)
+
+    sorted_books = sorted(books_with_sort_keys, key=operator.attrgetter('_sort_key'), reverse=True)
     
-    context = {'unique_kbooks': unique_kbooks,
-               'kbooks': sorted_kbooks,
+    
+    context = {
+              
+               'books':sorted_books,
                'group': group,
                'reading_status': reading_status,
                 'borrow_status': borrow_status,
@@ -1289,7 +1339,7 @@ def group_books(request, slug):
                 'borrow_status_description': borrow_status_description,
                }
     
-    return render(request, 'books/all-books.html', context)
+    return render(request, 'books/all-books-v2.html', context)
 
 def friend_books(request, id):
     friend = get_object_or_404(CustomUser, id=id)
